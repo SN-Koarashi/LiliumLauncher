@@ -83,15 +83,5 @@ namespace webchat.Properties {
                 return ResourceManager.GetString("webchat_updater_exe", resourceCulture);
             }
         }
-        
-        /// <summary>
-        ///   查詢類型 System.Byte[] 的當地語系化資源。
-        /// </summary>
-        internal static byte[] webchat_updater1 {
-            get {
-                object obj = ResourceManager.GetObject("webchat_updater1", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
     }
 }

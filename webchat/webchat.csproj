@@ -144,9 +144,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="logo.ico" />
-    <None Include="webchat-updater.pdb">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
     <None Include="webchat-updater.exe">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
