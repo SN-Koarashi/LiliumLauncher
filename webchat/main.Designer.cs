@@ -1,6 +1,6 @@
 ﻿namespace webchat
 {
-    partial class Form1
+    partial class main
     {
         /// <summary>
         /// 設計工具所需的變數。
@@ -28,8 +28,11 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(main));
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+            this.sysMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.nonDisplay = new System.Windows.Forms.ToolStripMenuItem();
+            this.checkUpdate = new System.Windows.Forms.ToolStripMenuItem();
             this.mainMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.socialMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.pixivMenu = new System.Windows.Forms.ToolStripMenuItem();
@@ -45,9 +48,7 @@
             this.loginTrd = new System.Windows.Forms.ToolStripMenuItem();
             this.googleLoginMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.webView = new Microsoft.Web.WebView2.WinForms.WebView2();
-            this.sysMenu = new System.Windows.Forms.ToolStripMenuItem();
-            this.nonDisplay = new System.Windows.Forms.ToolStripMenuItem();
-            this.checkUpdate = new System.Windows.Forms.ToolStripMenuItem();
+            this.aboutMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.webView)).BeginInit();
             this.SuspendLayout();
@@ -65,6 +66,30 @@
             this.menuStrip1.Size = new System.Drawing.Size(1008, 24);
             this.menuStrip1.TabIndex = 1;
             this.menuStrip1.Text = "menuStrip1";
+            // 
+            // sysMenu
+            // 
+            this.sysMenu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.nonDisplay,
+            this.checkUpdate,
+            this.aboutMenu});
+            this.sysMenu.Name = "sysMenu";
+            this.sysMenu.Size = new System.Drawing.Size(43, 20);
+            this.sysMenu.Text = "系統";
+            // 
+            // nonDisplay
+            // 
+            this.nonDisplay.Name = "nonDisplay";
+            this.nonDisplay.Size = new System.Drawing.Size(180, 22);
+            this.nonDisplay.Text = "沒有畫面？";
+            this.nonDisplay.Click += new System.EventHandler(this.nonDisplay_Click);
+            // 
+            // checkUpdate
+            // 
+            this.checkUpdate.Name = "checkUpdate";
+            this.checkUpdate.Size = new System.Drawing.Size(180, 22);
+            this.checkUpdate.Text = "檢查更新";
+            this.checkUpdate.Click += new System.EventHandler(this.checkUpdate_Click);
             // 
             // mainMenu
             // 
@@ -187,28 +212,12 @@
             this.webView.TabIndex = 2;
             this.webView.ZoomFactor = 1D;
             // 
-            // sysMenu
+            // aboutMenu
             // 
-            this.sysMenu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.nonDisplay,
-            this.checkUpdate});
-            this.sysMenu.Name = "sysMenu";
-            this.sysMenu.Size = new System.Drawing.Size(43, 20);
-            this.sysMenu.Text = "系統";
-            // 
-            // nonDisplay
-            // 
-            this.nonDisplay.Name = "nonDisplay";
-            this.nonDisplay.Size = new System.Drawing.Size(180, 22);
-            this.nonDisplay.Text = "沒有畫面？";
-            this.nonDisplay.Click += new System.EventHandler(this.nonDisplay_Click);
-            // 
-            // checkUpdate
-            // 
-            this.checkUpdate.Name = "checkUpdate";
-            this.checkUpdate.Size = new System.Drawing.Size(180, 22);
-            this.checkUpdate.Text = "檢查更新";
-            this.checkUpdate.Click += new System.EventHandler(this.checkUpdate_Click);
+            this.aboutMenu.Name = "aboutMenu";
+            this.aboutMenu.Size = new System.Drawing.Size(180, 22);
+            this.aboutMenu.Text = "關於軟體";
+            this.aboutMenu.Click += new System.EventHandler(this.aboutMenu_Click);
             // 
             // Form1
             // 
@@ -254,6 +263,7 @@
         private System.Windows.Forms.ToolStripMenuItem sysMenu;
         private System.Windows.Forms.ToolStripMenuItem nonDisplay;
         private System.Windows.Forms.ToolStripMenuItem checkUpdate;
+        private System.Windows.Forms.ToolStripMenuItem aboutMenu;
     }
 }
 

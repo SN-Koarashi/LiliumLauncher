@@ -16,11 +16,12 @@ using System.IO;
 
 namespace webchat
 {
-    public partial class Form1 : Form
+    public partial class main : Form
     {
         bool firstStart = false;
-        public Form1()
+        public main()
         {
+            Console.WriteLine("初始化程式進入點");
             InitialzeMain();
             InitializeComponent();
         }
@@ -44,11 +45,11 @@ namespace webchat
             if (availableVersion != null &&
                 CoreWebView2Environment.CompareBrowserVersions(availableVersion, "100.0.0.0") >= 0)
             {
-                System.Console.WriteLine($"Minimum version found: {availableVersion}");
+                System.Console.WriteLine($"找到框架核心版本: {availableVersion}");
             }
             else
             {
-                System.Console.WriteLine($"Minimum version not found. {availableVersion}");
+                System.Console.WriteLine($"框架核心版本尚未找到: {availableVersion}");
                 nonDisplay_Click(sender,e);
             }
         }
@@ -56,16 +57,6 @@ namespace webchat
         private void mainMenu_Click(object sender, EventArgs e)
         {
             webView.Source = new Uri("https://www.snkms.com/chat/webchat2/");
-        }
-
-        private void dbMenu_Click(object sender, EventArgs e)
-        {
-            webView.Source = new Uri("https://database.snkms.com/");
-        }
-
-        private void forumMenu_Click(object sender, EventArgs e)
-        {
-            webView.Source = new Uri("https://forum.snkms.com/");
         }
 
         private void twitterToolStripMenuItem_Click(object sender, EventArgs e)
@@ -209,6 +200,14 @@ namespace webchat
                     MessageBox.Show("應用程式已為最新版本", "說明",MessageBoxButtons.OK,MessageBoxIcon.Information);
             }
 
+        }
+
+        private void aboutMenu_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show($"使用 WebView2 框架載入多個社交媒體網站及附帶以WebSocket技術為基底的線上聊天室" + 
+                System.Environment.NewLine + 
+                "此軟體僅支援安裝 .NET Framework 4.7.2 以上及 Windows 10 (1909) 以上之作業系統"
+                ,"說明",MessageBoxButtons.OK,MessageBoxIcon.Information);
         }
     }
 }
