@@ -5,3 +5,7 @@
 - 由於是遠端載入，因此聊天室的功能更新並不需要更新應用程式本身
 
 [更新過程預覽](https://youtu.be/Qi6jolpD43w)
+
+## 參考
+- [[UPDATE] Google Auth Flows and WebView2](https://github.com/MicrosoftEdge/WebView2Feedback/issues/1647)
+- [OAuth for Apps: Samples for Windows](https://github.com/Beej126/oauth-apps-for-windows)
