@@ -64,6 +64,7 @@ namespace webchat_updater
                     Console.WriteLine($"下載完成，準備安裝...");
                     var p = new Process();
                     p.StartInfo.FileName = UpdaterPath + Path.DirectorySeparatorChar + "webchat-installer-temp.exe";  // just for example, you can use yours.
+                    p.StartInfo.Arguments = $"-d{UpdaterPath} -s1";
                     p.Start();
                     Environment.Exit(0);
                     /*
