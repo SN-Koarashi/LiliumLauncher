@@ -6,8 +6,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{4EE50DF4-DB9D-46DD-B547-1B8E124FB0BA}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>webchat</RootNamespace>
-    <AssemblyName>webchat</AssemblyName>
+    <RootNamespace>XCoreNET</RootNamespace>
+    <AssemblyName>XCoreNET</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -54,6 +54,7 @@
     <ApplicationIcon>logo.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="Microsoft.Web.WebView2.Core, Version=1.0.1245.22, Culture=neutral, PublicKeyToken=2a8ab48044d2601e, processorArchitecture=MSIL">
       <HintPath>packages\Microsoft.Web.WebView2.1.0.1245.22\lib\net45\Microsoft.Web.WebView2.Core.dll</HintPath>
       <EmbedInteropTypes>False</EmbedInteropTypes>
@@ -71,6 +72,8 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.IO.Compression" />
+    <Reference Include="System.IO.Compression.FileSystem" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -82,6 +85,25 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="minecraftMainForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="minecraftMainForm.Designer.cs">
+      <DependentUpon>minecraftMainForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="settingForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="settingForm.Designer.cs">
+      <DependentUpon>settingForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Tasks\authificationTask.cs" />
+    <Compile Include="loginMicrosoftForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="loginMicrosoftForm.Designer.cs">
+      <DependentUpon>loginMicrosoftForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="main.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -95,13 +117,30 @@
     <Compile Include="loginGoogleForm.Designer.cs">
       <DependentUpon>loginGoogleForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="minecraftForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="minecraftForm.Designer.cs">
+      <DependentUpon>minecraftForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Tasks\launcherTask.cs" />
+    <Compile Include="Tasks\loginChallengeTask.cs" />
+    <EmbeddedResource Include="loginMicrosoftForm.resx">
+      <DependentUpon>loginMicrosoftForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="main.resx">
       <DependentUpon>main.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="loginGoogleForm.resx">
       <DependentUpon>loginGoogleForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="minecraftForm.resx">
+      <DependentUpon>minecraftForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="minecraftMainForm.resx">
+      <DependentUpon>minecraftMainForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -113,6 +152,9 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <EmbeddedResource Include="settingForm.resx">
+      <DependentUpon>settingForm.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -123,7 +165,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <None Include="webchat-updater.exe.config">
+    <None Include="XCoreNET-Updater.exe.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
@@ -144,7 +186,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="logo.ico" />
-    <None Include="webchat-updater.exe">
+    <None Include="XCoreNET-Updater.exe">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>

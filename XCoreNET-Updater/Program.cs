@@ -8,7 +8,7 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace webchat_updater
+namespace xcorenet_updater
 {
     class Program
     {
@@ -24,7 +24,7 @@ namespace webchat_updater
             {
 
 
-                string hostUrl = "https://github.com/SN-Koarashi/WebChat/releases/latest";
+                string hostUrl = "https://github.com/SN-Koarashi/XCoreNET/releases/latest";
                 var handler = new HttpClientHandler
                 {
                     AllowAutoRedirect = false
@@ -40,30 +40,29 @@ namespace webchat_updater
                 string latestURL = result.Headers.Location.AbsoluteUri;
                 string UpdaterPath = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
 
-                var versionInfo = FileVersionInfo.GetVersionInfo(@UpdaterPath + Path.DirectorySeparatorChar + "webchat.exe");
+                var versionInfo = FileVersionInfo.GetVersionInfo(@UpdaterPath + Path.DirectorySeparatorChar + "XCoreNET.exe");
                 Version versionLocal = new Version(versionInfo.ProductVersion);
                 Version versionRemote = new Version(latestURL.Split(new string[] { "/releases/tag/" }, StringSplitOptions.None)[1].Replace("v", string.Empty));
 
                 Console.WriteLine($"更新檔網路位址: {latestURL}");
                 Console.WriteLine($"自我更新程式位址: {UpdaterPath}");
-                Console.WriteLine($"本機應用程式版本: {versionLocal}");
-                Console.WriteLine($"遠端應用程式版本: {versionRemote}");
+                Console.WriteLine($"本機應用程式版本: {versionLocal} \t 遠端應用程式版本: {versionRemote}");
 
                 var compareResult = versionRemote.CompareTo(versionLocal);
 
                 if (compareResult > 0)
                 {
-                    string downloadURL = $"https://github.com/SN-Koarashi/WebChat/releases/download/v{versionRemote}/webchat-autoInstaller.exe";
+                    string downloadURL = $"https://github.com/SN-Koarashi/XCoreNET/releases/download/v{versionRemote}/XCoreNET-SFXInstaller.exe";
                     Console.WriteLine($"準備下載更新檔案，請勿關閉程式");
                     Console.WriteLine($"下載位址: {downloadURL}");
                     using (var client = new WebClient())
                     {
-                        client.DownloadFile(downloadURL, "webchat-installer-temp.exe");
+                        client.DownloadFile(downloadURL, "XCoreNET-installer-temp.exe");
                     }
 
                     Console.WriteLine($"下載完成，準備安裝...");
                     var p = new Process();
-                    p.StartInfo.FileName = UpdaterPath + Path.DirectorySeparatorChar + "webchat-installer-temp.exe";  // just for example, you can use yours.
+                    p.StartInfo.FileName = UpdaterPath + Path.DirectorySeparatorChar + "XCoreNET-installer-temp.exe";  // just for example, you can use yours.
                     p.StartInfo.Arguments = $"-d{UpdaterPath} -s1";
                     p.Start();
                     Environment.Exit(0);

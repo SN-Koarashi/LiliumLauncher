@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // 組件的一般資訊是由下列的屬性集控制。
 // 變更這些屬性的值即可修改組件的相關
 // 資訊。
-[assembly: AssemblyTitle("WebChat")]
-[assembly: AssemblyDescription("使用WebView框架的可執行檔")]
+[assembly: AssemblyTitle("XCoreNET Updater")]
+[assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("SNKms")]
-[assembly: AssemblyProduct("WebChat")]
+[assembly: AssemblyCompany("天夜之心")]
+[assembly: AssemblyProduct("XCoreNET Updater")]
 [assembly: AssemblyCopyright("Copyright ©  2022")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,17 +20,17 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // 下列 GUID 為專案公開 (Expose) 至 COM 時所要使用的 typelib ID
-[assembly: Guid("4ee50df4-db9d-46dd-b547-1b8e124fb0ba")]
+[assembly: Guid("8e9867fd-8536-47d4-8880-97b4c5023c60")]
 
-// 組件的版本資訊由下列四個值所組成: 
+// 組件的版本資訊由下列四個值所組成:
 //
 //      主要版本
 //      次要版本
 //      組建編號
-//      修訂編號
+//      修訂
 //
 // 您可以指定所有的值，也可以使用 '*' 將組建和修訂編號
 // 設為預設，如下所示:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("1.3.4.0")]
-[assembly: AssemblyFileVersion("1.3.4.0")]
+[assembly: AssemblyVersion("1.1.0.0")]
+[assembly: AssemblyFileVersion("1.1.0.0")]

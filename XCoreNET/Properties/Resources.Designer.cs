@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace webchat.Properties {
+namespace XCoreNET.Properties {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace webchat.Properties {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("webchat.Properties.Resources", typeof(Resources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("XCoreNET.Properties.Resources", typeof(Resources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -63,9 +63,9 @@ namespace webchat.Properties {
         /// <summary>
         ///   查詢類型 System.Byte[] 的當地語系化資源。
         /// </summary>
-        internal static byte[] webchat_updater {
+        internal static byte[] XCoreNET_Updater {
             get {
-                object obj = ResourceManager.GetObject("webchat_updater", resourceCulture);
+                object obj = ResourceManager.GetObject("XCoreNET_Updater", resourceCulture);
                 return ((byte[])(obj));
             }
         }
@@ -78,9 +78,9 @@ namespace webchat.Properties {
         ///    &lt;/startup&gt;
         ///&lt;/configuration&gt; 的當地語系化字串。
         /// </summary>
-        internal static string webchat_updater_exe {
+        internal static string XCoreNET_Updater_exe {
             get {
-                return ResourceManager.GetString("webchat_updater_exe", resourceCulture);
+                return ResourceManager.GetString("XCoreNET_Updater_exe", resourceCulture);
             }
         }
     }

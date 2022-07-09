@@ -1,20 +1,15 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.IO;
-using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using Global;
 
-namespace webchat
+namespace XCoreNET
 {
     // ref repo https://github.com/Beej126/oauth-apps-for-windows
     // ref issues https://github.com/MicrosoftEdge/WebView2Feedback/issues/1647
@@ -24,6 +19,7 @@ namespace webchat
         {
             InitializeComponent();
         }
+        HttpListener http = new HttpListener();
 
         // client configuration
         const string clientID = "713725881271-0tivqkbbsglj0cpqt8l5vvt8j5855j3f.apps.googleusercontent.com";
@@ -42,10 +38,9 @@ namespace webchat
 
             // Creates a redirect URI using an available port on the loopback address.
             string redirectURI = string.Format("http://{0}:{1}/", IPAddress.Loopback, GetRandomUnusedPort());
-            output("redirect URI: " + redirectURI);
+            output("Redirect URI: " + redirectURI);
 
             // Creates an HttpListener to listen for requests on that redirect URI.
-            var http = new HttpListener();
             http.Prefixes.Add(redirectURI);
             output("Listening...");
             http.Start();
@@ -64,53 +59,64 @@ namespace webchat
 
             webView21.Source = new Uri(authorizationRequest);
 
-            // Waits for the OAuth authorization response.
-            var context = await http.GetContextAsync();
-
-            // Brings this app back to the foreground.
-            this.Activate();
-
-            // Sends an HTTP response to the browser.
-            var response = context.Response;
-            string responseString = string.Format("<html><head><meta http-equiv='refresh' content='10;url=https://google.com'></head><body>Please return to the app.</body></html>");
-            var buffer = System.Text.Encoding.UTF8.GetBytes(responseString);
-            response.ContentLength64 = buffer.Length;
-            var responseOutput = response.OutputStream;
-            Task responseTask = responseOutput.WriteAsync(buffer, 0, buffer.Length).ContinueWith((task) =>
+            try
             {
-                responseOutput.Close();
-                http.Stop();
-                Console.WriteLine("HTTP server stopped.");
-            });
+                // Waits for the OAuth authorization response.
+                var context = await http.GetContextAsync();
 
-            // Checks for errors.
-            if (context.Request.QueryString.Get("error") != null)
-            {
-                output(String.Format("OAuth authorization error: {0}.", context.Request.QueryString.Get("error")));
-                return;
+                // Brings this app back to the foreground.
+                this.Activate();
+
+                // Sends an HTTP response to the browser.
+                var response = context.Response;
+                string responseString = string.Format("<html><head><meta http-equiv='refresh' content='10;url=https://google.com'></head><body>Please return to the app.</body></html>");
+                var buffer = System.Text.Encoding.UTF8.GetBytes(responseString);
+                response.ContentLength64 = buffer.Length;
+                var responseOutput = response.OutputStream;
+                Task responseTask = responseOutput.WriteAsync(buffer, 0, buffer.Length).ContinueWith((task) =>
+                {
+                    responseOutput.Close();
+                    http.Stop();
+                    Console.WriteLine("HTTP server stopped.");
+                });
+
+                // Checks for errors.
+                if (context.Request.QueryString.Get("error") != null)
+                {
+                    output(String.Format("OAuth authorization error: {0}.", context.Request.QueryString.Get("error")));
+                    return;
+                }
+                if (context.Request.QueryString.Get("code") == null
+                    || context.Request.QueryString.Get("state") == null)
+                {
+                    output("Malformed authorization response. " + context.Request.QueryString);
+                    return;
+                }
+
+                // extracts the code
+                var code = context.Request.QueryString.Get("code");
+                var incoming_state = context.Request.QueryString.Get("state");
+
+                // Compares the receieved state to the expected value, to ensure that
+                // this app made the request which resulted in authorization.
+                if (incoming_state != state)
+                {
+                    output(String.Format("Received request with invalid state ({0})", incoming_state));
+                    return;
+                }
+                output("Authorization code: " + code);
+
+                // Starts the code exchange at the Token Endpoint.
+                performCodeExchange(code, code_verifier, redirectURI);
             }
-            if (context.Request.QueryString.Get("code") == null
-                || context.Request.QueryString.Get("state") == null)
+            catch (ObjectDisposedException ode)
             {
-                output("Malformed authorization response. " + context.Request.QueryString);
-                return;
+                Console.WriteLine($"{ode.ObjectName} is disposed");
             }
-
-            // extracts the code
-            var code = context.Request.QueryString.Get("code");
-            var incoming_state = context.Request.QueryString.Get("state");
-
-            // Compares the receieved state to the expected value, to ensure that
-            // this app made the request which resulted in authorization.
-            if (incoming_state != state)
+            catch (Exception exx)
             {
-                output(String.Format("Received request with invalid state ({0})", incoming_state));
-                return;
+                Console.WriteLine($"Exception: {exx.Message}");
             }
-            output("Authorization code: " + code);
-
-            // Starts the code exchange at the Token Endpoint.
-            performCodeExchange(code, code_verifier, redirectURI);
 
             this.Close();
         }
@@ -163,7 +169,6 @@ namespace webchat
                     Dictionary<string, string> tokenEndpointDecoded = JsonConvert.DeserializeObject<Dictionary<string, string>>(responseText);
 
                     string access_token = tokenEndpointDecoded["access_token"];
-                    gb.googleToken = access_token;
                     userinfoCall(access_token);
                 }
             }
@@ -269,6 +274,13 @@ namespace webchat
         {
             var settings = webView21.CoreWebView2.Settings;
             settings.UserAgent = "Chrome";
+        }
+
+        private void loginGoogleForm_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            webView21.Dispose();
+            http.Close();
+            Console.WriteLine("HTTP server closed");
         }
     }
 }

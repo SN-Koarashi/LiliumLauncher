@@ -1,0 +1,209 @@
+﻿using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Drawing;
+using System.IO;
+using System.Net.Http;
+using System.Security.Cryptography;
+using System.Text;
+using System.Windows.Forms;
+
+namespace Global
+{
+    class gb
+    {
+        private static DateTime JanFirst1970 = new DateTime(1970, 1, 1);
+        public static bool firstStart = false;
+        public static bool isMainFolder = true;
+        public static string azureToken = "";
+        public static string launchToken = "";
+        public static string refreshToken = "";
+        public static long launchTokenExpiresAt = 0;
+        public static string minecraftUUID = "";
+        public static string minecraftUsername = "";
+        public static int lastSelectedVersionIndex = 0;
+        public static Point windowSize = new Point(480, 360);
+        public static int runInterval = 5;
+        public static Uri mainHomepage = new Uri("https://www.snkms.com/chat/webchat2/");
+        public static Uri launcherHomepage = new Uri("https://www.snkms.com/minecraftNews.html");
+
+        public class startupParms
+        {
+            public static string main { get; set; }
+            public static string username { get; set; }
+            public static string uuid { get; set; }
+            public static string accessToken { get; set; }
+            public static string version { get; set; }
+            public static string assetIndex { get; set; }
+            public static string loggerIndex { get; set; }
+            public static string javaRuntime { get; set; }
+            public static string minecraftArguments { get; set; }
+        }
+
+        public readonly static string azureClientID = "c5a69008-2ee1-403f-aa2a-3d324e0213d7";
+
+        public static long getNowMilliseconds()
+        {
+            return (long)((DateTime.Now.ToUniversalTime() - JanFirst1970).TotalMilliseconds + 0.5);
+        }
+        public static void resetTokens()
+        {
+            azureToken = "";
+            launchToken = "";
+            refreshToken = "";
+            launchTokenExpiresAt = 0;
+            minecraftUUID = "";
+            minecraftUsername = "";
+        }
+        public static void savingSession()
+        {
+            var content = new
+            {
+                launcher = new
+                {
+                    token = launchToken,
+                    expires_at = launchTokenExpiresAt
+                },
+                minecraft = new
+                {
+                    username = minecraftUsername,
+                    uuid = minecraftUUID
+                },
+                refreshToken = refreshToken,
+                isMainFolder = isMainFolder,
+                lastSelectedVersionIndex = lastSelectedVersionIndex,
+                windowSize = $"{windowSize.X},{windowSize.Y}",
+                runInterval = runInterval
+            };
+
+            Directory.CreateDirectory("settings");
+            File.WriteAllText($"settings{Path.DirectorySeparatorChar}launcher_settings.json", JsonConvert.SerializeObject(content));
+            Console.WriteLine("儲存工作階段資料");
+        }
+        public static void readingSession()
+        {
+            string path = $"settings{Path.DirectorySeparatorChar}launcher_settings.json";
+            if (File.Exists(path))
+            {
+                var content = File.ReadAllText(path);
+                var result = JsonConvert.DeserializeObject<SessionModel>(content);
+
+                isMainFolder = result.isMainFolder;
+                refreshToken = result.refreshToken;
+                launchToken = result.launcher["token"].ToString();
+                launchTokenExpiresAt = long.Parse(result.launcher["expires_at"].ToString());
+                minecraftUsername = result.minecraft["username"].ToString();
+                minecraftUUID = result.minecraft["uuid"].ToString();
+                lastSelectedVersionIndex = result.lastSelectedVersionIndex;
+                runInterval = (result.runInterval > 0) ? result.runInterval : 5;
+
+                if (result.windowSize != null) windowSize = new Point(int.Parse(result.windowSize.Split(',')[0]), int.Parse(result.windowSize.Split(',')[1]));
+
+                Console.WriteLine("讀取工作階段資料");
+            }
+        }
+
+        public static async void checkForUpdate()
+        {
+            string hostUrl = "https://github.com/SN-Koarashi/XCoreNET/releases/latest";
+            var handler = new HttpClientHandler
+            {
+                AllowAutoRedirect = false
+            };
+            var httpClient = new HttpClient(handler);
+            HttpRequestMessage request = new HttpRequestMessage
+            {
+                RequestUri = new Uri(hostUrl),
+                Method = HttpMethod.Head
+            };
+
+            var result = await httpClient.SendAsync(request);
+            string latestURL = result.Headers.Location.AbsoluteUri;
+            string UpdaterPath = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
+
+            var versionInfo = FileVersionInfo.GetVersionInfo(@UpdaterPath + Path.DirectorySeparatorChar + "XCoreNET.exe");
+            Version versionLocal = new Version(versionInfo.ProductVersion);
+            Version versionRemote = new Version(latestURL.Split(new string[] { "/releases/tag/" }, StringSplitOptions.None)[1].Replace("v", string.Empty));
+
+
+            Console.WriteLine($"本機應用程式版本: {versionLocal}");
+            Console.WriteLine($"遠端應用程式版本: {versionRemote}");
+
+            var compareResult = versionRemote.CompareTo(versionLocal);
+            if (compareResult > 0)
+            {
+                var resultUpdate = MessageBox.Show("偵測到更新的應用程式版本，是否執行更新？", "說明", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                if (resultUpdate == DialogResult.Yes)
+                {
+                    var p = new Process();
+                    p.StartInfo.FileName = UpdaterPath + Path.DirectorySeparatorChar + "XCoreNET-Updater.exe";  // just for example, you can use yours.
+                    p.Start();
+                    Application.Exit();
+                }
+            }
+            else
+            {
+                if (!firstStart)
+                {
+                    firstStart = true;
+                    string tempFile = UpdaterPath + Path.DirectorySeparatorChar + "XCoreNET-installer-temp.exe";
+                    if (File.Exists(tempFile))
+                        File.Delete(tempFile);
+                }
+                else
+                    MessageBox.Show("應用程式已為最新版本", "說明", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+        }
+
+        private class SessionModel
+        {
+            public Dictionary<string, object> launcher { get; set; }
+            public Dictionary<string, object> minecraft { get; set; }
+            public string refreshToken { get; set; }
+            public bool isMainFolder { get; set; }
+            public int lastSelectedVersionIndex { get; set; }
+            public string windowSize { get; set; }
+            public int runInterval { get; set; }
+        }
+        public class ProgramModel
+        {
+            public bool noWevView { get; set; }
+            public bool launcher { get; set; }
+            public string mainURL { get; set; }
+            public string launcherURL { get; set; }
+        }
+        public static string SHA1(string input)
+        {
+            using (SHA1Managed sha1 = new SHA1Managed())
+            {
+                var hash = sha1.ComputeHash(Encoding.UTF8.GetBytes(input));
+                var sb = new StringBuilder(hash.Length * 2);
+
+                foreach (byte b in hash)
+                {
+                    // can be "x2" if you want lowercase
+                    sb.Append(b.ToString("X2"));
+                }
+
+                return sb.ToString().ToLower();
+            }
+        }
+        public static string SHA1(byte[] input)
+        {
+            using (SHA1Managed sha1 = new SHA1Managed())
+            {
+                var hash = sha1.ComputeHash(input);
+                var sb = new StringBuilder(hash.Length * 2);
+
+                foreach (byte b in hash)
+                {
+                    // can be "x2" if you want lowercase
+                    sb.Append(b.ToString("X2"));
+                }
+
+                return sb.ToString().ToLower();
+            }
+        }
+    }
+}
