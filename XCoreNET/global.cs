@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
@@ -14,6 +15,8 @@ namespace Global
     class gb
     {
         private static DateTime JanFirst1970 = new DateTime(1970, 1, 1);
+        public static bool verOptRelease = true;
+        public static bool verOptSnapshot = false;
         public static bool firstStart = false;
         public static bool isMainFolder = true;
         public static string azureToken = "";
@@ -70,6 +73,11 @@ namespace Global
                     username = minecraftUsername,
                     uuid = minecraftUUID
                 },
+                versionOptions = new
+                {
+                    release = verOptRelease,
+                    snapshot = verOptSnapshot
+                },
                 refreshToken = refreshToken,
                 isMainFolder = isMainFolder,
                 lastSelectedVersionIndex = lastSelectedVersionIndex,
@@ -91,10 +99,13 @@ namespace Global
 
                 isMainFolder = result.isMainFolder;
                 refreshToken = result.refreshToken;
-                launchToken = result.launcher["token"].ToString();
-                launchTokenExpiresAt = long.Parse(result.launcher["expires_at"].ToString());
-                minecraftUsername = result.minecraft["username"].ToString();
-                minecraftUUID = result.minecraft["uuid"].ToString();
+                launchToken = GetValueOrDefault<string, object, string>(result.launcher, "token", launchToken);
+                launchTokenExpiresAt = GetValueOrDefault<string, object, long>(result.launcher, "expires_at", launchTokenExpiresAt);
+                minecraftUsername = GetValueOrDefault<string, object, string>(result.minecraft, "username", minecraftUsername);
+                minecraftUUID = GetValueOrDefault<string, object, string>(result.minecraft, "uuid", minecraftUUID);
+                verOptRelease = GetValueOrDefault<string, object, bool>(result.versionOptions, "release", verOptRelease);
+                verOptSnapshot = GetValueOrDefault<string, object, bool>(result.versionOptions, "snapshot", verOptSnapshot);
+
                 lastSelectedVersionIndex = result.lastSelectedVersionIndex;
                 runInterval = (result.runInterval > 0) ? result.runInterval : 5;
 
@@ -103,6 +114,43 @@ namespace Global
                 Console.WriteLine("讀取工作階段資料");
             }
         }
+
+        public static TOutput GetValueOrDefault<TKey, TValue, TOutput>(Dictionary<TKey, TValue> dictionary, TKey key, TOutput defaultValue)
+        {
+            if (dictionary != null && dictionary.ContainsKey(key))
+            {
+                if (typeof(TValue) is object)
+                {
+                    return TryGenericParse<TOutput>(dictionary[key], defaultValue);
+                }
+                else
+                {
+                    return TryGenericParse<TValue, TOutput>(dictionary[key], defaultValue);
+                }
+            }
+            else
+                return defaultValue;
+        }
+
+        // ref https://stackoverflow.com/questions/23547637/generic-parsing-with-default-value
+        public static TOuput TryGenericParse<TOuput>(object input, TOuput outputDefault)
+        {
+            if (input == null)
+                return outputDefault;
+
+            return (TOuput)input;
+        }
+        public static TOuput TryGenericParse<TInput, TOuput>(TInput input, TOuput outputDefault)
+        {
+            var converter = TypeDescriptor.GetConverter(typeof(TInput));
+            Console.WriteLine(input);
+
+            if (!converter.CanConvertTo(typeof(TOuput)))
+                return outputDefault;
+
+            return (TOuput)converter.ConvertTo(input, typeof(TOuput));
+        }
+
 
         public static async void checkForUpdate()
         {
@@ -155,11 +203,49 @@ namespace Global
                     MessageBox.Show("應用程式已為最新版本", "說明", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
+        public static int CompareVersionStrings(string v1, string v2)
+        {
+            int rc = -1000;
 
+            v1 = v1.ToLower();
+            v2 = v2.ToLower();
+
+            if (v1 == v2)
+                return 0;
+
+            string[] v1parts = v1.Split('.');
+            string[] v2parts = v2.Split('.');
+
+            for (int i = 0; i < v1parts.Length; i++)
+            {
+                if (v2parts.Length < i + 1)
+                    break; // we're done here
+
+                rc = String.Compare(v1parts[i], v2parts[i], StringComparison.Ordinal);
+                if (rc != 0)
+                    break;
+            }
+
+            if (rc == 0)
+            {
+                // catch this scenario: v1="1.0.1" v2="1.0"
+                if (v1parts.Length > v2parts.Length)
+                    rc = 1; // v1 is higher version than v2
+                            // catch this scenario: v1="1.0" v2="1.0.1"
+                else if (v2parts.Length > v1parts.Length)
+                    rc = -1; // v1 is lower version than v2
+            }
+
+            if (rc == 0 || rc == -1000)
+                return rc;
+            else
+                return rc < 0 ? -1 : 1;
+        }
         private class SessionModel
         {
             public Dictionary<string, object> launcher { get; set; }
             public Dictionary<string, object> minecraft { get; set; }
+            public Dictionary<string, object> versionOptions { get; set; }
             public string refreshToken { get; set; }
             public bool isMainFolder { get; set; }
             public int lastSelectedVersionIndex { get; set; }

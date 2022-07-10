@@ -38,6 +38,7 @@ namespace XCoreNET
         authificationTask authification;
         launcherTask launcher;
         JObject customVer;
+        JArray version_manifest_v2;
 
         private class DownloadListModel
         {
@@ -102,6 +103,9 @@ namespace XCoreNET
                 radBtnMain.Checked = true;
             else
                 radBtnAD.Checked = true;
+
+            chkBoxRelease.Checked = gb.verOptRelease;
+            chkBoxSnapshot.Checked = gb.verOptSnapshot;
 
             firstStartForm = true;
             this.Width = gb.windowSize.X;
@@ -189,11 +193,16 @@ namespace XCoreNET
             releaseList.Clear();
             versionList.Items.Clear();
 
-            var versions = await launcher.getAllVersion();
+            if(version_manifest_v2 == null)
+                version_manifest_v2 = (JArray) (await launcher.getAllVersion())["versions"];
 
-            foreach (var v in versions["versions"])
+            foreach (var v in version_manifest_v2)
             {
-                if (v["type"].ToString().Equals("release"))
+                if (v["type"].ToString().Equals("release") && gb.verOptRelease)
+                {
+                    releaseList.Add(v["id"].ToString(), v["url"].ToString());
+                }
+                if (v["type"].ToString().Equals("snapshot") && gb.verOptSnapshot)
                 {
                     releaseList.Add(v["id"].ToString(), v["url"].ToString());
                 }
@@ -204,6 +213,7 @@ namespace XCoreNET
                 versionList.Items.Add(r.Key);
 
                 if (r.Key.Equals("1.7.2")) break;
+                if (r.Key.Equals("1.7")) break;
             }
 
             Directory.CreateDirectory(PathJoin(DATA_FOLDER, "versions"));
@@ -218,7 +228,13 @@ namespace XCoreNET
 
             foreach (var nowName in installedName)
             {
-                if (!releaseList.ContainsKey(nowName))
+                foreach (var v in version_manifest_v2)
+                {
+                    if (v["id"].ToString().Equals(nowName) && !releaseList.ContainsKey(nowName))
+                        releaseList.Add(nowName, v["url"].ToString());
+                }
+
+                if (!versionList.Items.Contains(nowName))
                 {
                     versionList.Items.Add(nowName);
                 }
@@ -228,6 +244,8 @@ namespace XCoreNET
 
             versionList.SelectedIndex = (gb.lastSelectedVersionIndex > versionList.Items.Count - 1) ? versionList.Items.Count - 1 : gb.lastSelectedVersionIndex;
             textVersionSelected.Text = versionList.SelectedItem.ToString();
+
+            groupBoxVersion.Enabled = true;
         }
 
         private int DropDownWidth(ComboBox myCombo)
@@ -248,6 +266,7 @@ namespace XCoreNET
         {
             if (isClosed) return;
             settingAllControl(false);
+            progressBar.Style = ProgressBarStyle.Marquee;
 
             output("INFO", $"正在取得 Azure 驗證");
             var bearer = await authification.Code2Token(azureToken);
@@ -272,6 +291,7 @@ namespace XCoreNET
         {
             if (isClosed) return;
             settingAllControl(false);
+            progressBar.Style = ProgressBarStyle.Marquee;
 
             output("INFO", "正在取得刷新權杖");
             var result = await authification.refreshToken(gb.refreshToken);
@@ -406,6 +426,7 @@ namespace XCoreNET
 
         private void loginSuccess(string username, string uuid)
         {
+            progressBar.Style = ProgressBarStyle.Blocks;
             output("INFO", $"登入使用者 -{username} -{uuid}");
 
             textUser.Text = username;
@@ -554,7 +575,6 @@ namespace XCoreNET
         private delegate void DelSettingAllControl(bool isEnabled);
         private void settingAllControl(bool isEnabled)
         {
-            //textBox.Enabled = isEnabled;
             btnLaunch.Enabled = isEnabled;
             groupBoxDataFolder.Enabled = isEnabled;
             versionList.Enabled = isEnabled;
@@ -563,6 +583,7 @@ namespace XCoreNET
             textVersionSelected.Enabled = isEnabled;
             groupBoxMainProg.Enabled = isEnabled;
             groupBoxAccount.Enabled = isEnabled;
+            groupBoxVersion.Enabled = isEnabled;
 
             if (isEnabled)
             {
@@ -598,6 +619,7 @@ namespace XCoreNET
             string verURL;
 
             gb.savingSession();
+
             if (releaseList.TryGetValue(selectVersion, out verURL))
             {
                 onCreateIndexes(selectVersion, verURL);
@@ -673,12 +695,42 @@ namespace XCoreNET
                     await launcher.downloadResource(clientURL, dir_jar);
                 }
 
-                gb.startupParms.minecraftArguments = gameNecessaryKit["minecraftArguments"].ToString();
+
+                if ((gameNecessaryKit["minecraftArguments"] != null))
+                {
+                    gb.startupParms.minecraftArguments = gameNecessaryKit["minecraftArguments"].ToString();
+                }
+                else
+                {
+                    JArray tempArr = JsonConvert.DeserializeObject<JArray>(gameNecessaryKit["arguments"]["game"].ToString());
+                    JArray finalArr = new JArray();
+                    foreach (var arr in tempArr)
+                    {
+                        if (arr.ToString().StartsWith("--") || arr.ToString().StartsWith("${") && arr.ToString().EndsWith("}"))
+                            finalArr.Add(arr);
+                    }
+                    gb.startupParms.minecraftArguments = String.Join(" ", finalArr);
+                }
             }
             else
             {
-                gb.startupParms.minecraftArguments = customVer["minecraftArguments"].ToString();
+                if ((customVer["minecraftArguments"] != null))
+                {
+                    gb.startupParms.minecraftArguments = customVer["minecraftArguments"].ToString();
+                }
+                else
+                {
+                    JArray tempArr = JsonConvert.DeserializeObject<JArray>(customVer["arguments"]["game"].ToString());
+                    JArray finalArr = new JArray();
+                    foreach (var arr in tempArr)
+                    {
+                        if (arr.ToString().StartsWith("--") || arr.ToString().StartsWith("${") && arr.ToString().EndsWith("}"))
+                            finalArr.Add(arr);
+                    }
+                    gb.startupParms.minecraftArguments = String.Join(" ", finalArr);
+                }
             }
+
 
             output("INFO", "遊戲主程式建立完成");
 
@@ -960,7 +1012,8 @@ namespace XCoreNET
 
                 var full_name = d.Value.className;
                 var full_nameArr = full_name.Split(':');
-                var version = full_nameArr.Last().Split('-').First();
+                var version = full_nameArr.Last().Replace("natives-","").Replace("-",".");
+
                 var className = String.Join(".", full_nameArr.Take(full_nameArr.Length - 1));
                 var cPath = "";
 
@@ -974,11 +1027,17 @@ namespace XCoreNET
                     cPath = PathJoin(cDir, cFilename);
                     // 如果物件內沒有這個名字或是物件內的版本比較舊，則更新物件內容
                     LibrariesModel insideModel;
+
                     if (nativesList.TryGetValue(className, out insideModel))
                     {
-                        var nowVer = new Version(version);
-                        var compareVer = new Version(insideModel.version);
-                        if (nowVer.CompareTo(compareVer) > 0)
+                        //var nowVer = new Version(version);
+                        //var compareVer = new Version(insideModel.version);
+                        var nowVer = version;
+                        var compareVer = insideModel.version;
+                        Console.WriteLine($"{nativesList[className].dir} , {insideModel.dir}");
+                        Console.WriteLine($"{nowVer} , {compareVer}");
+
+                        if (gb.CompareVersionStrings(nowVer,compareVer) > 0)
                         {
                             nativesList.Remove(className);
                             nativesList.Add(className, insideModel);
@@ -1001,11 +1060,14 @@ namespace XCoreNET
 
                     // 如果物件內沒有這個名字或是物件內的版本比較舊，則更新物件內容
                     LibrariesModel insideModel;
+                    
                     if (librariesList.TryGetValue(className, out insideModel))
                     {
-                        var nowVer = new Version(version);
-                        var compareVer = new Version(insideModel.version);
-                        if (nowVer.CompareTo(compareVer) > 0)
+                        //var nowVer = new Version(version);
+                        //var compareVer = new Version(insideModel.version);
+                        var nowVer = version;
+                        var compareVer = insideModel.version;
+                        if (gb.CompareVersionStrings(nowVer, compareVer) > 0)
                         {
                             librariesList.Remove(className);
                             librariesList.Add(className, insideModel);
@@ -1029,8 +1091,6 @@ namespace XCoreNET
                 var sha_remote = d.Value.sha1;
                 var sha_local = (File.Exists(cPath)) ? gb.SHA1(File.ReadAllBytes(cPath)) : "";
 
-                Console.WriteLine(d.Key);
-
                 if (d.Key.StartsWith("custom-"))
                 {
                     output("INFO", $"檢查必要元件... ({index}/{total}) {cPath}");
@@ -1052,7 +1112,7 @@ namespace XCoreNET
 
                 await Task.Delay(gb.runInterval);
             }
-
+            
             output("INFO", "必要元件建立完成");
             onCreateObjects(gameAssetJson);
         }
@@ -1275,7 +1335,6 @@ namespace XCoreNET
             startupParms += String.Join(" ", classPath) + " ";
             startupParms += builder.ToString();
 
-
             ProcessStartInfo startInfo = new ProcessStartInfo();
             startInfo.FileName = javaPath;
             startInfo.Arguments = startupParms;
@@ -1427,6 +1486,22 @@ namespace XCoreNET
             {
                 this.Close();
             }
+        }
+
+        private void chkBoxRelease_Click(object sender, EventArgs e)
+        {
+            groupBoxVersion.Enabled = false;
+            gb.verOptRelease = chkBoxRelease.Checked;
+            gb.savingSession();
+            onGetAllVersion();
+        }
+
+        private void chkBoxSnapshot_Click(object sender, EventArgs e)
+        {
+            groupBoxVersion.Enabled = false;
+            gb.verOptSnapshot = chkBoxSnapshot.Checked;
+            gb.savingSession();
+            onGetAllVersion();
         }
     }
 }

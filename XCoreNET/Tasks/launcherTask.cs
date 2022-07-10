@@ -60,7 +60,8 @@ namespace XCoreNET.Tasks
             var client = new HttpClient();
             var body = await client.GetStringAsync("https://launchermeta.mojang.com/mc/game/version_manifest_v2.json");
 
-            Console.WriteLine($"getAllVersion: {body}");
+            //Console.WriteLine($"getAllVersion: {body}");
+            Console.WriteLine($"getAllVersion");
             return JsonConvert.DeserializeObject<JObject>(body);
         }
         public async Task<JObject> createIndexes(string url)
