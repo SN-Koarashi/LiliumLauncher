@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(minecraftForm));
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.mainPage = new System.Windows.Forms.TabPage();
             this.panelBody = new System.Windows.Forms.Panel();
@@ -44,6 +45,7 @@
             this.avatar = new System.Windows.Forms.PictureBox();
             this.settingPage = new System.Windows.Forms.TabPage();
             this.groupBoxVersion = new System.Windows.Forms.GroupBox();
+            this.chkBoxSnapshot = new System.Windows.Forms.CheckBox();
             this.chkBoxRelease = new System.Windows.Forms.CheckBox();
             this.groupBoxAccount = new System.Windows.Forms.GroupBox();
             this.btnLogout = new System.Windows.Forms.Button();
@@ -71,7 +73,6 @@
             this.debugPage = new System.Windows.Forms.TabPage();
             this.textBox = new System.Windows.Forms.TextBox();
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
-            this.chkBoxSnapshot = new System.Windows.Forms.CheckBox();
             this.tabControl1.SuspendLayout();
             this.mainPage.SuspendLayout();
             this.panelBody.SuspendLayout();
@@ -271,6 +272,17 @@
             this.groupBoxVersion.TabIndex = 8;
             this.groupBoxVersion.TabStop = false;
             this.groupBoxVersion.Text = "版本選項";
+            // 
+            // chkBoxSnapshot
+            // 
+            this.chkBoxSnapshot.AutoSize = true;
+            this.chkBoxSnapshot.Location = new System.Drawing.Point(6, 52);
+            this.chkBoxSnapshot.Name = "chkBoxSnapshot";
+            this.chkBoxSnapshot.Size = new System.Drawing.Size(69, 22);
+            this.chkBoxSnapshot.TabIndex = 1;
+            this.chkBoxSnapshot.Text = "快照版";
+            this.chkBoxSnapshot.UseVisualStyleBackColor = true;
+            this.chkBoxSnapshot.Click += new System.EventHandler(this.chkBoxSnapshot_Click);
             // 
             // chkBoxRelease
             // 
@@ -552,17 +564,6 @@
             this.textBox.Size = new System.Drawing.Size(450, 285);
             this.textBox.TabIndex = 0;
             // 
-            // chkBoxSnapshot
-            // 
-            this.chkBoxSnapshot.AutoSize = true;
-            this.chkBoxSnapshot.Location = new System.Drawing.Point(6, 52);
-            this.chkBoxSnapshot.Name = "chkBoxSnapshot";
-            this.chkBoxSnapshot.Size = new System.Drawing.Size(69, 22);
-            this.chkBoxSnapshot.TabIndex = 1;
-            this.chkBoxSnapshot.Text = "快照版";
-            this.chkBoxSnapshot.UseVisualStyleBackColor = true;
-            this.chkBoxSnapshot.Click += new System.EventHandler(this.chkBoxSnapshot_Click);
-            // 
             // minecraftForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -570,13 +571,13 @@
             this.ClientSize = new System.Drawing.Size(464, 321);
             this.Controls.Add(this.tabControl1);
             this.Font = new System.Drawing.Font("新細明體", 9F);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.MaximumSize = new System.Drawing.Size(1280, 720);
             this.MinimumSize = new System.Drawing.Size(480, 360);
             this.Name = "minecraftForm";
-            this.ShowIcon = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Minecraft Launcher";
+            this.Text = "XCoreNET Minecraft Launcher";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.minecraftForm_FormClosed);
             this.Load += new System.EventHandler(this.minecraftForm_Load);
             this.Resize += new System.EventHandler(this.minecraftForm_Resize);

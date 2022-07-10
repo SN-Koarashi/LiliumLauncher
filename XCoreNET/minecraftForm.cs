@@ -190,6 +190,7 @@ namespace XCoreNET
 
         private async void onGetAllVersion()
         {
+            textVersionSelected.Text = "";
             releaseList.Clear();
             versionList.Items.Clear();
 
@@ -243,7 +244,8 @@ namespace XCoreNET
             versionList.DropDownWidth = (DropDownWidth(versionList) + 25 > 300)?300: DropDownWidth(versionList) + 25;
 
             versionList.SelectedIndex = (gb.lastSelectedVersionIndex > versionList.Items.Count - 1) ? versionList.Items.Count - 1 : gb.lastSelectedVersionIndex;
-            textVersionSelected.Text = versionList.SelectedItem.ToString();
+            if(versionList.Items.Count > 0)
+                textVersionSelected.Text = versionList.SelectedItem.ToString();
 
             groupBoxVersion.Enabled = true;
         }
@@ -613,6 +615,12 @@ namespace XCoreNET
             settingAllControl(false);
             progressBar.Value = 0;
 
+            if(versionList.Items.Count == 0)
+            {
+                MessageBox.Show("未找到有效的版本可供啟動","警告",MessageBoxButtons.OK,MessageBoxIcon.Warning);
+                settingAllControl(true);
+                return;
+            }
 
             gb.lastSelectedVersionIndex = versionList.SelectedIndex;
             string selectVersion = versionList.Items[versionList.SelectedIndex].ToString();
