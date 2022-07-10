@@ -46,6 +46,17 @@ namespace Global
 
         public readonly static string azureClientID = "c5a69008-2ee1-403f-aa2a-3d324e0213d7";
 
+
+        public static string getMicrosoftOAuthURL()
+        {
+            string microsoftOAuthURL = "https://login.live.com/oauth20_authorize.srf?" +
+                $"client_id={azureClientID}" +
+                "&response_type=code&scope=XboxLive.signin%20offline_access" +
+                "&redirect_uri=http%3A%2F%2Flocalhost%3A5026" +
+                "&cobrandid=8058f65d-ce06-4c30-9559-473c9275a65d&prompt=select_account";
+
+            return microsoftOAuthURL;
+        }
         public static long getNowMilliseconds()
         {
             return (long)((DateTime.Now.ToUniversalTime() - JanFirst1970).TotalMilliseconds + 0.5);

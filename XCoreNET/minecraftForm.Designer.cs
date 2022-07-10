@@ -73,6 +73,7 @@
             this.debugPage = new System.Windows.Forms.TabPage();
             this.textBox = new System.Windows.Forms.TextBox();
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
+            this.btnLogoutAll = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.mainPage.SuspendLayout();
             this.panelBody.SuspendLayout();
@@ -266,9 +267,9 @@
             // 
             this.groupBoxVersion.Controls.Add(this.chkBoxSnapshot);
             this.groupBoxVersion.Controls.Add(this.chkBoxRelease);
-            this.groupBoxVersion.Location = new System.Drawing.Point(325, 106);
+            this.groupBoxVersion.Location = new System.Drawing.Point(266, 106);
             this.groupBoxVersion.Name = "groupBoxVersion";
-            this.groupBoxVersion.Size = new System.Drawing.Size(128, 91);
+            this.groupBoxVersion.Size = new System.Drawing.Size(83, 85);
             this.groupBoxVersion.TabIndex = 8;
             this.groupBoxVersion.TabStop = false;
             this.groupBoxVersion.Text = "版本選項";
@@ -276,7 +277,7 @@
             // chkBoxSnapshot
             // 
             this.chkBoxSnapshot.AutoSize = true;
-            this.chkBoxSnapshot.Location = new System.Drawing.Point(6, 52);
+            this.chkBoxSnapshot.Location = new System.Drawing.Point(9, 53);
             this.chkBoxSnapshot.Name = "chkBoxSnapshot";
             this.chkBoxSnapshot.Size = new System.Drawing.Size(69, 22);
             this.chkBoxSnapshot.TabIndex = 1;
@@ -289,7 +290,7 @@
             this.chkBoxRelease.AutoSize = true;
             this.chkBoxRelease.Checked = true;
             this.chkBoxRelease.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkBoxRelease.Location = new System.Drawing.Point(6, 25);
+            this.chkBoxRelease.Location = new System.Drawing.Point(9, 25);
             this.chkBoxRelease.Name = "chkBoxRelease";
             this.chkBoxRelease.Size = new System.Drawing.Size(69, 22);
             this.chkBoxRelease.TabIndex = 0;
@@ -299,11 +300,12 @@
             // 
             // groupBoxAccount
             // 
+            this.groupBoxAccount.Controls.Add(this.btnLogoutAll);
             this.groupBoxAccount.Controls.Add(this.btnLogout);
             this.groupBoxAccount.Controls.Add(this.btnSwitchAcc);
-            this.groupBoxAccount.Location = new System.Drawing.Point(180, 106);
+            this.groupBoxAccount.Location = new System.Drawing.Point(8, 106);
             this.groupBoxAccount.Name = "groupBoxAccount";
-            this.groupBoxAccount.Size = new System.Drawing.Size(139, 91);
+            this.groupBoxAccount.Size = new System.Drawing.Size(151, 125);
             this.groupBoxAccount.TabIndex = 7;
             this.groupBoxAccount.TabStop = false;
             this.groupBoxAccount.Text = "帳號選項";
@@ -312,7 +314,7 @@
             // 
             this.btnLogout.Location = new System.Drawing.Point(6, 56);
             this.btnLogout.Name = "btnLogout";
-            this.btnLogout.Size = new System.Drawing.Size(126, 28);
+            this.btnLogout.Size = new System.Drawing.Size(139, 28);
             this.btnLogout.TabIndex = 1;
             this.btnLogout.Text = "登出此帳號";
             this.btnLogout.UseVisualStyleBackColor = true;
@@ -320,9 +322,9 @@
             // 
             // btnSwitchAcc
             // 
-            this.btnSwitchAcc.Location = new System.Drawing.Point(7, 25);
+            this.btnSwitchAcc.Location = new System.Drawing.Point(6, 22);
             this.btnSwitchAcc.Name = "btnSwitchAcc";
-            this.btnSwitchAcc.Size = new System.Drawing.Size(126, 28);
+            this.btnSwitchAcc.Size = new System.Drawing.Size(139, 28);
             this.btnSwitchAcc.TabIndex = 0;
             this.btnSwitchAcc.Text = "登入其他帳號";
             this.btnSwitchAcc.UseVisualStyleBackColor = true;
@@ -332,18 +334,18 @@
             // 
             this.groupBoxMainProg.Controls.Add(this.btnChkUpdate);
             this.groupBoxMainProg.Controls.Add(this.btnMainSetting);
-            this.groupBoxMainProg.Location = new System.Drawing.Point(3, 203);
+            this.groupBoxMainProg.Location = new System.Drawing.Point(165, 106);
             this.groupBoxMainProg.Name = "groupBoxMainProg";
-            this.groupBoxMainProg.Size = new System.Drawing.Size(171, 85);
+            this.groupBoxMainProg.Size = new System.Drawing.Size(95, 85);
             this.groupBoxMainProg.TabIndex = 6;
             this.groupBoxMainProg.TabStop = false;
             this.groupBoxMainProg.Text = "主程式選項";
             // 
             // btnChkUpdate
             // 
-            this.btnChkUpdate.Location = new System.Drawing.Point(5, 27);
+            this.btnChkUpdate.Location = new System.Drawing.Point(7, 19);
             this.btnChkUpdate.Name = "btnChkUpdate";
-            this.btnChkUpdate.Size = new System.Drawing.Size(76, 43);
+            this.btnChkUpdate.Size = new System.Drawing.Size(76, 27);
             this.btnChkUpdate.TabIndex = 5;
             this.btnChkUpdate.Text = "檢查更新";
             this.btnChkUpdate.UseVisualStyleBackColor = true;
@@ -351,9 +353,9 @@
             // 
             // btnMainSetting
             // 
-            this.btnMainSetting.Location = new System.Drawing.Point(86, 27);
+            this.btnMainSetting.Location = new System.Drawing.Point(7, 51);
             this.btnMainSetting.Name = "btnMainSetting";
-            this.btnMainSetting.Size = new System.Drawing.Size(76, 43);
+            this.btnMainSetting.Size = new System.Drawing.Size(76, 26);
             this.btnMainSetting.TabIndex = 4;
             this.btnMainSetting.Text = "系統設定";
             this.btnMainSetting.UseVisualStyleBackColor = true;
@@ -362,19 +364,19 @@
             // groupBoxInterval
             // 
             this.groupBoxInterval.Controls.Add(this.textBoxInterval);
-            this.groupBoxInterval.Location = new System.Drawing.Point(93, 106);
+            this.groupBoxInterval.Location = new System.Drawing.Point(8, 235);
             this.groupBoxInterval.Name = "groupBoxInterval";
-            this.groupBoxInterval.Size = new System.Drawing.Size(81, 91);
+            this.groupBoxInterval.Size = new System.Drawing.Size(81, 53);
             this.groupBoxInterval.TabIndex = 3;
             this.groupBoxInterval.TabStop = false;
             this.groupBoxInterval.Text = "執行間隔";
             // 
             // textBoxInterval
             // 
-            this.textBoxInterval.Location = new System.Drawing.Point(7, 37);
+            this.textBoxInterval.Location = new System.Drawing.Point(6, 21);
             this.textBoxInterval.MaxLength = 2;
             this.textBoxInterval.Name = "textBoxInterval";
-            this.textBoxInterval.Size = new System.Drawing.Size(68, 25);
+            this.textBoxInterval.Size = new System.Drawing.Size(65, 25);
             this.textBoxInterval.TabIndex = 0;
             this.textBoxInterval.Text = "5";
             this.textBoxInterval.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -385,18 +387,18 @@
             // 
             this.groupBoxWindow.Controls.Add(this.btnSmall);
             this.groupBoxWindow.Controls.Add(this.btnBig);
-            this.groupBoxWindow.Location = new System.Drawing.Point(3, 106);
+            this.groupBoxWindow.Location = new System.Drawing.Point(353, 106);
             this.groupBoxWindow.Name = "groupBoxWindow";
-            this.groupBoxWindow.Size = new System.Drawing.Size(84, 91);
+            this.groupBoxWindow.Size = new System.Drawing.Size(100, 85);
             this.groupBoxWindow.TabIndex = 2;
             this.groupBoxWindow.TabStop = false;
             this.groupBoxWindow.Text = "視窗顯示";
             // 
             // btnSmall
             // 
-            this.btnSmall.Location = new System.Drawing.Point(7, 56);
+            this.btnSmall.Location = new System.Drawing.Point(7, 49);
             this.btnSmall.Name = "btnSmall";
-            this.btnSmall.Size = new System.Drawing.Size(72, 29);
+            this.btnSmall.Size = new System.Drawing.Size(88, 29);
             this.btnSmall.TabIndex = 1;
             this.btnSmall.Text = "較小";
             this.btnSmall.UseVisualStyleBackColor = true;
@@ -404,9 +406,9 @@
             // 
             // btnBig
             // 
-            this.btnBig.Location = new System.Drawing.Point(7, 24);
+            this.btnBig.Location = new System.Drawing.Point(7, 17);
             this.btnBig.Name = "btnBig";
-            this.btnBig.Size = new System.Drawing.Size(72, 29);
+            this.btnBig.Size = new System.Drawing.Size(88, 29);
             this.btnBig.TabIndex = 0;
             this.btnBig.Text = "較大";
             this.btnBig.UseVisualStyleBackColor = true;
@@ -564,6 +566,16 @@
             this.textBox.Size = new System.Drawing.Size(450, 285);
             this.textBox.TabIndex = 0;
             // 
+            // btnLogoutAll
+            // 
+            this.btnLogoutAll.Location = new System.Drawing.Point(6, 90);
+            this.btnLogoutAll.Name = "btnLogoutAll";
+            this.btnLogoutAll.Size = new System.Drawing.Size(139, 28);
+            this.btnLogoutAll.TabIndex = 9;
+            this.btnLogoutAll.Text = "清除所有登入資料";
+            this.btnLogoutAll.UseVisualStyleBackColor = true;
+            this.btnLogoutAll.Click += new System.EventHandler(this.btnLogoutAll_Click);
+            // 
             // minecraftForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -657,5 +669,6 @@
         private System.Windows.Forms.GroupBox groupBoxVersion;
         private System.Windows.Forms.CheckBox chkBoxRelease;
         private System.Windows.Forms.CheckBox chkBoxSnapshot;
+        private System.Windows.Forms.Button btnLogoutAll;
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Global;
+using Microsoft.Web.WebView2.Core;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
@@ -1510,6 +1511,33 @@ namespace XCoreNET
             gb.verOptSnapshot = chkBoxSnapshot.Checked;
             gb.savingSession();
             onGetAllVersion();
+        }
+
+        private async void btnLogoutAll_Click(object sender, EventArgs e)
+        {
+            settingAllControl(false);
+
+            var result = MessageBox.Show("這會清除在此啟動器中儲存的所有登入資料並且將您登出，是否繼續？","警告",MessageBoxButtons.YesNo,MessageBoxIcon.Warning);
+            if (result == DialogResult.Yes)
+            {
+                Microsoft.Web.WebView2.WinForms.WebView2 tempWebView = new Microsoft.Web.WebView2.WinForms.WebView2();
+                await tempWebView.EnsureCoreWebView2Async(null);
+
+                var cookies = await tempWebView.CoreWebView2.CookieManager.GetCookiesAsync(gb.getMicrosoftOAuthURL());
+
+                foreach (var cookie in cookies)
+                {
+                    tempWebView.CoreWebView2.CookieManager.DeleteCookie(cookie);
+                }
+
+                tempWebView.Dispose();
+
+                btnLogout_Click(sender, e);
+            }
+            else
+            {
+                settingAllControl(true);
+            }
         }
     }
 }
