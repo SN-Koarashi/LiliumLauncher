@@ -1429,6 +1429,7 @@ namespace XCoreNET
             startInfo.UseShellExecute = false;
             startInfo.CreateNoWindow = true;
             startInfo.WorkingDirectory = DATA_FOLDER;
+            startInfo.StandardOutputEncoding = Encoding.UTF8;
 
             Process proc = new Process();
             proc.StartInfo = startInfo;
@@ -1442,13 +1443,53 @@ namespace XCoreNET
 
             try
             {
+                GC.Collect();
+
+                bool readyToExited = false;
                 progressBar.Value = progressBar.Maximum;
+
+                proc.Exited += (sender, e) =>
+                {
+                    this.Invoke(new Action(() =>
+                    {
+                        output("INFO", "關閉遊戲");
+                        settingAllControl(true);
+                        this.Activate();
+                    }));
+                    GC.Collect();
+                };
+
+
+
                 proc.Start();
-
                 proc.BeginOutputReadLine();
-
-                proc.Exited += processExitedHandler;
                 proc.OutputDataReceived += OutputDataReceivedHandler;
+
+
+
+                proc.OutputDataReceived += (sender, args) =>
+                {
+                    if (args.Data == null) return;
+
+                    var data = args.Data.Trim();
+                    if (data.Equals("Stopping!"))
+                        readyToExited = true;
+
+                    if (data.Equals("SoundSystem shutting down...") && readyToExited)
+                    {
+                        Task.Delay(2000).ContinueWith(t =>
+                        {
+                            if (!proc.HasExited)
+                            {
+                                this.Invoke(new Action(() =>
+                                {
+                                    outputDebug("WARN", "偵測到程式未完全關閉，已強制結束處理程序");
+                                }));
+                                proc.Kill();
+                            }
+                        });
+                    }
+                };
             }
             catch (Exception e)
             {
@@ -1461,37 +1502,33 @@ namespace XCoreNET
             if (args.Data != null)
             {
                 var data = args.Data.Trim();
+                if (data == null || data.Length == 0) return;
+
                 if (data.StartsWith("<log4j:Message><![CDATA[") && data.EndsWith("]]></log4j:Message>"))
                 {
                     data = data.TrimStart("<log4j:Message><![CDATA[").TrimEnd("]]></log4j:Message>");
 
                     this.Invoke(new Action(() =>
                     {
-                        if (!data.Contains("Session ID"))
+                        if (!data.Contains(gb.startupParms.accessToken))
                             outputDebug("GAME", data);
                     }));
                 }
                 else
                 {
-                    this.Invoke(new Action(() =>
+                    if (!data.EndsWith("</log4j:Event>") && !data.StartsWith("<log4j:Event"))
                     {
-                        outputDebug("GAME", args.Data);
-                    }));
+                        this.Invoke(new Action(() =>
+                        {
+                            outputDebug("GAME", args.Data);
+                        }));
+                    }
                 }
             }
             else
             {
                 Console.WriteLine(args.Data);
             }
-        }
-        private void processExitedHandler(object sender, EventArgs e)
-        {
-            this.Invoke(new Action(() =>
-            {
-                output("INFO", "關閉遊戲");
-                settingAllControl(true);
-            }));
-            GC.Collect();
         }
 
         private string PathJoin(params string[] args)
@@ -1519,9 +1556,9 @@ namespace XCoreNET
             int result;
             if (int.TryParse(textBoxInterval.Text, out result))
             {
-                if (result <= 0)
+                if (result < 0)
                 {
-                    MessageBox.Show("數字必須大於零", "警告", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBox.Show("數字必須大於等於零", "警告", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     textBoxInterval.Text = "5";
                     gb.runInterval = 5;
                 }
