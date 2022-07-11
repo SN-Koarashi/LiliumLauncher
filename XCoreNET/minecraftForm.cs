@@ -1,11 +1,11 @@
 ﻿using Global;
-using Microsoft.Web.WebView2.Core;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Globalization;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
@@ -13,8 +13,6 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Xml;
-using System.Xml.Linq;
 using XCoreNET.Tasks;
 using static XCoreNET.Tasks.launcherTask;
 
@@ -33,6 +31,8 @@ namespace XCoreNET
         string INSTALLED_PATH;
 
         Dictionary<string, string> releaseList = new Dictionary<string, string>();
+        Dictionary<string, DateTime> releaseListDateTime = new Dictionary<string, DateTime>();
+
         Dictionary<string, DownloadListModel> downloadList = new Dictionary<string, DownloadListModel>();
         Dictionary<string, LibrariesModel> nativesList = new Dictionary<string, LibrariesModel>();
         Dictionary<string, LibrariesModel> librariesList = new Dictionary<string, LibrariesModel>();
@@ -168,7 +168,7 @@ namespace XCoreNET
         private void onStarter()
         {
             this.Activate();
-            if(!gb.firstStart) gb.checkForUpdate();
+            if (!gb.firstStart) gb.checkForUpdate();
 
             if (gb.launchToken.Length > 0 && gb.getNowMilliseconds() - gb.launchTokenExpiresAt < 0)
             {
@@ -191,31 +191,38 @@ namespace XCoreNET
 
         private async void onGetAllVersion()
         {
+            bool hasTakeManifesst = false;
+
             textVersionSelected.Text = "";
             releaseList.Clear();
             versionList.Items.Clear();
 
-            if(version_manifest_v2 == null)
-                version_manifest_v2 = (JArray) (await launcher.getAllVersion())["versions"];
+            if (version_manifest_v2 == null)
+                version_manifest_v2 = (JArray)(await launcher.getAllVersion())["versions"];
 
             foreach (var v in version_manifest_v2)
             {
                 if (v["type"].ToString().Equals("release") && gb.verOptRelease)
                 {
                     releaseList.Add(v["id"].ToString(), v["url"].ToString());
+                    hasTakeManifesst = true;
                 }
                 if (v["type"].ToString().Equals("snapshot") && gb.verOptSnapshot)
                 {
                     releaseList.Add(v["id"].ToString(), v["url"].ToString());
+                    hasTakeManifesst = true;
                 }
+
+                if (!releaseListDateTime.ContainsKey(v["id"].ToString()))
+                    releaseListDateTime.Add(v["id"].ToString(), DateTime.Parse(v["releaseTime"].ToString()));
             }
 
             foreach (var r in releaseList)
             {
                 versionList.Items.Add(r.Key);
 
-                if (r.Key.Equals("1.7.2")) break;
-                if (r.Key.Equals("1.7")) break;
+                //if (r.Key.Equals("1.7.2")) break;
+                //if (r.Key.Equals("1.7")) break;
             }
 
             Directory.CreateDirectory(PathJoin(DATA_FOLDER, "versions"));
@@ -242,10 +249,34 @@ namespace XCoreNET
                 }
             }
 
-            versionList.DropDownWidth = (DropDownWidth(versionList) + 25 > 300)?300: DropDownWidth(versionList) + 25;
+            // 沒有提取任何發布版本的話，對已安裝在本機的版本列表進行排序
+            if (!hasTakeManifesst)
+            {
+                var items = versionList.Items;
+                var customVersion = new List<string>();
+                var vanillaVersion = new List<string>();
+
+                foreach (var item in items)
+                {
+                    if (releaseList.ContainsKey(item.ToString()))
+                        vanillaVersion.Add(item.ToString());
+                    else
+                        customVersion.Add(item.ToString());
+                }
+
+
+                vanillaVersion.Sort((x, y) => -DateTime.Compare(releaseListDateTime[x], releaseListDateTime[y]));
+                customVersion.Sort();
+
+                versionList.Items.Clear();
+                versionList.Items.AddRange(vanillaVersion.ToArray());
+                versionList.Items.AddRange(customVersion.ToArray());
+            }
+
+            versionList.DropDownWidth = (DropDownWidth(versionList) + 25 > 300) ? 300 : DropDownWidth(versionList) + 25;
 
             versionList.SelectedIndex = (gb.lastSelectedVersionIndex > versionList.Items.Count - 1) ? versionList.Items.Count - 1 : gb.lastSelectedVersionIndex;
-            if(versionList.Items.Count > 0)
+            if (versionList.Items.Count > 0)
                 textVersionSelected.Text = versionList.SelectedItem.ToString();
 
             groupBoxVersion.Enabled = true;
@@ -579,14 +610,14 @@ namespace XCoreNET
         private void settingAllControl(bool isEnabled)
         {
             btnLaunch.Enabled = isEnabled;
-            groupBoxDataFolder.Enabled = isEnabled;
             versionList.Enabled = isEnabled;
             textStatus.Enabled = isEnabled;
-            textBoxInterval.Enabled = isEnabled;
             textVersionSelected.Enabled = isEnabled;
             groupBoxMainProg.Enabled = isEnabled;
             groupBoxAccount.Enabled = isEnabled;
             groupBoxVersion.Enabled = isEnabled;
+            groupBoxDataFolder.Enabled = isEnabled;
+            groupBoxInterval.Enabled = isEnabled;
 
             if (isEnabled)
             {
@@ -616,12 +647,15 @@ namespace XCoreNET
             settingAllControl(false);
             progressBar.Value = 0;
 
-            if(versionList.Items.Count == 0)
+            if (versionList.Items.Count == 0)
             {
-                MessageBox.Show("未找到有效的版本可供啟動","警告",MessageBoxButtons.OK,MessageBoxIcon.Warning);
+                MessageBox.Show("未找到有效的版本可供啟動", "警告", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 settingAllControl(true);
                 return;
             }
+
+            gb.resetStartupParms();
+
 
             gb.lastSelectedVersionIndex = versionList.SelectedIndex;
             string selectVersion = versionList.Items[versionList.SelectedIndex].ToString();
@@ -747,7 +781,11 @@ namespace XCoreNET
 
 
             INSTALLED_PATH = PathJoin(DATA_FOLDER, "versions", version, "installed.");
-            onCreateLogger(gameNecessaryKit["logging"]["client"]["file"]["url"].ToString(), gameNecessaryKit["logging"]["client"]["file"]["id"].ToString());
+
+
+            if (gameNecessaryKit["logging"] != null)
+                onCreateLogger(gameNecessaryKit["logging"]["client"]["file"]["url"].ToString(), gameNecessaryKit["logging"]["client"]["file"]["id"].ToString());
+
             onJavaProgram(gameNecessaryKit, gameAssetJson);
         }
 
@@ -968,7 +1006,7 @@ namespace XCoreNET
                                     output("INFO", $"取得必要元件索引(自訂客戶端): {xlm.path}");
                                 }
                             }
-                            else if(item["url"] != null)
+                            else if (item["url"] != null)
                             {
                                 string url = "https://repo1.maven.org/maven2/" + cDir;
                                 string[] dirArr = cDir.Split('/');
@@ -991,7 +1029,7 @@ namespace XCoreNET
                     indexVersionName = nowLib["inheritsFrom"].ToString();
                 }
             }
-            
+
             index = 0;
             total = downloadList.Count;
             progressBar.Value = 0;
@@ -1021,7 +1059,7 @@ namespace XCoreNET
 
                 var full_name = d.Value.className;
                 var full_nameArr = full_name.Split(':');
-                var version = full_nameArr.Last().Replace("natives-","").Replace("-",".");
+                var version = full_nameArr.Last().Replace("natives-", "").Replace("-", ".");
 
                 var className = String.Join(".", full_nameArr.Take(full_nameArr.Length - 1));
                 var cPath = "";
@@ -1046,7 +1084,7 @@ namespace XCoreNET
                         Console.WriteLine($"{nativesList[className].dir} , {insideModel.dir}");
                         Console.WriteLine($"{nowVer} , {compareVer}");
 
-                        if (gb.CompareVersionStrings(nowVer,compareVer) > 0)
+                        if (gb.CompareVersionStrings(nowVer, compareVer) > 0)
                         {
                             nativesList.Remove(className);
                             nativesList.Add(className, insideModel);
@@ -1069,7 +1107,7 @@ namespace XCoreNET
 
                     // 如果物件內沒有這個名字或是物件內的版本比較舊，則更新物件內容
                     LibrariesModel insideModel;
-                    
+
                     if (librariesList.TryGetValue(className, out insideModel))
                     {
                         //var nowVer = new Version(version);
@@ -1121,7 +1159,7 @@ namespace XCoreNET
 
                 await Task.Delay(gb.runInterval);
             }
-            
+
             output("INFO", "必要元件建立完成");
             onCreateObjects(gameAssetJson);
         }
@@ -1239,6 +1277,43 @@ namespace XCoreNET
             }
 
 
+            preVersionSupport();
+        }
+
+        private void preVersionSupport()
+        {
+            output("INFO", "正在相容舊版本");
+            CultureInfo ci = CultureInfo.CurrentUICulture;
+            string lang = ci.Name;
+
+            var dir = PathJoin(DATA_FOLDER, "options.txt");
+            if (File.Exists(dir))
+            {
+                if (gb.startupParms.loggerIndex == null)
+                {
+                    var data = File.ReadAllLines(dir);
+                    for (int i = 0; i < data.Length; i++)
+                    {
+                        if (data[i].StartsWith("lang:"))
+                        {
+                            var fileLang = data[i].Split(':')[1].Split('_');
+                            data[i] = $"lang:{fileLang[0]}_{fileLang[1].ToUpper()}";
+                        }
+                    }
+
+                    File.WriteAllLines(dir, data);
+                }
+            }
+            else
+            {
+                var optionArr = new List<string>();
+                optionArr.Add($"lang:{lang.Replace("-", "_").ToLower()}");
+                optionArr.Add($"lang:{lang.Replace("-", "_")}");
+                optionArr.Add($"guiScale:2");
+
+                File.WriteAllText(dir, String.Join(Environment.NewLine, optionArr));
+            }
+
             onLaunchGame();
         }
 
@@ -1248,7 +1323,7 @@ namespace XCoreNET
 
             var assetsDir = PathJoin(DATA_FOLDER, "assets");
             var cDir = PathJoin(DATA_FOLDER, "versions", gb.startupParms.version, gb.startupParms.version + ".jar");
-            if(customVer != null && !File.Exists(cDir))
+            if (customVer != null && !File.Exists(cDir))
             {
                 cDir = PathJoin(DATA_FOLDER, "versions", customVer["jar"].ToString(), customVer["jar"].ToString() + ".jar");
             }
@@ -1308,7 +1383,9 @@ namespace XCoreNET
             jvm.Add("-Dminecraft.launcher.brand=XCoreNET");
             jvm.Add("-Dminecraft.launcher.version=" + Application.ProductVersion);
             jvm.Add("-Djava.library.path=" + PathJoin(DATA_FOLDER, "bin"));
-            jvm.Add("-Dlog4j.configurationFile=" + PathJoin(assetsDir, "log-configs", gb.startupParms.loggerIndex));
+
+            if (gb.startupParms.loggerIndex != null)
+                jvm.Add("-Dlog4j.configurationFile=" + PathJoin(assetsDir, "log-configs", gb.startupParms.loggerIndex));
 
             replaceOptions.Add("${auth_player_name}", gb.startupParms.username);
             replaceOptions.Add("${version_name}", gb.startupParms.version);
@@ -1322,14 +1399,14 @@ namespace XCoreNET
             replaceOptions.Add("${user_type}", "msa");
             replaceOptions.Add("${version_type}", "release");
             replaceOptions.Add("${user_properties}", "{}");
-            
+
             StringBuilder builder = new StringBuilder(launchOptions);
-            
+
             foreach (var rp in replaceOptions)
             {
                 builder.Replace(rp.Key, rp.Value.ToString());
             }
-            
+
             var classPath = new string[]
             {
                 "-cp",
@@ -1367,6 +1444,7 @@ namespace XCoreNET
             {
                 progressBar.Value = progressBar.Maximum;
                 proc.Start();
+
                 proc.BeginOutputReadLine();
 
                 proc.Exited += processExitedHandler;
@@ -1380,11 +1458,36 @@ namespace XCoreNET
 
         private void OutputDataReceivedHandler(object sender, DataReceivedEventArgs args)
         {
-            Console.WriteLine(args.Data);
+            if (args.Data != null)
+            {
+                var data = args.Data.Trim();
+                if (data.StartsWith("<log4j:Message><![CDATA[") && data.EndsWith("]]></log4j:Message>"))
+                {
+                    data = data.TrimStart("<log4j:Message><![CDATA[").TrimEnd("]]></log4j:Message>");
+
+                    this.Invoke(new Action(() =>
+                    {
+                        if (!data.Contains("Session ID"))
+                            outputDebug("GAME", data);
+                    }));
+                }
+                else
+                {
+                    this.Invoke(new Action(() =>
+                    {
+                        outputDebug("GAME", args.Data);
+                    }));
+                }
+            }
+            else
+            {
+                Console.WriteLine(args.Data);
+            }
         }
         private void processExitedHandler(object sender, EventArgs e)
         {
-            this.Invoke(new Action(() => {
+            this.Invoke(new Action(() =>
+            {
                 output("INFO", "關閉遊戲");
                 settingAllControl(true);
             }));
@@ -1468,7 +1571,7 @@ namespace XCoreNET
                 Tasks.loginChallengeTask challenge = new Tasks.loginChallengeTask(true);
                 var result = await challenge.start();
 
-                if(result == DialogResult.OK)
+                if (result == DialogResult.OK)
                 {
                     progressBar.Maximum = 60;
                     progressBar.Value = 0;
@@ -1517,7 +1620,7 @@ namespace XCoreNET
         {
             settingAllControl(false);
 
-            var result = MessageBox.Show("這會清除在此啟動器中儲存的所有登入資料並且將您登出，是否繼續？","警告",MessageBoxButtons.YesNo,MessageBoxIcon.Warning);
+            var result = MessageBox.Show("這會清除在此啟動器中儲存的所有登入資料並且將您登出，是否繼續？", "警告", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
             if (result == DialogResult.Yes)
             {
                 Microsoft.Web.WebView2.WinForms.WebView2 tempWebView = new Microsoft.Web.WebView2.WinForms.WebView2();
@@ -1538,6 +1641,11 @@ namespace XCoreNET
             {
                 settingAllControl(true);
             }
+        }
+
+        private void textBoxInterval_Click(object sender, EventArgs e)
+        {
+            textBoxInterval.SelectAll();
         }
     }
 }

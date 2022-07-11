@@ -223,7 +223,6 @@ namespace XCoreNET
         /// <param name="output">string to be appended</param>
         public void output(string output)
         {
-            textBox.Text = textBox.Text + output + Environment.NewLine;
             Console.WriteLine(output);
         }
 

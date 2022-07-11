@@ -2,8 +2,6 @@
 using Microsoft.Web.WebView2.Core;
 using System;
 using System.Diagnostics;
-using System.IO;
-using System.Net.Http;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 
@@ -42,8 +40,9 @@ namespace XCoreNET
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            if (isWebViewDisposed) { 
-                webView.Dispose(); 
+            if (isWebViewDisposed)
+            {
+                webView.Dispose();
             }
             else
             {

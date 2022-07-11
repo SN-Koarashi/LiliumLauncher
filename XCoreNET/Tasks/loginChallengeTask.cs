@@ -14,7 +14,7 @@ namespace XCoreNET.Tasks
         }
         public loginChallengeTask(bool isSwitching)
         {
-            if(!isSwitching)
+            if (!isSwitching)
                 gb.resetTokens();
         }
 

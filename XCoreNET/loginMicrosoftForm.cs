@@ -1,5 +1,4 @@
 ﻿using Global;
-using Microsoft.Web.WebView2.Core;
 using System;
 using System.Windows.Forms;
 

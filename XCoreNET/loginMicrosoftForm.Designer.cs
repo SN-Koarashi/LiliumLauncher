@@ -40,7 +40,7 @@
             this.webView.Dock = System.Windows.Forms.DockStyle.Fill;
             this.webView.Location = new System.Drawing.Point(0, 0);
             this.webView.Name = "webView";
-            this.webView.Size = new System.Drawing.Size(464, 681);
+            this.webView.Size = new System.Drawing.Size(464, 601);
             this.webView.TabIndex = 0;
             this.webView.ZoomFactor = 1D;
             this.webView.NavigationStarting += new System.EventHandler<Microsoft.Web.WebView2.Core.CoreWebView2NavigationStartingEventArgs>(this.webView_NavigationStarting);
@@ -49,10 +49,11 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(464, 681);
+            this.ClientSize = new System.Drawing.Size(464, 601);
             this.Controls.Add(this.webView);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
+            this.MinimumSize = new System.Drawing.Size(360, 640);
             this.Name = "loginMicrosoftForm";
             this.ShowIcon = false;
             this.ShowInTaskbar = false;

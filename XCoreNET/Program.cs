@@ -1,10 +1,10 @@
-﻿using Newtonsoft.Json;
+﻿using Global;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Windows.Forms;
 using static Global.gb;
-using Global;
 
 
 namespace XCoreNET

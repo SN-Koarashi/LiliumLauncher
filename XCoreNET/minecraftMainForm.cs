@@ -1,13 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Global;
+using System;
 using System.Windows.Forms;
-using Global;
 
 namespace XCoreNET
 {
@@ -45,7 +38,7 @@ namespace XCoreNET
 
         private void minecraftMainForm_Load(object sender, EventArgs e)
         {
-            btnUpdate_Click(sender,e);
+            btnUpdate_Click(sender, e);
         }
 
         private void tableLayoutPanel1_Paint(object sender, PaintEventArgs e)

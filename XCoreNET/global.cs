@@ -70,6 +70,14 @@ namespace Global
             minecraftUUID = "";
             minecraftUsername = "";
         }
+        public static void resetStartupParms()
+        {
+            startupParms.assetIndex = null;
+            startupParms.minecraftArguments = null;
+            startupParms.loggerIndex = null;
+            startupParms.main = null;
+            startupParms.version = null;
+        }
         public static void savingSession()
         {
             var content = new
@@ -301,6 +309,34 @@ namespace Global
 
                 return sb.ToString().ToLower();
             }
+        }
+    }
+    static class Instance_Method
+    {
+        // ref https://stackoverflow.com/questions/4335878/c-sharp-trimstart-with-string-parameter
+        public static string TrimStart(this string target, string trimString)
+        {
+            if (string.IsNullOrEmpty(trimString)) return target;
+
+            string result = target;
+            while (result.StartsWith(trimString))
+            {
+                result = result.Substring(trimString.Length);
+            }
+
+            return result;
+        }
+        public static string TrimEnd(this string target, string trimString)
+        {
+            if (string.IsNullOrEmpty(trimString)) return target;
+
+            string result = target;
+            while (result.EndsWith(trimString))
+            {
+                result = result.Substring(0, result.Length - trimString.Length);
+            }
+
+            return result;
         }
     }
 }

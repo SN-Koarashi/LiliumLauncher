@@ -48,6 +48,7 @@
             this.chkBoxSnapshot = new System.Windows.Forms.CheckBox();
             this.chkBoxRelease = new System.Windows.Forms.CheckBox();
             this.groupBoxAccount = new System.Windows.Forms.GroupBox();
+            this.btnLogoutAll = new System.Windows.Forms.Button();
             this.btnLogout = new System.Windows.Forms.Button();
             this.btnSwitchAcc = new System.Windows.Forms.Button();
             this.groupBoxMainProg = new System.Windows.Forms.GroupBox();
@@ -73,7 +74,6 @@
             this.debugPage = new System.Windows.Forms.TabPage();
             this.textBox = new System.Windows.Forms.TextBox();
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
-            this.btnLogoutAll = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.mainPage.SuspendLayout();
             this.panelBody.SuspendLayout();
@@ -206,10 +206,10 @@
             // textVersionSelected
             // 
             this.textVersionSelected.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.textVersionSelected.Location = new System.Drawing.Point(325, 9);
+            this.textVersionSelected.Location = new System.Drawing.Point(265, 9);
             this.textVersionSelected.Name = "textVersionSelected";
             this.textVersionSelected.ReadOnly = true;
-            this.textVersionSelected.Size = new System.Drawing.Size(100, 25);
+            this.textVersionSelected.Size = new System.Drawing.Size(160, 25);
             this.textVersionSelected.TabIndex = 1;
             this.textVersionSelected.Click += new System.EventHandler(this.textVersionSelected_Click);
             // 
@@ -232,7 +232,7 @@
             this.textUser.Location = new System.Drawing.Point(41, 10);
             this.textUser.Name = "textUser";
             this.textUser.ReadOnly = true;
-            this.textUser.Size = new System.Drawing.Size(277, 20);
+            this.textUser.Size = new System.Drawing.Size(218, 20);
             this.textUser.TabIndex = 6;
             this.textUser.Text = "User";
             this.textUser.Visible = false;
@@ -310,6 +310,16 @@
             this.groupBoxAccount.TabStop = false;
             this.groupBoxAccount.Text = "帳號選項";
             // 
+            // btnLogoutAll
+            // 
+            this.btnLogoutAll.Location = new System.Drawing.Point(6, 90);
+            this.btnLogoutAll.Name = "btnLogoutAll";
+            this.btnLogoutAll.Size = new System.Drawing.Size(139, 28);
+            this.btnLogoutAll.TabIndex = 9;
+            this.btnLogoutAll.Text = "清除所有登入資料";
+            this.btnLogoutAll.UseVisualStyleBackColor = true;
+            this.btnLogoutAll.Click += new System.EventHandler(this.btnLogoutAll_Click);
+            // 
             // btnLogout
             // 
             this.btnLogout.Location = new System.Drawing.Point(6, 56);
@@ -381,6 +391,7 @@
             this.textBoxInterval.Text = "5";
             this.textBoxInterval.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.toolTip.SetToolTip(this.textBoxInterval, "程式執行下載與檢查檔案時的間隔，過短的間隔可能導致渲染出現延遲");
+            this.textBoxInterval.Click += new System.EventHandler(this.textBoxInterval_Click);
             this.textBoxInterval.KeyUp += new System.Windows.Forms.KeyEventHandler(this.textBoxInterval_KeyUp);
             // 
             // groupBoxWindow
@@ -522,9 +533,9 @@
             // btnVerifyFile
             // 
             this.btnVerifyFile.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnVerifyFile.Location = new System.Drawing.Point(3, 8);
+            this.btnVerifyFile.Location = new System.Drawing.Point(3, 0);
             this.btnVerifyFile.Name = "btnVerifyFile";
-            this.btnVerifyFile.Size = new System.Drawing.Size(118, 25);
+            this.btnVerifyFile.Size = new System.Drawing.Size(118, 30);
             this.btnVerifyFile.TabIndex = 4;
             this.btnVerifyFile.Text = "檢查資料完整性";
             this.toolTip.SetToolTip(this.btnVerifyFile, "驗證所有資料的雜湊值，並且不啟動遊戲");
@@ -534,9 +545,9 @@
             // btnOpenFolder
             // 
             this.btnOpenFolder.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnOpenFolder.Location = new System.Drawing.Point(3, 34);
+            this.btnOpenFolder.Location = new System.Drawing.Point(3, 31);
             this.btnOpenFolder.Name = "btnOpenFolder";
-            this.btnOpenFolder.Size = new System.Drawing.Size(118, 25);
+            this.btnOpenFolder.Size = new System.Drawing.Size(118, 30);
             this.btnOpenFolder.TabIndex = 3;
             this.btnOpenFolder.Text = "開啟資料夾";
             this.btnOpenFolder.UseVisualStyleBackColor = true;
@@ -565,16 +576,6 @@
             this.textBox.ShortcutsEnabled = false;
             this.textBox.Size = new System.Drawing.Size(450, 285);
             this.textBox.TabIndex = 0;
-            // 
-            // btnLogoutAll
-            // 
-            this.btnLogoutAll.Location = new System.Drawing.Point(6, 90);
-            this.btnLogoutAll.Name = "btnLogoutAll";
-            this.btnLogoutAll.Size = new System.Drawing.Size(139, 28);
-            this.btnLogoutAll.TabIndex = 9;
-            this.btnLogoutAll.Text = "清除所有登入資料";
-            this.btnLogoutAll.UseVisualStyleBackColor = true;
-            this.btnLogoutAll.Click += new System.EventHandler(this.btnLogoutAll_Click);
             // 
             // minecraftForm
             // 

@@ -1,9 +1,9 @@
-﻿using Newtonsoft.Json;
+﻿using Global;
+using Newtonsoft.Json;
 using System;
 using System.IO;
 using System.Windows.Forms;
 using static Global.gb;
-using Global;
 
 namespace XCoreNET
 {
@@ -29,7 +29,7 @@ namespace XCoreNET
         {
             try
             {
-                if(textBox1.Text != String.Empty)
+                if (textBox1.Text != String.Empty)
                     new Uri(textBox1.Text);
 
                 if (textBox2.Text != String.Empty)
@@ -39,7 +39,7 @@ namespace XCoreNET
                 ProgramModel pm = new ProgramModel();
                 pm.launcher = chkLauncherMain.Checked;
                 pm.noWevView = chkNoWebView.Checked;
-                pm.mainURL = (textBox1.Text != String.Empty) ? textBox1.Text: "https://www.snkms.com/chat/webchat2/";
+                pm.mainURL = (textBox1.Text != String.Empty) ? textBox1.Text : "https://www.snkms.com/chat/webchat2/";
                 pm.launcherURL = (textBox2.Text != String.Empty) ? textBox2.Text : "https://www.snkms.com/minecraftNews.html";
 
                 gb.mainHomepage = new Uri(pm.mainURL);
