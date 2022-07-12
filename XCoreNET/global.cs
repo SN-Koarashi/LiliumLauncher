@@ -27,7 +27,7 @@ namespace Global
         public static string minecraftUsername = "";
         public static int lastSelectedVersionIndex = 0;
         public static Point windowSize = new Point(480, 360);
-        public static int runInterval = 5;
+        public static int runInterval = 1;
         public static Uri mainHomepage = new Uri("https://www.snkms.com/chat/webchat2/");
         public static Uri launcherHomepage = new Uri("https://www.snkms.com/minecraftNews.html");
 
@@ -42,6 +42,7 @@ namespace Global
             public static string loggerIndex { get; set; }
             public static string javaRuntime { get; set; }
             public static string minecraftArguments { get; set; }
+            public static string appUID { get; set; }
         }
 
         public readonly static string azureClientID = "c5a69008-2ee1-403f-aa2a-3d324e0213d7";
@@ -77,6 +78,7 @@ namespace Global
             startupParms.loggerIndex = null;
             startupParms.main = null;
             startupParms.version = null;
+            startupParms.appUID = null;
         }
         public static void savingSession()
         {
@@ -126,7 +128,7 @@ namespace Global
                 verOptSnapshot = GetValueOrDefault<string, object, bool>(result.versionOptions, "snapshot", verOptSnapshot);
 
                 lastSelectedVersionIndex = result.lastSelectedVersionIndex;
-                runInterval = (result.runInterval > 0) ? result.runInterval : 5;
+                runInterval = (result.runInterval > 0) ? result.runInterval : 1;
 
                 if (result.windowSize != null) windowSize = new Point(int.Parse(result.windowSize.Split(',')[0]), int.Parse(result.windowSize.Split(',')[1]));
 

@@ -1231,18 +1231,10 @@ namespace XCoreNET
         }
         private void onUnzipped()
         {
-            var dir = PathJoin(DATA_FOLDER, "bin");
-            Directory.CreateDirectory(dir);
-
-            output("INFO", "清除以前的檔案");
-            var files = Directory.GetFiles(dir);
-            if (files.Length > 0)
-            {
-                Directory.Delete(dir, true);
-                Directory.CreateDirectory(dir);
-            }
-
             output("INFO", "解壓縮動態函數庫");
+            gb.startupParms.appUID = Guid.NewGuid().ToString();
+            var dir = PathJoin(DATA_FOLDER, "bin", gb.startupParms.appUID);
+            Directory.CreateDirectory(dir);
 
             var nativesPath = new List<string>();
             foreach (var n in nativesList)
@@ -1272,7 +1264,7 @@ namespace XCoreNET
 
                 if (index == 0)
                 {
-                    Directory.Delete(PathJoin(DATA_FOLDER, "bin", "META-INF"), true);
+                    Directory.Delete(PathJoin(dir, "META-INF"), true);
                 }
             }
 
@@ -1319,6 +1311,7 @@ namespace XCoreNET
 
         private void onLaunchGame()
         {
+            progressBar.Style = ProgressBarStyle.Marquee;
             output("INFO", "啟動遊戲");
 
             var assetsDir = PathJoin(DATA_FOLDER, "assets");
@@ -1382,7 +1375,7 @@ namespace XCoreNET
             jvm.Add("-Xms512m");
             jvm.Add("-Dminecraft.launcher.brand=XCoreNET");
             jvm.Add("-Dminecraft.launcher.version=" + Application.ProductVersion);
-            jvm.Add("-Djava.library.path=" + PathJoin(DATA_FOLDER, "bin"));
+            jvm.Add("-Djava.library.path=" + PathJoin(DATA_FOLDER, "bin", gb.startupParms.appUID));
 
             if (gb.startupParms.loggerIndex != null)
                 jvm.Add("-Dlog4j.configurationFile=" + PathJoin(assetsDir, "log-configs", gb.startupParms.loggerIndex));
@@ -1452,7 +1445,9 @@ namespace XCoreNET
                 {
                     this.Invoke(new Action(() =>
                     {
+                        progressBar.Style = ProgressBarStyle.Blocks;
                         output("INFO", "關閉遊戲");
+                        Directory.Delete(PathJoin(DATA_FOLDER, "bin", gb.startupParms.appUID), true);
                         settingAllControl(true);
                         this.Activate();
                     }));
@@ -1490,6 +1485,18 @@ namespace XCoreNET
                         });
                     }
                 };
+
+                this.FormClosing += (sender, e) =>
+                {
+                    if (!proc.HasExited)
+                    {
+                        var result = MessageBox.Show("關閉啟動器會導致遊戲結束時不會自動清除暫存檔案，您確定要關閉嗎？", "說明", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                        if (result == DialogResult.No)
+                        {
+                            e.Cancel = true;
+                        }
+                    }
+                };
             }
             catch (Exception e)
             {
@@ -1523,6 +1530,15 @@ namespace XCoreNET
                             outputDebug("GAME", args.Data);
                         }));
                     }
+                }
+
+
+                if (progressBar.Style != ProgressBarStyle.Blocks)
+                {
+                    this.Invoke(new Action(() =>
+                    {
+                        progressBar.Style = ProgressBarStyle.Blocks;
+                    }));
                 }
             }
             else
@@ -1559,8 +1575,8 @@ namespace XCoreNET
                 if (result < 0)
                 {
                     MessageBox.Show("數字必須大於等於零", "警告", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    textBoxInterval.Text = "5";
-                    gb.runInterval = 5;
+                    textBoxInterval.Text = "1";
+                    gb.runInterval = 1;
                 }
                 else
                 {
@@ -1572,8 +1588,8 @@ namespace XCoreNET
             else
             {
                 MessageBox.Show("您只能輸入數字", "警告", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                textBoxInterval.Text = "5";
-                gb.runInterval = 5;
+                textBoxInterval.Text = "1";
+                gb.runInterval = 1;
                 gb.savingSession();
             }
         }
