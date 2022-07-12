@@ -749,7 +749,8 @@ namespace XCoreNET
                     JArray finalArr = new JArray();
                     foreach (var arr in tempArr)
                     {
-                        if (arr.ToString().StartsWith("--") || arr.ToString().StartsWith("${") && arr.ToString().EndsWith("}"))
+                        //if (arr.ToString().StartsWith("--") || arr.ToString().StartsWith("${") && arr.ToString().EndsWith("}"))
+                        if (arr.Type == JTokenType.String)
                             finalArr.Add(arr);
                     }
                     gb.startupParms.minecraftArguments = String.Join(" ", finalArr);
@@ -764,16 +765,23 @@ namespace XCoreNET
                 else
                 {
                     JArray tempArr = JsonConvert.DeserializeObject<JArray>(customVer["arguments"]["game"].ToString());
+                    JArray tempVanillaArr = JsonConvert.DeserializeObject<JArray>(gameNecessaryKit["arguments"]["game"].ToString());
                     JArray finalArr = new JArray();
+                    foreach (var arr in tempVanillaArr)
+                    {
+                        if (arr.Type == JTokenType.String)
+                            finalArr.Add(arr);
+                    }
+
                     foreach (var arr in tempArr)
                     {
-                        if (arr.ToString().StartsWith("--") || arr.ToString().StartsWith("${") && arr.ToString().EndsWith("}"))
+                        var repeatList = finalArr.Where(x => x.ToString().Equals(arr.ToString())).ToList();
+                        if (arr.Type == JTokenType.String && repeatList.Count == 0)
                             finalArr.Add(arr);
                     }
                     gb.startupParms.minecraftArguments = String.Join(" ", finalArr);
                 }
             }
-
 
             output("INFO", "遊戲主程式建立完成");
 
