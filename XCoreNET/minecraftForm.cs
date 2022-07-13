@@ -1641,6 +1641,8 @@ namespace XCoreNET
                     gb.savingSession();
                 }
             }
+
+            lmf.Dispose();
         }
 
         private void btnLogout_Click(object sender, EventArgs e)

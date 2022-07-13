@@ -29,6 +29,18 @@ namespace XCoreNET
                 gb.launcherHomepage = new Uri(pm.launcherURL);
                 gb.mainHomepage = new Uri(pm.mainURL);
             }
+            else
+            {
+                pm = new ProgramModel();
+                pm.launcher = true;
+                pm.noWevView = false;
+                pm.launcherURL = gb.launcherHomepage.ToString();
+                pm.mainURL = gb.mainHomepage.ToString();
+
+                var data = JsonConvert.SerializeObject(pm);
+                Directory.CreateDirectory(Path.GetFullPath(Directory.GetCurrentDirectory() + "/settings"));
+                File.WriteAllText(path, data);
+            }
 
             if (args.Length == 0)
             {
