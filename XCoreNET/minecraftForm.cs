@@ -1000,7 +1000,9 @@ namespace XCoreNET
                             xlm.name = "default";
 
                             string url = item["downloads"]["artifact"]["url"].ToString();
-                            downloadList.Add(url, xlm);
+
+                            if (!downloadList.ContainsKey(url))
+                                downloadList.Add(url, xlm);
                         }
                         else
                         {
@@ -1022,12 +1024,14 @@ namespace XCoreNET
                                     xlm.name = "default";
 
                                     var hash = $"custom-{gb.SHA1(cPath)}";
-                                    downloadList.Add(hash, xlm);
+
+                                    if(!downloadList.ContainsKey(hash))
+                                        downloadList.Add(hash, xlm);
 
                                     output("INFO", $"取得必要元件索引(自訂客戶端): {xlm.path}");
                                 }
                             }
-                            else if (item["url"] != null)
+                            else
                             {
                                 string url = "https://repo1.maven.org/maven2/" + cDir;
                                 string[] dirArr = cDir.Split('/');
@@ -1041,7 +1045,8 @@ namespace XCoreNET
                                 xlm.type = 0;
                                 xlm.name = "default";
 
-                                downloadList.Add(url, xlm);
+                                if (!downloadList.ContainsKey(url))
+                                    downloadList.Add(url, xlm);
 
                                 output("INFO", $"取得必要元件索引(自訂客戶端): {xlm.path}");
                             }
@@ -1107,6 +1112,9 @@ namespace XCoreNET
 
                         if (gb.CompareVersionStrings(nowVer, compareVer) > 0)
                         {
+                            insideModel.version = version;
+                            insideModel.dir = cPath;
+
                             nativesList.Remove(className);
                             nativesList.Add(className, insideModel);
                         }
@@ -1137,6 +1145,9 @@ namespace XCoreNET
                         var compareVer = insideModel.version;
                         if (gb.CompareVersionStrings(nowVer, compareVer) > 0)
                         {
+                            insideModel.version = version;
+                            insideModel.dir = cPath;
+
                             librariesList.Remove(className);
                             librariesList.Add(className, insideModel);
                         }
@@ -1339,7 +1350,10 @@ namespace XCoreNET
             var cDir = PathJoin(DATA_FOLDER, "versions", gb.startupParms.version, gb.startupParms.version + ".jar");
             if (customVer != null && !File.Exists(cDir))
             {
-                cDir = PathJoin(DATA_FOLDER, "versions", customVer["jar"].ToString(), customVer["jar"].ToString() + ".jar");
+                if(customVer["jar"] != null)
+                    cDir = PathJoin(DATA_FOLDER, "versions", customVer["jar"].ToString(), customVer["jar"].ToString() + ".jar");
+                else
+                    cDir = PathJoin(DATA_FOLDER, "versions", customVer["inheritsFrom"].ToString(), customVer["inheritsFrom"].ToString() + ".jar");
             }
 
             var librariesPath = new List<string>();
@@ -1424,8 +1438,7 @@ namespace XCoreNET
             var classPath = new string[]
             {
                 "-cp",
-                jarPath,
-                gb.startupParms.main
+                jarPath
             };
 
             string javaPath = PathJoin(DATA_FOLDER, "runtimes", gb.startupParms.javaRuntime, "bin", "java.exe");
@@ -1433,6 +1446,37 @@ namespace XCoreNET
 
             startupParms += String.Join(" ", jvm) + " ";
             startupParms += String.Join(" ", classPath) + " ";
+
+
+            if (customVer != null && customVer["arguments"] != null && customVer["arguments"]["jvm"] != null)
+            {
+                List<string> cJvmList = new List<string>();
+                JObject replaceOptionsCustom = new JObject();
+                JArray customJvm = (JArray)customVer["arguments"]["jvm"];
+                replaceOptionsCustom.Add("${version_name}", customVer["inheritsFrom"].ToString());
+                replaceOptionsCustom.Add("${library_directory}", PathJoin(DATA_FOLDER, "libraries"));
+                replaceOptionsCustom.Add("${classpath_separator}", ";");
+
+                foreach (var jvmArr in customJvm)
+                {
+                    string cJvm = jvmArr.ToString();
+                    foreach (var rp in replaceOptionsCustom)
+                    {
+                        StringBuilder cBuilder = new StringBuilder(cJvm);
+                        cBuilder.Replace(rp.Key, rp.Value.ToString());
+                        cJvm = cBuilder.ToString();
+                    }
+
+
+                    cJvmList.Add(cJvm);
+                }
+
+
+                startupParms += String.Join(" ", cJvmList) + " ";
+            }
+
+
+            startupParms += gb.startupParms.main + " ";
             startupParms += builder.ToString();
 
             ProcessStartInfo startInfo = new ProcessStartInfo();
