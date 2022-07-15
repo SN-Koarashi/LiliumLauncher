@@ -31,6 +31,8 @@ namespace XCoreNET.Tasks
                 WebClient client = new WebClient();
                 var bytes = await client.DownloadDataTaskAsync(new Uri(url));
                 File.WriteAllBytes(filepath, bytes);
+
+                client.Dispose();
             }
             catch (Exception exx)
             {

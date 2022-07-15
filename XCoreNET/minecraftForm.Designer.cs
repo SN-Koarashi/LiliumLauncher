@@ -388,7 +388,7 @@
             this.textBoxInterval.Name = "textBoxInterval";
             this.textBoxInterval.Size = new System.Drawing.Size(65, 25);
             this.textBoxInterval.TabIndex = 0;
-            this.textBoxInterval.Text = "5";
+            this.textBoxInterval.Text = "1";
             this.textBoxInterval.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.toolTip.SetToolTip(this.textBoxInterval, "程式執行下載與檢查檔案時的間隔，過短的間隔可能導致渲染出現延遲");
             this.textBoxInterval.Click += new System.EventHandler(this.textBoxInterval_Click);

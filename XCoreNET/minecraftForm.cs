@@ -99,6 +99,9 @@ namespace XCoreNET
             textBoxAD.Text = APPDATA_PATH;
             textBoxMain.Text = MAIN_PATH;
             textBoxInterval.Text = gb.runInterval.ToString();
+            toolTip.SetToolTip(textBoxAD, APPDATA_PATH);
+            toolTip.SetToolTip(textBoxMain, MAIN_PATH);
+
 
             if (gb.isMainFolder == true)
                 radBtnMain.Checked = true;
@@ -275,9 +278,19 @@ namespace XCoreNET
 
             versionList.DropDownWidth = (DropDownWidth(versionList) + 25 > 300) ? 300 : DropDownWidth(versionList) + 25;
 
-            versionList.SelectedIndex = (gb.lastSelectedVersionIndex > versionList.Items.Count - 1) ? versionList.Items.Count - 1 : gb.lastSelectedVersionIndex;
-            if (versionList.Items.Count > 0)
+            foreach (var item in versionList.Items)
+            {
+                if (item.ToString().Equals(gb.lastVersionID))
+                    versionList.SelectedItem = item;
+            }
+
+            if (versionList.Items.Count > 0 && versionList.SelectedItem != null)
                 textVersionSelected.Text = versionList.SelectedItem.ToString();
+            else if (versionList.SelectedItem == null && versionList.Items.Count > 0)
+            {
+                textVersionSelected.Text = versionList.Items[0].ToString();
+                versionList.SelectedIndex = 0;
+            }
 
             groupBoxVersion.Enabled = true;
         }
@@ -656,8 +669,8 @@ namespace XCoreNET
 
             gb.resetStartupParms();
 
+            gb.lastVersionID = versionList.SelectedItem.ToString();
 
-            gb.lastSelectedVersionIndex = versionList.SelectedIndex;
             string selectVersion = versionList.Items[versionList.SelectedIndex].ToString();
             string verURL;
 

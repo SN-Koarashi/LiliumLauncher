@@ -25,7 +25,7 @@ namespace Global
         public static long launchTokenExpiresAt = 0;
         public static string minecraftUUID = "";
         public static string minecraftUsername = "";
-        public static int lastSelectedVersionIndex = 0;
+        public static string lastVersionID = "";
         public static Point windowSize = new Point(480, 360);
         public static int runInterval = 1;
         public static Uri mainHomepage = new Uri("https://www.snkms.com/chat/webchat2/");
@@ -101,7 +101,7 @@ namespace Global
                 },
                 refreshToken = refreshToken,
                 isMainFolder = isMainFolder,
-                lastSelectedVersionIndex = lastSelectedVersionIndex,
+                lastVersionID = lastVersionID,
                 windowSize = $"{windowSize.X},{windowSize.Y}",
                 runInterval = runInterval
             };
@@ -127,7 +127,7 @@ namespace Global
                 verOptRelease = GetValueOrDefault<string, object, bool>(result.versionOptions, "release", verOptRelease);
                 verOptSnapshot = GetValueOrDefault<string, object, bool>(result.versionOptions, "snapshot", verOptSnapshot);
 
-                lastSelectedVersionIndex = result.lastSelectedVersionIndex;
+                lastVersionID = result.lastVersionID;
                 runInterval = (result.runInterval > 0) ? result.runInterval : 1;
 
                 if (result.windowSize != null) windowSize = new Point(int.Parse(result.windowSize.Split(',')[0]), int.Parse(result.windowSize.Split(',')[1]));
@@ -269,7 +269,7 @@ namespace Global
             public Dictionary<string, object> versionOptions { get; set; }
             public string refreshToken { get; set; }
             public bool isMainFolder { get; set; }
-            public int lastSelectedVersionIndex { get; set; }
+            public string lastVersionID { get; set; }
             public string windowSize { get; set; }
             public int runInterval { get; set; }
         }
