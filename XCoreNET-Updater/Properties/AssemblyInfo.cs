@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 // 變更這些屬性的值即可修改組件的相關
 // 資訊。
 [assembly: AssemblyTitle("XCoreNET Updater")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("XCoreNET 自我更新程式")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("天夜之心")]
 [assembly: AssemblyProduct("XCoreNET Updater")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // 下列 GUID 為專案公開 (Expose) 至 COM 時所要使用的 typelib ID
-[assembly: Guid("8e9867fd-8536-47d4-8880-97b4c5023c60")]
+[assembly: Guid("818c88c4-5c95-478e-b958-b96a53a53684")]
 
 // 組件的版本資訊由下列四個值所組成:
 //

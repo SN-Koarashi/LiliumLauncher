@@ -15,8 +15,6 @@ namespace xcorenet_updater
         static void Main(string[] args)
         {
             Console.WriteLine("載入自我更新程式...");
-            
-
             getVersion().Wait();
         }
         static async Task getVersion() {

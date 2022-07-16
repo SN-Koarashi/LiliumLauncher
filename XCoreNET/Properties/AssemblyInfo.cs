@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 // 變更這些屬性的值即可修改組件的相關
 // 資訊。
 [assembly: AssemblyTitle("XCoreNET")]
-[assembly: AssemblyDescription("使用 WebView 框架的可執行檔")]
+[assembly: AssemblyDescription("輕量化的解決方案")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("天夜之心")]
 [assembly: AssemblyProduct("XCoreNET")]
@@ -19,7 +19,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // 下列 GUID 為專案公開 (Expose) 至 COM 時所要使用的 typelib ID
-[assembly: Guid("4ee50df4-db9d-46dd-b547-1b8e124fb0ba")]
+[assembly: Guid("2356b4f6-9392-4e35-bfa8-70d609290c6e")]
 
 // 組件的版本資訊由下列四個值所組成: 
 //
@@ -31,5 +31,5 @@ using System.Runtime.InteropServices;
 // 您可以指定所有的值，也可以使用 '*' 將組建和修訂編號
 // 設為預設，如下所示:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("1.4.23")]
-[assembly: AssemblyFileVersion("1.4.23")]
+[assembly: AssemblyVersion("1.4.24")]
+[assembly: AssemblyFileVersion("1.4.24")]

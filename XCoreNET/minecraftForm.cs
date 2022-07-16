@@ -1026,7 +1026,7 @@ namespace XCoreNET
 
                                     var hash = $"custom-{gb.SHA1(cPath)}";
 
-                                    if(!downloadList.ContainsKey(hash))
+                                    if (!downloadList.ContainsKey(hash))
                                         downloadList.Add(hash, xlm);
 
                                     output("INFO", $"取得必要元件索引(自訂客戶端): {xlm.path}");
@@ -1351,7 +1351,7 @@ namespace XCoreNET
             var cDir = PathJoin(DATA_FOLDER, "versions", gb.startupParms.version, gb.startupParms.version + ".jar");
             if (customVer != null && !File.Exists(cDir))
             {
-                if(customVer["jar"] != null)
+                if (customVer["jar"] != null)
                     cDir = PathJoin(DATA_FOLDER, "versions", customVer["jar"].ToString(), customVer["jar"].ToString() + ".jar");
                 else
                     cDir = PathJoin(DATA_FOLDER, "versions", customVer["inheritsFrom"].ToString(), customVer["inheritsFrom"].ToString() + ".jar");
