@@ -683,7 +683,17 @@ namespace XCoreNET
             }
             else
             {
+                // 非原版客戶端區塊
+
                 var dir = PathJoin(DATA_FOLDER, "versions", selectVersion, $"{selectVersion}.json");
+                if (!File.Exists(dir))
+                {
+                    MessageBox.Show($"找不到客戶端版本資訊檔: {selectVersion}.json", "錯誤", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    output("ERROR", $"找不到客戶端版本資訊檔: {selectVersion}.json");
+                    settingAllControl(true);
+                    return;
+                }
+
                 var data = File.ReadAllText(dir);
                 JObject obj = JsonConvert.DeserializeObject<JObject>(data);
 
@@ -692,13 +702,56 @@ namespace XCoreNET
                 {
 
                 }
-                else
+                else if (obj["jar"] != null)
                 {
                     verURL = releaseList[obj["jar"].ToString()];
                 }
 
-                customVer = obj;
-                onCreateIndexes(selectVersion, verURL);
+                if (verURL != null && verURL.Length > 0)
+                {
+                    customVer = obj;
+                    onCreateIndexes(selectVersion, verURL);
+                }
+                else
+                {
+                    string vanillaVersion = "";
+                    var vanillaInfo = (obj["inheritsFrom"] != null) ? obj["inheritsFrom"] : obj["jar"];
+                    if (vanillaInfo != null)
+                    {
+                        vanillaVersion = vanillaInfo.ToString();
+                    }
+                    MessageBox.Show($"找不到原生客戶端版本 {vanillaVersion}", "警告", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+
+                    if (vanillaVersion.Length > 0)
+                    {
+                        var result = MessageBox.Show($"是否要現在安裝原生 {vanillaVersion} 客戶端？", "說明", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                        if (result == DialogResult.Yes)
+                        {
+                            foreach (JObject item in version_manifest_v2)
+                            {
+                                if (item["id"].ToString().Equals(vanillaVersion))
+                                {
+                                    if (!releaseList.ContainsKey(item["id"].ToString()))
+                                        releaseList.Add(item["id"].ToString(), item["url"].ToString());
+
+                                    versionList.Items.Add(item["id"].ToString());
+                                    break;
+                                }
+                            }
+
+                            versionList.SelectedIndex = versionList.Items.Count - 1;
+                            textVersionSelected.Text = versionList.SelectedItem.ToString();
+
+                            checkFile = true;
+                            onVersionInfo();
+                            settingAllControl(false);
+                        }
+                        else
+                            settingAllControl(true);
+                    }
+                    else
+                        settingAllControl(true);
+                }
             }
         }
 
@@ -772,6 +825,15 @@ namespace XCoreNET
             }
             else
             {
+                // 非原版客戶端區塊
+
+                var dir_jar = PathJoin(DATA_FOLDER, "versions", version, $"{version}.jar");
+                if (File.Exists(dir_jar) && new FileInfo(dir_jar).Length == 0)
+                {
+                    output("INFO", "正在下載遊戲主程式");
+                    await launcher.downloadResource(clientURL, dir_jar);
+                }
+
                 if ((customVer["minecraftArguments"] != null))
                 {
                     gb.startupParms.minecraftArguments = customVer["minecraftArguments"].ToString();
@@ -805,6 +867,7 @@ namespace XCoreNET
             INSTALLED_PATH = PathJoin(DATA_FOLDER, "versions", version, "installed.");
 
 
+            // 舊版本沒有使用 log4j
             if (gameNecessaryKit["logging"] != null)
                 onCreateLogger(gameNecessaryKit["logging"]["client"]["file"]["url"].ToString(), gameNecessaryKit["logging"]["client"]["file"]["id"].ToString());
 
@@ -1294,11 +1357,6 @@ namespace XCoreNET
                 }
 
                 index--;
-
-                if (index == 0)
-                {
-                    Directory.Delete(PathJoin(dir, "META-INF"), true);
-                }
             }
 
 
@@ -1307,6 +1365,7 @@ namespace XCoreNET
 
         private void preVersionSupport()
         {
+            // 舊版本(pre-1.6)會因為語言選項的大小寫問題導致遊戲崩潰
             output("INFO", "正在相容舊版本");
             CultureInfo ci = CultureInfo.CurrentUICulture;
             string lang = ci.Name;
@@ -1351,6 +1410,7 @@ namespace XCoreNET
             var cDir = PathJoin(DATA_FOLDER, "versions", gb.startupParms.version, gb.startupParms.version + ".jar");
             if (customVer != null && !File.Exists(cDir))
             {
+                // 非原版客戶端時，試圖尋找原版客戶端資訊
                 if (customVer["jar"] != null)
                     cDir = PathJoin(DATA_FOLDER, "versions", customVer["jar"].ToString(), customVer["jar"].ToString() + ".jar");
                 else
@@ -1359,6 +1419,8 @@ namespace XCoreNET
 
             var librariesPath = new List<string>();
 
+
+            // 將版本資訊寫入 launcher_profiles 目的是為了相容模組安裝程式的判斷式
             var hash = gb.SHA1(File.ReadAllBytes(cDir));
             var profiles_path = PathJoin(DATA_FOLDER, "launcher_profiles.json");
 
@@ -1449,6 +1511,7 @@ namespace XCoreNET
             startupParms += String.Join(" ", classPath) + " ";
 
 
+            // 非原版客戶端的JVM啟動參數，附加於主要類別載入之前、ClassPath 之後
             if (customVer != null && customVer["arguments"] != null && customVer["arguments"]["jvm"] != null)
             {
                 List<string> cJvmList = new List<string>();
@@ -1468,8 +1531,10 @@ namespace XCoreNET
                         cJvm = cBuilder.ToString();
                     }
 
-
-                    cJvmList.Add(cJvm);
+                    if (cJvm.Split('=')[1].StartsWith(" ") && cJvm.EndsWith(" "))
+                        cJvmList.Add('"' + cJvm + '"');
+                    else
+                        cJvmList.Add(cJvm);
                 }
 
 
@@ -1527,7 +1592,7 @@ namespace XCoreNET
                 proc.OutputDataReceived += OutputDataReceivedHandler;
 
 
-
+                // 舊版本(pre-1.6)會在遊戲關閉時依附於啟動器之下，導致無法完全關閉，此時需要強制結束處理程序
                 proc.OutputDataReceived += (sender, args) =>
                 {
                     if (args.Data == null) return;
@@ -1551,6 +1616,7 @@ namespace XCoreNET
                         });
                     }
                 };
+
 
                 this.FormClosing += (sender, e) =>
                 {

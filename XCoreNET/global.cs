@@ -128,7 +128,7 @@ namespace Global
                 verOptSnapshot = GetValueOrDefault<string, object, bool>(result.versionOptions, "snapshot", verOptSnapshot);
 
                 lastVersionID = result.lastVersionID;
-                runInterval = (result.runInterval > 0) ? result.runInterval : 1;
+                runInterval = (result.runInterval >= 0) ? result.runInterval : 1;
 
                 if (result.windowSize != null) windowSize = new Point(int.Parse(result.windowSize.Split(',')[0]), int.Parse(result.windowSize.Split(',')[1]));
 
