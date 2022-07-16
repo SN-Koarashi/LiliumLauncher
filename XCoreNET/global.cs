@@ -8,6 +8,7 @@ using System.IO;
 using System.Net.Http;
 using System.Security.Cryptography;
 using System.Text;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Global
@@ -202,7 +203,7 @@ namespace Global
             var compareResult = versionRemote.CompareTo(versionLocal);
             if (compareResult > 0)
             {
-                var resultUpdate = MessageBox.Show("偵測到更新的應用程式版本，是否執行更新？", "說明", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                var resultUpdate = MessageBox.Show("有新的應用程式版本可用，是否執行更新？", "說明", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
                 if (resultUpdate == DialogResult.Yes)
                 {
                     var p = new Process();
@@ -216,9 +217,12 @@ namespace Global
                 if (!firstStart)
                 {
                     firstStart = true;
-                    string tempFile = UpdaterPath + Path.DirectorySeparatorChar + "XCoreNET-installer-temp.exe";
-                    if (File.Exists(tempFile))
-                        File.Delete(tempFile);
+                    string tempFileInstaller = UpdaterPath + Path.DirectorySeparatorChar + "XCoreNET-installer-temp.exe";
+                    string tempFilePatcher = UpdaterPath + Path.DirectorySeparatorChar + "patcher.bat";
+                    if (File.Exists(tempFileInstaller))
+                        File.Delete(tempFileInstaller);
+                    if (File.Exists(tempFilePatcher))
+                        File.Delete(tempFilePatcher);
                 }
                 else
                     MessageBox.Show("應用程式已為最新版本", "說明", MessageBoxButtons.OK, MessageBoxIcon.Information);

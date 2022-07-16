@@ -631,6 +631,7 @@ namespace XCoreNET
             groupBoxVersion.Enabled = isEnabled;
             groupBoxDataFolder.Enabled = isEnabled;
             groupBoxInterval.Enabled = isEnabled;
+            groupBoxVersionReload.Enabled = isEnabled;
 
             if (isEnabled)
             {
@@ -1010,7 +1011,7 @@ namespace XCoreNET
                             var lastName = item["name"].ToString().Split(':').Skip(1).ToArray();
                             var cDir = firstName + "/" + String.Join("/", lastName);
 
-                            if (Directory.Exists(PathJoin(DATA_FOLDER, "libraries", cDir)))
+                            if (Directory.Exists(PathJoin(DATA_FOLDER, "libraries", cDir)) && Directory.GetFiles(PathJoin(DATA_FOLDER, "libraries", cDir)).Count() > 0)
                             {
                                 var cPathes = Directory.GetFiles(PathJoin(DATA_FOLDER, "libraries", cDir));
 
@@ -1618,20 +1619,6 @@ namespace XCoreNET
             return Path.GetFullPath(String.Join(Path.DirectorySeparatorChar.ToString(), result));
         }
 
-        private void btnBig_Click(object sender, EventArgs e)
-        {
-            this.Width = this.MaximumSize.Width;
-            this.Height = this.MaximumSize.Height;
-            this.CenterToScreen();
-        }
-
-        private void btnSmall_Click(object sender, EventArgs e)
-        {
-            this.Width = this.MinimumSize.Width;
-            this.Height = this.MinimumSize.Height;
-            this.CenterToScreen();
-        }
-
         private void textBoxInterval_KeyUp(object sender, KeyEventArgs e)
         {
             int result;
@@ -1766,6 +1753,11 @@ namespace XCoreNET
         private void textBoxInterval_Click(object sender, EventArgs e)
         {
             textBoxInterval.SelectAll();
+        }
+
+        private void buttonVerReload_Click(object sender, EventArgs e)
+        {
+            onGetAllVersion();
         }
     }
 }

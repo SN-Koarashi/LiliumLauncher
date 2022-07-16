@@ -56,9 +56,6 @@
             this.btnMainSetting = new System.Windows.Forms.Button();
             this.groupBoxInterval = new System.Windows.Forms.GroupBox();
             this.textBoxInterval = new System.Windows.Forms.TextBox();
-            this.groupBoxWindow = new System.Windows.Forms.GroupBox();
-            this.btnSmall = new System.Windows.Forms.Button();
-            this.btnBig = new System.Windows.Forms.Button();
             this.panelSettingsTop = new System.Windows.Forms.Panel();
             this.groupBoxDataFolder = new System.Windows.Forms.GroupBox();
             this.panelSettingsLeft = new System.Windows.Forms.Panel();
@@ -74,6 +71,8 @@
             this.debugPage = new System.Windows.Forms.TabPage();
             this.textBox = new System.Windows.Forms.TextBox();
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
+            this.groupBoxVersionReload = new System.Windows.Forms.GroupBox();
+            this.buttonVerReload = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.mainPage.SuspendLayout();
             this.panelBody.SuspendLayout();
@@ -86,7 +85,6 @@
             this.groupBoxAccount.SuspendLayout();
             this.groupBoxMainProg.SuspendLayout();
             this.groupBoxInterval.SuspendLayout();
-            this.groupBoxWindow.SuspendLayout();
             this.panelSettingsTop.SuspendLayout();
             this.groupBoxDataFolder.SuspendLayout();
             this.panelSettingsLeft.SuspendLayout();
@@ -94,6 +92,7 @@
             this.panelSettingsInsideLeft.SuspendLayout();
             this.panelSettingsRight.SuspendLayout();
             this.debugPage.SuspendLayout();
+            this.groupBoxVersionReload.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -251,11 +250,11 @@
             // settingPage
             // 
             this.settingPage.BackColor = System.Drawing.SystemColors.Control;
+            this.settingPage.Controls.Add(this.groupBoxVersionReload);
             this.settingPage.Controls.Add(this.groupBoxVersion);
             this.settingPage.Controls.Add(this.groupBoxAccount);
             this.settingPage.Controls.Add(this.groupBoxMainProg);
             this.settingPage.Controls.Add(this.groupBoxInterval);
-            this.settingPage.Controls.Add(this.groupBoxWindow);
             this.settingPage.Controls.Add(this.panelSettingsTop);
             this.settingPage.Location = new System.Drawing.Point(4, 26);
             this.settingPage.Name = "settingPage";
@@ -393,37 +392,6 @@
             this.toolTip.SetToolTip(this.textBoxInterval, "程式執行下載與檢查檔案時的間隔，過短的間隔可能導致渲染出現延遲");
             this.textBoxInterval.Click += new System.EventHandler(this.textBoxInterval_Click);
             this.textBoxInterval.KeyUp += new System.Windows.Forms.KeyEventHandler(this.textBoxInterval_KeyUp);
-            // 
-            // groupBoxWindow
-            // 
-            this.groupBoxWindow.Controls.Add(this.btnSmall);
-            this.groupBoxWindow.Controls.Add(this.btnBig);
-            this.groupBoxWindow.Location = new System.Drawing.Point(353, 106);
-            this.groupBoxWindow.Name = "groupBoxWindow";
-            this.groupBoxWindow.Size = new System.Drawing.Size(100, 85);
-            this.groupBoxWindow.TabIndex = 2;
-            this.groupBoxWindow.TabStop = false;
-            this.groupBoxWindow.Text = "視窗顯示";
-            // 
-            // btnSmall
-            // 
-            this.btnSmall.Location = new System.Drawing.Point(7, 49);
-            this.btnSmall.Name = "btnSmall";
-            this.btnSmall.Size = new System.Drawing.Size(88, 29);
-            this.btnSmall.TabIndex = 1;
-            this.btnSmall.Text = "較小";
-            this.btnSmall.UseVisualStyleBackColor = true;
-            this.btnSmall.Click += new System.EventHandler(this.btnSmall_Click);
-            // 
-            // btnBig
-            // 
-            this.btnBig.Location = new System.Drawing.Point(7, 17);
-            this.btnBig.Name = "btnBig";
-            this.btnBig.Size = new System.Drawing.Size(88, 29);
-            this.btnBig.TabIndex = 0;
-            this.btnBig.Text = "較大";
-            this.btnBig.UseVisualStyleBackColor = true;
-            this.btnBig.Click += new System.EventHandler(this.btnBig_Click);
             // 
             // panelSettingsTop
             // 
@@ -576,6 +544,26 @@
             this.textBox.Size = new System.Drawing.Size(450, 285);
             this.textBox.TabIndex = 0;
             // 
+            // groupBoxVersionReload
+            // 
+            this.groupBoxVersionReload.Controls.Add(this.buttonVerReload);
+            this.groupBoxVersionReload.Location = new System.Drawing.Point(355, 106);
+            this.groupBoxVersionReload.Name = "groupBoxVersionReload";
+            this.groupBoxVersionReload.Size = new System.Drawing.Size(98, 85);
+            this.groupBoxVersionReload.TabIndex = 9;
+            this.groupBoxVersionReload.TabStop = false;
+            this.groupBoxVersionReload.Text = "版本資料";
+            // 
+            // buttonVerReload
+            // 
+            this.buttonVerReload.Location = new System.Drawing.Point(6, 21);
+            this.buttonVerReload.Name = "buttonVerReload";
+            this.buttonVerReload.Size = new System.Drawing.Size(86, 28);
+            this.buttonVerReload.TabIndex = 0;
+            this.buttonVerReload.Text = "重新載入";
+            this.buttonVerReload.UseVisualStyleBackColor = true;
+            this.buttonVerReload.Click += new System.EventHandler(this.buttonVerReload_Click);
+            // 
             // minecraftForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -609,7 +597,6 @@
             this.groupBoxMainProg.ResumeLayout(false);
             this.groupBoxInterval.ResumeLayout(false);
             this.groupBoxInterval.PerformLayout();
-            this.groupBoxWindow.ResumeLayout(false);
             this.panelSettingsTop.ResumeLayout(false);
             this.groupBoxDataFolder.ResumeLayout(false);
             this.panelSettingsLeft.ResumeLayout(false);
@@ -620,6 +607,7 @@
             this.panelSettingsRight.ResumeLayout(false);
             this.debugPage.ResumeLayout(false);
             this.debugPage.PerformLayout();
+            this.groupBoxVersionReload.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -653,9 +641,6 @@
         private System.Windows.Forms.Panel panelSettingsInsideLeft;
         private System.Windows.Forms.Button btnVerifyFile;
         private System.Windows.Forms.ComboBox versionList;
-        private System.Windows.Forms.GroupBox groupBoxWindow;
-        private System.Windows.Forms.Button btnSmall;
-        private System.Windows.Forms.Button btnBig;
         private System.Windows.Forms.GroupBox groupBoxInterval;
         private System.Windows.Forms.TextBox textBoxInterval;
         private System.Windows.Forms.ToolTip toolTip;
@@ -670,5 +655,7 @@
         private System.Windows.Forms.CheckBox chkBoxRelease;
         private System.Windows.Forms.CheckBox chkBoxSnapshot;
         private System.Windows.Forms.Button btnLogoutAll;
+        private System.Windows.Forms.GroupBox groupBoxVersionReload;
+        private System.Windows.Forms.Button buttonVerReload;
     }
 }

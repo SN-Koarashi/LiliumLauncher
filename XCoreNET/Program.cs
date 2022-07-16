@@ -22,7 +22,7 @@ namespace XCoreNET
             Application.SetCompatibleTextRenderingDefault(false);
             ProgramModel pm = null;
 
-            string path = Path.GetFullPath(Directory.GetCurrentDirectory() + "/settings/programs_settings.json");
+            string path = Path.GetFullPath(AppDomain.CurrentDomain.BaseDirectory + "/settings/programs_settings.json");
             if (File.Exists(path))
             {
                 var data = File.ReadAllText(path);

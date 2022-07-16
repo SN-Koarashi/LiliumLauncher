@@ -38,7 +38,7 @@ namespace xcorenet_updater
 
                 var result = await httpClient.SendAsync(request);
                 string latestURL = result.Headers.Location.AbsoluteUri;
-                string UpdaterPath = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
+                string UpdaterPath = Path.GetDirectoryName(AppDomain.CurrentDomain.BaseDirectory);
 
                 var versionInfo = FileVersionInfo.GetVersionInfo(@UpdaterPath + Path.DirectorySeparatorChar + "XCoreNET.exe");
                 Version versionLocal = new Version(versionInfo.ProductVersion);
@@ -61,17 +61,15 @@ namespace xcorenet_updater
                     }
 
                     Console.WriteLine($"下載完成，準備安裝...");
-                    var p = new Process();
-                    p.StartInfo.FileName = UpdaterPath + Path.DirectorySeparatorChar + "XCoreNET-installer-temp.exe";  // just for example, you can use yours.
-                    p.StartInfo.Arguments = $"-d{UpdaterPath} -s1";
-                    p.Start();
+                    List<string> cmdLine = new List<string>();
+                    cmdLine.Add("@echo off");
+                    cmdLine.Add($"CD {UpdaterPath}");
+                    cmdLine.Add($"start /wait XCoreNET-installer-temp.exe /S /D={UpdaterPath}");
+                    cmdLine.Add("start XCoreNET.exe");
+                    File.WriteAllLines(Path.GetFullPath(UpdaterPath + "/patcher.bat"), cmdLine);
+
+                    System.Diagnostics.Process.Start("patcher.bat");
                     Environment.Exit(0);
-                    /*
-                    p.WaitForExit();
-                    Console.WriteLine($"安裝完成，準備清除安裝程式...");
-                    File.Delete(UpdaterPath + Path.DirectorySeparatorChar + "webchat-installer-temp.exe");
-                    Console.WriteLine($"清除完畢");
-                    */
                 }
 
             }
