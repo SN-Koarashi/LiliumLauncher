@@ -3,7 +3,7 @@
 - 具有自我更新功能
 - 網路聊天室採用 WebSocket
 - 由於是遠端載入，因此聊天室的功能更新並不需要更新應用程式本身
-- Minecraft 啟動器功能(可安裝 Forge、OptiFine、LiteLoader)，最高支援到最新快照版本，最低支援到1.0版本
+- Minecraft 啟動器功能(可安裝 Forge、Fabric、OptiFine、LiteLoader)，最高支援到最新快照版本，最低支援到1.0版本
 
 [更新過程預覽](https://youtu.be/Qi6jolpD43w)
 
