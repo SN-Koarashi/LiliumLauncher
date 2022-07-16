@@ -11,6 +11,7 @@ using System.IO.Compression;
 using System.Linq;
 using System.Net.Http;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using XCoreNET.Tasks;
@@ -1531,7 +1532,7 @@ namespace XCoreNET
                         cJvm = cBuilder.ToString();
                     }
 
-                    if (cJvm.Split('=')[1].StartsWith(" ") && cJvm.EndsWith(" "))
+                    if (cJvm.Split('=').Length > 1 && cJvm.Split('=')[1].StartsWith(" ") && cJvm.EndsWith(" "))
                         cJvmList.Add('"' + cJvm + '"');
                     else
                         cJvmList.Add(cJvm);
@@ -1643,27 +1644,21 @@ namespace XCoreNET
                 var data = args.Data.Trim();
                 if (data == null || data.Length == 0) return;
 
-                if (data.StartsWith("<log4j:Message><![CDATA[") && data.EndsWith("]]></log4j:Message>"))
-                {
-                    data = data.TrimStart("<log4j:Message><![CDATA[").TrimEnd("]]></log4j:Message>");
+                data = Regex.Replace(data, @"<log4j:(.*?)>(.*?)", "$2");
+                data = Regex.Replace(data, @"(.*?)</log4j:(.*?)>", "$1");
+                data = Regex.Replace(data, @"<!\[CDATA\[(.*?)\]\]>", "$1");
 
+                if (!data.StartsWith("[CHAT]")) {
+                    data = Regex.Replace(data, @"<!\[CDATA\[(.*?)", "$1");
+                    data = Regex.Replace(data, @"(.*?)\]\]>", "$1");
+                }
+
+                if (data != null && data.Length > 0 && !data.Contains(gb.startupParms.accessToken)) {
                     this.Invoke(new Action(() =>
                     {
-                        if (!data.Contains(gb.startupParms.accessToken))
-                            outputDebug("GAME", data);
+                        outputDebug("GAME", data);
                     }));
                 }
-                else
-                {
-                    if (!data.EndsWith("</log4j:Event>") && !data.StartsWith("<log4j:Event"))
-                    {
-                        this.Invoke(new Action(() =>
-                        {
-                            outputDebug("GAME", args.Data);
-                        }));
-                    }
-                }
-
 
                 if (progressBar.Style != ProgressBarStyle.Blocks)
                 {
