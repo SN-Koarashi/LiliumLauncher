@@ -14,6 +14,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using XCoreNET.Properties;
 using XCoreNET.Tasks;
 using static XCoreNET.Tasks.launcherTask;
 
@@ -41,6 +42,8 @@ namespace XCoreNET
         launcherTask launcher;
         JObject customVer;
         JArray version_manifest_v2;
+
+        private NotifyIcon trayIcon;
 
         private class DownloadListModel
         {
@@ -115,6 +118,61 @@ namespace XCoreNET
             firstStartForm = true;
             this.Width = gb.windowSize.X;
             this.Height = gb.windowSize.Y;
+
+
+            trayIcon = new NotifyIcon()
+            {
+                Icon = Resources.logo,
+                //ContextMenu = new ContextMenu(),
+                ContextMenuStrip = new ContextMenuStrip(),
+                Visible = false
+            };
+            trayIcon.MouseClick += (sender, e) =>
+            {
+                if (e.Button == MouseButtons.Left)
+                {
+                    this.ShowInTaskbar = true;
+                    this.WindowState = FormWindowState.Normal;
+                    this.Activate();
+                }
+            };
+
+            /*
+            var menuItemIcon = new MenuItem("XCoreNET");
+            var menuItemExit = new MenuItem("關閉程式", Exit);
+            menuItemIcon.Enabled = false;
+
+            trayIcon.ContextMenu.MenuItems.Add(menuItemIcon);
+            trayIcon.ContextMenu.MenuItems.Add("-");
+            trayIcon.ContextMenu.MenuItems.Add(menuItemExit);*/
+
+            var menuItemIcon = new ToolStripMenuItem("XCoreNET", Resources.logo.ToBitmap());
+            menuItemIcon.Image = Resources.logo.ToBitmap();
+            menuItemIcon.ToolTipText = "Minecraft Launcher";
+            menuItemIcon.Click += (sender, e) =>
+            {
+                MessageBox.Show("Minecraft Launcher\n您輕量化的解決方案", "XCoreNET", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            };
+
+            var menuItemKill = new ToolStripMenuItem("關閉遊戲");
+            menuItemKill.Enabled = false;
+
+            var menuItemExit = new ToolStripMenuItem("關閉程式");
+            menuItemExit.Click += (sender, e) =>
+            {
+                this.Close();
+            };
+
+            trayIcon.ContextMenuStrip.Items.Add(menuItemIcon);
+            trayIcon.ContextMenuStrip.Items.Add(new ToolStripSeparator());
+            trayIcon.ContextMenuStrip.Items.Add(menuItemKill);
+            trayIcon.ContextMenuStrip.Items.Add(menuItemExit);
+
+        }
+
+        void Exit(object sender, EventArgs e)
+        {
+            this.Close();
         }
 
         private void initializeMain(string[] args)
@@ -171,6 +229,7 @@ namespace XCoreNET
 
         private void onStarter()
         {
+            this.WindowState = FormWindowState.Normal;
             this.Activate();
             if (!gb.firstStart) gb.checkForUpdate();
 
@@ -543,6 +602,11 @@ namespace XCoreNET
         private void minecraftForm_Resize(object sender, EventArgs e)
         {
             windowResize();
+            if (!btnLaunch.Enabled && this.WindowState == FormWindowState.Minimized)
+            {
+                this.ShowInTaskbar = false;
+                trayIcon.Visible = true;
+            }
         }
 
         private void windowResize()
@@ -1573,6 +1637,19 @@ namespace XCoreNET
                 bool readyToExited = false;
                 progressBar.Value = progressBar.Maximum;
 
+                EventHandler handler = null;
+                handler = (o, e) =>
+                {
+                    var result = MessageBox.Show("將遊戲立即強制結束，確定要繼續？", "警告", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                    if (result == DialogResult.Yes)
+                    {
+                        proc.Kill();
+                        trayIcon.ContextMenuStrip.Items[trayIcon.ContextMenuStrip.Items.Count - 2].Enabled = false;
+                        trayIcon.ContextMenuStrip.Items[trayIcon.ContextMenuStrip.Items.Count - 2].Click -= handler;
+                    }
+                };
+
+
                 proc.Exited += (sender, e) =>
                 {
                     this.Invoke(new Action(() =>
@@ -1581,7 +1658,13 @@ namespace XCoreNET
                         output("INFO", "關閉遊戲");
                         Directory.Delete(PathJoin(DATA_FOLDER, "bin", gb.startupParms.appUID), true);
                         settingAllControl(true);
+
+                        this.ShowInTaskbar = true;
+                        this.WindowState = FormWindowState.Normal;
                         this.Activate();
+                        trayIcon.Visible = false;
+                        trayIcon.ContextMenuStrip.Items[trayIcon.ContextMenuStrip.Items.Count - 2].Enabled = false;
+                        trayIcon.ContextMenuStrip.Items[trayIcon.ContextMenuStrip.Items.Count - 2].Click -= handler;
                     }));
                     GC.Collect();
                 };
@@ -1591,6 +1674,9 @@ namespace XCoreNET
                 proc.Start();
                 proc.BeginOutputReadLine();
                 proc.OutputDataReceived += OutputDataReceivedHandler;
+
+                trayIcon.ContextMenuStrip.Items[trayIcon.ContextMenuStrip.Items.Count - 2].Enabled = true;
+                trayIcon.ContextMenuStrip.Items[trayIcon.ContextMenuStrip.Items.Count - 2].Click += handler;
 
 
                 // 舊版本(pre-1.6)會在遊戲關閉時依附於啟動器之下，導致無法完全關閉，此時需要強制結束處理程序
@@ -1628,6 +1714,15 @@ namespace XCoreNET
                         {
                             e.Cancel = true;
                         }
+                        else
+                        {
+                            if (trayIcon != null)
+                            {
+                                this.ShowInTaskbar = true;
+                                this.WindowState = FormWindowState.Normal;
+                                trayIcon.Visible = false;
+                            }
+                        }
                     }
                 };
             }
@@ -1648,12 +1743,14 @@ namespace XCoreNET
                 data = Regex.Replace(data, @"(.*?)</log4j:(.*?)>", "$1");
                 data = Regex.Replace(data, @"<!\[CDATA\[(.*?)\]\]>", "$1");
 
-                if (!data.StartsWith("[CHAT]")) {
+                if (!data.StartsWith("[CHAT]"))
+                {
                     data = Regex.Replace(data, @"<!\[CDATA\[(.*?)", "$1");
                     data = Regex.Replace(data, @"(.*?)\]\]>", "$1");
                 }
 
-                if (data != null && data.Length > 0 && !data.Contains(gb.startupParms.accessToken)) {
+                if (data != null && data.Length > 0 && !data.Contains(gb.startupParms.accessToken))
+                {
                     this.Invoke(new Action(() =>
                     {
                         outputDebug("GAME", data);
@@ -1664,6 +1761,9 @@ namespace XCoreNET
                 {
                     this.Invoke(new Action(() =>
                     {
+                        this.WindowState = FormWindowState.Minimized;
+                        this.ShowInTaskbar = false;
+                        trayIcon.Visible = true;
                         progressBar.Style = ProgressBarStyle.Blocks;
                     }));
                 }
