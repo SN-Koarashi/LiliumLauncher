@@ -227,6 +227,7 @@ namespace Global
                     MessageBox.Show("應用程式已為最新版本", "說明", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
+
         public static int CompareVersionStrings(string v1, string v2)
         {
             int rc = -1000;

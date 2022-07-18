@@ -136,15 +136,7 @@ namespace XCoreNET
                     this.Activate();
                 }
             };
-
-            /*
-            var menuItemIcon = new MenuItem("XCoreNET");
-            var menuItemExit = new MenuItem("關閉程式", Exit);
-            menuItemIcon.Enabled = false;
-
-            trayIcon.ContextMenu.MenuItems.Add(menuItemIcon);
-            trayIcon.ContextMenu.MenuItems.Add("-");
-            trayIcon.ContextMenu.MenuItems.Add(menuItemExit);*/
+            trayIcon.Text = "XCoreNET Minecraft Launcher";
 
             var menuItemIcon = new ToolStripMenuItem("XCoreNET", Resources.logo.ToBitmap());
             menuItemIcon.Image = Resources.logo.ToBitmap();
