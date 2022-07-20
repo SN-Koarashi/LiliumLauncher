@@ -751,6 +751,7 @@ namespace XCoreNET
         {
             checkFile = true;
             onVersionInfo();
+            tabControl1.SelectedIndex = 0;
         }
 
         private void onVersionInfo()
@@ -1877,6 +1878,8 @@ namespace XCoreNET
                     onAzureToken(gb.azureToken);
                     gb.azureToken = "";
                     gb.savingSession();
+
+                    tabControl1.SelectedIndex = 0;
                 }
             }
 
