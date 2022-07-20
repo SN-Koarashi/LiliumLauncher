@@ -216,9 +216,6 @@ namespace XCoreNET
             }
         }
 
-        // 宣告方法委派(用以將 onStarter 轉交由主執行緒執行)
-        private delegate void DelStarter();
-
         private void onStarter()
         {
             this.WindowState = FormWindowState.Normal;
@@ -275,9 +272,6 @@ namespace XCoreNET
             foreach (var r in releaseList)
             {
                 versionList.Items.Add(r.Key);
-
-                //if (r.Key.Equals("1.7.2")) break;
-                //if (r.Key.Equals("1.7")) break;
             }
 
             Directory.CreateDirectory(PathJoin(DATA_FOLDER, "versions"));
@@ -382,7 +376,17 @@ namespace XCoreNET
             else
             {
                 MessageBox.Show(bearer["error_description"].ToString(), "錯誤", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                this.Close();
+
+                FormCollection fc = Application.OpenForms;
+                if (fc[0].Name == this.Name)
+                {
+                    System.Diagnostics.Process.Start(Application.ExecutablePath);
+                    Environment.Exit(0);
+                }
+                else
+                {
+                    this.Close();
+                }
             }
         }
 
@@ -400,7 +404,17 @@ namespace XCoreNET
             if (result.ContainsKey("error"))
             {
                 MessageBox.Show(result["error_description"].ToString(), "錯誤", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                this.Close();
+
+                FormCollection fc = Application.OpenForms;
+                if (fc[0].Name == this.Name)
+                {
+                    System.Diagnostics.Process.Start(Application.ExecutablePath);
+                    Environment.Exit(0);
+                }
+                else
+                {
+                    this.Close();
+                }
             }
             else
             {
@@ -447,7 +461,16 @@ namespace XCoreNET
                         break;
                 }
 
-                this.Close();
+                FormCollection fc = Application.OpenForms;
+                if (fc[0].Name == this.Name)
+                {
+                    System.Diagnostics.Process.Start(Application.ExecutablePath);
+                    Environment.Exit(0);
+                }
+                else
+                {
+                    this.Close();
+                }
             }
             else
             {
@@ -491,7 +514,16 @@ namespace XCoreNET
             if (auth["items"].ToString().Length < 10)
             {
                 MessageBox.Show("此帳號沒有購買 Minecraft", "錯誤", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                this.Close();
+                FormCollection fc = Application.OpenForms;
+                if (fc[0].Name == this.Name)
+                {
+                    System.Diagnostics.Process.Start(Application.ExecutablePath);
+                    Environment.Exit(0);
+                }
+                else
+                {
+                    this.Close();
+                }
             }
             else
             {
@@ -510,7 +542,16 @@ namespace XCoreNET
             if (result.ContainsKey("errorType"))
             {
                 MessageBox.Show("此帳號沒有購買 Minecraft", "錯誤", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                this.Close();
+                FormCollection fc = Application.OpenForms;
+                if (fc[0].Name == this.Name)
+                {
+                    System.Diagnostics.Process.Start(Application.ExecutablePath);
+                    Environment.Exit(0);
+                }
+                else
+                {
+                    this.Close();
+                }
             }
             else
             {

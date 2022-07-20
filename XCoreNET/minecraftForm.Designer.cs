@@ -44,6 +44,8 @@
             this.textUser = new System.Windows.Forms.TextBox();
             this.avatar = new System.Windows.Forms.PictureBox();
             this.settingPage = new System.Windows.Forms.TabPage();
+            this.groupBoxVersionReload = new System.Windows.Forms.GroupBox();
+            this.buttonVerReload = new System.Windows.Forms.Button();
             this.groupBoxVersion = new System.Windows.Forms.GroupBox();
             this.chkBoxSnapshot = new System.Windows.Forms.CheckBox();
             this.chkBoxRelease = new System.Windows.Forms.CheckBox();
@@ -71,8 +73,6 @@
             this.debugPage = new System.Windows.Forms.TabPage();
             this.textBox = new System.Windows.Forms.TextBox();
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
-            this.groupBoxVersionReload = new System.Windows.Forms.GroupBox();
-            this.buttonVerReload = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.mainPage.SuspendLayout();
             this.panelBody.SuspendLayout();
@@ -81,6 +81,7 @@
             this.panelHeader.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.avatar)).BeginInit();
             this.settingPage.SuspendLayout();
+            this.groupBoxVersionReload.SuspendLayout();
             this.groupBoxVersion.SuspendLayout();
             this.groupBoxAccount.SuspendLayout();
             this.groupBoxMainProg.SuspendLayout();
@@ -92,7 +93,6 @@
             this.panelSettingsInsideLeft.SuspendLayout();
             this.panelSettingsRight.SuspendLayout();
             this.debugPage.SuspendLayout();
-            this.groupBoxVersionReload.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -262,13 +262,33 @@
             this.settingPage.TabIndex = 2;
             this.settingPage.Text = "設定";
             // 
+            // groupBoxVersionReload
+            // 
+            this.groupBoxVersionReload.Controls.Add(this.buttonVerReload);
+            this.groupBoxVersionReload.Location = new System.Drawing.Point(355, 106);
+            this.groupBoxVersionReload.Name = "groupBoxVersionReload";
+            this.groupBoxVersionReload.Size = new System.Drawing.Size(98, 59);
+            this.groupBoxVersionReload.TabIndex = 9;
+            this.groupBoxVersionReload.TabStop = false;
+            this.groupBoxVersionReload.Text = "版本資料";
+            // 
+            // buttonVerReload
+            // 
+            this.buttonVerReload.Location = new System.Drawing.Point(7, 21);
+            this.buttonVerReload.Name = "buttonVerReload";
+            this.buttonVerReload.Size = new System.Drawing.Size(86, 28);
+            this.buttonVerReload.TabIndex = 0;
+            this.buttonVerReload.Text = "重新載入";
+            this.buttonVerReload.UseVisualStyleBackColor = true;
+            this.buttonVerReload.Click += new System.EventHandler(this.buttonVerReload_Click);
+            // 
             // groupBoxVersion
             // 
             this.groupBoxVersion.Controls.Add(this.chkBoxSnapshot);
             this.groupBoxVersion.Controls.Add(this.chkBoxRelease);
             this.groupBoxVersion.Location = new System.Drawing.Point(266, 106);
             this.groupBoxVersion.Name = "groupBoxVersion";
-            this.groupBoxVersion.Size = new System.Drawing.Size(83, 85);
+            this.groupBoxVersion.Size = new System.Drawing.Size(83, 93);
             this.groupBoxVersion.TabIndex = 8;
             this.groupBoxVersion.TabStop = false;
             this.groupBoxVersion.Text = "版本選項";
@@ -345,16 +365,16 @@
             this.groupBoxMainProg.Controls.Add(this.btnMainSetting);
             this.groupBoxMainProg.Location = new System.Drawing.Point(165, 106);
             this.groupBoxMainProg.Name = "groupBoxMainProg";
-            this.groupBoxMainProg.Size = new System.Drawing.Size(95, 85);
+            this.groupBoxMainProg.Size = new System.Drawing.Size(95, 93);
             this.groupBoxMainProg.TabIndex = 6;
             this.groupBoxMainProg.TabStop = false;
-            this.groupBoxMainProg.Text = "主程式選項";
+            this.groupBoxMainProg.Text = "啟動器選項";
             // 
             // btnChkUpdate
             // 
-            this.btnChkUpdate.Location = new System.Drawing.Point(7, 19);
+            this.btnChkUpdate.Location = new System.Drawing.Point(7, 22);
             this.btnChkUpdate.Name = "btnChkUpdate";
-            this.btnChkUpdate.Size = new System.Drawing.Size(76, 27);
+            this.btnChkUpdate.Size = new System.Drawing.Size(82, 28);
             this.btnChkUpdate.TabIndex = 5;
             this.btnChkUpdate.Text = "檢查更新";
             this.btnChkUpdate.UseVisualStyleBackColor = true;
@@ -362,9 +382,9 @@
             // 
             // btnMainSetting
             // 
-            this.btnMainSetting.Location = new System.Drawing.Point(7, 51);
+            this.btnMainSetting.Location = new System.Drawing.Point(7, 57);
             this.btnMainSetting.Name = "btnMainSetting";
-            this.btnMainSetting.Size = new System.Drawing.Size(76, 26);
+            this.btnMainSetting.Size = new System.Drawing.Size(82, 28);
             this.btnMainSetting.TabIndex = 4;
             this.btnMainSetting.Text = "系統設定";
             this.btnMainSetting.UseVisualStyleBackColor = true;
@@ -544,26 +564,6 @@
             this.textBox.Size = new System.Drawing.Size(450, 285);
             this.textBox.TabIndex = 0;
             // 
-            // groupBoxVersionReload
-            // 
-            this.groupBoxVersionReload.Controls.Add(this.buttonVerReload);
-            this.groupBoxVersionReload.Location = new System.Drawing.Point(355, 106);
-            this.groupBoxVersionReload.Name = "groupBoxVersionReload";
-            this.groupBoxVersionReload.Size = new System.Drawing.Size(98, 85);
-            this.groupBoxVersionReload.TabIndex = 9;
-            this.groupBoxVersionReload.TabStop = false;
-            this.groupBoxVersionReload.Text = "版本資料";
-            // 
-            // buttonVerReload
-            // 
-            this.buttonVerReload.Location = new System.Drawing.Point(6, 21);
-            this.buttonVerReload.Name = "buttonVerReload";
-            this.buttonVerReload.Size = new System.Drawing.Size(86, 28);
-            this.buttonVerReload.TabIndex = 0;
-            this.buttonVerReload.Text = "重新載入";
-            this.buttonVerReload.UseVisualStyleBackColor = true;
-            this.buttonVerReload.Click += new System.EventHandler(this.buttonVerReload_Click);
-            // 
             // minecraftForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -591,6 +591,7 @@
             this.panelHeader.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.avatar)).EndInit();
             this.settingPage.ResumeLayout(false);
+            this.groupBoxVersionReload.ResumeLayout(false);
             this.groupBoxVersion.ResumeLayout(false);
             this.groupBoxVersion.PerformLayout();
             this.groupBoxAccount.ResumeLayout(false);
@@ -607,7 +608,6 @@
             this.panelSettingsRight.ResumeLayout(false);
             this.debugPage.ResumeLayout(false);
             this.debugPage.PerformLayout();
-            this.groupBoxVersionReload.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }

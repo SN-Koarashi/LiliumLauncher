@@ -55,6 +55,11 @@ namespace XCoreNET
                     System.Diagnostics.Process.Start(Application.ExecutablePath);
                     Environment.Exit(0);
                 }
+
+
+
+                btnApply.Enabled = false;
+                btnOK.Enabled = false;
             }
             catch (UriFormatException ufe)
             {
