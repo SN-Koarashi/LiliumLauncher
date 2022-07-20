@@ -66,7 +66,11 @@ namespace xcorenet_updater
                     cmdLine.Add("start XCoreNET.exe");
                     File.WriteAllLines(Path.GetFullPath(UpdaterPath + "/patcher.bat"), cmdLine);
 
-                    System.Diagnostics.Process.Start("patcher.bat");
+                    Process p = new Process();
+                    p.StartInfo.CreateNoWindow = true;
+                    p.StartInfo.UseShellExecute = false;
+                    p.StartInfo.FileName = "patcher.bat";
+                    p.Start();
                     Environment.Exit(0);
                 }
 
