@@ -152,7 +152,7 @@
             this.Name = "minecraftMainForm";
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "XCoreNET 起始畫面";
+            this.Text = "XCoreNET Minecraft Launcher";
             this.Load += new System.EventHandler(this.minecraftMainForm_Load);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel2.ResumeLayout(false);

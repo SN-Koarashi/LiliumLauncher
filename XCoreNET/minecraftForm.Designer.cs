@@ -460,7 +460,7 @@
             this.radBtnMain.Name = "radBtnMain";
             this.radBtnMain.Size = new System.Drawing.Size(124, 22);
             this.radBtnMain.TabIndex = 1;
-            this.radBtnMain.Text = "主程式執行位置";
+            this.radBtnMain.Text = "啟動器執行位置";
             this.radBtnMain.UseVisualStyleBackColor = true;
             this.radBtnMain.CheckedChanged += new System.EventHandler(this.radBtnMain_CheckedChanged);
             this.radBtnMain.Click += new System.EventHandler(this.radBtnMain_Click);
