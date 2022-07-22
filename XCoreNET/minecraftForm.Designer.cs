@@ -318,7 +318,7 @@
             // 
             this.groupBoxVersionReload.Controls.Add(this.btnVerRecache);
             this.groupBoxVersionReload.Controls.Add(this.buttonVerReload);
-            this.groupBoxVersionReload.Location = new System.Drawing.Point(355, 106);
+            this.groupBoxVersionReload.Location = new System.Drawing.Point(266, 106);
             this.groupBoxVersionReload.Name = "groupBoxVersionReload";
             this.groupBoxVersionReload.Size = new System.Drawing.Size(93, 93);
             this.groupBoxVersionReload.TabIndex = 9;
@@ -349,7 +349,7 @@
             // 
             this.groupBoxVersion.Controls.Add(this.chkBoxSnapshot);
             this.groupBoxVersion.Controls.Add(this.chkBoxRelease);
-            this.groupBoxVersion.Location = new System.Drawing.Point(266, 106);
+            this.groupBoxVersion.Location = new System.Drawing.Point(365, 106);
             this.groupBoxVersion.Name = "groupBoxVersion";
             this.groupBoxVersion.Size = new System.Drawing.Size(83, 93);
             this.groupBoxVersion.TabIndex = 8;

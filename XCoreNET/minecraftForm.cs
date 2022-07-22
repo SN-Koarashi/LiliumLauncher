@@ -616,7 +616,7 @@ namespace XCoreNET
             textUser.Text = username;
 
             avatar.WaitOnLoad = false;
-            avatar.LoadAsync($"https://cravatar.eu/helmavatar/{uuid}/32.png");
+            avatar.LoadAsync($"https://cravatar.eu/helmavatar/{uuid}");
 
             textUser.Visible = true;
 
@@ -631,6 +631,7 @@ namespace XCoreNET
         int tryReload = 0;
         private void avatar_LoadCompleted(object sender, AsyncCompletedEventArgs e)
         {
+            avatar.Cursor = Cursors.Default;
             avatar.Visible = true;
 
             if (e.Error != null && tryReload < 10)
@@ -644,6 +645,7 @@ namespace XCoreNET
         }
         private void avatar_Click(object sender, EventArgs e)
         {
+            avatar.Cursor = Cursors.WaitCursor;
             avatar.Visible = false;
             avatar.LoadAsync($"https://cravatar.eu/helmavatar/{gb.minecraftUUID}/32.png");
         }
