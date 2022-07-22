@@ -30,6 +30,8 @@ namespace Global
         public static int runInterval = 1;
         public static Uri mainHomepage = new Uri("https://www.snkms.com/chat/webchat2/");
         public static Uri launcherHomepage = new Uri("https://www.snkms.com/minecraftNews.html");
+        public static int maxMemoryUsage = 0;
+        public static bool usingMaxMemoryUsage = false;
 
         public class startupParms
         {
@@ -87,7 +89,9 @@ namespace Global
                 launcher = new
                 {
                     token = launchToken,
-                    expires_at = launchTokenExpiresAt
+                    expires_at = launchTokenExpiresAt,
+                    maxMemoryUsage = maxMemoryUsage,
+                    usingMaxMemoryUsage = usingMaxMemoryUsage
                 },
                 minecraft = new
                 {
@@ -126,6 +130,10 @@ namespace Global
                 minecraftUUID = GetValueOrDefault<string, object, string>(result.minecraft, "uuid", minecraftUUID);
                 verOptRelease = GetValueOrDefault<string, object, bool>(result.versionOptions, "release", verOptRelease);
                 verOptSnapshot = GetValueOrDefault<string, object, bool>(result.versionOptions, "snapshot", verOptSnapshot);
+
+
+                maxMemoryUsage = Convert.ToInt32(GetValueOrDefault<string, object, long>(result.launcher, "maxMemoryUsage", long.Parse(maxMemoryUsage.ToString())));
+                usingMaxMemoryUsage = GetValueOrDefault<string, object, bool>(result.launcher, "usingMaxMemoryUsage", usingMaxMemoryUsage);
 
                 lastVersionID = result.lastVersionID;
                 runInterval = (result.runInterval >= 0) ? result.runInterval : 1;

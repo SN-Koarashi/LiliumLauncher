@@ -1,4 +1,5 @@
 ﻿using Global;
+using Microsoft.VisualBasic.Devices;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
@@ -44,6 +45,8 @@ namespace XCoreNET
         JArray version_manifest_v2;
 
         private NotifyIcon trayIcon;
+        int maxMemory;
+
 
         private class DownloadListModel
         {
@@ -88,9 +91,33 @@ namespace XCoreNET
             }
         }
 
+        public IEnumerable<Control> GetSelfAndChildrenRecursive(Control parent)
+        {
+            List<Control> controls = new List<Control>();
+
+            foreach (Control child in parent.Controls)
+            {
+                controls.AddRange(GetSelfAndChildrenRecursive(child));
+            }
+
+            controls.Add(parent);
+
+            return controls;
+        }
+
         private void initializeMain()
         {
             InitializeComponent();
+
+            /*
+            GetSelfAndChildrenRecursive(this).OfType<Button>().ToList()
+                  .ForEach(b => {
+                      b.BackColor = System.Drawing.Color.Black;
+                      b.ForeColor = System.Drawing.Color.White;
+                      b.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+                      b.FlatAppearance.BorderSize = 0;
+                      b.UseVisualStyleBackColor = false;
+                  });*/
 
             this.SetStyle(
               ControlStyles.AllPaintingInWmPaint |
@@ -119,6 +146,23 @@ namespace XCoreNET
             this.Width = gb.windowSize.X;
             this.Height = gb.windowSize.Y;
 
+
+            maxMemory = Convert.ToInt32(Math.Floor(Convert.ToDouble(new ComputerInfo().TotalPhysicalMemory / 1024 / 1024 / 1000)) - 2) * 1024;
+            trackBarMiB.Maximum = maxMemory / 1024;
+            trackBarMiB.Minimum = 0;
+
+            if (gb.maxMemoryUsage == 0)
+            {
+                trackBarMiB.Value = 0;
+                textBoxMiB.Text = "512";
+            }
+            else
+            {
+                trackBarMiB.Value = gb.maxMemoryUsage / 1024;
+                textBoxMiB.Text = gb.maxMemoryUsage.ToString();
+            }
+
+            checkBoxMaxMem.Checked = gb.usingMaxMemoryUsage;
 
             trayIcon = new NotifyIcon()
             {
@@ -730,6 +774,7 @@ namespace XCoreNET
             groupBoxDataFolder.Enabled = isEnabled;
             groupBoxInterval.Enabled = isEnabled;
             groupBoxVersionReload.Enabled = isEnabled;
+            groupBoxMemory.Enabled = isEnabled;
 
             if (isEnabled)
             {
@@ -1568,11 +1613,13 @@ namespace XCoreNET
             string jarPath = String.Join(";", librariesPath);
             List<string> jvm = new List<string>();
             JObject replaceOptions = new JObject();
-
             jvm.Add("-Xms512m");
             jvm.Add("-Dminecraft.launcher.brand=XCoreNET");
             jvm.Add("-Dminecraft.launcher.version=" + Application.ProductVersion);
             jvm.Add("-Djava.library.path=" + PathJoin(DATA_FOLDER, "bin", gb.startupParms.appUID));
+
+            if (gb.usingMaxMemoryUsage && gb.maxMemoryUsage > 0)
+                jvm.Add($"-Xmx{gb.maxMemoryUsage}m");
 
             if (gb.startupParms.loggerIndex != null)
                 jvm.Add("-Dlog4j.configurationFile=" + PathJoin(assetsDir, "log-configs", gb.startupParms.loggerIndex));
@@ -1955,6 +2002,89 @@ namespace XCoreNET
         private void buttonVerReload_Click(object sender, EventArgs e)
         {
             onGetAllVersion();
+        }
+
+        private void trackBarMiB_Scroll(object sender, EventArgs e)
+        {
+            double multiplier = (trackBarMiB.Value == 0) ? 0.5 : trackBarMiB.Value;
+            textBoxMiB.Text = (multiplier * 1024).ToString();
+            gb.maxMemoryUsage = int.Parse(textBoxMiB.Text);
+        }
+
+        private void textBoxMiB_KeyUp(object sender, KeyEventArgs e)
+        {
+            double memoryMiB;
+
+            if (double.TryParse(textBoxMiB.Text, out memoryMiB))
+            {
+                if (memoryMiB > maxMemory)
+                {
+                    trackBarMiB.Value = trackBarMiB.Maximum;
+                }
+                else if (memoryMiB < 512)
+                {
+                    trackBarMiB.Value = trackBarMiB.Minimum;
+                }
+                else
+                {
+                    int memoryGiB = Convert.ToInt32(memoryMiB / 1024);
+                    trackBarMiB.Value = (memoryGiB > trackBarMiB.Maximum) ? trackBarMiB.Maximum : memoryGiB;
+                }
+
+                gb.maxMemoryUsage = int.Parse(textBoxMiB.Text);
+            }
+            else
+            {
+                textBoxMiB.Text = "";
+                gb.maxMemoryUsage = 0;
+            }
+
+            gb.savingSession();
+        }
+
+        private void textBoxMiB_Leave(object sender, EventArgs e)
+        {
+            double memoryMiB;
+
+            if (double.TryParse(textBoxMiB.Text, out memoryMiB))
+            {
+                if (memoryMiB > maxMemory)
+                {
+                    textBoxMiB.Text = maxMemory.ToString();
+                }
+                else if (memoryMiB < 512)
+                {
+                    textBoxMiB.Text = "512";
+                }
+                gb.maxMemoryUsage = int.Parse(textBoxMiB.Text);
+            }
+            else
+            {
+                textBoxMiB.Text = "";
+                gb.maxMemoryUsage = 0;
+            }
+            gb.savingSession();
+        }
+
+        private void checkBoxMaxMem_CheckedChanged(object sender, EventArgs e)
+        {
+            trackBarMiB.Enabled = checkBoxMaxMem.Checked;
+            textBoxMiB.Enabled = checkBoxMaxMem.Checked;
+            gb.usingMaxMemoryUsage = checkBoxMaxMem.Checked;
+            gb.savingSession();
+        }
+
+        private void trackBarMiB_MouseUp(object sender, MouseEventArgs e)
+        {
+            gb.savingSession();
+        }
+
+        private async void btnVerRecache_Click(object sender, EventArgs e)
+        {
+            settingAllControl(false);
+            version_manifest_v2 = (JArray)(await launcher.getAllVersion())["versions"];
+            onGetAllVersion();
+            settingAllControl(true);
         }
     }
 }

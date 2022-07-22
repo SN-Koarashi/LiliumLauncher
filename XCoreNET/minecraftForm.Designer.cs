@@ -44,6 +44,9 @@
             this.textUser = new System.Windows.Forms.TextBox();
             this.avatar = new System.Windows.Forms.PictureBox();
             this.settingPage = new System.Windows.Forms.TabPage();
+            this.groupBoxMemory = new System.Windows.Forms.GroupBox();
+            this.trackBarMiB = new System.Windows.Forms.TrackBar();
+            this.textBoxMiB = new System.Windows.Forms.TextBox();
             this.groupBoxVersionReload = new System.Windows.Forms.GroupBox();
             this.buttonVerReload = new System.Windows.Forms.Button();
             this.groupBoxVersion = new System.Windows.Forms.GroupBox();
@@ -73,6 +76,8 @@
             this.debugPage = new System.Windows.Forms.TabPage();
             this.textBox = new System.Windows.Forms.TextBox();
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
+            this.checkBoxMaxMem = new System.Windows.Forms.CheckBox();
+            this.btnVerRecache = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.mainPage.SuspendLayout();
             this.panelBody.SuspendLayout();
@@ -81,6 +86,8 @@
             this.panelHeader.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.avatar)).BeginInit();
             this.settingPage.SuspendLayout();
+            this.groupBoxMemory.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBarMiB)).BeginInit();
             this.groupBoxVersionReload.SuspendLayout();
             this.groupBoxVersion.SuspendLayout();
             this.groupBoxAccount.SuspendLayout();
@@ -250,6 +257,7 @@
             // settingPage
             // 
             this.settingPage.BackColor = System.Drawing.SystemColors.Control;
+            this.settingPage.Controls.Add(this.groupBoxMemory);
             this.settingPage.Controls.Add(this.groupBoxVersionReload);
             this.settingPage.Controls.Add(this.groupBoxVersion);
             this.settingPage.Controls.Add(this.groupBoxAccount);
@@ -262,12 +270,46 @@
             this.settingPage.TabIndex = 2;
             this.settingPage.Text = "設定";
             // 
+            // groupBoxMemory
+            // 
+            this.groupBoxMemory.Controls.Add(this.checkBoxMaxMem);
+            this.groupBoxMemory.Controls.Add(this.trackBarMiB);
+            this.groupBoxMemory.Controls.Add(this.textBoxMiB);
+            this.groupBoxMemory.Location = new System.Drawing.Point(165, 205);
+            this.groupBoxMemory.Name = "groupBoxMemory";
+            this.groupBoxMemory.Size = new System.Drawing.Size(283, 83);
+            this.groupBoxMemory.TabIndex = 11;
+            this.groupBoxMemory.TabStop = false;
+            this.groupBoxMemory.Text = "遊戲最大記憶體(MB)";
+            // 
+            // trackBarMiB
+            // 
+            this.trackBarMiB.Enabled = false;
+            this.trackBarMiB.Location = new System.Drawing.Point(8, 30);
+            this.trackBarMiB.Name = "trackBarMiB";
+            this.trackBarMiB.Size = new System.Drawing.Size(203, 45);
+            this.trackBarMiB.TabIndex = 10;
+            this.trackBarMiB.TickStyle = System.Windows.Forms.TickStyle.Both;
+            this.trackBarMiB.Scroll += new System.EventHandler(this.trackBarMiB_Scroll);
+            this.trackBarMiB.MouseUp += new System.Windows.Forms.MouseEventHandler(this.trackBarMiB_MouseUp);
+            // 
+            // textBoxMiB
+            // 
+            this.textBoxMiB.Enabled = false;
+            this.textBoxMiB.Location = new System.Drawing.Point(217, 47);
+            this.textBoxMiB.Name = "textBoxMiB";
+            this.textBoxMiB.Size = new System.Drawing.Size(57, 25);
+            this.textBoxMiB.TabIndex = 11;
+            this.textBoxMiB.KeyUp += new System.Windows.Forms.KeyEventHandler(this.textBoxMiB_KeyUp);
+            this.textBoxMiB.Leave += new System.EventHandler(this.textBoxMiB_Leave);
+            // 
             // groupBoxVersionReload
             // 
+            this.groupBoxVersionReload.Controls.Add(this.btnVerRecache);
             this.groupBoxVersionReload.Controls.Add(this.buttonVerReload);
             this.groupBoxVersionReload.Location = new System.Drawing.Point(355, 106);
             this.groupBoxVersionReload.Name = "groupBoxVersionReload";
-            this.groupBoxVersionReload.Size = new System.Drawing.Size(98, 59);
+            this.groupBoxVersionReload.Size = new System.Drawing.Size(98, 93);
             this.groupBoxVersionReload.TabIndex = 9;
             this.groupBoxVersionReload.TabStop = false;
             this.groupBoxVersionReload.Text = "版本資料";
@@ -395,17 +437,17 @@
             this.groupBoxInterval.Controls.Add(this.textBoxInterval);
             this.groupBoxInterval.Location = new System.Drawing.Point(8, 235);
             this.groupBoxInterval.Name = "groupBoxInterval";
-            this.groupBoxInterval.Size = new System.Drawing.Size(81, 53);
+            this.groupBoxInterval.Size = new System.Drawing.Size(151, 53);
             this.groupBoxInterval.TabIndex = 3;
             this.groupBoxInterval.TabStop = false;
             this.groupBoxInterval.Text = "執行間隔";
             // 
             // textBoxInterval
             // 
-            this.textBoxInterval.Location = new System.Drawing.Point(6, 21);
+            this.textBoxInterval.Location = new System.Drawing.Point(6, 22);
             this.textBoxInterval.MaxLength = 2;
             this.textBoxInterval.Name = "textBoxInterval";
-            this.textBoxInterval.Size = new System.Drawing.Size(65, 25);
+            this.textBoxInterval.Size = new System.Drawing.Size(139, 25);
             this.textBoxInterval.TabIndex = 0;
             this.textBoxInterval.Text = "1";
             this.textBoxInterval.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -564,6 +606,27 @@
             this.textBox.Size = new System.Drawing.Size(450, 285);
             this.textBox.TabIndex = 0;
             // 
+            // checkBoxMaxMem
+            // 
+            this.checkBoxMaxMem.AutoSize = true;
+            this.checkBoxMaxMem.Location = new System.Drawing.Point(217, 22);
+            this.checkBoxMaxMem.Name = "checkBoxMaxMem";
+            this.checkBoxMaxMem.Size = new System.Drawing.Size(55, 22);
+            this.checkBoxMaxMem.TabIndex = 12;
+            this.checkBoxMaxMem.Text = "開啟";
+            this.checkBoxMaxMem.UseVisualStyleBackColor = true;
+            this.checkBoxMaxMem.CheckedChanged += new System.EventHandler(this.checkBoxMaxMem_CheckedChanged);
+            // 
+            // btnVerRecache
+            // 
+            this.btnVerRecache.Location = new System.Drawing.Point(7, 56);
+            this.btnVerRecache.Name = "btnVerRecache";
+            this.btnVerRecache.Size = new System.Drawing.Size(86, 28);
+            this.btnVerRecache.TabIndex = 1;
+            this.btnVerRecache.Text = "重新快取";
+            this.btnVerRecache.UseVisualStyleBackColor = true;
+            this.btnVerRecache.Click += new System.EventHandler(this.btnVerRecache_Click);
+            // 
             // minecraftForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -591,6 +654,9 @@
             this.panelHeader.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.avatar)).EndInit();
             this.settingPage.ResumeLayout(false);
+            this.groupBoxMemory.ResumeLayout(false);
+            this.groupBoxMemory.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBarMiB)).EndInit();
             this.groupBoxVersionReload.ResumeLayout(false);
             this.groupBoxVersion.ResumeLayout(false);
             this.groupBoxVersion.PerformLayout();
@@ -657,5 +723,10 @@
         private System.Windows.Forms.Button btnLogoutAll;
         private System.Windows.Forms.GroupBox groupBoxVersionReload;
         private System.Windows.Forms.Button buttonVerReload;
+        private System.Windows.Forms.TrackBar trackBarMiB;
+        private System.Windows.Forms.GroupBox groupBoxMemory;
+        private System.Windows.Forms.TextBox textBoxMiB;
+        private System.Windows.Forms.CheckBox checkBoxMaxMem;
+        private System.Windows.Forms.Button btnVerRecache;
     }
 }
