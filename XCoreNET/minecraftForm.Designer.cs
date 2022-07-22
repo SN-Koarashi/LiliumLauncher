@@ -45,9 +45,11 @@
             this.avatar = new System.Windows.Forms.PictureBox();
             this.settingPage = new System.Windows.Forms.TabPage();
             this.groupBoxMemory = new System.Windows.Forms.GroupBox();
+            this.checkBoxMaxMem = new System.Windows.Forms.CheckBox();
             this.trackBarMiB = new System.Windows.Forms.TrackBar();
             this.textBoxMiB = new System.Windows.Forms.TextBox();
             this.groupBoxVersionReload = new System.Windows.Forms.GroupBox();
+            this.btnVerRecache = new System.Windows.Forms.Button();
             this.buttonVerReload = new System.Windows.Forms.Button();
             this.groupBoxVersion = new System.Windows.Forms.GroupBox();
             this.chkBoxSnapshot = new System.Windows.Forms.CheckBox();
@@ -76,8 +78,6 @@
             this.debugPage = new System.Windows.Forms.TabPage();
             this.textBox = new System.Windows.Forms.TextBox();
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
-            this.checkBoxMaxMem = new System.Windows.Forms.CheckBox();
-            this.btnVerRecache = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.mainPage.SuspendLayout();
             this.panelBody.SuspendLayout();
@@ -282,6 +282,17 @@
             this.groupBoxMemory.TabStop = false;
             this.groupBoxMemory.Text = "遊戲最大記憶體(MB)";
             // 
+            // checkBoxMaxMem
+            // 
+            this.checkBoxMaxMem.AutoSize = true;
+            this.checkBoxMaxMem.Location = new System.Drawing.Point(217, 22);
+            this.checkBoxMaxMem.Name = "checkBoxMaxMem";
+            this.checkBoxMaxMem.Size = new System.Drawing.Size(55, 22);
+            this.checkBoxMaxMem.TabIndex = 12;
+            this.checkBoxMaxMem.Text = "開啟";
+            this.checkBoxMaxMem.UseVisualStyleBackColor = true;
+            this.checkBoxMaxMem.CheckedChanged += new System.EventHandler(this.checkBoxMaxMem_CheckedChanged);
+            // 
             // trackBarMiB
             // 
             this.trackBarMiB.Enabled = false;
@@ -309,16 +320,26 @@
             this.groupBoxVersionReload.Controls.Add(this.buttonVerReload);
             this.groupBoxVersionReload.Location = new System.Drawing.Point(355, 106);
             this.groupBoxVersionReload.Name = "groupBoxVersionReload";
-            this.groupBoxVersionReload.Size = new System.Drawing.Size(98, 93);
+            this.groupBoxVersionReload.Size = new System.Drawing.Size(93, 93);
             this.groupBoxVersionReload.TabIndex = 9;
             this.groupBoxVersionReload.TabStop = false;
             this.groupBoxVersionReload.Text = "版本資料";
+            // 
+            // btnVerRecache
+            // 
+            this.btnVerRecache.Location = new System.Drawing.Point(7, 56);
+            this.btnVerRecache.Name = "btnVerRecache";
+            this.btnVerRecache.Size = new System.Drawing.Size(80, 28);
+            this.btnVerRecache.TabIndex = 1;
+            this.btnVerRecache.Text = "重新快取";
+            this.btnVerRecache.UseVisualStyleBackColor = true;
+            this.btnVerRecache.Click += new System.EventHandler(this.btnVerRecache_Click);
             // 
             // buttonVerReload
             // 
             this.buttonVerReload.Location = new System.Drawing.Point(7, 21);
             this.buttonVerReload.Name = "buttonVerReload";
-            this.buttonVerReload.Size = new System.Drawing.Size(86, 28);
+            this.buttonVerReload.Size = new System.Drawing.Size(80, 28);
             this.buttonVerReload.TabIndex = 0;
             this.buttonVerReload.Text = "重新載入";
             this.buttonVerReload.UseVisualStyleBackColor = true;
@@ -605,27 +626,6 @@
             this.textBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.textBox.Size = new System.Drawing.Size(450, 285);
             this.textBox.TabIndex = 0;
-            // 
-            // checkBoxMaxMem
-            // 
-            this.checkBoxMaxMem.AutoSize = true;
-            this.checkBoxMaxMem.Location = new System.Drawing.Point(217, 22);
-            this.checkBoxMaxMem.Name = "checkBoxMaxMem";
-            this.checkBoxMaxMem.Size = new System.Drawing.Size(55, 22);
-            this.checkBoxMaxMem.TabIndex = 12;
-            this.checkBoxMaxMem.Text = "開啟";
-            this.checkBoxMaxMem.UseVisualStyleBackColor = true;
-            this.checkBoxMaxMem.CheckedChanged += new System.EventHandler(this.checkBoxMaxMem_CheckedChanged);
-            // 
-            // btnVerRecache
-            // 
-            this.btnVerRecache.Location = new System.Drawing.Point(7, 56);
-            this.btnVerRecache.Name = "btnVerRecache";
-            this.btnVerRecache.Size = new System.Drawing.Size(86, 28);
-            this.btnVerRecache.TabIndex = 1;
-            this.btnVerRecache.Text = "重新快取";
-            this.btnVerRecache.UseVisualStyleBackColor = true;
-            this.btnVerRecache.Click += new System.EventHandler(this.btnVerRecache_Click);
             // 
             // minecraftForm
             // 
