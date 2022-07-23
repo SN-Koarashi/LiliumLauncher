@@ -1,7 +1,8 @@
-# XCoreNET - 輕量化的解決方案 | Lightweight solution
+# XCoreNET - 輕量化的解決方案 | Lightweight solution (Display language is Traditional Chinese ONLY)
 透過 Microsoft Edge WebView2 框架載入多個社交媒體網站及網路即時聊天室
 
 Load multiple social media sites and web chat rooms through the Microsoft Edge WebView2 framework
+
 - 具有自我更新功能
 - With self-renewal function
 - 網路聊天室採用 WebSocket
