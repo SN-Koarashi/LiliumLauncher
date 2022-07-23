@@ -1,4 +1,5 @@
 ﻿using Global;
+using Microsoft.Web.WebView2.Core;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -20,6 +21,7 @@ namespace XCoreNET
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             ProgramModel pm = null;
+            CoreWebView2Environment.LoaderDllFolderPath = Path.GetFullPath(AppDomain.CurrentDomain.BaseDirectory + "/runtimes/win-x86/native");
 
             string path = Path.GetFullPath(AppDomain.CurrentDomain.BaseDirectory + "/settings/programs_settings.json");
             if (File.Exists(path))
