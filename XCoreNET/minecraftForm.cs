@@ -1,5 +1,6 @@
 ﻿using Global;
 using Microsoft.VisualBasic.Devices;
+using Microsoft.WindowsAPICodePack.Taskbar;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
@@ -402,6 +403,9 @@ namespace XCoreNET
         private async void onAzureToken(string azureToken)
         {
             if (isClosed) return;
+
+            if (!this.IsDisposed)
+                TaskbarManager.Instance.SetProgressState(TaskbarProgressBarState.Indeterminate, Handle);
             settingAllControl(false);
             progressBar.Style = ProgressBarStyle.Marquee;
 
@@ -437,6 +441,8 @@ namespace XCoreNET
         private async void onRefreshToken(string refresh_token)
         {
             if (isClosed) return;
+
+            TaskbarManager.Instance.SetProgressState(TaskbarProgressBarState.Indeterminate, Handle);
             settingAllControl(false);
             progressBar.Style = ProgressBarStyle.Marquee;
 
@@ -610,6 +616,8 @@ namespace XCoreNET
 
         private void loginSuccess(string username, string uuid)
         {
+            if (isClosed) return;
+
             progressBar.Style = ProgressBarStyle.Blocks;
             output("INFO", $"登入使用者 -{username} -{uuid}");
 
@@ -626,6 +634,7 @@ namespace XCoreNET
             gb.savingSession();
 
             settingAllControl(true);
+            TaskbarManager.Instance.SetProgressState(TaskbarProgressBarState.NoProgress, Handle);
         }
 
         int tryReload = 0;
@@ -903,6 +912,10 @@ namespace XCoreNET
 
         private async void onCreateIndexes(string version, string url)
         {
+            if (isClosed) return;
+
+            progressBar.Style = ProgressBarStyle.Marquee;
+            TaskbarManager.Instance.SetProgressState(TaskbarProgressBarState.Indeterminate, Handle);
             output("INFO", "建立索引資料");
             var obj = await launcher.createIndexes(url);
 
@@ -1033,6 +1046,10 @@ namespace XCoreNET
 
         private async void onJavaProgram(JObject objKit, string gameAssetJson)
         {
+            if (isClosed) return;
+
+            progressBar.Style = ProgressBarStyle.Blocks;
+            TaskbarManager.Instance.SetProgressState(TaskbarProgressBarState.Normal, Handle);
             output("INFO", "建立 Java 執行環境");
             var runtime = objKit["javaVersion"]["component"].ToString();
 
@@ -1049,6 +1066,8 @@ namespace XCoreNET
 
             foreach (var list in fileList)
             {
+                if (isClosed) return;
+
                 if (!checkFile)
                 {
                     if (File.Exists(INSTALLED_PATH)) continue;
@@ -1083,6 +1102,9 @@ namespace XCoreNET
                 }
 
                 progressBar.Value = index;
+
+                if (!isClosed)
+                    TaskbarManager.Instance.SetProgressValue(index, total, Handle);
                 await Task.Delay(gb.runInterval);
             }
 
@@ -1092,6 +1114,8 @@ namespace XCoreNET
 
         private async void onCreateLibraries(JObject objKit, string gameAssetJson)
         {
+            if (isClosed) return;
+
             output("INFO", "建立必要元件");
             var dir = PathJoin(DATA_FOLDER, "libraries");
             Directory.CreateDirectory(dir);
@@ -1103,6 +1127,8 @@ namespace XCoreNET
 
             foreach (var r in res)
             {
+                if (isClosed) return;
+
                 index++;
                 var canDownload = false;
 
@@ -1187,6 +1213,9 @@ namespace XCoreNET
 
                 output("INFO", $"取得必要元件索引: ({index}/{total})");
                 progressBar.Value = index;
+
+                if (!isClosed)
+                    TaskbarManager.Instance.SetProgressValue(index, total, Handle);
             }
 
             // 非原版客戶端內容
@@ -1273,6 +1302,8 @@ namespace XCoreNET
 
             foreach (var d in downloadList)
             {
+                if (isClosed) return;
+
                 index++;
                 var path = d.Value.path;
 
@@ -1376,6 +1407,8 @@ namespace XCoreNET
                 }
 
                 progressBar.Value = index;
+                if (!isClosed)
+                    TaskbarManager.Instance.SetProgressValue(index, total, Handle);
 
                 var sha_remote = d.Value.sha1;
                 var sha_local = (File.Exists(cPath)) ? gb.SHA1(File.ReadAllBytes(cPath)) : "";
@@ -1408,6 +1441,8 @@ namespace XCoreNET
 
         private async void onCreateObjects(string gameAssetJson)
         {
+            if (isClosed) return;
+
             output("INFO", "建立遊戲資料");
             var dir = PathJoin(DATA_FOLDER, "assets/objects");
             Directory.CreateDirectory(dir);
@@ -1420,9 +1455,12 @@ namespace XCoreNET
 
             int total = res.Count;
             progressBar.Maximum = total;
+            TaskbarManager.Instance.SetProgressValue(0, total, Handle);
 
             foreach (var r in res)
             {
+                if (isClosed) return;
+
                 if (!checkFile)
                 {
                     if (File.Exists(INSTALLED_PATH)) continue;
@@ -1460,6 +1498,10 @@ namespace XCoreNET
                 }
 
                 progressBar.Value = index;
+
+                if (!isClosed)
+                    TaskbarManager.Instance.SetProgressValue(index, total, Handle);
+
                 await Task.Delay(gb.runInterval);
             }
 
@@ -1469,10 +1511,16 @@ namespace XCoreNET
             {
                 output("INFO", "檢查完畢");
                 settingAllControl(true);
+
+                if (!isClosed)
+                    TaskbarManager.Instance.SetProgressState(TaskbarProgressBarState.NoProgress, Handle);
             }
         }
         private void onUnzipped()
         {
+            if (isClosed) return;
+
+            TaskbarManager.Instance.SetProgressState(TaskbarProgressBarState.Indeterminate, Handle);
             output("INFO", "解壓縮動態函數庫");
             gb.startupParms.appUID = Guid.NewGuid().ToString();
             var dir = PathJoin(DATA_FOLDER, "bin", gb.startupParms.appUID);
@@ -1487,6 +1535,8 @@ namespace XCoreNET
             var index = nativesPath.Count;
             foreach (var np in nativesPath)
             {
+                if (isClosed) return;
+
                 using (ZipArchive source = ZipFile.Open(np, ZipArchiveMode.Read, null))
                 {
                     foreach (ZipArchiveEntry entry in source.Entries)
@@ -1511,6 +1561,8 @@ namespace XCoreNET
 
         private void preVersionSupport()
         {
+            if (isClosed) return;
+
             // 舊版本(pre-1.6)會因為語言選項的大小寫問題導致遊戲崩潰
             output("INFO", "正在相容舊版本");
             CultureInfo ci = CultureInfo.CurrentUICulture;
@@ -1549,6 +1601,9 @@ namespace XCoreNET
 
         private void onLaunchGame()
         {
+            if (isClosed) return;
+
+            TaskbarManager.Instance.SetProgressState(TaskbarProgressBarState.Indeterminate, Handle);
             progressBar.Style = ProgressBarStyle.Marquee;
             output("INFO", "啟動遊戲");
 
@@ -1737,6 +1792,9 @@ namespace XCoreNET
                 {
                     this.Invoke(new Action(() =>
                     {
+                        if (!this.IsDisposed)
+                            TaskbarManager.Instance.SetProgressState(TaskbarProgressBarState.NoProgress, Handle);
+
                         progressBar.Style = ProgressBarStyle.Blocks;
                         output("INFO", "關閉遊戲");
                         Directory.Delete(PathJoin(DATA_FOLDER, "bin", gb.startupParms.appUID), true);
@@ -1848,6 +1906,9 @@ namespace XCoreNET
                         this.ShowInTaskbar = false;
                         trayIcon.Visible = true;
                         progressBar.Style = ProgressBarStyle.Blocks;
+
+                        if (!this.IsDisposed)
+                            TaskbarManager.Instance.SetProgressState(TaskbarProgressBarState.NoProgress, Handle);
                     }));
                 }
             }
