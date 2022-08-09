@@ -95,6 +95,19 @@ namespace XCoreNET.Properties {
         }
         
         /// <summary>
+        ///   查詢類似 MIT License
+        ///
+        ///Copyright (c) 2009 - 2010 Microsoft Coropration, then modifications by Peter William Wagner 2017 - 2021
+        ///
+        ///Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the &quot;Software&quot;), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to d [字串的其餘部分已遭截斷]&quot;; 的當地語系化字串。
+        /// </summary>
+        internal static string WindowsAPICodePack {
+            get {
+                return ResourceManager.GetString("WindowsAPICodePack", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查詢類型 System.Byte[] 的當地語系化資源。
         /// </summary>
         internal static byte[] XCoreNET_Updater {

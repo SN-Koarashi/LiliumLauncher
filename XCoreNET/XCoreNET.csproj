@@ -343,6 +343,9 @@
     <None Include="license.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="license\WindowsAPICodePack.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <Content Include="logo.ico" />
     <Content Include="Windows Logo.png" />
     <None Include="XCoreNET-Updater.exe">

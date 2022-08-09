@@ -1165,11 +1165,23 @@ namespace XCoreNET
                 if (canDownload && r["downloads"]["artifact"] != null)
                 {
                     DownloadListModel xlm = new DownloadListModel();
-                    xlm.path = r["downloads"]["artifact"]["path"].ToString();
-                    xlm.sha1 = r["downloads"]["artifact"]["sha1"].ToString();
-                    xlm.className = r["name"].ToString();
-                    xlm.type = 0;
-                    xlm.name = "default";
+                    if (r["name"].ToString().EndsWith("natives-windows"))
+                    {
+                        var classNameLen = r["name"].ToString().Split(':').Length;
+                        xlm.path = r["downloads"]["artifact"]["path"].ToString();
+                        xlm.sha1 = r["downloads"]["artifact"]["sha1"].ToString();
+                        xlm.className = r["name"].ToString();
+                        xlm.type = 2;
+                        xlm.name = r["name"].ToString().Split(':')[classNameLen - 1];
+                    }
+                    else
+                    {
+                        xlm.path = r["downloads"]["artifact"]["path"].ToString();
+                        xlm.sha1 = r["downloads"]["artifact"]["sha1"].ToString();
+                        xlm.className = r["name"].ToString();
+                        xlm.type = 0;
+                        xlm.name = "default";
+                    }
 
                     var url = r["downloads"]["artifact"]["url"].ToString();
 
@@ -1325,10 +1337,21 @@ namespace XCoreNET
                 }
 
                 var full_name = d.Value.className;
-                var full_nameArr = full_name.Split(':');
-                var version = full_nameArr.Last().Replace("natives-", "").Replace("-", ".");
+                var nameLen = full_name.Split(':').Length;
+                var version = "";
+                var className = "";
 
-                var className = String.Join(".", full_nameArr.Take(full_nameArr.Length - 1));
+                if (full_name.Split(':')[nameLen - 1].Contains("natives-windows"))
+                {
+                    version = full_name.Split(':')[nameLen - 2];
+                    className = full_name.Split(':')[nameLen - 3];
+                }
+                else
+                {
+                    version = full_name.Split(':')[nameLen - 1];
+                    className = full_name.Split(':')[nameLen - 2];
+                }
+
                 var cPath = "";
 
                 // natives 檔案 (動態函數庫)
@@ -1339,6 +1362,7 @@ namespace XCoreNET
 
                     Directory.CreateDirectory(cDir);
                     cPath = PathJoin(cDir, cFilename);
+
                     // 如果物件內沒有這個名字或是物件內的版本比較舊，則更新物件內容
                     LibrariesModel insideModel;
 
@@ -1419,6 +1443,7 @@ namespace XCoreNET
                 }
                 else
                 {
+                    Console.WriteLine(cPath);
                     if (!File.Exists(cPath) || sha_local != sha_remote || sha_remote.Length == 0)
                     {
                         if (sha_local.Length > 0 && sha_local != sha_remote) output("WARN", $"雜湊值驗證失敗 {cFilename} 將重新下載");
@@ -1532,31 +1557,48 @@ namespace XCoreNET
                 nativesPath.Add(n.Value.dir);
             }
 
+            var isException = false;
             var index = nativesPath.Count;
             foreach (var np in nativesPath)
             {
                 if (isClosed) return;
-
-                using (ZipArchive source = ZipFile.Open(np, ZipArchiveMode.Read, null))
+                try
                 {
-                    foreach (ZipArchiveEntry entry in source.Entries)
+                    using (ZipArchive source = ZipFile.Open(np, ZipArchiveMode.Read, null))
                     {
-                        string fullPath = Path.GetFullPath(Path.Combine(dir, entry.FullName));
-
-                        if (Path.GetFileName(fullPath).Length != 0)
+                        foreach (ZipArchiveEntry entry in source.Entries)
                         {
-                            Directory.CreateDirectory(Path.GetDirectoryName(fullPath));
-                            // The boolean parameter determines whether an existing file that has the same name as the destination file should be overwritten
-                            entry.ExtractToFile(fullPath, true);
+                            string fullPath = Path.GetFullPath(Path.Combine(dir, entry.FullName));
+
+                            if (Path.GetFileName(fullPath).Length != 0)
+                            {
+                                Directory.CreateDirectory(Path.GetDirectoryName(fullPath));
+                                // The boolean parameter determines whether an existing file that has the same name as the destination file should be overwritten
+                                entry.ExtractToFile(fullPath, true);
+                            }
                         }
                     }
+                }
+                catch (Exception exx)
+                {
+                    output("ERROR", exx.Message);
+                    isException = true;
                 }
 
                 index--;
             }
 
+            if (isException)
+            {
+                TaskbarManager.Instance.SetProgressState(TaskbarProgressBarState.Error, Handle);
 
-            preVersionSupport();
+                MessageBox.Show("解壓縮過程發生例外狀況，請嘗試檢查資料完整性以解決此錯誤", "錯誤", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                settingAllControl(true);
+                progressBar.Style = ProgressBarStyle.Blocks;
+                TaskbarManager.Instance.SetProgressState(TaskbarProgressBarState.NoProgress, Handle);
+            }
+            else
+                preVersionSupport();
         }
 
         private void preVersionSupport()
