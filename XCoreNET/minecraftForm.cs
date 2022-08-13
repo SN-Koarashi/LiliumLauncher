@@ -11,6 +11,7 @@ using System.Globalization;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -45,6 +46,14 @@ namespace XCoreNET
         JObject customVer;
         JArray version_manifest_v2;
 
+        List<JObject> indexObj;
+        JObject concurrentNowSize;
+        JObject concurrentTotalSizeList;
+        int concurrentTotalSize;
+        int concurrentTotalCompleted;
+        int concurrentTotalCompletedDisplay;
+        string concurrentType;
+
         private NotifyIcon trayIcon;
         int maxMemory;
 
@@ -56,6 +65,7 @@ namespace XCoreNET
             public string className { get; set; }
             public int type { get; set; }
             public string name { get; set; }
+            public int size { get; set; }
 
         }
         private class LibrariesModel
@@ -142,6 +152,7 @@ namespace XCoreNET
 
             chkBoxRelease.Checked = gb.verOptRelease;
             chkBoxSnapshot.Checked = gb.verOptSnapshot;
+            chkConcurrent.Checked = gb.isConcurrent;
 
             firstStartForm = true;
             this.Width = gb.windowSize.X;
@@ -285,6 +296,58 @@ namespace XCoreNET
             onGetAllVersion();
         }
 
+        private void onThreadDownloader(string url, string path, string filename, string UID)
+        {
+            if (isClosed) return;
+
+            Task.Run(() =>
+            {
+                WebClient client = new WebClient();
+                client.DownloadProgressChanged += new DownloadProgressChangedEventHandler((s, e) => client_DownloadProgressChanged(s, e, UID));
+                client.DownloadFileCompleted += new AsyncCompletedEventHandler((s, e) => client_DownloadFileCompleted(s, e, UID, path, filename));
+                client.DownloadFileAsync(new Uri(url), @path);
+            });
+
+            /*
+            Thread thread = new Thread(() => {
+                WebClient client = new WebClient();
+                //client.DownloadProgressChanged += new DownloadProgressChangedEventHandler(client_DownloadProgressChanged);
+                client.DownloadProgressChanged += new DownloadProgressChangedEventHandler((s,e) => client_DownloadProgressChanged(s, e, UID));
+                //client.DownloadFileCompleted += new AsyncCompletedEventHandler(client_DownloadFileCompleted);
+                client.DownloadFileCompleted += new AsyncCompletedEventHandler((s, e) => client_DownloadFileCompleted(s, e, UID, path, fileID));
+                client.DownloadFileAsync(new Uri(url), @path);
+            });
+            thread.Start();
+            */
+        }
+        void client_DownloadProgressChanged(object sender, DownloadProgressChangedEventArgs e, string UID)
+        {
+            if (isClosed) return;
+
+            this.BeginInvoke((MethodInvoker)delegate
+            {
+                concurrentNowSize[UID]["size"] = int.Parse(e.BytesReceived.ToString());
+            });
+        }
+        void client_DownloadFileCompleted(object sender, AsyncCompletedEventArgs e, string UID, string path, string filename)
+        {
+            if (isClosed) return;
+
+            this.BeginInvoke((MethodInvoker)delegate
+            {
+                outputDebug("INFO", $"下載完成: {filename}");
+
+                if (filename.StartsWith("icons/"))
+                {
+                    Directory.CreateDirectory(PathJoin(DATA_FOLDER, "assets", "icons"));
+                    File.Copy(path, PathJoin(DATA_FOLDER, "assets", filename), true);
+                }
+
+                concurrentNowSize[UID]["size"] = int.Parse(concurrentTotalSizeList[UID].ToString());
+                concurrentTotalCompleted++;
+                concurrentTotalCompletedDisplay++;
+            });
+        }
 
         private async void onGetAllVersion()
         {
@@ -1047,6 +1110,12 @@ namespace XCoreNET
         private async void onJavaProgram(JObject objKit, string gameAssetJson)
         {
             if (isClosed) return;
+            indexObj = new List<JObject>();
+            concurrentTotalSize = 0;
+            concurrentTotalCompletedDisplay = 0;
+            concurrentType = " Java 執行環境";
+            concurrentTotalSizeList = new JObject();
+            concurrentNowSize = new JObject();
 
             progressBar.Style = ProgressBarStyle.Blocks;
             TaskbarManager.Instance.SetProgressState(TaskbarProgressBarState.Normal, Handle);
@@ -1092,8 +1161,33 @@ namespace XCoreNET
                         Directory.CreateDirectory(Path.GetDirectoryName(path + "."));
 
 
-                        output("INFO", $"下載 Java {obj["windows-x64"][runtime][0]["version"]["name"]} 執行環境... ({index}/{total}) {list.Key}");
-                        await launcher.downloadResource(url, path + ".");
+                        if (gb.isConcurrent)
+                        {
+                            JObject jObject = new JObject();
+                            jObject.Add("uid", list.Key);
+                            jObject.Add("id", list.Key);
+                            jObject.Add("url", url);
+                            jObject.Add("path", path + ".");
+                            jObject.Add("size", list.Value["downloads"]["raw"]["size"].ToString());
+
+                            indexObj.Add(jObject);
+                            jObject.Remove("size");
+                            jObject.Add("size", 0);
+
+                            if (!concurrentNowSize.ContainsKey(list.Key))
+                                concurrentNowSize.Add(list.Key, jObject);
+
+                            if (!concurrentTotalSizeList.ContainsKey(list.Key))
+                                concurrentTotalSizeList.Add(list.Key, list.Value["downloads"]["raw"]["size"].ToString());
+
+                            concurrentTotalSize += int.Parse(list.Value["downloads"]["raw"]["size"].ToString());
+                            output("INFO", $"索引 Java {obj["windows-x64"][runtime][0]["version"]["name"]} 執行環境... ({index}/{total}) {list.Key}");
+                        }
+                        else
+                        {
+                            output("INFO", $"下載 Java {obj["windows-x64"][runtime][0]["version"]["name"]} 執行環境... ({index}/{total}) {list.Key}");
+                            await launcher.downloadResource(url, path + ".");
+                        }
                     }
                     else
                     {
@@ -1108,6 +1202,44 @@ namespace XCoreNET
                 await Task.Delay(gb.runInterval);
             }
 
+            if (indexObj.Count > 0)
+            {
+                output("INFO", $"準備並行下載 Java 執行環境...");
+
+                progressBar.Value = 0;
+                progressBar.Maximum = concurrentTotalSize;
+                timerConcurrent.Enabled = true;
+
+                for (int i = 0; i < indexObj.Count; i += 200)
+                {
+                    Console.WriteLine($"indexing: {i}");
+                    concurrentTotalCompleted = 0;
+
+                    var indexList = indexObj.GetRange(i, (indexObj.Count - i < 200) ? indexObj.Count - i : 200);
+                    foreach (var item in indexList)
+                    {
+                        var uid = item["uid"].ToString();
+                        var id = item["id"].ToString();
+                        var url = item["url"].ToString();
+                        var path = item["path"].ToString();
+
+                        onThreadDownloader(url, path, id, uid);
+                    }
+
+
+
+                    while (concurrentTotalCompleted != indexList.Count)
+                    {
+                        await Task.Delay(500);
+                        Console.WriteLine($"while ticked: {concurrentTotalCompleted}/{indexList.Count}");
+                    }
+                }
+
+                timerConcurrent.Enabled = false;
+                await Task.Delay(100);
+                UpdateDownloadState();
+            }
+
             gb.startupParms.javaRuntime = runtime;
             onCreateLibraries(objKit, gameAssetJson);
         }
@@ -1115,6 +1247,12 @@ namespace XCoreNET
         private async void onCreateLibraries(JObject objKit, string gameAssetJson)
         {
             if (isClosed) return;
+            indexObj = new List<JObject>();
+            concurrentTotalCompletedDisplay = 0;
+            concurrentTotalSize = 0;
+            concurrentType = "必要元件";
+            concurrentTotalSizeList = new JObject();
+            concurrentNowSize = new JObject();
 
             output("INFO", "建立必要元件");
             var dir = PathJoin(DATA_FOLDER, "libraries");
@@ -1170,6 +1308,7 @@ namespace XCoreNET
                         var classNameLen = r["name"].ToString().Split(':').Length;
                         xlm.path = r["downloads"]["artifact"]["path"].ToString();
                         xlm.sha1 = r["downloads"]["artifact"]["sha1"].ToString();
+                        xlm.size = int.Parse(r["downloads"]["artifact"]["size"].ToString());
                         xlm.className = r["name"].ToString();
                         xlm.type = 2;
                         xlm.name = r["name"].ToString().Split(':')[classNameLen - 1];
@@ -1177,6 +1316,7 @@ namespace XCoreNET
                     else
                     {
                         xlm.path = r["downloads"]["artifact"]["path"].ToString();
+                        xlm.size = int.Parse(r["downloads"]["artifact"]["size"].ToString());
                         xlm.sha1 = r["downloads"]["artifact"]["sha1"].ToString();
                         xlm.className = r["name"].ToString();
                         xlm.type = 0;
@@ -1202,6 +1342,7 @@ namespace XCoreNET
                             DownloadListModel xlm = new DownloadListModel();
                             var obj = JsonConvert.DeserializeObject<JObject>(c.Value.ToString());
                             xlm.path = obj["path"].ToString();
+                            xlm.size = int.Parse(obj["size"].ToString());
                             xlm.sha1 = obj["sha1"].ToString();
                             xlm.className = r["name"].ToString();
                             xlm.name = c.Key;
@@ -1448,8 +1589,34 @@ namespace XCoreNET
                     {
                         if (sha_local.Length > 0 && sha_local != sha_remote) output("WARN", $"雜湊值驗證失敗 {cFilename} 將重新下載");
 
-                        output("INFO", $"下載必要元件... ({index}/{total}) {cPath}");
-                        await launcher.downloadResource(d.Key, cPath);
+
+                        if (gb.isConcurrent)
+                        {
+                            JObject jObject = new JObject();
+                            jObject.Add("uid", d.Key);
+                            jObject.Add("id", d.Value.className);
+                            jObject.Add("url", d.Key);
+                            jObject.Add("path", cPath);
+                            jObject.Add("size", d.Value.size.ToString());
+
+                            indexObj.Add(jObject);
+                            jObject.Remove("size");
+                            jObject.Add("size", 0);
+
+                            if (!concurrentNowSize.ContainsKey(d.Key))
+                                concurrentNowSize.Add(d.Key, jObject);
+
+                            if (!concurrentTotalSizeList.ContainsKey(d.Key))
+                                concurrentTotalSizeList.Add(d.Key, d.Value.size.ToString());
+
+                            concurrentTotalSize += d.Value.size;
+                            output("INFO", $"索引必要元件... ({index}/{total}) {cPath}");
+                        }
+                        else
+                        {
+                            output("INFO", $"下載必要元件... ({index}/{total}) {cPath}");
+                            await launcher.downloadResource(d.Key, cPath);
+                        }
                     }
                     else
                     {
@@ -1460,6 +1627,44 @@ namespace XCoreNET
                 await Task.Delay(gb.runInterval);
             }
 
+            if (indexObj.Count > 0)
+            {
+                output("INFO", $"準備並行下載必要元件...");
+
+                progressBar.Value = 0;
+                progressBar.Maximum = concurrentTotalSize;
+                timerConcurrent.Enabled = true;
+
+                for (int i = 0; i < indexObj.Count; i += 200)
+                {
+                    Console.WriteLine($"indexing: {i}");
+                    concurrentTotalCompleted = 0;
+
+                    var indexList = indexObj.GetRange(i, (indexObj.Count - i < 200) ? indexObj.Count - i : 200);
+                    foreach (var item in indexList)
+                    {
+                        var uid = item["uid"].ToString();
+                        var id = item["id"].ToString();
+                        var url = item["url"].ToString();
+                        var path = item["path"].ToString();
+
+                        onThreadDownloader(url, path, id, uid);
+                    }
+
+
+
+                    while (concurrentTotalCompleted != indexList.Count)
+                    {
+                        await Task.Delay(500);
+                        Console.WriteLine($"while ticked: {concurrentTotalCompleted}/{indexList.Count}");
+                    }
+                }
+
+                timerConcurrent.Enabled = false;
+                await Task.Delay(100);
+                UpdateDownloadState();
+            }
+
             output("INFO", "必要元件建立完成");
             onCreateObjects(gameAssetJson);
         }
@@ -1467,6 +1672,13 @@ namespace XCoreNET
         private async void onCreateObjects(string gameAssetJson)
         {
             if (isClosed) return;
+
+            indexObj = new List<JObject>();
+            concurrentTotalCompletedDisplay = 0;
+            concurrentTotalSize = 0;
+            concurrentType = "遊戲資料";
+            concurrentTotalSizeList = new JObject();
+            concurrentNowSize = new JObject();
 
             output("INFO", "建立遊戲資料");
             var dir = PathJoin(DATA_FOLDER, "assets/objects");
@@ -1508,15 +1720,40 @@ namespace XCoreNET
                 {
                     if (sha_local.Length > 0 && sha_remote != sha_local) output("WARN", $"雜湊值驗證失敗 {r.Key}");
 
-                    output("INFO", $"下載遊戲資料... ({index}/{total}) {r.Key}");
-                    await launcher.downloadResource(resource_url, cPath);
+                    if (gb.isConcurrent)
+                    {
+                        JObject jObject = new JObject();
+                        jObject.Add("uid", r.Key);
+                        jObject.Add("id", r.Key);
+                        jObject.Add("url", resource_url);
+                        jObject.Add("path", cPath);
+                        jObject.Add("size", r.Value["size"].ToString());
+
+                        indexObj.Add(jObject);
+                        jObject.Remove("size");
+                        jObject.Add("size", 0);
+
+                        if (!concurrentNowSize.ContainsKey(r.Key))
+                            concurrentNowSize.Add(r.Key, jObject);
+
+                        if (!concurrentTotalSizeList.ContainsKey(r.Key))
+                            concurrentTotalSizeList.Add(r.Key, r.Value["size"].ToString());
+
+                        concurrentTotalSize += int.Parse(r.Value["size"].ToString());
+                        output("INFO", $"索引遊戲資料... ({index}/{total}) {r.Key}");
+                    }
+                    else
+                    {
+                        output("INFO", $"下載遊戲資料... ({index}/{total}) {r.Key}");
+                        await launcher.downloadResource(resource_url, cPath);
+                    }
                 }
                 else
                 {
                     output("INFO", $"檢查遊戲資料... ({index}/{total}) {r.Key}");
                 }
 
-                if (r.Key.StartsWith("icons/"))
+                if (r.Key.StartsWith("icons/") && !chkConcurrent.Checked)
                 {
                     Directory.CreateDirectory(PathJoin(DATA_FOLDER, "assets", "icons"));
                     File.Copy(cPath, PathJoin(DATA_FOLDER, "assets", r.Key), true);
@@ -1528,6 +1765,44 @@ namespace XCoreNET
                     TaskbarManager.Instance.SetProgressValue(index, total, Handle);
 
                 await Task.Delay(gb.runInterval);
+            }
+
+            if (indexObj.Count > 0)
+            {
+                output("INFO", $"準備並行下載遊戲資料...");
+
+                progressBar.Value = 0;
+                progressBar.Maximum = concurrentTotalSize;
+                timerConcurrent.Enabled = true;
+
+                for (int i = 0; i < indexObj.Count; i += 200)
+                {
+                    Console.WriteLine($"indexing: {i}");
+                    concurrentTotalCompleted = 0;
+
+                    var indexList = indexObj.GetRange(i, (indexObj.Count - i < 200) ? indexObj.Count - i : 200);
+                    foreach (var item in indexList)
+                    {
+                        var uid = item["uid"].ToString();
+                        var id = item["id"].ToString();
+                        var url = item["url"].ToString();
+                        var path = item["path"].ToString();
+
+                        onThreadDownloader(url, path, id, uid);
+                    }
+
+
+
+                    while (concurrentTotalCompleted != indexList.Count)
+                    {
+                        await Task.Delay(500);
+                        Console.WriteLine($"while ticked: {concurrentTotalCompleted}/{indexList.Count}");
+                    }
+                }
+
+                timerConcurrent.Enabled = false;
+                await Task.Delay(100);
+                UpdateDownloadState();
             }
 
             if (!checkFile)
@@ -2071,6 +2346,11 @@ namespace XCoreNET
             gb.savingSession();
             onGetAllVersion();
         }
+        private void chkConcurrent_Click(object sender, EventArgs e)
+        {
+            gb.isConcurrent = chkConcurrent.Checked;
+            gb.savingSession();
+        }
 
         private async void btnLogoutAll_Click(object sender, EventArgs e)
         {
@@ -2190,6 +2470,50 @@ namespace XCoreNET
             version_manifest_v2 = (JArray)(await launcher.getAllVersion())["versions"];
             onGetAllVersion();
             settingAllControl(true);
+        }
+
+        private string SizeFormatter(int totBytes, int nowBytes)
+        {
+            var KiB = totBytes / 1024;
+
+            if (totBytes < 1024)
+            {
+                return $"{nowBytes} / {totBytes} Bytes";
+            }
+            else if (KiB < 1024 && totBytes > 1024)
+            {
+                var totalFormat = Math.Round((double)totBytes / 1024, 3);
+                var nowFormat = Math.Round((double)nowBytes / 1024, 3);
+                return $"{nowFormat} / {totalFormat} KB";
+            }
+            else
+            {
+                var totalFormat = Math.Round((double)totBytes / 1024 / 1024, 3);
+                var nowFormat = Math.Round((double)nowBytes / 1024 / 1024, 3);
+                return $"{nowFormat} / {totalFormat} MB";
+            }
+        }
+        private void UpdateDownloadState()
+        {
+            if (!isClosed && concurrentNowSize != null && concurrentNowSize.Count > 0)
+            {
+                int tempSize = 0;
+
+                foreach (var item in concurrentNowSize)
+                {
+                    tempSize += int.Parse(item.Value["size"].ToString());
+                }
+
+                progressBar.Value = tempSize;
+                output("INFO", $"正在並行下載{concurrentType}... {SizeFormatter(concurrentTotalSize, tempSize)} ({concurrentTotalCompletedDisplay}/{indexObj.Count})");
+                TaskbarManager.Instance.SetProgressValue(tempSize, concurrentTotalSize, Handle);
+            }
+        }
+
+        private void timerConcurrent_Tick(object sender, EventArgs e)
+        {
+            Console.WriteLine("timer ticked");
+            UpdateDownloadState();
         }
     }
 }

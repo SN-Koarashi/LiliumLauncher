@@ -32,6 +32,7 @@ namespace Global
         public static Uri launcherHomepage = new Uri("https://www.snkms.com/minecraftNews.html");
         public static int maxMemoryUsage = 0;
         public static bool usingMaxMemoryUsage = false;
+        public static bool isConcurrent = false;
 
         public class startupParms
         {
@@ -107,7 +108,8 @@ namespace Global
                 isMainFolder = isMainFolder,
                 lastVersionID = lastVersionID,
                 windowSize = $"{windowSize.X},{windowSize.Y}",
-                runInterval = runInterval
+                runInterval = runInterval,
+                isConcurrent = isConcurrent
             };
 
             Directory.CreateDirectory("settings");
@@ -122,6 +124,7 @@ namespace Global
                 var content = File.ReadAllText(path);
                 var result = JsonConvert.DeserializeObject<SessionModel>(content);
 
+                isConcurrent = result.isConcurrent;
                 isMainFolder = result.isMainFolder;
                 refreshToken = result.refreshToken;
                 launchToken = GetValueOrDefault<string, object, string>(result.launcher, "token", launchToken);
@@ -130,7 +133,6 @@ namespace Global
                 minecraftUUID = GetValueOrDefault<string, object, string>(result.minecraft, "uuid", minecraftUUID);
                 verOptRelease = GetValueOrDefault<string, object, bool>(result.versionOptions, "release", verOptRelease);
                 verOptSnapshot = GetValueOrDefault<string, object, bool>(result.versionOptions, "snapshot", verOptSnapshot);
-
 
                 maxMemoryUsage = Convert.ToInt32(GetValueOrDefault<string, object, long>(result.launcher, "maxMemoryUsage", long.Parse(maxMemoryUsage.ToString())));
                 usingMaxMemoryUsage = GetValueOrDefault<string, object, bool>(result.launcher, "usingMaxMemoryUsage", usingMaxMemoryUsage);
@@ -284,6 +286,8 @@ namespace Global
             public string lastVersionID { get; set; }
             public string windowSize { get; set; }
             public int runInterval { get; set; }
+            public bool isConcurrent { get; set; }
+
         }
         public class ProgramModel
         {

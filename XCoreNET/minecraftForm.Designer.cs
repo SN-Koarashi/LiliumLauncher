@@ -78,6 +78,8 @@
             this.debugPage = new System.Windows.Forms.TabPage();
             this.textBox = new System.Windows.Forms.TextBox();
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
+            this.timerConcurrent = new System.Windows.Forms.Timer(this.components);
+            this.chkConcurrent = new System.Windows.Forms.CheckBox();
             this.tabControl1.SuspendLayout();
             this.mainPage.SuspendLayout();
             this.panelBody.SuspendLayout();
@@ -455,20 +457,21 @@
             // 
             // groupBoxInterval
             // 
+            this.groupBoxInterval.Controls.Add(this.chkConcurrent);
             this.groupBoxInterval.Controls.Add(this.textBoxInterval);
             this.groupBoxInterval.Location = new System.Drawing.Point(8, 235);
             this.groupBoxInterval.Name = "groupBoxInterval";
             this.groupBoxInterval.Size = new System.Drawing.Size(151, 53);
             this.groupBoxInterval.TabIndex = 3;
             this.groupBoxInterval.TabStop = false;
-            this.groupBoxInterval.Text = "執行間隔";
+            this.groupBoxInterval.Text = "執行間隔與下載模式";
             // 
             // textBoxInterval
             // 
             this.textBoxInterval.Location = new System.Drawing.Point(6, 22);
             this.textBoxInterval.MaxLength = 2;
             this.textBoxInterval.Name = "textBoxInterval";
-            this.textBoxInterval.Size = new System.Drawing.Size(139, 25);
+            this.textBoxInterval.Size = new System.Drawing.Size(52, 25);
             this.textBoxInterval.TabIndex = 0;
             this.textBoxInterval.Text = "1";
             this.textBoxInterval.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -627,6 +630,21 @@
             this.textBox.Size = new System.Drawing.Size(450, 285);
             this.textBox.TabIndex = 0;
             // 
+            // timerConcurrent
+            // 
+            this.timerConcurrent.Tick += new System.EventHandler(this.timerConcurrent_Tick);
+            // 
+            // chkConcurrent
+            // 
+            this.chkConcurrent.AutoSize = true;
+            this.chkConcurrent.Location = new System.Drawing.Point(62, 23);
+            this.chkConcurrent.Name = "chkConcurrent";
+            this.chkConcurrent.Size = new System.Drawing.Size(83, 22);
+            this.chkConcurrent.TabIndex = 1;
+            this.chkConcurrent.Text = "並行下載";
+            this.chkConcurrent.UseVisualStyleBackColor = true;
+            this.chkConcurrent.Click += new System.EventHandler(this.chkConcurrent_Click);
+            // 
             // minecraftForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -728,5 +746,7 @@
         private System.Windows.Forms.TextBox textBoxMiB;
         private System.Windows.Forms.CheckBox checkBoxMaxMem;
         private System.Windows.Forms.Button btnVerRecache;
+        private System.Windows.Forms.Timer timerConcurrent;
+        private System.Windows.Forms.CheckBox chkConcurrent;
     }
 }
