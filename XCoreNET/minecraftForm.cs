@@ -46,9 +46,8 @@ namespace XCoreNET
         JObject customVer;
         JArray version_manifest_v2;
 
-        List<JObject> indexObj;
-        JObject concurrentNowSize;
-        JObject concurrentTotalSizeList;
+        List<ConcurrentDownloadListModel> indexObj;
+        Dictionary<string, ConcurrentDownloadListModel> concurrentNowSize;
         int concurrentTotalSize;
         int concurrentTotalCompleted;
         int concurrentTotalCompletedDisplay;
@@ -72,6 +71,16 @@ namespace XCoreNET
         {
             public string dir { get; set; }
             public string version { get; set; }
+        }
+
+        private class ConcurrentDownloadListModel
+        {
+            public string uid { get; set; }
+            public string id { get; set; }
+            public string url { get; set; }
+            public string path { get; set; }
+            public int size { get; set; }
+            public int totSize { get; set; }
         }
 
         public minecraftForm()
@@ -326,7 +335,7 @@ namespace XCoreNET
 
             this.BeginInvoke((MethodInvoker)delegate
             {
-                concurrentNowSize[UID]["size"] = int.Parse(e.BytesReceived.ToString());
+                concurrentNowSize[UID].size = int.Parse(e.BytesReceived.ToString());
             });
         }
         void client_DownloadFileCompleted(object sender, AsyncCompletedEventArgs e, string UID, string path, string filename)
@@ -343,9 +352,11 @@ namespace XCoreNET
                     File.Copy(path, PathJoin(DATA_FOLDER, "assets", filename), true);
                 }
 
-                concurrentNowSize[UID]["size"] = int.Parse(concurrentTotalSizeList[UID].ToString());
+                concurrentNowSize[UID].size = concurrentNowSize[UID].totSize;
                 concurrentTotalCompleted++;
                 concurrentTotalCompletedDisplay++;
+
+                UpdateDownloadState();
             });
         }
 
@@ -1110,12 +1121,11 @@ namespace XCoreNET
         private async void onJavaProgram(JObject objKit, string gameAssetJson)
         {
             if (isClosed) return;
-            indexObj = new List<JObject>();
+            indexObj = new List<ConcurrentDownloadListModel>();
             concurrentTotalSize = 0;
             concurrentTotalCompletedDisplay = 0;
             concurrentType = " Java 執行環境";
-            concurrentTotalSizeList = new JObject();
-            concurrentNowSize = new JObject();
+            concurrentNowSize = new Dictionary<string, ConcurrentDownloadListModel>();
 
             progressBar.Style = ProgressBarStyle.Blocks;
             TaskbarManager.Instance.SetProgressState(TaskbarProgressBarState.Normal, Handle);
@@ -1163,22 +1173,17 @@ namespace XCoreNET
 
                         if (gb.isConcurrent)
                         {
-                            JObject jObject = new JObject();
-                            jObject.Add("uid", list.Key);
-                            jObject.Add("id", list.Key);
-                            jObject.Add("url", url);
-                            jObject.Add("path", path + ".");
-                            jObject.Add("size", list.Value["downloads"]["raw"]["size"].ToString());
-
-                            indexObj.Add(jObject);
-                            jObject.Remove("size");
-                            jObject.Add("size", 0);
+                            ConcurrentDownloadListModel cdlm = new ConcurrentDownloadListModel();
+                            cdlm.uid = list.Key;
+                            cdlm.id = list.Key;
+                            cdlm.url = url;
+                            cdlm.path = path + ".";
+                            cdlm.size = 0;
+                            cdlm.totSize = int.Parse(list.Value["downloads"]["raw"]["size"].ToString());
+                            indexObj.Add(cdlm);
 
                             if (!concurrentNowSize.ContainsKey(list.Key))
-                                concurrentNowSize.Add(list.Key, jObject);
-
-                            if (!concurrentTotalSizeList.ContainsKey(list.Key))
-                                concurrentTotalSizeList.Add(list.Key, list.Value["downloads"]["raw"]["size"].ToString());
+                                concurrentNowSize.Add(list.Key, cdlm);
 
                             concurrentTotalSize += int.Parse(list.Value["downloads"]["raw"]["size"].ToString());
                             output("INFO", $"索引 Java {obj["windows-x64"][runtime][0]["version"]["name"]} 執行環境... ({index}/{total}) {list.Key}");
@@ -1218,12 +1223,7 @@ namespace XCoreNET
                     var indexList = indexObj.GetRange(i, (indexObj.Count - i < 200) ? indexObj.Count - i : 200);
                     foreach (var item in indexList)
                     {
-                        var uid = item["uid"].ToString();
-                        var id = item["id"].ToString();
-                        var url = item["url"].ToString();
-                        var path = item["path"].ToString();
-
-                        onThreadDownloader(url, path, id, uid);
+                        onThreadDownloader(item.url, item.path, item.id, item.uid);
                     }
 
 
@@ -1247,12 +1247,11 @@ namespace XCoreNET
         private async void onCreateLibraries(JObject objKit, string gameAssetJson)
         {
             if (isClosed) return;
-            indexObj = new List<JObject>();
+            indexObj = new List<ConcurrentDownloadListModel>();
             concurrentTotalCompletedDisplay = 0;
             concurrentTotalSize = 0;
             concurrentType = "必要元件";
-            concurrentTotalSizeList = new JObject();
-            concurrentNowSize = new JObject();
+            concurrentNowSize = new Dictionary<string, ConcurrentDownloadListModel>();
 
             output("INFO", "建立必要元件");
             var dir = PathJoin(DATA_FOLDER, "libraries");
@@ -1592,22 +1591,17 @@ namespace XCoreNET
 
                         if (gb.isConcurrent)
                         {
-                            JObject jObject = new JObject();
-                            jObject.Add("uid", d.Key);
-                            jObject.Add("id", d.Value.className);
-                            jObject.Add("url", d.Key);
-                            jObject.Add("path", cPath);
-                            jObject.Add("size", d.Value.size.ToString());
-
-                            indexObj.Add(jObject);
-                            jObject.Remove("size");
-                            jObject.Add("size", 0);
+                            ConcurrentDownloadListModel cdlm = new ConcurrentDownloadListModel();
+                            cdlm.uid = d.Key;
+                            cdlm.id = d.Value.className;
+                            cdlm.url = d.Key;
+                            cdlm.path = cPath;
+                            cdlm.size = 0;
+                            cdlm.totSize = d.Value.size;
+                            indexObj.Add(cdlm);
 
                             if (!concurrentNowSize.ContainsKey(d.Key))
-                                concurrentNowSize.Add(d.Key, jObject);
-
-                            if (!concurrentTotalSizeList.ContainsKey(d.Key))
-                                concurrentTotalSizeList.Add(d.Key, d.Value.size.ToString());
+                                concurrentNowSize.Add(d.Key, cdlm);
 
                             concurrentTotalSize += d.Value.size;
                             output("INFO", $"索引必要元件... ({index}/{total}) {cPath}");
@@ -1643,12 +1637,7 @@ namespace XCoreNET
                     var indexList = indexObj.GetRange(i, (indexObj.Count - i < 200) ? indexObj.Count - i : 200);
                     foreach (var item in indexList)
                     {
-                        var uid = item["uid"].ToString();
-                        var id = item["id"].ToString();
-                        var url = item["url"].ToString();
-                        var path = item["path"].ToString();
-
-                        onThreadDownloader(url, path, id, uid);
+                        onThreadDownloader(item.url, item.path, item.id, item.uid);
                     }
 
 
@@ -1673,12 +1662,11 @@ namespace XCoreNET
         {
             if (isClosed) return;
 
-            indexObj = new List<JObject>();
+            indexObj = new List<ConcurrentDownloadListModel>();
             concurrentTotalCompletedDisplay = 0;
             concurrentTotalSize = 0;
             concurrentType = "遊戲資料";
-            concurrentTotalSizeList = new JObject();
-            concurrentNowSize = new JObject();
+            concurrentNowSize = new Dictionary<string, ConcurrentDownloadListModel>();
 
             output("INFO", "建立遊戲資料");
             var dir = PathJoin(DATA_FOLDER, "assets/objects");
@@ -1722,22 +1710,17 @@ namespace XCoreNET
 
                     if (gb.isConcurrent)
                     {
-                        JObject jObject = new JObject();
-                        jObject.Add("uid", r.Key);
-                        jObject.Add("id", r.Key);
-                        jObject.Add("url", resource_url);
-                        jObject.Add("path", cPath);
-                        jObject.Add("size", r.Value["size"].ToString());
-
-                        indexObj.Add(jObject);
-                        jObject.Remove("size");
-                        jObject.Add("size", 0);
+                        ConcurrentDownloadListModel cdlm = new ConcurrentDownloadListModel();
+                        cdlm.uid = r.Key;
+                        cdlm.id = r.Key;
+                        cdlm.url = resource_url;
+                        cdlm.path = cPath;
+                        cdlm.size = 0;
+                        cdlm.totSize = int.Parse(r.Value["size"].ToString());
+                        indexObj.Add(cdlm);
 
                         if (!concurrentNowSize.ContainsKey(r.Key))
-                            concurrentNowSize.Add(r.Key, jObject);
-
-                        if (!concurrentTotalSizeList.ContainsKey(r.Key))
-                            concurrentTotalSizeList.Add(r.Key, r.Value["size"].ToString());
+                            concurrentNowSize.Add(r.Key, cdlm);
 
                         concurrentTotalSize += int.Parse(r.Value["size"].ToString());
                         output("INFO", $"索引遊戲資料... ({index}/{total}) {r.Key}");
@@ -1770,25 +1753,22 @@ namespace XCoreNET
             if (indexObj.Count > 0)
             {
                 output("INFO", $"準備並行下載遊戲資料...");
+                var SortedIndexObj = indexObj.OrderByDescending(o => o.totSize).ToList();
+
 
                 progressBar.Value = 0;
                 progressBar.Maximum = concurrentTotalSize;
                 timerConcurrent.Enabled = true;
 
-                for (int i = 0; i < indexObj.Count; i += 200)
+                for (int i = 0; i < SortedIndexObj.Count; i += 200)
                 {
                     Console.WriteLine($"indexing: {i}");
                     concurrentTotalCompleted = 0;
 
-                    var indexList = indexObj.GetRange(i, (indexObj.Count - i < 200) ? indexObj.Count - i : 200);
+                    var indexList = SortedIndexObj.GetRange(i, (SortedIndexObj.Count - i < 200) ? SortedIndexObj.Count - i : 200);
                     foreach (var item in indexList)
                     {
-                        var uid = item["uid"].ToString();
-                        var id = item["id"].ToString();
-                        var url = item["url"].ToString();
-                        var path = item["path"].ToString();
-
-                        onThreadDownloader(url, path, id, uid);
+                        onThreadDownloader(item.url, item.path, item.id, item.uid);
                     }
 
 
@@ -2501,7 +2481,7 @@ namespace XCoreNET
 
                 foreach (var item in concurrentNowSize)
                 {
-                    tempSize += int.Parse(item.Value["size"].ToString());
+                    tempSize += item.Value.size;
                 }
 
                 progressBar.Value = tempSize;
