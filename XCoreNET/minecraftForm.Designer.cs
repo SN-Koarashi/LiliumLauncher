@@ -62,6 +62,7 @@
             this.btnChkUpdate = new System.Windows.Forms.Button();
             this.btnMainSetting = new System.Windows.Forms.Button();
             this.groupBoxInterval = new System.Windows.Forms.GroupBox();
+            this.chkConcurrent = new System.Windows.Forms.CheckBox();
             this.textBoxInterval = new System.Windows.Forms.TextBox();
             this.panelSettingsTop = new System.Windows.Forms.Panel();
             this.groupBoxDataFolder = new System.Windows.Forms.GroupBox();
@@ -79,7 +80,6 @@
             this.textBox = new System.Windows.Forms.TextBox();
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.timerConcurrent = new System.Windows.Forms.Timer(this.components);
-            this.chkConcurrent = new System.Windows.Forms.CheckBox();
             this.tabControl1.SuspendLayout();
             this.mainPage.SuspendLayout();
             this.panelBody.SuspendLayout();
@@ -466,6 +466,17 @@
             this.groupBoxInterval.TabStop = false;
             this.groupBoxInterval.Text = "執行間隔與下載模式";
             // 
+            // chkConcurrent
+            // 
+            this.chkConcurrent.AutoSize = true;
+            this.chkConcurrent.Location = new System.Drawing.Point(62, 23);
+            this.chkConcurrent.Name = "chkConcurrent";
+            this.chkConcurrent.Size = new System.Drawing.Size(83, 22);
+            this.chkConcurrent.TabIndex = 1;
+            this.chkConcurrent.Text = "並行下載";
+            this.chkConcurrent.UseVisualStyleBackColor = true;
+            this.chkConcurrent.Click += new System.EventHandler(this.chkConcurrent_Click);
+            // 
             // textBoxInterval
             // 
             this.textBoxInterval.Location = new System.Drawing.Point(6, 22);
@@ -633,17 +644,6 @@
             // timerConcurrent
             // 
             this.timerConcurrent.Tick += new System.EventHandler(this.timerConcurrent_Tick);
-            // 
-            // chkConcurrent
-            // 
-            this.chkConcurrent.AutoSize = true;
-            this.chkConcurrent.Location = new System.Drawing.Point(62, 23);
-            this.chkConcurrent.Name = "chkConcurrent";
-            this.chkConcurrent.Size = new System.Drawing.Size(83, 22);
-            this.chkConcurrent.TabIndex = 1;
-            this.chkConcurrent.Text = "並行下載";
-            this.chkConcurrent.UseVisualStyleBackColor = true;
-            this.chkConcurrent.Click += new System.EventHandler(this.chkConcurrent_Click);
             // 
             // minecraftForm
             // 

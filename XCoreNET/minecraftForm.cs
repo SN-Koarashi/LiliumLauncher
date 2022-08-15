@@ -285,11 +285,10 @@ namespace XCoreNET
         {
             this.WindowState = FormWindowState.Normal;
             this.Activate();
-            if (!gb.firstStart) gb.checkForUpdate();
 
             if (gb.launchToken.Length > 0 && gb.getNowMilliseconds() - gb.launchTokenExpiresAt < 0)
             {
-                progressBar.Value = 60;
+                progressBar.Value = 0;
                 loginSuccess(gb.minecraftUsername, gb.minecraftUUID);
             }
             else if (gb.refreshToken.Length > 0)
@@ -301,8 +300,6 @@ namespace XCoreNET
             }
 
             ////////////////////////
-
-            onGetAllVersion();
         }
 
         private void onThreadDownloader(string url, string path, string filename, string UID)
@@ -707,8 +704,13 @@ namespace XCoreNET
             gb.startupParms.accessToken = gb.launchToken;
             gb.savingSession();
 
+            onGetAllVersion();
             settingAllControl(true);
             TaskbarManager.Instance.SetProgressState(TaskbarProgressBarState.NoProgress, Handle);
+
+
+            if (!gb.firstStart)
+                gb.checkForUpdate();
         }
 
         int tryReload = 0;
@@ -1363,7 +1365,7 @@ namespace XCoreNET
                     }
                 }
 
-                output("INFO", $"取得必要元件索引: ({index}/{total})");
+                output("INFO", $"取得必要元件索引... ({index}/{total})");
                 progressBar.Value = index;
 
                 if (!isClosed)
@@ -1579,11 +1581,10 @@ namespace XCoreNET
 
                 if (d.Key.StartsWith("custom-"))
                 {
-                    output("INFO", $"檢查必要元件... ({index}/{total}) {cPath}");
+                    output("INFO", $"檢查必要元件... ({index}/{total}) {d.Value.className}");
                 }
                 else
                 {
-                    Console.WriteLine(cPath);
                     if (!File.Exists(cPath) || sha_local != sha_remote || sha_remote.Length == 0)
                     {
                         if (sha_local.Length > 0 && sha_local != sha_remote) output("WARN", $"雜湊值驗證失敗 {cFilename} 將重新下載");
@@ -1604,17 +1605,17 @@ namespace XCoreNET
                                 concurrentNowSize.Add(d.Key, cdlm);
 
                             concurrentTotalSize += d.Value.size;
-                            output("INFO", $"索引必要元件... ({index}/{total}) {cPath}");
+                            output("INFO", $"索引必要元件... ({index}/{total}) {d.Value.className}");
                         }
                         else
                         {
-                            output("INFO", $"下載必要元件... ({index}/{total}) {cPath}");
+                            output("INFO", $"下載必要元件... ({index}/{total}) {d.Value.className}");
                             await launcher.downloadResource(d.Key, cPath);
                         }
                     }
                     else
                     {
-                        output("INFO", $"檢查必要元件... ({index}/{total}) {cPath}");
+                        output("INFO", $"檢查必要元件... ({index}/{total}) {d.Value.className}");
                     }
                 }
 
