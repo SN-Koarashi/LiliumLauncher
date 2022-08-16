@@ -8,6 +8,7 @@ using System.IO;
 using System.Net.Http;
 using System.Security.Cryptography;
 using System.Text;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Global
@@ -114,19 +115,24 @@ namespace Global
 
             Directory.CreateDirectory("settings");
 
-            try
+            Task.Run(() =>
             {
-                var jsonData = JsonConvert.SerializeObject(content);
-                byte[] Key = Encoding.ASCII.GetBytes(SHA256(getWMIC("csproduct get UUID")).Substring(0, 32));
-                byte[] IV = Encoding.ASCII.GetBytes(SHA256(getWMIC("baseboard get serialnumber")).Substring(32, 16));
-                byte[] encrypted = EncryptToAES(jsonData, Key, IV);
+                try
+                {
+                    var jsonData = JsonConvert.SerializeObject(content);
+                    byte[] Key = Encoding.ASCII.GetBytes(SHA256(getWMIC("csproduct get UUID")).Substring(0, 32));
+                    byte[] IV = Encoding.ASCII.GetBytes(SHA256(getWMIC("baseboard get serialnumber")).Substring(32, 16));
+                    byte[] encrypted = EncryptToAES(jsonData, Key, IV);
 
-                File.WriteAllBytes($"settings{Path.DirectorySeparatorChar}launcher_settings.bin", encrypted);
-            }
-            catch (Exception exx)
-            {
-                Console.WriteLine(exx.Message);
-            }
+                    File.WriteAllBytes($"settings{Path.DirectorySeparatorChar}launcher_settings.bin", encrypted);
+                    Console.WriteLine("儲存工作階段資料: Done");
+                }
+                catch (Exception exx)
+                {
+                    Console.WriteLine(exx.Message);
+                }
+            });
+
             Console.WriteLine("儲存工作階段資料");
         }
         public static void readingSession()

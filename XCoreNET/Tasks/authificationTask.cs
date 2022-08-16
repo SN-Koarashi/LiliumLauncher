@@ -1,6 +1,5 @@
 ﻿using Global;
 using Newtonsoft.Json;
-using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Text;
@@ -29,7 +28,7 @@ namespace XCoreNET.Tasks
             var response = await client.PostAsync("https://login.live.com/oauth20_token.srf", data);
             var body = await response.Content.ReadAsStringAsync();
 
-            Console.WriteLine($"Code2Token: {body}");
+            //Console.WriteLine($"Code2Token: {body}");
             return JsonConvert.DeserializeObject<Dictionary<string, object>>(body);
         }
 
@@ -48,7 +47,7 @@ namespace XCoreNET.Tasks
             var response = await client.PostAsync("https://login.live.com/oauth20_token.srf", data);
             var body = await response.Content.ReadAsStringAsync();
 
-            Console.WriteLine($"refreshToken: {body}");
+            //Console.WriteLine($"refreshToken: {body}");
             return JsonConvert.DeserializeObject<Dictionary<string, object>>(body);
         }
         public async Task<Dictionary<string, object>> getXBLToken(string access_token)
@@ -73,7 +72,7 @@ namespace XCoreNET.Tasks
             var response = await client.PostAsync("https://user.auth.xboxlive.com/user/authenticate", content);
             var body = await response.Content.ReadAsStringAsync();
 
-            Console.WriteLine($"getXBLToken: {body}");
+            //Console.WriteLine($"getXBLToken: {body}");
             return JsonConvert.DeserializeObject<Dictionary<string, object>>(body);
         }
 
@@ -98,7 +97,7 @@ namespace XCoreNET.Tasks
             var response = await client.PostAsync("https://xsts.auth.xboxlive.com/xsts/authorize", content);
             var body = await response.Content.ReadAsStringAsync();
 
-            Console.WriteLine($"getXSTSToken: {body}");
+            //Console.WriteLine($"getXSTSToken: {body}");
             return JsonConvert.DeserializeObject<Dictionary<string, object>>(body);
         }
 
@@ -117,7 +116,7 @@ namespace XCoreNET.Tasks
             var response = await client.PostAsync("https://api.minecraftservices.com/authentication/login_with_xbox", content);
             var body = await response.Content.ReadAsStringAsync();
 
-            Console.WriteLine($"getMinecraftAuth: {body}");
+            //Console.WriteLine($"getMinecraftAuth: {body}");
             return JsonConvert.DeserializeObject<Dictionary<string, object>>(body);
         }
 
@@ -127,7 +126,7 @@ namespace XCoreNET.Tasks
             client.DefaultRequestHeaders.Add("Authorization", $"{type} {accessToken}");
             var body = await client.GetStringAsync("https://api.minecraftservices.com/entitlements/mcstore");
 
-            Console.WriteLine($"checkGameOwnership: {body}");
+            //Console.WriteLine($"checkGameOwnership: {body}");
             return JsonConvert.DeserializeObject<Dictionary<string, object>>(body);
         }
 
@@ -137,7 +136,7 @@ namespace XCoreNET.Tasks
             client.DefaultRequestHeaders.Add("Authorization", $"{type} {accessToken}");
             var body = await client.GetStringAsync("https://api.minecraftservices.com/minecraft/profile");
 
-            Console.WriteLine($"getMinecraftProfile: {body}");
+            //Console.WriteLine($"getMinecraftProfile: {body}");
             return JsonConvert.DeserializeObject<Dictionary<string, object>>(body);
         }
     }

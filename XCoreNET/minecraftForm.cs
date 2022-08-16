@@ -2404,8 +2404,6 @@ namespace XCoreNET
                 textBoxMiB.Text = "";
                 gb.maxMemoryUsage = 0;
             }
-
-            gb.savingSession();
         }
 
         private void textBoxMiB_Leave(object sender, EventArgs e)
@@ -2437,7 +2435,6 @@ namespace XCoreNET
             trackBarMiB.Enabled = checkBoxMaxMem.Checked;
             textBoxMiB.Enabled = checkBoxMaxMem.Checked;
             gb.usingMaxMemoryUsage = checkBoxMaxMem.Checked;
-            gb.savingSession();
         }
 
         private void trackBarMiB_MouseUp(object sender, MouseEventArgs e)

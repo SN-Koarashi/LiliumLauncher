@@ -63,7 +63,6 @@
             this.btnMainSetting = new System.Windows.Forms.Button();
             this.groupBoxInterval = new System.Windows.Forms.GroupBox();
             this.chkConcurrent = new System.Windows.Forms.CheckBox();
-            this.textBoxInterval = new System.Windows.Forms.TextBox();
             this.panelSettingsTop = new System.Windows.Forms.Panel();
             this.groupBoxDataFolder = new System.Windows.Forms.GroupBox();
             this.panelSettingsLeft = new System.Windows.Forms.Panel();
@@ -80,6 +79,7 @@
             this.textBox = new System.Windows.Forms.TextBox();
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.timerConcurrent = new System.Windows.Forms.Timer(this.components);
+            this.textBoxInterval = new System.Windows.Forms.TextBox();
             this.tabControl1.SuspendLayout();
             this.mainPage.SuspendLayout();
             this.panelBody.SuspendLayout();
@@ -310,6 +310,7 @@
             // 
             this.textBoxMiB.Enabled = false;
             this.textBoxMiB.Location = new System.Drawing.Point(217, 47);
+            this.textBoxMiB.MaxLength = 6;
             this.textBoxMiB.Name = "textBoxMiB";
             this.textBoxMiB.Size = new System.Drawing.Size(57, 25);
             this.textBoxMiB.TabIndex = 11;
@@ -477,19 +478,6 @@
             this.chkConcurrent.UseVisualStyleBackColor = true;
             this.chkConcurrent.Click += new System.EventHandler(this.chkConcurrent_Click);
             // 
-            // textBoxInterval
-            // 
-            this.textBoxInterval.Location = new System.Drawing.Point(6, 22);
-            this.textBoxInterval.MaxLength = 2;
-            this.textBoxInterval.Name = "textBoxInterval";
-            this.textBoxInterval.Size = new System.Drawing.Size(52, 25);
-            this.textBoxInterval.TabIndex = 0;
-            this.textBoxInterval.Text = "1";
-            this.textBoxInterval.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.toolTip.SetToolTip(this.textBoxInterval, "程式執行下載與檢查檔案時的間隔，過短的間隔可能導致渲染出現延遲");
-            this.textBoxInterval.Click += new System.EventHandler(this.textBoxInterval_Click);
-            this.textBoxInterval.KeyUp += new System.Windows.Forms.KeyEventHandler(this.textBoxInterval_KeyUp);
-            // 
             // panelSettingsTop
             // 
             this.panelSettingsTop.Controls.Add(this.groupBoxDataFolder);
@@ -645,6 +633,19 @@
             // 
             this.timerConcurrent.Tick += new System.EventHandler(this.timerConcurrent_Tick);
             // 
+            // textBoxInterval
+            // 
+            this.textBoxInterval.Location = new System.Drawing.Point(6, 22);
+            this.textBoxInterval.MaxLength = 2;
+            this.textBoxInterval.Name = "textBoxInterval";
+            this.textBoxInterval.Size = new System.Drawing.Size(52, 25);
+            this.textBoxInterval.TabIndex = 0;
+            this.textBoxInterval.Text = "1";
+            this.textBoxInterval.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.toolTip.SetToolTip(this.textBoxInterval, "程式執行下載與檢查檔案時的間隔，過短的間隔可能導致渲染出現延遲");
+            this.textBoxInterval.Click += new System.EventHandler(this.textBoxInterval_Click);
+            this.textBoxInterval.KeyUp += new System.Windows.Forms.KeyEventHandler(this.textBoxInterval_KeyUp);
+            // 
             // minecraftForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -726,7 +727,6 @@
         private System.Windows.Forms.Button btnVerifyFile;
         private System.Windows.Forms.ComboBox versionList;
         private System.Windows.Forms.GroupBox groupBoxInterval;
-        private System.Windows.Forms.TextBox textBoxInterval;
         private System.Windows.Forms.ToolTip toolTip;
         private System.Windows.Forms.TextBox textVersionSelected;
         private System.Windows.Forms.Button btnMainSetting;
@@ -748,5 +748,6 @@
         private System.Windows.Forms.Button btnVerRecache;
         private System.Windows.Forms.Timer timerConcurrent;
         private System.Windows.Forms.CheckBox chkConcurrent;
+        private System.Windows.Forms.TextBox textBoxInterval;
     }
 }
