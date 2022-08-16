@@ -113,35 +113,58 @@ namespace Global
             };
 
             Directory.CreateDirectory("settings");
-            File.WriteAllText($"settings{Path.DirectorySeparatorChar}launcher_settings.json", JsonConvert.SerializeObject(content));
+
+            try
+            {
+                var jsonData = JsonConvert.SerializeObject(content);
+                byte[] Key = Encoding.ASCII.GetBytes(SHA256(getWMIC("csproduct get UUID")).Substring(0, 32));
+                byte[] IV = Encoding.ASCII.GetBytes(SHA256(getWMIC("baseboard get serialnumber")).Substring(32, 16));
+                byte[] encrypted = EncryptToAES(jsonData, Key, IV);
+
+                File.WriteAllBytes($"settings{Path.DirectorySeparatorChar}launcher_settings.bin", encrypted);
+            }
+            catch (Exception exx)
+            {
+                Console.WriteLine(exx.Message);
+            }
             Console.WriteLine("儲存工作階段資料");
         }
         public static void readingSession()
         {
-            string path = $"settings{Path.DirectorySeparatorChar}launcher_settings.json";
+            string path = $"settings{Path.DirectorySeparatorChar}launcher_settings.bin";
             if (File.Exists(path))
             {
-                var content = File.ReadAllText(path);
-                var result = JsonConvert.DeserializeObject<SessionModel>(content);
+                try
+                {
+                    byte[] byteData = File.ReadAllBytes(path);
+                    byte[] Key = Encoding.ASCII.GetBytes(SHA256(getWMIC("csproduct get UUID")).Substring(0, 32));
+                    byte[] IV = Encoding.ASCII.GetBytes(SHA256(getWMIC("baseboard get serialnumber")).Substring(32, 16));
+                    string decrypted = DecryptFromAES(byteData, Key, IV);
 
-                isConcurrent = result.isConcurrent;
-                isMainFolder = result.isMainFolder;
-                refreshToken = result.refreshToken;
-                launchToken = GetValueOrDefault<string, object, string>(result.launcher, "token", launchToken);
-                launchTokenExpiresAt = GetValueOrDefault<string, object, long>(result.launcher, "expires_at", launchTokenExpiresAt);
-                minecraftUsername = GetValueOrDefault<string, object, string>(result.minecraft, "username", minecraftUsername);
-                minecraftUUID = GetValueOrDefault<string, object, string>(result.minecraft, "uuid", minecraftUUID);
-                verOptRelease = GetValueOrDefault<string, object, bool>(result.versionOptions, "release", verOptRelease);
-                verOptSnapshot = GetValueOrDefault<string, object, bool>(result.versionOptions, "snapshot", verOptSnapshot);
+                    var result = JsonConvert.DeserializeObject<SessionModel>(decrypted);
 
-                maxMemoryUsage = Convert.ToInt32(GetValueOrDefault<string, object, long>(result.launcher, "maxMemoryUsage", long.Parse(maxMemoryUsage.ToString())));
-                usingMaxMemoryUsage = GetValueOrDefault<string, object, bool>(result.launcher, "usingMaxMemoryUsage", usingMaxMemoryUsage);
+                    isConcurrent = result.isConcurrent;
+                    isMainFolder = result.isMainFolder;
+                    refreshToken = result.refreshToken;
+                    launchToken = GetValueOrDefault<string, object, string>(result.launcher, "token", launchToken);
+                    launchTokenExpiresAt = GetValueOrDefault<string, object, long>(result.launcher, "expires_at", launchTokenExpiresAt);
+                    minecraftUsername = GetValueOrDefault<string, object, string>(result.minecraft, "username", minecraftUsername);
+                    minecraftUUID = GetValueOrDefault<string, object, string>(result.minecraft, "uuid", minecraftUUID);
+                    verOptRelease = GetValueOrDefault<string, object, bool>(result.versionOptions, "release", verOptRelease);
+                    verOptSnapshot = GetValueOrDefault<string, object, bool>(result.versionOptions, "snapshot", verOptSnapshot);
 
-                lastVersionID = result.lastVersionID;
-                runInterval = (result.runInterval >= 0) ? result.runInterval : 1;
+                    maxMemoryUsage = Convert.ToInt32(GetValueOrDefault<string, object, long>(result.launcher, "maxMemoryUsage", long.Parse(maxMemoryUsage.ToString())));
+                    usingMaxMemoryUsage = GetValueOrDefault<string, object, bool>(result.launcher, "usingMaxMemoryUsage", usingMaxMemoryUsage);
 
-                if (result.windowSize != null) windowSize = new Point(int.Parse(result.windowSize.Split(',')[0]), int.Parse(result.windowSize.Split(',')[1]));
+                    lastVersionID = result.lastVersionID;
+                    runInterval = (result.runInterval >= 0) ? result.runInterval : 1;
 
+                    if (result.windowSize != null) windowSize = new Point(int.Parse(result.windowSize.Split(',')[0]), int.Parse(result.windowSize.Split(',')[1]));
+                }
+                catch (Exception exx)
+                {
+                    Console.WriteLine(exx.Message);
+                }
                 Console.WriteLine("讀取工作階段資料");
             }
         }
@@ -296,6 +319,32 @@ namespace Global
             public string mainURL { get; set; }
             public string launcherURL { get; set; }
         }
+
+        public static string getWMIC(string command)
+        {
+            var proc = new Process
+            {
+                StartInfo = new ProcessStartInfo
+                {
+                    FileName = "wmic.exe",
+                    Arguments = command,
+                    UseShellExecute = false,
+                    RedirectStandardOutput = true,
+                    CreateNoWindow = true
+                }
+            };
+
+            proc.Start();
+            string line = "";
+            while (!proc.StandardOutput.EndOfStream)
+            {
+                line += (line.Length > 0 ? "-----" : "") + proc.StandardOutput.ReadLine();
+            }
+
+            proc.WaitForExit();
+
+            return line;
+        }
         public static string SHA1(string input)
         {
             using (SHA1Managed sha1 = new SHA1Managed())
@@ -327,6 +376,103 @@ namespace Global
 
                 return sb.ToString().ToLower();
             }
+        }
+
+        public static string SHA256(string data)
+        {
+            byte[] bytes = Encoding.UTF8.GetBytes(data);
+            byte[] hash = System.Security.Cryptography.SHA256.Create().ComputeHash(bytes);
+
+            StringBuilder builder = new StringBuilder();
+            for (int i = 0; i < hash.Length; i++)
+            {
+                builder.Append(hash[i].ToString("X2"));
+            }
+
+            return builder.ToString();
+        }
+
+        public static byte[] EncryptToAES(string plainText, byte[] Key, byte[] IV)
+        {
+            // Check arguments.
+            if (plainText == null || plainText.Length <= 0)
+                throw new ArgumentNullException("plainText");
+            if (Key == null || Key.Length <= 0)
+                throw new ArgumentNullException("Key");
+            if (IV == null || IV.Length <= 0)
+                throw new ArgumentNullException("IV");
+            byte[] encrypted;
+
+            // Create an Aes object
+            // with the specified key and IV.
+            using (Aes aesAlg = Aes.Create())
+            {
+                aesAlg.Key = Key;
+                aesAlg.IV = IV;
+
+                // Create an encryptor to perform the stream transform.
+                ICryptoTransform encryptor = aesAlg.CreateEncryptor(aesAlg.Key, aesAlg.IV);
+
+                // Create the streams used for encryption.
+                using (MemoryStream msEncrypt = new MemoryStream())
+                {
+                    using (CryptoStream csEncrypt = new CryptoStream(msEncrypt, encryptor, CryptoStreamMode.Write))
+                    {
+                        using (StreamWriter swEncrypt = new StreamWriter(csEncrypt))
+                        {
+                            //Write all data to the stream.
+                            swEncrypt.Write(plainText);
+                        }
+                        encrypted = msEncrypt.ToArray();
+                    }
+                }
+            }
+
+            // Return the encrypted bytes from the memory stream.
+            return encrypted;
+        }
+
+        public static string DecryptFromAES(byte[] cipherText, byte[] Key, byte[] IV)
+        {
+            // Check arguments.
+            if (cipherText == null || cipherText.Length <= 0)
+                throw new ArgumentNullException("cipherText");
+            if (Key == null || Key.Length <= 0)
+                throw new ArgumentNullException("Key");
+            if (IV == null || IV.Length <= 0)
+                throw new ArgumentNullException("IV");
+
+            // Declare the string used to hold
+            // the decrypted text.
+            string plaintext = null;
+
+            // Create an Aes object
+            // with the specified key and IV.
+            using (Aes aesAlg = Aes.Create())
+            {
+                aesAlg.Key = Key;
+                aesAlg.IV = IV;
+
+                // Create a decryptor to perform the stream transform.
+                ICryptoTransform decryptor = aesAlg.CreateDecryptor(aesAlg.Key, aesAlg.IV);
+
+                // Create the streams used for decryption.
+                using (MemoryStream msDecrypt = new MemoryStream(cipherText))
+                {
+                    using (CryptoStream csDecrypt = new CryptoStream(msDecrypt, decryptor, CryptoStreamMode.Read))
+                    {
+                        using (StreamReader srDecrypt = new StreamReader(csDecrypt))
+                        {
+
+                            // Read the decrypted bytes from the decrypting stream
+                            // and place them in a string.
+                            plaintext = srDecrypt.ReadToEnd();
+                        }
+                    }
+                }
+            }
+
+            return plaintext;
         }
     }
     static class Instance_Method
