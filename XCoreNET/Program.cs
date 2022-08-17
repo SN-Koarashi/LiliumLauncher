@@ -5,8 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Windows.Forms;
-using static Global.gb;
-
+using static XCoreNET.ClassModel.globalModel;
 
 namespace XCoreNET
 {

@@ -6,10 +6,12 @@ using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Net.Http;
+using System.Net.NetworkInformation;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static XCoreNET.ClassModel.globalModel;
 
 namespace Global
 {
@@ -34,23 +36,8 @@ namespace Global
         public static int maxMemoryUsage = 0;
         public static bool usingMaxMemoryUsage = false;
         public static bool isConcurrent = false;
-
-        public class startupParms
-        {
-            public static string main { get; set; }
-            public static string username { get; set; }
-            public static string uuid { get; set; }
-            public static string accessToken { get; set; }
-            public static string version { get; set; }
-            public static string assetIndex { get; set; }
-            public static string loggerIndex { get; set; }
-            public static string javaRuntime { get; set; }
-            public static string minecraftArguments { get; set; }
-            public static string appUID { get; set; }
-        }
-
         public readonly static string azureClientID = "c5a69008-2ee1-403f-aa2a-3d324e0213d7";
-
+        public static startupParmsModel startupParms = new startupParmsModel();
 
         public static string getMicrosoftOAuthURL()
         {
@@ -226,44 +213,52 @@ namespace Global
                 Method = HttpMethod.Head
             };
 
-            var result = await httpClient.SendAsync(request);
-            string latestURL = result.Headers.Location.AbsoluteUri;
-            string UpdaterPath = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
-
-            var versionInfo = FileVersionInfo.GetVersionInfo(@UpdaterPath + Path.DirectorySeparatorChar + "XCoreNET.exe");
-            Version versionLocal = new Version(versionInfo.ProductVersion);
-            Version versionRemote = new Version(latestURL.Split(new string[] { "/releases/tag/" }, StringSplitOptions.None)[1].Replace("v", string.Empty));
-
-
-            Console.WriteLine($"本機應用程式版本: {versionLocal}");
-            Console.WriteLine($"遠端應用程式版本: {versionRemote}");
-
-            var compareResult = versionRemote.CompareTo(versionLocal);
-            if (compareResult > 0)
+            try
             {
-                var resultUpdate = MessageBox.Show("有新的應用程式版本可用，是否執行更新？", "說明", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
-                if (resultUpdate == DialogResult.Yes)
+
+                var result = await httpClient.SendAsync(request);
+                string latestURL = result.Headers.Location.AbsoluteUri;
+                string UpdaterPath = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
+
+                var versionInfo = FileVersionInfo.GetVersionInfo(@UpdaterPath + Path.DirectorySeparatorChar + "XCoreNET.exe");
+                Version versionLocal = new Version(versionInfo.ProductVersion);
+                Version versionRemote = new Version(latestURL.Split(new string[] { "/releases/tag/" }, StringSplitOptions.None)[1].Replace("v", string.Empty));
+
+
+                Console.WriteLine($"本機應用程式版本: {versionLocal}");
+                Console.WriteLine($"遠端應用程式版本: {versionRemote}");
+
+                var compareResult = versionRemote.CompareTo(versionLocal);
+                if (compareResult > 0)
                 {
-                    var p = new Process();
-                    p.StartInfo.FileName = UpdaterPath + Path.DirectorySeparatorChar + "XCoreNET-Updater.exe";  // just for example, you can use yours.
-                    p.Start();
-                    Application.Exit();
-                }
-            }
-            else
-            {
-                if (!firstStart)
-                {
-                    firstStart = true;
-                    string tempFileInstaller = UpdaterPath + Path.DirectorySeparatorChar + "XCoreNET-installer-temp.exe";
-                    string tempFilePatcher = UpdaterPath + Path.DirectorySeparatorChar + "patcher.bat";
-                    if (File.Exists(tempFileInstaller))
-                        File.Delete(tempFileInstaller);
-                    if (File.Exists(tempFilePatcher))
-                        File.Delete(tempFilePatcher);
+                    var resultUpdate = MessageBox.Show("有新的應用程式版本可用，是否執行更新？", "說明", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                    if (resultUpdate == DialogResult.Yes)
+                    {
+                        var p = new Process();
+                        p.StartInfo.FileName = UpdaterPath + Path.DirectorySeparatorChar + "XCoreNET-Updater.exe";  // just for example, you can use yours.
+                        p.Start();
+                        Application.Exit();
+                    }
                 }
                 else
-                    MessageBox.Show("應用程式已為最新版本", "說明", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                {
+                    if (!firstStart)
+                    {
+                        firstStart = true;
+                        string tempFileInstaller = UpdaterPath + Path.DirectorySeparatorChar + "XCoreNET-installer-temp.exe";
+                        string tempFilePatcher = UpdaterPath + Path.DirectorySeparatorChar + "patcher.bat";
+                        if (File.Exists(tempFileInstaller))
+                            File.Delete(tempFileInstaller);
+                        if (File.Exists(tempFilePatcher))
+                            File.Delete(tempFilePatcher);
+                    }
+                    else
+                        MessageBox.Show("應用程式已為最新版本", "說明", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            }
+            catch (Exception exx)
+            {
+                MessageBox.Show($"更新檢查過程發生例外狀況: {exx.Message}", "說明", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -305,27 +300,32 @@ namespace Global
             else
                 return rc < 0 ? -1 : 1;
         }
-        private class SessionModel
-        {
-            public Dictionary<string, object> launcher { get; set; }
-            public Dictionary<string, object> minecraft { get; set; }
-            public Dictionary<string, object> versionOptions { get; set; }
-            public string refreshToken { get; set; }
-            public bool isMainFolder { get; set; }
-            public string lastVersionID { get; set; }
-            public string windowSize { get; set; }
-            public int runInterval { get; set; }
-            public bool isConcurrent { get; set; }
 
-        }
-        public class ProgramModel
+        public static bool CheckForInternetConnection(int timeoutMs = 2000, string url = null)
         {
-            public bool noWevView { get; set; }
-            public bool launcher { get; set; }
-            public string mainURL { get; set; }
-            public string launcherURL { get; set; }
-        }
+            Ping pingSender = new Ping();
+            PingOptions options = new PingOptions();
 
+            // Use the default Ttl value which is 128,
+            // but change the fragmentation behavior.
+            options.DontFragment = true;
+
+            // Create a buffer of 32 bytes of data to be transmitted.
+            string data = SHA1(Guid.NewGuid().ToString()).Substring(0, 32);
+            byte[] buffer = Encoding.ASCII.GetBytes(data);
+            int timeout = 3;
+
+            try
+            {
+                PingReply reply = pingSender.Send("8.8.8.8", timeout, buffer, options);
+                return reply.Status == IPStatus.Success;
+            }
+            catch (Exception exx)
+            {
+                Console.WriteLine(exx.Message);
+                return false;
+            }
+        }
         public static string getWMIC(string command)
         {
             var proc = new Process

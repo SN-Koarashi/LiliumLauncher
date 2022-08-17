@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 using System;
 using System.IO;
 using System.Windows.Forms;
-using static Global.gb;
+using static XCoreNET.ClassModel.globalModel;
 
 namespace XCoreNET
 {

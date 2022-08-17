@@ -240,6 +240,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ClassModel\globalModel.cs" />
+    <Compile Include="ClassModel\launcherModel.cs" />
     <Compile Include="minecraftMainForm.cs">
       <SubType>Form</SubType>
     </Compile>

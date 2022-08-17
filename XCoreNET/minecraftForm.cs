@@ -19,6 +19,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using XCoreNET.Properties;
 using XCoreNET.Tasks;
+using static XCoreNET.ClassModel.launcherModel;
 using static XCoreNET.Tasks.launcherTask;
 
 namespace XCoreNET
@@ -46,6 +47,7 @@ namespace XCoreNET
         JObject customVer;
         JArray version_manifest_v2;
 
+        List<string> downloadingPath;
         List<ConcurrentDownloadListModel> indexObj;
         Dictionary<string, ConcurrentDownloadListModel> concurrentNowSize;
         int concurrentTotalSize;
@@ -55,33 +57,6 @@ namespace XCoreNET
 
         private NotifyIcon trayIcon;
         int maxMemory;
-
-
-        private class DownloadListModel
-        {
-            public string path { get; set; }
-            public string sha1 { get; set; }
-            public string className { get; set; }
-            public int type { get; set; }
-            public string name { get; set; }
-            public int size { get; set; }
-
-        }
-        private class LibrariesModel
-        {
-            public string dir { get; set; }
-            public string version { get; set; }
-        }
-
-        private class ConcurrentDownloadListModel
-        {
-            public string uid { get; set; }
-            public string id { get; set; }
-            public string url { get; set; }
-            public string path { get; set; }
-            public int size { get; set; }
-            public int totSize { get; set; }
-        }
 
         public minecraftForm()
         {
@@ -306,13 +281,23 @@ namespace XCoreNET
         {
             if (isClosed) return;
 
-            Task.Run(() =>
+            if (downloadingPath.IndexOf(path) != -1)
             {
-                WebClient client = new WebClient();
-                client.DownloadProgressChanged += new DownloadProgressChangedEventHandler((s, e) => client_DownloadProgressChanged(s, e, UID));
-                client.DownloadFileCompleted += new AsyncCompletedEventHandler((s, e) => client_DownloadFileCompleted(s, e, UID, path, filename));
-                client.DownloadFileAsync(new Uri(url), @path);
-            });
+                Console.WriteLine($"目標檔案正在下載，無須重複執行: {path}");
+                FileWriteCompleted(UID);
+            }
+            else
+            {
+                downloadingPath.Add(path);
+                Task.Run(() =>
+                {
+                    WebClient client = new WebClient();
+                    client.DownloadProgressChanged += new DownloadProgressChangedEventHandler((s, e) => client_DownloadProgressChanged(s, e, UID));
+                    client.DownloadFileCompleted += new AsyncCompletedEventHandler((s, e) => client_DownloadFileCompleted(s, e, UID, path, url, filename));
+                    client.DownloadFileAsync(new Uri(url), @path);
+                });
+            }
+
 
             /*
             Thread thread = new Thread(() => {
@@ -335,26 +320,55 @@ namespace XCoreNET
                 concurrentNowSize[UID].size = int.Parse(e.BytesReceived.ToString());
             });
         }
-        void client_DownloadFileCompleted(object sender, AsyncCompletedEventArgs e, string UID, string path, string filename)
+        void client_DownloadFileCompleted(object sender, AsyncCompletedEventArgs e, string UID, string path, string url, string filename)
         {
             if (isClosed) return;
 
             this.BeginInvoke((MethodInvoker)delegate
             {
-                outputDebug("INFO", $"下載完成: {filename}");
-
-                if (filename.StartsWith("icons/"))
+                if (e.Error == null && !e.Cancelled)
                 {
-                    Directory.CreateDirectory(PathJoin(DATA_FOLDER, "assets", "icons"));
-                    File.Copy(path, PathJoin(DATA_FOLDER, "assets", filename), true);
+                    outputDebug("INFO", $"下載完成: {filename}");
+
+                    if (filename.StartsWith("icons/"))
+                    {
+                        Directory.CreateDirectory(PathJoin(DATA_FOLDER, "assets", "icons"));
+                        File.Copy(path, PathJoin(DATA_FOLDER, "assets", filename), true);
+                    }
+
+                    FileWriteCompleted(UID);
                 }
+                else
+                {
+                    if (e.Cancelled)
+                    {
+                        outputDebug("INFO", $"下載已取消: {filename}");
+                    }
+                    else if (e.Error != null)
+                    {
+                        outputDebug("INFO", $"下載失敗: {filename} {e.Error}");
+                    }
 
-                concurrentNowSize[UID].size = concurrentNowSize[UID].totSize;
-                concurrentTotalCompleted++;
-                concurrentTotalCompletedDisplay++;
+                    //Task.Delay(250).Wait();
+                    if (!(e.Error.InnerException is IOException))
+                    {
+                        while (!gb.CheckForInternetConnection())
+                            //Thread.Sleep(1000);
+                            Task.Delay(1000).Wait();
+                    }
 
-                UpdateDownloadState();
+                    onThreadDownloader(url, path, filename, UID);
+                }
             });
+        }
+
+        void FileWriteCompleted(string UID)
+        {
+            concurrentNowSize[UID].size = concurrentNowSize[UID].totSize;
+            concurrentTotalCompleted++;
+            concurrentTotalCompletedDisplay++;
+
+            UpdateDownloadState();
         }
 
         private async void onGetAllVersion()
@@ -1123,6 +1137,7 @@ namespace XCoreNET
         private async void onJavaProgram(JObject objKit, string gameAssetJson)
         {
             if (isClosed) return;
+            downloadingPath = new List<string>();
             indexObj = new List<ConcurrentDownloadListModel>();
             concurrentTotalSize = 0;
             concurrentTotalCompletedDisplay = 0;
@@ -1249,6 +1264,7 @@ namespace XCoreNET
         private async void onCreateLibraries(JObject objKit, string gameAssetJson)
         {
             if (isClosed) return;
+            downloadingPath = new List<string>();
             indexObj = new List<ConcurrentDownloadListModel>();
             concurrentTotalCompletedDisplay = 0;
             concurrentTotalSize = 0;
@@ -1662,7 +1678,7 @@ namespace XCoreNET
         private async void onCreateObjects(string gameAssetJson)
         {
             if (isClosed) return;
-
+            downloadingPath = new List<string>();
             indexObj = new List<ConcurrentDownloadListModel>();
             concurrentTotalCompletedDisplay = 0;
             concurrentTotalSize = 0;
