@@ -71,7 +71,7 @@ namespace Global
             startupParms.version = null;
             startupParms.appUID = null;
         }
-        public static void savingSession()
+        public static void savingSession(bool isSync)
         {
             var content = new
             {
@@ -102,7 +102,7 @@ namespace Global
 
             Directory.CreateDirectory("settings");
 
-            Task.Run(() =>
+            var tasker = Task.Run(() =>
             {
                 try
                 {
@@ -119,6 +119,9 @@ namespace Global
                     Console.WriteLine(exx.Message);
                 }
             });
+
+            if (isSync)
+                tasker.Wait();
 
             Console.WriteLine("儲存工作階段資料");
         }

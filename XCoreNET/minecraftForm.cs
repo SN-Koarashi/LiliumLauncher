@@ -716,7 +716,7 @@ namespace XCoreNET
             gb.startupParms.username = username;
             gb.startupParms.uuid = uuid;
             gb.startupParms.accessToken = gb.launchToken;
-            gb.savingSession();
+            gb.savingSession(false);
 
             onGetAllVersion();
             settingAllControl(true);
@@ -807,7 +807,7 @@ namespace XCoreNET
             {
                 gb.isMainFolder = radBtnMain.Checked;
 
-                gb.savingSession();
+                gb.savingSession(false);
                 setDataFolder();
                 onGetAllVersion();
             }
@@ -920,7 +920,7 @@ namespace XCoreNET
             string selectVersion = versionList.Items[versionList.SelectedIndex].ToString();
             string verURL;
 
-            gb.savingSession();
+            gb.savingSession(false);
 
             if (releaseList.TryGetValue(selectVersion, out verURL))
             {
@@ -2254,14 +2254,14 @@ namespace XCoreNET
                     textBoxInterval.Text = result.ToString();
                     gb.runInterval = result;
                 }
-                gb.savingSession();
+                gb.savingSession(false);
             }
             else
             {
                 MessageBox.Show("您只能輸入數字", "警告", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 textBoxInterval.Text = "1";
                 gb.runInterval = 1;
-                gb.savingSession();
+                gb.savingSession(false);
             }
         }
 
@@ -2301,7 +2301,7 @@ namespace XCoreNET
                     progressBar.Value = 0;
                     onAzureToken(gb.azureToken);
                     gb.azureToken = "";
-                    gb.savingSession();
+                    gb.savingSession(false);
 
                     tabControl1.SelectedIndex = 0;
                 }
@@ -2313,7 +2313,7 @@ namespace XCoreNET
         private void btnLogout_Click(object sender, EventArgs e)
         {
             gb.resetTokens();
-            gb.savingSession();
+            gb.savingSession(true);
 
             FormCollection fc = Application.OpenForms;
 
@@ -2332,7 +2332,7 @@ namespace XCoreNET
         {
             groupBoxVersion.Enabled = false;
             gb.verOptRelease = chkBoxRelease.Checked;
-            gb.savingSession();
+            gb.savingSession(false);
             onGetAllVersion();
         }
 
@@ -2340,13 +2340,13 @@ namespace XCoreNET
         {
             groupBoxVersion.Enabled = false;
             gb.verOptSnapshot = chkBoxSnapshot.Checked;
-            gb.savingSession();
+            gb.savingSession(false);
             onGetAllVersion();
         }
         private void chkConcurrent_Click(object sender, EventArgs e)
         {
             gb.isConcurrent = chkConcurrent.Checked;
-            gb.savingSession();
+            gb.savingSession(false);
         }
 
         private async void btnLogoutAll_Click(object sender, EventArgs e)
@@ -2443,7 +2443,7 @@ namespace XCoreNET
                 textBoxMiB.Text = "";
                 gb.maxMemoryUsage = 0;
             }
-            gb.savingSession();
+            gb.savingSession(false);
         }
 
         private void checkBoxMaxMem_CheckedChanged(object sender, EventArgs e)
@@ -2455,7 +2455,7 @@ namespace XCoreNET
 
         private void trackBarMiB_MouseUp(object sender, MouseEventArgs e)
         {
-            gb.savingSession();
+            gb.savingSession(false);
         }
 
         private async void btnVerRecache_Click(object sender, EventArgs e)
