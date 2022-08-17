@@ -36,7 +36,7 @@ namespace XCoreNET.Tasks
             }
             catch (Exception exx)
             {
-                Console.WriteLine(exx.Message);
+                Console.WriteLine($"下載發生問題: {exx.Message}");
             }
         }
 

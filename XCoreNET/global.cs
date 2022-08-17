@@ -30,12 +30,12 @@ namespace Global
         public static string minecraftUsername = "";
         public static string lastVersionID = "";
         public static Point windowSize = new Point(480, 360);
-        public static int runInterval = 1;
+        public static int runInterval = 0;
         public static Uri mainHomepage = new Uri("https://www.snkms.com/chat/webchat2/");
         public static Uri launcherHomepage = new Uri("https://www.snkms.com/minecraftNews.html");
         public static int maxMemoryUsage = 0;
         public static bool usingMaxMemoryUsage = false;
-        public static bool isConcurrent = false;
+        public static bool isConcurrent = true;
         public readonly static string azureClientID = "c5a69008-2ee1-403f-aa2a-3d324e0213d7";
         public static startupParmsModel startupParms = new startupParmsModel();
 

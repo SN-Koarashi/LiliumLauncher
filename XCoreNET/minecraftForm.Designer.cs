@@ -63,6 +63,7 @@
             this.btnMainSetting = new System.Windows.Forms.Button();
             this.groupBoxInterval = new System.Windows.Forms.GroupBox();
             this.chkConcurrent = new System.Windows.Forms.CheckBox();
+            this.textBoxInterval = new System.Windows.Forms.TextBox();
             this.panelSettingsTop = new System.Windows.Forms.Panel();
             this.groupBoxDataFolder = new System.Windows.Forms.GroupBox();
             this.panelSettingsLeft = new System.Windows.Forms.Panel();
@@ -79,7 +80,6 @@
             this.textBox = new System.Windows.Forms.TextBox();
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.timerConcurrent = new System.Windows.Forms.Timer(this.components);
-            this.textBoxInterval = new System.Windows.Forms.TextBox();
             this.tabControl1.SuspendLayout();
             this.mainPage.SuspendLayout();
             this.panelBody.SuspendLayout();
@@ -470,6 +470,8 @@
             // chkConcurrent
             // 
             this.chkConcurrent.AutoSize = true;
+            this.chkConcurrent.Checked = true;
+            this.chkConcurrent.CheckState = System.Windows.Forms.CheckState.Checked;
             this.chkConcurrent.Location = new System.Drawing.Point(62, 23);
             this.chkConcurrent.Name = "chkConcurrent";
             this.chkConcurrent.Size = new System.Drawing.Size(83, 22);
@@ -477,6 +479,19 @@
             this.chkConcurrent.Text = "並行下載";
             this.chkConcurrent.UseVisualStyleBackColor = true;
             this.chkConcurrent.Click += new System.EventHandler(this.chkConcurrent_Click);
+            // 
+            // textBoxInterval
+            // 
+            this.textBoxInterval.Location = new System.Drawing.Point(6, 22);
+            this.textBoxInterval.MaxLength = 2;
+            this.textBoxInterval.Name = "textBoxInterval";
+            this.textBoxInterval.Size = new System.Drawing.Size(52, 25);
+            this.textBoxInterval.TabIndex = 0;
+            this.textBoxInterval.Text = "0";
+            this.textBoxInterval.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.toolTip.SetToolTip(this.textBoxInterval, "程式執行下載與檢查檔案時的間隔，過短的間隔可能導致渲染出現延遲");
+            this.textBoxInterval.Click += new System.EventHandler(this.textBoxInterval_Click);
+            this.textBoxInterval.KeyUp += new System.Windows.Forms.KeyEventHandler(this.textBoxInterval_KeyUp);
             // 
             // panelSettingsTop
             // 
@@ -632,19 +647,6 @@
             // timerConcurrent
             // 
             this.timerConcurrent.Tick += new System.EventHandler(this.timerConcurrent_Tick);
-            // 
-            // textBoxInterval
-            // 
-            this.textBoxInterval.Location = new System.Drawing.Point(6, 22);
-            this.textBoxInterval.MaxLength = 2;
-            this.textBoxInterval.Name = "textBoxInterval";
-            this.textBoxInterval.Size = new System.Drawing.Size(52, 25);
-            this.textBoxInterval.TabIndex = 0;
-            this.textBoxInterval.Text = "1";
-            this.textBoxInterval.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.toolTip.SetToolTip(this.textBoxInterval, "程式執行下載與檢查檔案時的間隔，過短的間隔可能導致渲染出現延遲");
-            this.textBoxInterval.Click += new System.EventHandler(this.textBoxInterval_Click);
-            this.textBoxInterval.KeyUp += new System.Windows.Forms.KeyEventHandler(this.textBoxInterval_KeyUp);
             // 
             // minecraftForm
             // 
