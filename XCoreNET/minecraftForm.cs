@@ -102,6 +102,7 @@ namespace XCoreNET
         private void initializeMain()
         {
             InitializeComponent();
+            setTray();
 
             /*
             GetSelfAndChildrenRecursive(this).OfType<Button>().ToList()
@@ -145,6 +146,36 @@ namespace XCoreNET
 
             checkBoxMaxMem.Checked = gb.usingMaxMemoryUsage;
 
+            textBoxAD.Text = gb.mainFolder;
+            DATA_FOLDER = gb.mainFolder;
+            Directory.CreateDirectory(DATA_FOLDER);
+            Directory.CreateDirectory(PathJoin(DATA_FOLDER, ".x-instance"));
+
+            gb.instance = Directory.GetDirectories(PathJoin(DATA_FOLDER, ".x-instance")).ToList<string>();
+
+            if (gb.instance.Count > 0)
+            {
+                foreach (var item in gb.instance)
+                {
+                    var dirArr = item.Split(Path.DirectorySeparatorChar);
+                    instanceList.Items.Add(dirArr.Last());
+                }
+            }
+
+
+            if (gb.lastInstance == null || gb.lastInstance.Length == 0 || !Directory.Exists(gb.lastInstance))
+            {
+                instanceList.SelectedIndex = 0;
+                gb.lastInstance = "";
+            }
+            else
+            {
+                instanceList.SelectedItem = gb.lastInstance.Split(Path.DirectorySeparatorChar).Last();
+            }
+        }
+
+        private void setTray()
+        {
             trayIcon = new NotifyIcon()
             {
                 Icon = Resources.logo,
@@ -184,38 +215,6 @@ namespace XCoreNET
             trayIcon.ContextMenuStrip.Items.Add(new ToolStripSeparator());
             trayIcon.ContextMenuStrip.Items.Add(menuItemKill);
             trayIcon.ContextMenuStrip.Items.Add(menuItemExit);
-
-            textBoxAD.Text = gb.mainFolder;
-            DATA_FOLDER = gb.mainFolder;
-            Directory.CreateDirectory(DATA_FOLDER);
-            Directory.CreateDirectory(PathJoin(DATA_FOLDER, "instance"));
-
-            gb.instance = Directory.GetDirectories(PathJoin(DATA_FOLDER, "instance")).ToList<string>();
-
-            if (gb.instance.Count > 0)
-            {
-                foreach (var item in gb.instance)
-                {
-                    var dirArr = item.Split(Path.DirectorySeparatorChar);
-                    instanceList.Items.Add(dirArr.Last());
-                }
-            }
-
-
-            if (gb.lastInstance == null || gb.lastInstance.Length == 0 || !Directory.Exists(gb.lastInstance))
-            {
-                instanceList.SelectedIndex = 0;
-                gb.lastInstance = "";
-            }
-            else
-            {
-                instanceList.SelectedItem = gb.lastInstance.Split(Path.DirectorySeparatorChar).Last();
-            }
-        }
-
-        void Exit(object sender, EventArgs e)
-        {
-            this.Close();
         }
 
         private void initializeMain(string[] args)
@@ -310,7 +309,7 @@ namespace XCoreNET
             thread.Start();
             */
         }
-        void client_DownloadProgressChanged(object sender, DownloadProgressChangedEventArgs e, string UID)
+        private void client_DownloadProgressChanged(object sender, DownloadProgressChangedEventArgs e, string UID)
         {
             if (isClosed) return;
 
@@ -319,7 +318,7 @@ namespace XCoreNET
                 concurrentNowSize[UID].size = int.Parse(e.BytesReceived.ToString());
             });
         }
-        void client_DownloadFileCompleted(object sender, AsyncCompletedEventArgs e, string UID, string path, string url, string filename)
+        private void client_DownloadFileCompleted(object sender, AsyncCompletedEventArgs e, string UID, string path, string url, string filename)
         {
             if (isClosed) return;
 
@@ -361,7 +360,7 @@ namespace XCoreNET
             });
         }
 
-        void FileWriteCompleted(string UID)
+        private void FileWriteCompleted(string UID)
         {
             concurrentNowSize[UID].size = concurrentNowSize[UID].totSize;
             concurrentTotalCompleted++;
@@ -778,7 +777,7 @@ namespace XCoreNET
 
         private void minecraftForm_Resize(object sender, EventArgs e)
         {
-            if (!btnLaunch.Enabled && this.WindowState == FormWindowState.Minimized)
+            if (!btnLaunch.Enabled && !checkFile && this.WindowState == FormWindowState.Minimized)
             {
                 this.ShowInTaskbar = false;
                 trayIcon.Visible = true;
@@ -2184,8 +2183,8 @@ namespace XCoreNET
                 if (result < 0)
                 {
                     MessageBox.Show("數字必須大於等於零", "警告", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    textBoxInterval.Text = "1";
-                    gb.runInterval = 1;
+                    textBoxInterval.Text = "0";
+                    gb.runInterval = 0;
                 }
                 else
                 {
@@ -2197,8 +2196,8 @@ namespace XCoreNET
             else
             {
                 MessageBox.Show("您只能輸入數字", "警告", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                textBoxInterval.Text = "1";
-                gb.runInterval = 1;
+                textBoxInterval.Text = "0";
+                gb.runInterval = 0;
                 gb.savingSession(false);
             }
         }
@@ -2454,7 +2453,7 @@ namespace XCoreNET
             {
                 fbd.Description = "選擇一個新的位置作為 Minecraft 主程式資料的存放地點。";
                 fbd.SelectedPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-                
+
                 DialogResult result = fbd.ShowDialog();
 
                 if (result == DialogResult.OK && !string.IsNullOrWhiteSpace(fbd.SelectedPath))
@@ -2468,7 +2467,7 @@ namespace XCoreNET
                     textBoxAD.Text = DATA_FOLDER;
 
                     Directory.CreateDirectory(DATA_FOLDER);
-                    Directory.CreateDirectory(PathJoin(DATA_FOLDER, "instance"));
+                    Directory.CreateDirectory(PathJoin(DATA_FOLDER, ".x-instance"));
                     gb.savingSession(true);
 
                     onGetAllVersion();
@@ -2483,7 +2482,7 @@ namespace XCoreNET
             {
                 try
                 {
-                    var path = PathJoin(DATA_FOLDER, "instance", result.Trim());
+                    var path = PathJoin(DATA_FOLDER, ".x-instance", result.Trim());
                     if (Directory.Exists(path))
                     {
                         MessageBox.Show($"建立失敗: 此實例名稱已存在", "錯誤", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -2523,20 +2522,20 @@ namespace XCoreNET
                 instanceList.Items.Remove(name);
                 instanceList.SelectedIndex = (instanceList.Items.Count - 1 > idx - 1) ? instanceList.Items.Count - 1 : idx - 1;
 
-                Directory.Delete(PathJoin(DATA_FOLDER, "instance", name), true);
+                Directory.Delete(PathJoin(DATA_FOLDER, ".x-instance", name), true);
             }
         }
 
         private void instanceList_SelectedIndexChanged(object sender, EventArgs e)
         {
-            gb.lastInstance = (instanceList.SelectedIndex == 0) ? "" : PathJoin(DATA_FOLDER, "instance", instanceList.SelectedItem.ToString());
+            gb.lastInstance = (instanceList.SelectedIndex == 0) ? "" : PathJoin(DATA_FOLDER, ".x-instance", instanceList.SelectedItem.ToString());
             textBoxInstance.Text = instanceList.SelectedItem.ToString();
             instanceList.DropDownWidth = (DropDownWidth(instanceList) + 25 > 300) ? 300 : DropDownWidth(instanceList) + 25;
         }
 
         private void btnInstanceIntro_Click(object sender, EventArgs e)
         {
-            MessageBox.Show($"啟動實例代表的是可獨立運作的 Minecraft 實例，位於「{PathJoin(DATA_FOLDER, "instance")}」資料夾中。\n透過不同的啟動實例，您只需要於設定中輕鬆切換，就能輕鬆使用不同的模組包、模組客戶端及獨立設定，各個實例之間不會互相影響，是對於常在各個客戶端及模組之間切換的玩家而言的良好選擇。", "說明", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            MessageBox.Show($"啟動實例代表的是可獨立運作的 Minecraft 實例，位於「{PathJoin(DATA_FOLDER, ".x-instance")}」資料夾中。\n透過不同的啟動實例，您只需要於設定中輕鬆切換，就能輕鬆使用不同的模組包、模組客戶端及獨立設定，各個實例之間不會互相影響，是對於常在各個客戶端及模組之間切換的玩家而言的良好選擇。", "說明", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         private void textBoxInstance_Click(object sender, EventArgs e)

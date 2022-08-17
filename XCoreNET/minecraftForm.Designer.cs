@@ -571,7 +571,7 @@
             this.groupBoxDataFolder.Controls.Add(this.panelSettingsLeft);
             this.groupBoxDataFolder.Location = new System.Drawing.Point(8, 10);
             this.groupBoxDataFolder.Name = "groupBoxDataFolder";
-            this.groupBoxDataFolder.Size = new System.Drawing.Size(277, 88);
+            this.groupBoxDataFolder.Size = new System.Drawing.Size(274, 88);
             this.groupBoxDataFolder.TabIndex = 0;
             this.groupBoxDataFolder.TabStop = false;
             this.groupBoxDataFolder.Text = "Minecraft 主程式資料";
@@ -585,7 +585,7 @@
             this.panelSettingsLeft.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelSettingsLeft.Location = new System.Drawing.Point(3, 21);
             this.panelSettingsLeft.Name = "panelSettingsLeft";
-            this.panelSettingsLeft.Size = new System.Drawing.Size(271, 64);
+            this.panelSettingsLeft.Size = new System.Drawing.Size(268, 64);
             this.panelSettingsLeft.TabIndex = 0;
             // 
             // btnVerifyFile
@@ -612,11 +612,11 @@
             // 
             // btnChangeFolder
             // 
-            this.btnChangeFolder.Location = new System.Drawing.Point(241, 38);
+            this.btnChangeFolder.Location = new System.Drawing.Point(239, 38);
             this.btnChangeFolder.Name = "btnChangeFolder";
             this.btnChangeFolder.Size = new System.Drawing.Size(25, 23);
             this.btnChangeFolder.TabIndex = 3;
-            this.btnChangeFolder.Text = "...";
+            this.btnChangeFolder.Text = "…";
             this.toolTip.SetToolTip(this.btnChangeFolder, "選擇新的資料夾作為主程式資料存放位置");
             this.btnChangeFolder.UseVisualStyleBackColor = true;
             this.btnChangeFolder.Click += new System.EventHandler(this.btnChangeFolder_Click);
