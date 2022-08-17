@@ -66,6 +66,7 @@
             this.textBoxInterval = new System.Windows.Forms.TextBox();
             this.panelSettingsTop = new System.Windows.Forms.Panel();
             this.groupBoxInstance = new System.Windows.Forms.GroupBox();
+            this.textBoxInstance = new System.Windows.Forms.TextBox();
             this.btnInstanceIntro = new System.Windows.Forms.Button();
             this.btnInstanceDel = new System.Windows.Forms.Button();
             this.btnInstanceAdd = new System.Windows.Forms.Button();
@@ -80,7 +81,6 @@
             this.textBox = new System.Windows.Forms.TextBox();
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.timerConcurrent = new System.Windows.Forms.Timer(this.components);
-            this.textBoxInstance = new System.Windows.Forms.TextBox();
             this.tabControl1.SuspendLayout();
             this.mainPage.SuspendLayout();
             this.panelBody.SuspendLayout();
@@ -515,6 +515,15 @@
             this.groupBoxInstance.TabStop = false;
             this.groupBoxInstance.Text = "啟動實例管理";
             // 
+            // textBoxInstance
+            // 
+            this.textBoxInstance.Location = new System.Drawing.Point(6, 57);
+            this.textBoxInstance.Name = "textBoxInstance";
+            this.textBoxInstance.ReadOnly = true;
+            this.textBoxInstance.Size = new System.Drawing.Size(129, 25);
+            this.textBoxInstance.TabIndex = 4;
+            this.textBoxInstance.Click += new System.EventHandler(this.textBoxInstance_Click);
+            // 
             // btnInstanceIntro
             // 
             this.btnInstanceIntro.Location = new System.Drawing.Point(108, 25);
@@ -597,12 +606,13 @@
             this.btnOpenFolder.Size = new System.Drawing.Size(96, 30);
             this.btnOpenFolder.TabIndex = 3;
             this.btnOpenFolder.Text = "開啟資料夾";
+            this.toolTip.SetToolTip(this.btnOpenFolder, "開啟目前主程式所在的資料夾");
             this.btnOpenFolder.UseVisualStyleBackColor = true;
             this.btnOpenFolder.Click += new System.EventHandler(this.btnOpenFolder_Click);
             // 
             // btnChangeFolder
             // 
-            this.btnChangeFolder.Location = new System.Drawing.Point(242, 38);
+            this.btnChangeFolder.Location = new System.Drawing.Point(241, 38);
             this.btnChangeFolder.Name = "btnChangeFolder";
             this.btnChangeFolder.Size = new System.Drawing.Size(25, 23);
             this.btnChangeFolder.TabIndex = 3;
@@ -647,15 +657,6 @@
             // timerConcurrent
             // 
             this.timerConcurrent.Tick += new System.EventHandler(this.timerConcurrent_Tick);
-            // 
-            // textBoxInstance
-            // 
-            this.textBoxInstance.Location = new System.Drawing.Point(6, 57);
-            this.textBoxInstance.Name = "textBoxInstance";
-            this.textBoxInstance.ReadOnly = true;
-            this.textBoxInstance.Size = new System.Drawing.Size(129, 25);
-            this.textBoxInstance.TabIndex = 4;
-            this.textBoxInstance.Click += new System.EventHandler(this.textBoxInstance_Click);
             // 
             // minecraftForm
             // 

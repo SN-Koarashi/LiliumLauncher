@@ -811,6 +811,7 @@ namespace XCoreNET
             groupBoxInterval.Enabled = isEnabled;
             groupBoxVersionReload.Enabled = isEnabled;
             groupBoxMemory.Enabled = isEnabled;
+            groupBoxInstance.Enabled = isEnabled;
 
             if (isEnabled)
             {
@@ -2451,7 +2452,9 @@ namespace XCoreNET
         {
             using (var fbd = new FolderBrowserDialog())
             {
-                fbd.RootFolder = Environment.SpecialFolder.ApplicationData;
+                fbd.Description = "選擇一個新的位置作為 Minecraft 主程式資料的存放地點。";
+                fbd.SelectedPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+                
                 DialogResult result = fbd.ShowDialog();
 
                 if (result == DialogResult.OK && !string.IsNullOrWhiteSpace(fbd.SelectedPath))
