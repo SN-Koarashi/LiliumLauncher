@@ -28,7 +28,6 @@ namespace XCoreNET
     {
         bool checkFile = false;
         bool isWebViewDisposed = false;
-        bool firstStartForm = false;
         bool directStart = false;
         bool isClosed = false;
         string APPDATA_PATH = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + Path.DirectorySeparatorChar + ".minecraft-xcorenet";
@@ -122,26 +121,12 @@ namespace XCoreNET
             authification = new authificationTask();
             launcher = new launcherTask();
 
-            textBoxAD.Text = APPDATA_PATH;
-            textBoxMain.Text = MAIN_PATH;
             textBoxInterval.Text = gb.runInterval.ToString();
-            toolTip.SetToolTip(textBoxAD, APPDATA_PATH);
-            toolTip.SetToolTip(textBoxMain, MAIN_PATH);
 
-
-            if (gb.isMainFolder == true)
-                radBtnMain.Checked = true;
-            else
-                radBtnAD.Checked = true;
 
             chkBoxRelease.Checked = gb.verOptRelease;
             chkBoxSnapshot.Checked = gb.verOptSnapshot;
             chkConcurrent.Checked = gb.isConcurrent;
-
-            firstStartForm = true;
-            this.Width = gb.windowSize.X;
-            this.Height = gb.windowSize.Y;
-
 
             maxMemory = Convert.ToInt32(Math.Floor(Convert.ToDouble(new ComputerInfo().TotalPhysicalMemory / 1024 / 1024 / 1000)) - 2) * 1024;
             trackBarMiB.Maximum = maxMemory / 1024;
@@ -200,6 +185,32 @@ namespace XCoreNET
             trayIcon.ContextMenuStrip.Items.Add(menuItemKill);
             trayIcon.ContextMenuStrip.Items.Add(menuItemExit);
 
+            textBoxAD.Text = gb.mainFolder;
+            DATA_FOLDER = gb.mainFolder;
+            Directory.CreateDirectory(DATA_FOLDER);
+            Directory.CreateDirectory(PathJoin(DATA_FOLDER, "instance"));
+
+            gb.instance = Directory.GetDirectories(PathJoin(DATA_FOLDER, "instance")).ToList<string>();
+
+            if (gb.instance.Count > 0)
+            {
+                foreach (var item in gb.instance)
+                {
+                    var dirArr = item.Split(Path.DirectorySeparatorChar);
+                    instanceList.Items.Add(dirArr.Last());
+                }
+            }
+
+
+            if (gb.lastInstance == null || gb.lastInstance.Length == 0 || !Directory.Exists(gb.lastInstance))
+            {
+                instanceList.SelectedIndex = 0;
+                gb.lastInstance = "";
+            }
+            else
+            {
+                instanceList.SelectedItem = gb.lastInstance.Split(Path.DirectorySeparatorChar).Last();
+            }
         }
 
         void Exit(object sender, EventArgs e)
@@ -212,16 +223,6 @@ namespace XCoreNET
             initializeMain();
         }
 
-        private void setDataFolder()
-        {
-            if (gb.isMainFolder == true)
-                DATA_FOLDER = MAIN_PATH;
-            else
-                DATA_FOLDER = APPDATA_PATH;
-
-            Directory.CreateDirectory(DATA_FOLDER);
-        }
-
         private void minecraftForm_Load(object sender, EventArgs e)
         {
             if (isWebViewDisposed)
@@ -232,8 +233,6 @@ namespace XCoreNET
             {
                 webView.Source = gb.launcherHomepage;
             }
-
-            setDataFolder();
 
             progressBar.Maximum = 60;
             progressBar.Value = 0;
@@ -779,7 +778,6 @@ namespace XCoreNET
 
         private void minecraftForm_Resize(object sender, EventArgs e)
         {
-            windowResize();
             if (!btnLaunch.Enabled && this.WindowState == FormWindowState.Minimized)
             {
                 this.ShowInTaskbar = false;
@@ -787,45 +785,6 @@ namespace XCoreNET
             }
         }
 
-        private void windowResize()
-        {
-            textStatus.Width = panelFooter.Width - 110;
-            groupBoxDataFolder.Width = panelSettingsTop.Width - 16;
-            panelSettingsInsideLeft.Width = panelSettingsLeft.Width / 2;
-            panelSettingsInsideRight.Width = panelSettingsLeft.Width / 2;
-            textBoxAD.Width = panelSettingsInsideLeft.Width - 36;
-            textBoxMain.Width = panelSettingsInsideRight.Width - 36;
-
-            gb.windowSize = new System.Drawing.Point(this.Width, this.Height);
-        }
-
-        private void radioChanged(string clicked)
-        {
-            if (!firstStartForm) return;
-
-            if (clicked.Equals("change") && radBtnAD.Checked != radBtnMain.Checked)
-            {
-                gb.isMainFolder = radBtnMain.Checked;
-
-                gb.savingSession(false);
-                setDataFolder();
-                onGetAllVersion();
-            }
-            else
-            {
-
-                if (clicked.Equals("appdata"))
-                {
-                    radBtnAD.Checked = true;
-                    radBtnMain.Checked = false;
-                }
-                else if (clicked.Equals("main"))
-                {
-                    radBtnAD.Checked = false;
-                    radBtnMain.Checked = true;
-                }
-            }
-        }
 
         private void btnOpenFolder_Click(object sender, EventArgs e)
         {
@@ -837,30 +796,6 @@ namespace XCoreNET
             });
         }
 
-        private void radBtnMain_Click(object sender, EventArgs e)
-        {
-            radioChanged("main");
-        }
-
-        private void radBtnAD_Click(object sender, EventArgs e)
-        {
-            radioChanged("appdata");
-        }
-
-        private void radBtnAD_CheckedChanged(object sender, EventArgs e)
-        {
-            radioChanged("change");
-        }
-
-        private void radBtnMain_CheckedChanged(object sender, EventArgs e)
-        {
-            radioChanged("change");
-        }
-
-        private void tabControl1_Click(object sender, EventArgs e)
-        {
-            windowResize();
-        }
 
         private delegate void DelSettingAllControl(bool isEnabled);
         private void settingAllControl(bool isEnabled)
@@ -1922,6 +1857,8 @@ namespace XCoreNET
             output("INFO", "啟動遊戲");
 
             var assetsDir = PathJoin(DATA_FOLDER, "assets");
+            var gameDir = (gb.lastInstance.Length == 0) ? DATA_FOLDER : gb.lastInstance;
+
             var cDir = PathJoin(DATA_FOLDER, "versions", gb.startupParms.version, gb.startupParms.version + ".jar");
             if (customVer != null && !File.Exists(cDir))
             {
@@ -1997,7 +1934,7 @@ namespace XCoreNET
 
             replaceOptions.Add("${auth_player_name}", gb.startupParms.username);
             replaceOptions.Add("${version_name}", gb.startupParms.version);
-            replaceOptions.Add("${game_directory}", DATA_FOLDER);
+            replaceOptions.Add("${game_directory}", gameDir);
             replaceOptions.Add("${assets_root}", assetsDir);
             replaceOptions.Add("${game_assets}", assetsDir);
             replaceOptions.Add("${assets_index_name}", gb.startupParms.assetIndex);
@@ -2069,7 +2006,7 @@ namespace XCoreNET
             startInfo.RedirectStandardError = true;
             startInfo.UseShellExecute = false;
             startInfo.CreateNoWindow = true;
-            startInfo.WorkingDirectory = DATA_FOLDER;
+            startInfo.WorkingDirectory = gameDir;
             startInfo.StandardOutputEncoding = Encoding.UTF8;
 
             Process proc = new Process();
@@ -2508,6 +2445,100 @@ namespace XCoreNET
         {
             Console.WriteLine("timer ticked");
             UpdateDownloadState();
+        }
+
+        private void btnChangeFolder_Click(object sender, EventArgs e)
+        {
+            using (var fbd = new FolderBrowserDialog())
+            {
+                fbd.RootFolder = Environment.SpecialFolder.ApplicationData;
+                DialogResult result = fbd.ShowDialog();
+
+                if (result == DialogResult.OK && !string.IsNullOrWhiteSpace(fbd.SelectedPath))
+                {
+                    if (fbd.SelectedPath.EndsWith(gb.mainFolderName))
+                        gb.mainFolder = Path.GetFullPath(fbd.SelectedPath);
+                    else
+                        gb.mainFolder = Path.GetFullPath(fbd.SelectedPath + Path.DirectorySeparatorChar + gb.mainFolderName);
+
+                    DATA_FOLDER = gb.mainFolder;
+                    textBoxAD.Text = DATA_FOLDER;
+
+                    Directory.CreateDirectory(DATA_FOLDER);
+                    Directory.CreateDirectory(PathJoin(DATA_FOLDER, "instance"));
+                    gb.savingSession(true);
+
+                    onGetAllVersion();
+                }
+            }
+        }
+
+        private void btnInstanceAdd_Click(object sender, EventArgs e)
+        {
+            var result = Microsoft.VisualBasic.Interaction.InputBox("輸入您自身可供辨識的實例名稱...", "新增實例名稱");
+            if (result != null && result.Trim().Length > 0)
+            {
+                try
+                {
+                    var path = PathJoin(DATA_FOLDER, "instance", result.Trim());
+                    if (Directory.Exists(path))
+                    {
+                        MessageBox.Show($"建立失敗: 此實例名稱已存在", "錯誤", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                    else
+                    {
+                        Directory.CreateDirectory(path);
+                        gb.instance.Add(path);
+                        gb.lastInstance = path;
+                        instanceList.Items.Add(result.Trim());
+                        instanceList.SelectedItem = result.Trim();
+
+                        gb.savingSession(false);
+                    }
+                }
+                catch (Exception exx)
+                {
+                    MessageBox.Show($"建立失敗: {exx.Message}", "錯誤", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
+
+        private void btnInstanceDel_Click(object sender, EventArgs e)
+        {
+            if (instanceList.SelectedIndex == 0)
+            {
+                MessageBox.Show($"無法刪除此實例", "錯誤", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            var result = MessageBox.Show($"這將刪除下方選項所選中的實例名稱「{instanceList.SelectedItem.ToString()}」及其資料夾內容，確定要繼續嗎？", "警告", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if (result == DialogResult.Yes)
+            {
+                var name = instanceList.SelectedItem.ToString();
+                var idx = instanceList.SelectedIndex;
+
+                instanceList.Items.Remove(name);
+                instanceList.SelectedIndex = (instanceList.Items.Count - 1 > idx - 1) ? instanceList.Items.Count - 1 : idx - 1;
+
+                Directory.Delete(PathJoin(DATA_FOLDER, "instance", name), true);
+            }
+        }
+
+        private void instanceList_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            gb.lastInstance = (instanceList.SelectedIndex == 0) ? "" : PathJoin(DATA_FOLDER, "instance", instanceList.SelectedItem.ToString());
+            textBoxInstance.Text = instanceList.SelectedItem.ToString();
+            instanceList.DropDownWidth = (DropDownWidth(instanceList) + 25 > 300) ? 300 : DropDownWidth(instanceList) + 25;
+        }
+
+        private void btnInstanceIntro_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show($"啟動實例代表的是可獨立運作的 Minecraft 實例，位於「{PathJoin(DATA_FOLDER, "instance")}」資料夾中。\n透過不同的啟動實例，您只需要於設定中輕鬆切換，就能輕鬆使用不同的模組包、模組客戶端及獨立設定，各個實例之間不會互相影響，是對於常在各個客戶端及模組之間切換的玩家而言的良好選擇。", "說明", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
+        private void textBoxInstance_Click(object sender, EventArgs e)
+        {
+            textBoxInstance.SelectAll();
         }
     }
 }

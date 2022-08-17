@@ -3,7 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
-using System.Drawing;
 using System.IO;
 using System.Net.Http;
 using System.Net.NetworkInformation;
@@ -21,7 +20,10 @@ namespace Global
         public static bool verOptRelease = true;
         public static bool verOptSnapshot = false;
         public static bool firstStart = false;
-        public static bool isMainFolder = true;
+        public static List<string> instance = new List<string>();
+        public static string lastInstance = "";
+        public static string mainFolderName = ".minecraft-xcorenet";
+        public static string mainFolder = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + Path.DirectorySeparatorChar + mainFolderName;
         public static string azureToken = "";
         public static string launchToken = "";
         public static string refreshToken = "";
@@ -29,7 +31,6 @@ namespace Global
         public static string minecraftUUID = "";
         public static string minecraftUsername = "";
         public static string lastVersionID = "";
-        public static Point windowSize = new Point(480, 360);
         public static int runInterval = 0;
         public static Uri mainHomepage = new Uri("https://www.snkms.com/chat/webchat2/");
         public static Uri launcherHomepage = new Uri("https://www.snkms.com/minecraftNews.html");
@@ -93,9 +94,9 @@ namespace Global
                     snapshot = verOptSnapshot
                 },
                 refreshToken = refreshToken,
-                isMainFolder = isMainFolder,
+                mainFolder = mainFolder,
                 lastVersionID = lastVersionID,
-                windowSize = $"{windowSize.X},{windowSize.Y}",
+                lastInstance = lastInstance,
                 runInterval = runInterval,
                 isConcurrent = isConcurrent
             };
@@ -140,7 +141,7 @@ namespace Global
                     var result = JsonConvert.DeserializeObject<SessionModel>(decrypted);
 
                     isConcurrent = result.isConcurrent;
-                    isMainFolder = result.isMainFolder;
+                    mainFolder = (result.mainFolder != null) ? result.mainFolder : mainFolder;
                     refreshToken = result.refreshToken;
                     launchToken = GetValueOrDefault<string, object, string>(result.launcher, "token", launchToken);
                     launchTokenExpiresAt = GetValueOrDefault<string, object, long>(result.launcher, "expires_at", launchTokenExpiresAt);
@@ -148,14 +149,13 @@ namespace Global
                     minecraftUUID = GetValueOrDefault<string, object, string>(result.minecraft, "uuid", minecraftUUID);
                     verOptRelease = GetValueOrDefault<string, object, bool>(result.versionOptions, "release", verOptRelease);
                     verOptSnapshot = GetValueOrDefault<string, object, bool>(result.versionOptions, "snapshot", verOptSnapshot);
+                    lastInstance = (result.lastInstance != null) ? result.lastInstance : lastInstance;
 
                     maxMemoryUsage = Convert.ToInt32(GetValueOrDefault<string, object, long>(result.launcher, "maxMemoryUsage", long.Parse(maxMemoryUsage.ToString())));
                     usingMaxMemoryUsage = GetValueOrDefault<string, object, bool>(result.launcher, "usingMaxMemoryUsage", usingMaxMemoryUsage);
 
                     lastVersionID = result.lastVersionID;
                     runInterval = (result.runInterval >= 0) ? result.runInterval : 1;
-
-                    if (result.windowSize != null) windowSize = new Point(int.Parse(result.windowSize.Split(',')[0]), int.Parse(result.windowSize.Split(',')[1]));
                 }
                 catch (Exception exx)
                 {

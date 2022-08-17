@@ -65,21 +65,22 @@
             this.chkConcurrent = new System.Windows.Forms.CheckBox();
             this.textBoxInterval = new System.Windows.Forms.TextBox();
             this.panelSettingsTop = new System.Windows.Forms.Panel();
+            this.groupBoxInstance = new System.Windows.Forms.GroupBox();
+            this.btnInstanceIntro = new System.Windows.Forms.Button();
+            this.btnInstanceDel = new System.Windows.Forms.Button();
+            this.btnInstanceAdd = new System.Windows.Forms.Button();
+            this.instanceList = new System.Windows.Forms.ComboBox();
             this.groupBoxDataFolder = new System.Windows.Forms.GroupBox();
             this.panelSettingsLeft = new System.Windows.Forms.Panel();
-            this.panelSettingsInsideRight = new System.Windows.Forms.Panel();
-            this.radBtnMain = new System.Windows.Forms.RadioButton();
-            this.textBoxMain = new System.Windows.Forms.TextBox();
-            this.panelSettingsInsideLeft = new System.Windows.Forms.Panel();
-            this.radBtnAD = new System.Windows.Forms.RadioButton();
-            this.textBoxAD = new System.Windows.Forms.TextBox();
-            this.panelSettingsRight = new System.Windows.Forms.Panel();
             this.btnVerifyFile = new System.Windows.Forms.Button();
             this.btnOpenFolder = new System.Windows.Forms.Button();
+            this.btnChangeFolder = new System.Windows.Forms.Button();
+            this.textBoxAD = new System.Windows.Forms.TextBox();
             this.debugPage = new System.Windows.Forms.TabPage();
             this.textBox = new System.Windows.Forms.TextBox();
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.timerConcurrent = new System.Windows.Forms.Timer(this.components);
+            this.textBoxInstance = new System.Windows.Forms.TextBox();
             this.tabControl1.SuspendLayout();
             this.mainPage.SuspendLayout();
             this.panelBody.SuspendLayout();
@@ -96,11 +97,9 @@
             this.groupBoxMainProg.SuspendLayout();
             this.groupBoxInterval.SuspendLayout();
             this.panelSettingsTop.SuspendLayout();
+            this.groupBoxInstance.SuspendLayout();
             this.groupBoxDataFolder.SuspendLayout();
             this.panelSettingsLeft.SuspendLayout();
-            this.panelSettingsInsideRight.SuspendLayout();
-            this.panelSettingsInsideLeft.SuspendLayout();
-            this.panelSettingsRight.SuspendLayout();
             this.debugPage.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -117,7 +116,6 @@
             this.tabControl1.SelectedIndex = 0;
             this.tabControl1.Size = new System.Drawing.Size(464, 321);
             this.tabControl1.TabIndex = 0;
-            this.tabControl1.Click += new System.EventHandler(this.tabControl1_Click);
             // 
             // mainPage
             // 
@@ -495,6 +493,7 @@
             // 
             // panelSettingsTop
             // 
+            this.panelSettingsTop.Controls.Add(this.groupBoxInstance);
             this.panelSettingsTop.Controls.Add(this.groupBoxDataFolder);
             this.panelSettingsTop.Dock = System.Windows.Forms.DockStyle.Top;
             this.panelSettingsTop.Location = new System.Drawing.Point(0, 0);
@@ -502,108 +501,89 @@
             this.panelSettingsTop.Size = new System.Drawing.Size(456, 100);
             this.panelSettingsTop.TabIndex = 1;
             // 
+            // groupBoxInstance
+            // 
+            this.groupBoxInstance.Controls.Add(this.textBoxInstance);
+            this.groupBoxInstance.Controls.Add(this.btnInstanceIntro);
+            this.groupBoxInstance.Controls.Add(this.btnInstanceDel);
+            this.groupBoxInstance.Controls.Add(this.btnInstanceAdd);
+            this.groupBoxInstance.Controls.Add(this.instanceList);
+            this.groupBoxInstance.Location = new System.Drawing.Point(288, 10);
+            this.groupBoxInstance.Name = "groupBoxInstance";
+            this.groupBoxInstance.Size = new System.Drawing.Size(160, 88);
+            this.groupBoxInstance.TabIndex = 1;
+            this.groupBoxInstance.TabStop = false;
+            this.groupBoxInstance.Text = "啟動實例管理";
+            // 
+            // btnInstanceIntro
+            // 
+            this.btnInstanceIntro.Location = new System.Drawing.Point(108, 25);
+            this.btnInstanceIntro.Name = "btnInstanceIntro";
+            this.btnInstanceIntro.Size = new System.Drawing.Size(46, 27);
+            this.btnInstanceIntro.TabIndex = 3;
+            this.btnInstanceIntro.Text = "說明";
+            this.btnInstanceIntro.UseVisualStyleBackColor = true;
+            this.btnInstanceIntro.Click += new System.EventHandler(this.btnInstanceIntro_Click);
+            // 
+            // btnInstanceDel
+            // 
+            this.btnInstanceDel.Location = new System.Drawing.Point(57, 25);
+            this.btnInstanceDel.Name = "btnInstanceDel";
+            this.btnInstanceDel.Size = new System.Drawing.Size(46, 27);
+            this.btnInstanceDel.TabIndex = 2;
+            this.btnInstanceDel.Text = "刪除";
+            this.btnInstanceDel.UseVisualStyleBackColor = true;
+            this.btnInstanceDel.Click += new System.EventHandler(this.btnInstanceDel_Click);
+            // 
+            // btnInstanceAdd
+            // 
+            this.btnInstanceAdd.Location = new System.Drawing.Point(6, 25);
+            this.btnInstanceAdd.Name = "btnInstanceAdd";
+            this.btnInstanceAdd.Size = new System.Drawing.Size(46, 27);
+            this.btnInstanceAdd.TabIndex = 1;
+            this.btnInstanceAdd.Text = "新增";
+            this.btnInstanceAdd.UseVisualStyleBackColor = true;
+            this.btnInstanceAdd.Click += new System.EventHandler(this.btnInstanceAdd_Click);
+            // 
+            // instanceList
+            // 
+            this.instanceList.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.instanceList.FormattingEnabled = true;
+            this.instanceList.Items.AddRange(new object[] {
+            "無"});
+            this.instanceList.Location = new System.Drawing.Point(136, 57);
+            this.instanceList.Name = "instanceList";
+            this.instanceList.Size = new System.Drawing.Size(19, 25);
+            this.instanceList.TabIndex = 0;
+            this.instanceList.SelectedIndexChanged += new System.EventHandler(this.instanceList_SelectedIndexChanged);
+            // 
             // groupBoxDataFolder
             // 
             this.groupBoxDataFolder.Controls.Add(this.panelSettingsLeft);
-            this.groupBoxDataFolder.Controls.Add(this.panelSettingsRight);
             this.groupBoxDataFolder.Location = new System.Drawing.Point(8, 10);
             this.groupBoxDataFolder.Name = "groupBoxDataFolder";
-            this.groupBoxDataFolder.Size = new System.Drawing.Size(440, 88);
+            this.groupBoxDataFolder.Size = new System.Drawing.Size(277, 88);
             this.groupBoxDataFolder.TabIndex = 0;
             this.groupBoxDataFolder.TabStop = false;
             this.groupBoxDataFolder.Text = "Minecraft 主程式資料";
             // 
             // panelSettingsLeft
             // 
-            this.panelSettingsLeft.Controls.Add(this.panelSettingsInsideRight);
-            this.panelSettingsLeft.Controls.Add(this.panelSettingsInsideLeft);
+            this.panelSettingsLeft.Controls.Add(this.btnVerifyFile);
+            this.panelSettingsLeft.Controls.Add(this.btnOpenFolder);
+            this.panelSettingsLeft.Controls.Add(this.btnChangeFolder);
+            this.panelSettingsLeft.Controls.Add(this.textBoxAD);
             this.panelSettingsLeft.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelSettingsLeft.Location = new System.Drawing.Point(3, 21);
             this.panelSettingsLeft.Name = "panelSettingsLeft";
-            this.panelSettingsLeft.Size = new System.Drawing.Size(308, 64);
+            this.panelSettingsLeft.Size = new System.Drawing.Size(271, 64);
             this.panelSettingsLeft.TabIndex = 0;
-            // 
-            // panelSettingsInsideRight
-            // 
-            this.panelSettingsInsideRight.Controls.Add(this.radBtnMain);
-            this.panelSettingsInsideRight.Controls.Add(this.textBoxMain);
-            this.panelSettingsInsideRight.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelSettingsInsideRight.Location = new System.Drawing.Point(154, 0);
-            this.panelSettingsInsideRight.Name = "panelSettingsInsideRight";
-            this.panelSettingsInsideRight.Size = new System.Drawing.Size(154, 64);
-            this.panelSettingsInsideRight.TabIndex = 5;
-            // 
-            // radBtnMain
-            // 
-            this.radBtnMain.AutoSize = true;
-            this.radBtnMain.Location = new System.Drawing.Point(6, 8);
-            this.radBtnMain.Name = "radBtnMain";
-            this.radBtnMain.Size = new System.Drawing.Size(124, 22);
-            this.radBtnMain.TabIndex = 1;
-            this.radBtnMain.Text = "啟動器執行位置";
-            this.radBtnMain.UseVisualStyleBackColor = true;
-            this.radBtnMain.CheckedChanged += new System.EventHandler(this.radBtnMain_CheckedChanged);
-            this.radBtnMain.Click += new System.EventHandler(this.radBtnMain_Click);
-            // 
-            // textBoxMain
-            // 
-            this.textBoxMain.BackColor = System.Drawing.SystemColors.Control;
-            this.textBoxMain.Font = new System.Drawing.Font("微軟正黑體", 9F);
-            this.textBoxMain.Location = new System.Drawing.Point(22, 36);
-            this.textBoxMain.Name = "textBoxMain";
-            this.textBoxMain.ReadOnly = true;
-            this.textBoxMain.Size = new System.Drawing.Size(118, 23);
-            this.textBoxMain.TabIndex = 3;
-            // 
-            // panelSettingsInsideLeft
-            // 
-            this.panelSettingsInsideLeft.Controls.Add(this.radBtnAD);
-            this.panelSettingsInsideLeft.Controls.Add(this.textBoxAD);
-            this.panelSettingsInsideLeft.Dock = System.Windows.Forms.DockStyle.Left;
-            this.panelSettingsInsideLeft.Location = new System.Drawing.Point(0, 0);
-            this.panelSettingsInsideLeft.Name = "panelSettingsInsideLeft";
-            this.panelSettingsInsideLeft.Size = new System.Drawing.Size(154, 64);
-            this.panelSettingsInsideLeft.TabIndex = 4;
-            // 
-            // radBtnAD
-            // 
-            this.radBtnAD.AutoSize = true;
-            this.radBtnAD.Location = new System.Drawing.Point(6, 8);
-            this.radBtnAD.Name = "radBtnAD";
-            this.radBtnAD.Size = new System.Drawing.Size(91, 22);
-            this.radBtnAD.TabIndex = 0;
-            this.radBtnAD.TabStop = true;
-            this.radBtnAD.Text = "APPDATA";
-            this.radBtnAD.UseVisualStyleBackColor = true;
-            this.radBtnAD.CheckedChanged += new System.EventHandler(this.radBtnAD_CheckedChanged);
-            this.radBtnAD.Click += new System.EventHandler(this.radBtnAD_Click);
-            // 
-            // textBoxAD
-            // 
-            this.textBoxAD.BackColor = System.Drawing.SystemColors.Control;
-            this.textBoxAD.Font = new System.Drawing.Font("微軟正黑體", 9F);
-            this.textBoxAD.Location = new System.Drawing.Point(30, 36);
-            this.textBoxAD.Name = "textBoxAD";
-            this.textBoxAD.ReadOnly = true;
-            this.textBoxAD.Size = new System.Drawing.Size(118, 23);
-            this.textBoxAD.TabIndex = 2;
-            // 
-            // panelSettingsRight
-            // 
-            this.panelSettingsRight.Controls.Add(this.btnVerifyFile);
-            this.panelSettingsRight.Controls.Add(this.btnOpenFolder);
-            this.panelSettingsRight.Dock = System.Windows.Forms.DockStyle.Right;
-            this.panelSettingsRight.Location = new System.Drawing.Point(311, 21);
-            this.panelSettingsRight.Name = "panelSettingsRight";
-            this.panelSettingsRight.Size = new System.Drawing.Size(126, 64);
-            this.panelSettingsRight.TabIndex = 1;
             // 
             // btnVerifyFile
             // 
-            this.btnVerifyFile.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnVerifyFile.Location = new System.Drawing.Point(3, 0);
+            this.btnVerifyFile.Location = new System.Drawing.Point(105, 3);
             this.btnVerifyFile.Name = "btnVerifyFile";
-            this.btnVerifyFile.Size = new System.Drawing.Size(118, 30);
+            this.btnVerifyFile.Size = new System.Drawing.Size(131, 30);
             this.btnVerifyFile.TabIndex = 4;
             this.btnVerifyFile.Text = "檢查資料完整性";
             this.toolTip.SetToolTip(this.btnVerifyFile, "驗證所有資料的雜湊值，並且不啟動遊戲");
@@ -612,14 +592,34 @@
             // 
             // btnOpenFolder
             // 
-            this.btnOpenFolder.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnOpenFolder.Location = new System.Drawing.Point(3, 31);
+            this.btnOpenFolder.Location = new System.Drawing.Point(3, 3);
             this.btnOpenFolder.Name = "btnOpenFolder";
-            this.btnOpenFolder.Size = new System.Drawing.Size(118, 30);
+            this.btnOpenFolder.Size = new System.Drawing.Size(96, 30);
             this.btnOpenFolder.TabIndex = 3;
             this.btnOpenFolder.Text = "開啟資料夾";
             this.btnOpenFolder.UseVisualStyleBackColor = true;
             this.btnOpenFolder.Click += new System.EventHandler(this.btnOpenFolder_Click);
+            // 
+            // btnChangeFolder
+            // 
+            this.btnChangeFolder.Location = new System.Drawing.Point(242, 38);
+            this.btnChangeFolder.Name = "btnChangeFolder";
+            this.btnChangeFolder.Size = new System.Drawing.Size(25, 23);
+            this.btnChangeFolder.TabIndex = 3;
+            this.btnChangeFolder.Text = "...";
+            this.toolTip.SetToolTip(this.btnChangeFolder, "選擇新的資料夾作為主程式資料存放位置");
+            this.btnChangeFolder.UseVisualStyleBackColor = true;
+            this.btnChangeFolder.Click += new System.EventHandler(this.btnChangeFolder_Click);
+            // 
+            // textBoxAD
+            // 
+            this.textBoxAD.BackColor = System.Drawing.SystemColors.Control;
+            this.textBoxAD.Font = new System.Drawing.Font("微軟正黑體", 9F);
+            this.textBoxAD.Location = new System.Drawing.Point(3, 38);
+            this.textBoxAD.Name = "textBoxAD";
+            this.textBoxAD.ReadOnly = true;
+            this.textBoxAD.Size = new System.Drawing.Size(233, 23);
+            this.textBoxAD.TabIndex = 2;
             // 
             // debugPage
             // 
@@ -647,6 +647,15 @@
             // timerConcurrent
             // 
             this.timerConcurrent.Tick += new System.EventHandler(this.timerConcurrent_Tick);
+            // 
+            // textBoxInstance
+            // 
+            this.textBoxInstance.Location = new System.Drawing.Point(6, 57);
+            this.textBoxInstance.Name = "textBoxInstance";
+            this.textBoxInstance.ReadOnly = true;
+            this.textBoxInstance.Size = new System.Drawing.Size(129, 25);
+            this.textBoxInstance.TabIndex = 4;
+            this.textBoxInstance.Click += new System.EventHandler(this.textBoxInstance_Click);
             // 
             // minecraftForm
             // 
@@ -686,13 +695,11 @@
             this.groupBoxInterval.ResumeLayout(false);
             this.groupBoxInterval.PerformLayout();
             this.panelSettingsTop.ResumeLayout(false);
+            this.groupBoxInstance.ResumeLayout(false);
+            this.groupBoxInstance.PerformLayout();
             this.groupBoxDataFolder.ResumeLayout(false);
             this.panelSettingsLeft.ResumeLayout(false);
-            this.panelSettingsInsideRight.ResumeLayout(false);
-            this.panelSettingsInsideRight.PerformLayout();
-            this.panelSettingsInsideLeft.ResumeLayout(false);
-            this.panelSettingsInsideLeft.PerformLayout();
-            this.panelSettingsRight.ResumeLayout(false);
+            this.panelSettingsLeft.PerformLayout();
             this.debugPage.ResumeLayout(false);
             this.debugPage.PerformLayout();
             this.ResumeLayout(false);
@@ -716,17 +723,8 @@
         private System.Windows.Forms.TextBox textUser;
         private System.Windows.Forms.TabPage settingPage;
         private System.Windows.Forms.GroupBox groupBoxDataFolder;
-        private System.Windows.Forms.RadioButton radBtnMain;
-        private System.Windows.Forms.RadioButton radBtnAD;
-        private System.Windows.Forms.TextBox textBoxMain;
-        private System.Windows.Forms.TextBox textBoxAD;
         private System.Windows.Forms.Panel panelSettingsTop;
-        private System.Windows.Forms.Button btnOpenFolder;
         private System.Windows.Forms.Panel panelSettingsLeft;
-        private System.Windows.Forms.Panel panelSettingsRight;
-        private System.Windows.Forms.Panel panelSettingsInsideRight;
-        private System.Windows.Forms.Panel panelSettingsInsideLeft;
-        private System.Windows.Forms.Button btnVerifyFile;
         private System.Windows.Forms.ComboBox versionList;
         private System.Windows.Forms.GroupBox groupBoxInterval;
         private System.Windows.Forms.ToolTip toolTip;
@@ -751,5 +749,15 @@
         private System.Windows.Forms.Timer timerConcurrent;
         private System.Windows.Forms.CheckBox chkConcurrent;
         private System.Windows.Forms.TextBox textBoxInterval;
+        private System.Windows.Forms.Button btnVerifyFile;
+        private System.Windows.Forms.Button btnOpenFolder;
+        private System.Windows.Forms.Button btnChangeFolder;
+        private System.Windows.Forms.TextBox textBoxAD;
+        private System.Windows.Forms.GroupBox groupBoxInstance;
+        private System.Windows.Forms.Button btnInstanceIntro;
+        private System.Windows.Forms.Button btnInstanceDel;
+        private System.Windows.Forms.Button btnInstanceAdd;
+        private System.Windows.Forms.ComboBox instanceList;
+        private System.Windows.Forms.TextBox textBoxInstance;
     }
 }

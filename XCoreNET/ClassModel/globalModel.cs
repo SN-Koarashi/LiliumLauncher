@@ -23,8 +23,10 @@ namespace XCoreNET.ClassModel
             public Dictionary<string, object> launcher { get; set; }
             public Dictionary<string, object> minecraft { get; set; }
             public Dictionary<string, object> versionOptions { get; set; }
+            public List<string> instance { get; set; }
+            public string lastInstance { get; set; }
             public string refreshToken { get; set; }
-            public bool isMainFolder { get; set; }
+            public string mainFolder { get; set; }
             public string lastVersionID { get; set; }
             public string windowSize { get; set; }
             public int runInterval { get; set; }
