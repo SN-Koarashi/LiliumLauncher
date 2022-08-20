@@ -81,6 +81,7 @@
             this.textBox = new System.Windows.Forms.TextBox();
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.timerConcurrent = new System.Windows.Forms.Timer(this.components);
+            this.panelVersion = new System.Windows.Forms.Panel();
             this.tabControl1.SuspendLayout();
             this.mainPage.SuspendLayout();
             this.panelBody.SuspendLayout();
@@ -101,6 +102,7 @@
             this.groupBoxDataFolder.SuspendLayout();
             this.panelSettingsLeft.SuspendLayout();
             this.debugPage.SuspendLayout();
+            this.panelVersion.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -199,8 +201,7 @@
             // 
             // panelHeader
             // 
-            this.panelHeader.Controls.Add(this.textVersionSelected);
-            this.panelHeader.Controls.Add(this.versionList);
+            this.panelHeader.Controls.Add(this.panelVersion);
             this.panelHeader.Controls.Add(this.textUser);
             this.panelHeader.Controls.Add(this.avatar);
             this.panelHeader.Dock = System.Windows.Forms.DockStyle.Top;
@@ -212,7 +213,7 @@
             // textVersionSelected
             // 
             this.textVersionSelected.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.textVersionSelected.Location = new System.Drawing.Point(265, 9);
+            this.textVersionSelected.Location = new System.Drawing.Point(5, 5);
             this.textVersionSelected.Name = "textVersionSelected";
             this.textVersionSelected.ReadOnly = true;
             this.textVersionSelected.Size = new System.Drawing.Size(160, 25);
@@ -224,7 +225,7 @@
             this.versionList.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.versionList.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.versionList.FormattingEnabled = true;
-            this.versionList.Location = new System.Drawing.Point(426, 9);
+            this.versionList.Location = new System.Drawing.Point(166, 5);
             this.versionList.Name = "versionList";
             this.versionList.Size = new System.Drawing.Size(19, 25);
             this.versionList.TabIndex = 7;
@@ -658,6 +659,15 @@
             // 
             this.timerConcurrent.Tick += new System.EventHandler(this.timerConcurrent_Tick);
             // 
+            // panelVersion
+            // 
+            this.panelVersion.Controls.Add(this.versionList);
+            this.panelVersion.Controls.Add(this.textVersionSelected);
+            this.panelVersion.Location = new System.Drawing.Point(263, 0);
+            this.panelVersion.Name = "panelVersion";
+            this.panelVersion.Size = new System.Drawing.Size(187, 35);
+            this.panelVersion.TabIndex = 1;
+            // 
             // minecraftForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -703,6 +713,8 @@
             this.panelSettingsLeft.PerformLayout();
             this.debugPage.ResumeLayout(false);
             this.debugPage.PerformLayout();
+            this.panelVersion.ResumeLayout(false);
+            this.panelVersion.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -760,5 +772,6 @@
         private System.Windows.Forms.Button btnInstanceAdd;
         private System.Windows.Forms.ComboBox instanceList;
         private System.Windows.Forms.TextBox textBoxInstance;
+        private System.Windows.Forms.Panel panelVersion;
     }
 }

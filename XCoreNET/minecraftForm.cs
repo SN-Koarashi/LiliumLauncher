@@ -149,29 +149,9 @@ namespace XCoreNET
             textBoxAD.Text = gb.mainFolder;
             DATA_FOLDER = gb.mainFolder;
             Directory.CreateDirectory(DATA_FOLDER);
-            Directory.CreateDirectory(PathJoin(DATA_FOLDER, ".x-instance"));
+            Directory.CreateDirectory(gb.PathJoin(DATA_FOLDER, ".x-instance"));
 
-            gb.instance = Directory.GetDirectories(PathJoin(DATA_FOLDER, ".x-instance")).ToList<string>();
-
-            if (gb.instance.Count > 0)
-            {
-                foreach (var item in gb.instance)
-                {
-                    var dirArr = item.Split(Path.DirectorySeparatorChar);
-                    instanceList.Items.Add(dirArr.Last());
-                }
-            }
-
-
-            if (gb.lastInstance == null || gb.lastInstance.Length == 0 || !Directory.Exists(gb.lastInstance))
-            {
-                instanceList.SelectedIndex = 0;
-                gb.lastInstance = "";
-            }
-            else
-            {
-                instanceList.SelectedItem = gb.lastInstance.Split(Path.DirectorySeparatorChar).Last();
-            }
+            onGetAllInstance();
         }
 
         private void setTray()
@@ -330,8 +310,8 @@ namespace XCoreNET
 
                     if (filename.StartsWith("icons/"))
                     {
-                        Directory.CreateDirectory(PathJoin(DATA_FOLDER, "assets", "icons"));
-                        File.Copy(path, PathJoin(DATA_FOLDER, "assets", filename), true);
+                        Directory.CreateDirectory(gb.PathJoin(DATA_FOLDER, "assets", "icons"));
+                        File.Copy(path, gb.PathJoin(DATA_FOLDER, "assets", filename), true);
                     }
 
                     FileWriteCompleted(UID);
@@ -369,6 +349,64 @@ namespace XCoreNET
             UpdateDownloadState();
         }
 
+        private void setSpecificInstance()
+        {
+            // 不選擇啟動實例
+            if (gb.lastInstance == null || gb.lastInstance.Length == 0)
+            {
+                versionList.Enabled = true;
+            }
+            else
+            {
+                // 選擇啟動實例
+                if (File.Exists(gb.PathJoin(gb.lastInstance, "version.bin")))
+                {
+                    byte[] data = File.ReadAllBytes(gb.PathJoin(gb.lastInstance, "version.bin"));
+                    string dataString = Encoding.Default.GetString(data);
+                    if (versionList.Items.IndexOf(dataString) != -1)
+                    {
+                        versionList.SelectedItem = dataString;
+                        textVersionSelected.Text = dataString;
+                        versionList.Enabled = false;
+                    }
+                    else
+                    {
+                        versionList.Enabled = true;
+                    }
+                }
+                else
+                {
+                    versionList.Enabled = true;
+                }
+            }
+        }
+        private void onGetAllInstance()
+        {
+            instanceList.Items.Clear();
+            instanceList.Items.Add("無");
+
+            gb.instance = Directory.GetDirectories(gb.PathJoin(DATA_FOLDER, ".x-instance")).ToList<string>();
+
+            if (gb.instance.Count > 0)
+            {
+                foreach (var item in gb.instance)
+                {
+                    var dirArr = item.Split(Path.DirectorySeparatorChar);
+                    instanceList.Items.Add(dirArr.Last());
+                }
+            }
+
+
+            if (gb.lastInstance == null || gb.lastInstance.Length == 0 || !Directory.Exists(gb.lastInstance))
+            {
+                instanceList.SelectedIndex = 0;
+                gb.lastInstance = "";
+            }
+            else
+            {
+                instanceList.SelectedItem = gb.lastInstance.Split(Path.DirectorySeparatorChar).Last();
+            }
+        }
         private async void onGetAllVersion()
         {
             bool hasTakeManifesst = false;
@@ -402,9 +440,9 @@ namespace XCoreNET
                 versionList.Items.Add(r.Key);
             }
 
-            Directory.CreateDirectory(PathJoin(DATA_FOLDER, "versions"));
+            Directory.CreateDirectory(gb.PathJoin(DATA_FOLDER, "versions"));
 
-            var folderName = Directory.GetDirectories(PathJoin(DATA_FOLDER, "versions"));
+            var folderName = Directory.GetDirectories(gb.PathJoin(DATA_FOLDER, "versions"));
             var installedName = new List<string>();
             foreach (var nameFull in folderName)
             {
@@ -450,7 +488,7 @@ namespace XCoreNET
                 versionList.Items.AddRange(customVersion.ToArray());
             }
 
-            versionList.DropDownWidth = (DropDownWidth(versionList) + 25 > 300) ? 300 : DropDownWidth(versionList) + 25;
+            versionList.DropDownWidth = (gb.DropDownWidth(versionList) + 25 > 300) ? 300 : gb.DropDownWidth(versionList) + 25;
 
             foreach (var item in versionList.Items)
             {
@@ -467,20 +505,8 @@ namespace XCoreNET
             }
 
             groupBoxVersion.Enabled = true;
-        }
 
-        private int DropDownWidth(ComboBox myCombo)
-        {
-            int maxWidth = 0, temp = 0;
-            foreach (var obj in myCombo.Items)
-            {
-                temp = TextRenderer.MeasureText(obj.ToString(), myCombo.Font).Width;
-                if (temp > maxWidth)
-                {
-                    maxWidth = temp;
-                }
-            }
-            return maxWidth;
+            setSpecificInstance();
         }
 
         private async void onAzureToken(string azureToken)
@@ -800,7 +826,6 @@ namespace XCoreNET
         private void settingAllControl(bool isEnabled)
         {
             btnLaunch.Enabled = isEnabled;
-            versionList.Enabled = isEnabled;
             textStatus.Enabled = isEnabled;
             textVersionSelected.Enabled = isEnabled;
             groupBoxMainProg.Enabled = isEnabled;
@@ -811,6 +836,7 @@ namespace XCoreNET
             groupBoxVersionReload.Enabled = isEnabled;
             groupBoxMemory.Enabled = isEnabled;
             groupBoxInstance.Enabled = isEnabled;
+            panelVersion.Enabled = isEnabled;
 
             if (isEnabled)
             {
@@ -865,7 +891,7 @@ namespace XCoreNET
             {
                 // 非原版客戶端區塊
 
-                var dir = PathJoin(DATA_FOLDER, "versions", selectVersion, $"{selectVersion}.json");
+                var dir = gb.PathJoin(DATA_FOLDER, "versions", selectVersion, $"{selectVersion}.json");
                 if (!File.Exists(dir))
                 {
                     MessageBox.Show($"找不到客戶端版本資訊檔: {selectVersion}.json", "錯誤", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -955,11 +981,11 @@ namespace XCoreNET
                 gb.startupParms.main = obj["mainClass"].ToString();
 
             var body = await new HttpClient().GetStringAsync(indexUrl);
-            var dir = PathJoin(DATA_FOLDER, "assets/indexes");
+            var dir = gb.PathJoin(DATA_FOLDER, "assets/indexes");
 
             Directory.CreateDirectory(dir);
-            Console.WriteLine(PathJoin(dir, $"{id}.json"));
-            File.WriteAllText(PathJoin(dir, $"{id}.json"), body);
+            Console.WriteLine(gb.PathJoin(dir, $"{id}.json"));
+            File.WriteAllText(gb.PathJoin(dir, $"{id}.json"), body);
 
             onCreateGameData(version, obj["downloads"]["client"]["sha1"].ToString(), obj, client_url, body);
         }
@@ -970,9 +996,9 @@ namespace XCoreNET
 
             if (customVer == null)
             {
-                var dir = PathJoin(DATA_FOLDER, "versions", version);
-                var dir_json = PathJoin(dir, $"{version}.json");
-                var dir_jar = PathJoin(dir, $"{version}.jar");
+                var dir = gb.PathJoin(DATA_FOLDER, "versions", version);
+                var dir_json = gb.PathJoin(dir, $"{version}.json");
+                var dir_jar = gb.PathJoin(dir, $"{version}.jar");
 
                 Directory.CreateDirectory(dir);
 
@@ -1011,7 +1037,7 @@ namespace XCoreNET
             {
                 // 非原版客戶端區塊
 
-                var dir_jar = PathJoin(DATA_FOLDER, "versions", version, $"{version}.jar");
+                var dir_jar = gb.PathJoin(DATA_FOLDER, "versions", version, $"{version}.jar");
                 if (File.Exists(dir_jar) && new FileInfo(dir_jar).Length == 0)
                 {
                     output("INFO", "正在下載遊戲主程式");
@@ -1048,7 +1074,7 @@ namespace XCoreNET
             gb.startupParms.version = version;
 
 
-            INSTALLED_PATH = PathJoin(DATA_FOLDER, "versions", version, "installed.");
+            INSTALLED_PATH = gb.PathJoin(DATA_FOLDER, "versions", version, "installed.");
 
 
             // 舊版本沒有使用 log4j
@@ -1061,10 +1087,10 @@ namespace XCoreNET
         private async void onCreateLogger(string url, string filename)
         {
             output("INFO", "建立記錄器規則");
-            var dir = PathJoin(DATA_FOLDER, "assets/log-configs");
+            var dir = gb.PathJoin(DATA_FOLDER, "assets/log-configs");
             Directory.CreateDirectory(dir);
 
-            await launcher.downloadResource(url, PathJoin(dir, filename));
+            await launcher.downloadResource(url, gb.PathJoin(dir, filename));
 
             gb.startupParms.loggerIndex = filename;
         }
@@ -1107,12 +1133,12 @@ namespace XCoreNET
                 index++;
                 if (list.Value["type"].ToString().Equals("directory"))
                 {
-                    var dir = PathJoin(DATA_FOLDER, "runtimes", runtime, list.Key.ToString());
+                    var dir = gb.PathJoin(DATA_FOLDER, "runtimes", runtime, list.Key.ToString());
                     Directory.CreateDirectory(dir);
                 }
                 else
                 {
-                    var path = PathJoin(DATA_FOLDER, "runtimes", runtime, list.Key.ToString());
+                    var path = gb.PathJoin(DATA_FOLDER, "runtimes", runtime, list.Key.ToString());
                     var url = list.Value["downloads"]["raw"]["url"].ToString();
                     var sha_remote = list.Value["downloads"]["raw"]["sha1"].ToString();
                     var sha_local = (File.Exists(path)) ? gb.SHA1(File.ReadAllBytes(path)) : "";
@@ -1207,7 +1233,7 @@ namespace XCoreNET
             concurrentNowSize = new Dictionary<string, ConcurrentDownloadListModel>();
 
             output("INFO", "建立必要元件");
-            var dir = PathJoin(DATA_FOLDER, "libraries");
+            var dir = gb.PathJoin(DATA_FOLDER, "libraries");
             Directory.CreateDirectory(dir);
 
             var index = 0;
@@ -1330,7 +1356,7 @@ namespace XCoreNET
                 string vanillaVersionName = objKit["id"].ToString();
                 while (indexVersionName != vanillaVersionName)
                 {
-                    string data = File.ReadAllText(PathJoin(DATA_FOLDER, "versions", indexVersionName, $"{indexVersionName}.json"));
+                    string data = File.ReadAllText(gb.PathJoin(DATA_FOLDER, "versions", indexVersionName, $"{indexVersionName}.json"));
                     JObject nowLib = JsonConvert.DeserializeObject<JObject>(data);
                     foreach (var item in nowLib["libraries"])
                     {
@@ -1354,9 +1380,9 @@ namespace XCoreNET
                             var lastName = item["name"].ToString().Split(':').Skip(1).ToArray();
                             var cDir = firstName + "/" + String.Join("/", lastName);
 
-                            if (Directory.Exists(PathJoin(DATA_FOLDER, "libraries", cDir)) && Directory.GetFiles(PathJoin(DATA_FOLDER, "libraries", cDir)).Count() > 0)
+                            if (Directory.Exists(gb.PathJoin(DATA_FOLDER, "libraries", cDir)) && Directory.GetFiles(gb.PathJoin(DATA_FOLDER, "libraries", cDir)).Count() > 0)
                             {
-                                var cPathes = Directory.GetFiles(PathJoin(DATA_FOLDER, "libraries", cDir));
+                                var cPathes = Directory.GetFiles(gb.PathJoin(DATA_FOLDER, "libraries", cDir));
 
                                 foreach (var cPath in cPathes)
                                 {
@@ -1451,10 +1477,10 @@ namespace XCoreNET
                 if (d.Value.type == 2)
                 {
                     cFilename = cFilename.Replace("-natives-windows.jar", ".jar");
-                    cDir = PathJoin(dir, d.Value.name, cDir);
+                    cDir = gb.PathJoin(dir, d.Value.name, cDir);
 
                     Directory.CreateDirectory(cDir);
-                    cPath = PathJoin(cDir, cFilename);
+                    cPath = gb.PathJoin(cDir, cFilename);
 
                     // 如果物件內沒有這個名字或是物件內的版本比較舊，則更新物件內容
                     LibrariesModel insideModel;
@@ -1488,9 +1514,9 @@ namespace XCoreNET
                 // 其他通用檔案 (依賴關係庫)
                 else
                 {
-                    cDir = PathJoin(dir, cDir);
+                    cDir = gb.PathJoin(dir, cDir);
                     Directory.CreateDirectory(cDir);
-                    cPath = PathJoin(cDir, cFilename);
+                    cPath = gb.PathJoin(cDir, cFilename);
 
                     // 如果物件內沒有這個名字或是物件內的版本比較舊，則更新物件內容
                     LibrariesModel insideModel;
@@ -1621,7 +1647,7 @@ namespace XCoreNET
             concurrentNowSize = new Dictionary<string, ConcurrentDownloadListModel>();
 
             output("INFO", "建立遊戲資料");
-            var dir = PathJoin(DATA_FOLDER, "assets/objects");
+            var dir = gb.PathJoin(DATA_FOLDER, "assets/objects");
             Directory.CreateDirectory(dir);
 
             JObject obj = JsonConvert.DeserializeObject<JObject>(gameAssetJson);
@@ -1650,8 +1676,8 @@ namespace XCoreNET
                 var hash = r.Value["hash"].ToString();
                 var resource_url = _resource_url.Replace("%hash_prefix%", hash_prefix).Replace("%hash%", hash);
 
-                var cPath = PathJoin(dir, hash_prefix, hash);
-                Directory.CreateDirectory(PathJoin(dir, hash_prefix));
+                var cPath = gb.PathJoin(dir, hash_prefix, hash);
+                Directory.CreateDirectory(gb.PathJoin(dir, hash_prefix));
 
                 var sha_remote = r.Value["hash"].ToString();
                 var sha_local = (File.Exists(cPath)) ? gb.SHA1(File.ReadAllBytes(cPath)) : "";
@@ -1690,8 +1716,8 @@ namespace XCoreNET
 
                 if (r.Key.StartsWith("icons/") && !chkConcurrent.Checked)
                 {
-                    Directory.CreateDirectory(PathJoin(DATA_FOLDER, "assets", "icons"));
-                    File.Copy(cPath, PathJoin(DATA_FOLDER, "assets", r.Key), true);
+                    Directory.CreateDirectory(gb.PathJoin(DATA_FOLDER, "assets", "icons"));
+                    File.Copy(cPath, gb.PathJoin(DATA_FOLDER, "assets", r.Key), true);
                 }
 
                 progressBar.Value = index;
@@ -1755,7 +1781,7 @@ namespace XCoreNET
             TaskbarManager.Instance.SetProgressState(TaskbarProgressBarState.Indeterminate, Handle);
             output("INFO", "解壓縮動態函數庫");
             gb.startupParms.appUID = Guid.NewGuid().ToString();
-            var dir = PathJoin(DATA_FOLDER, "bin", gb.startupParms.appUID);
+            var dir = gb.PathJoin(DATA_FOLDER, "bin", gb.startupParms.appUID);
             Directory.CreateDirectory(dir);
 
             var nativesPath = new List<string>();
@@ -1817,7 +1843,16 @@ namespace XCoreNET
             CultureInfo ci = CultureInfo.CurrentUICulture;
             string lang = ci.Name;
 
-            var dir = PathJoin(DATA_FOLDER, "options.txt");
+            string dir;
+            if (gb.lastInstance != null && gb.lastInstance.Length > 0)
+            {
+                dir = gb.PathJoin(gb.lastInstance, "options.txt");
+            }
+            else
+            {
+                dir = gb.PathJoin(DATA_FOLDER, "options.txt");
+            }
+
             if (File.Exists(dir))
             {
                 if (gb.startupParms.loggerIndex == null)
@@ -1856,17 +1891,17 @@ namespace XCoreNET
             progressBar.Style = ProgressBarStyle.Marquee;
             output("INFO", "啟動遊戲");
 
-            var assetsDir = PathJoin(DATA_FOLDER, "assets");
+            var assetsDir = gb.PathJoin(DATA_FOLDER, "assets");
             var gameDir = (gb.lastInstance.Length == 0) ? DATA_FOLDER : gb.lastInstance;
 
-            var cDir = PathJoin(DATA_FOLDER, "versions", gb.startupParms.version, gb.startupParms.version + ".jar");
+            var cDir = gb.PathJoin(DATA_FOLDER, "versions", gb.startupParms.version, gb.startupParms.version + ".jar");
             if (customVer != null && !File.Exists(cDir))
             {
                 // 非原版客戶端時，試圖尋找原版客戶端資訊
                 if (customVer["jar"] != null)
-                    cDir = PathJoin(DATA_FOLDER, "versions", customVer["jar"].ToString(), customVer["jar"].ToString() + ".jar");
+                    cDir = gb.PathJoin(DATA_FOLDER, "versions", customVer["jar"].ToString(), customVer["jar"].ToString() + ".jar");
                 else
-                    cDir = PathJoin(DATA_FOLDER, "versions", customVer["inheritsFrom"].ToString(), customVer["inheritsFrom"].ToString() + ".jar");
+                    cDir = gb.PathJoin(DATA_FOLDER, "versions", customVer["inheritsFrom"].ToString(), customVer["inheritsFrom"].ToString() + ".jar");
             }
 
             var librariesPath = new List<string>();
@@ -1874,7 +1909,7 @@ namespace XCoreNET
 
             // 將版本資訊寫入 launcher_profiles 目的是為了相容模組安裝程式的判斷式
             var hash = gb.SHA1(File.ReadAllBytes(cDir));
-            var profiles_path = PathJoin(DATA_FOLDER, "launcher_profiles.json");
+            var profiles_path = gb.PathJoin(DATA_FOLDER, "launcher_profiles.json");
 
             LauncherProfilesModelChild lpmc = new LauncherProfilesModelChild();
             lpmc.created = DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss");
@@ -1924,13 +1959,13 @@ namespace XCoreNET
             jvm.Add("-Xms512m");
             jvm.Add("-Dminecraft.launcher.brand=XCoreNET");
             jvm.Add("-Dminecraft.launcher.version=" + Application.ProductVersion);
-            jvm.Add("-Djava.library.path=" + PathJoin(DATA_FOLDER, "bin", gb.startupParms.appUID));
+            jvm.Add("-Djava.library.path=" + gb.PathJoin(DATA_FOLDER, "bin", gb.startupParms.appUID));
 
             if (gb.usingMaxMemoryUsage && gb.maxMemoryUsage > 0)
                 jvm.Add($"-Xmx{gb.maxMemoryUsage}m");
 
             if (gb.startupParms.loggerIndex != null)
-                jvm.Add("-Dlog4j.configurationFile=" + PathJoin(assetsDir, "log-configs", gb.startupParms.loggerIndex));
+                jvm.Add("-Dlog4j.configurationFile=" + gb.PathJoin(assetsDir, "log-configs", gb.startupParms.loggerIndex));
 
             replaceOptions.Add("${auth_player_name}", gb.startupParms.username);
             replaceOptions.Add("${version_name}", gb.startupParms.version);
@@ -1958,7 +1993,7 @@ namespace XCoreNET
                 jarPath
             };
 
-            string javaPath = PathJoin(DATA_FOLDER, "runtimes", gb.startupParms.javaRuntime, "bin", "java.exe");
+            string javaPath = gb.PathJoin(DATA_FOLDER, "runtimes", gb.startupParms.javaRuntime, "bin", "java.exe");
             string startupParms = "";
 
             startupParms += String.Join(" ", jvm) + " ";
@@ -1972,7 +2007,7 @@ namespace XCoreNET
                 JObject replaceOptionsCustom = new JObject();
                 JArray customJvm = (JArray)customVer["arguments"]["jvm"];
                 replaceOptionsCustom.Add("${version_name}", customVer["inheritsFrom"].ToString());
-                replaceOptionsCustom.Add("${library_directory}", PathJoin(DATA_FOLDER, "libraries"));
+                replaceOptionsCustom.Add("${library_directory}", gb.PathJoin(DATA_FOLDER, "libraries"));
                 replaceOptionsCustom.Add("${classpath_separator}", ";");
 
                 foreach (var jvmArr in customJvm)
@@ -2013,7 +2048,7 @@ namespace XCoreNET
             proc.StartInfo = startInfo;
             proc.EnableRaisingEvents = true;
 
-            var installedPath = PathJoin(DATA_FOLDER, "versions", versionList.SelectedItem.ToString(), "installed.");
+            var installedPath = gb.PathJoin(DATA_FOLDER, "versions", versionList.SelectedItem.ToString(), "installed.");
             if (!File.Exists(installedPath))
             {
                 File.WriteAllText(installedPath, DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss"));
@@ -2048,7 +2083,7 @@ namespace XCoreNET
 
                         progressBar.Style = ProgressBarStyle.Blocks;
                         output("INFO", "關閉遊戲");
-                        Directory.Delete(PathJoin(DATA_FOLDER, "bin", gb.startupParms.appUID), true);
+                        Directory.Delete(gb.PathJoin(DATA_FOLDER, "bin", gb.startupParms.appUID), true);
                         settingAllControl(true);
 
                         this.ShowInTaskbar = true;
@@ -2167,12 +2202,6 @@ namespace XCoreNET
             {
                 Console.WriteLine(args.Data);
             }
-        }
-
-        private string PathJoin(params string[] args)
-        {
-            string[] result = args.Select(x => x.Replace('/', Path.DirectorySeparatorChar)).ToArray();
-            return Path.GetFullPath(String.Join(Path.DirectorySeparatorChar.ToString(), result));
         }
 
         private void textBoxInterval_KeyUp(object sender, KeyEventArgs e)
@@ -2467,7 +2496,7 @@ namespace XCoreNET
                     textBoxAD.Text = DATA_FOLDER;
 
                     Directory.CreateDirectory(DATA_FOLDER);
-                    Directory.CreateDirectory(PathJoin(DATA_FOLDER, ".x-instance"));
+                    Directory.CreateDirectory(gb.PathJoin(DATA_FOLDER, ".x-instance"));
                     gb.savingSession(true);
 
                     onGetAllVersion();
@@ -2477,31 +2506,10 @@ namespace XCoreNET
 
         private void btnInstanceAdd_Click(object sender, EventArgs e)
         {
-            var result = Microsoft.VisualBasic.Interaction.InputBox("輸入您自身可供辨識的實例名稱...", "新增實例名稱");
-            if (result != null && result.Trim().Length > 0)
+            var result = new minecraftAddInstance(versionList.Items, DATA_FOLDER).ShowDialog();
+            if (result == DialogResult.OK)
             {
-                try
-                {
-                    var path = PathJoin(DATA_FOLDER, ".x-instance", result.Trim());
-                    if (Directory.Exists(path))
-                    {
-                        MessageBox.Show($"建立失敗: 此實例名稱已存在", "錯誤", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    }
-                    else
-                    {
-                        Directory.CreateDirectory(path);
-                        gb.instance.Add(path);
-                        gb.lastInstance = path;
-                        instanceList.Items.Add(result.Trim());
-                        instanceList.SelectedItem = result.Trim();
-
-                        gb.savingSession(false);
-                    }
-                }
-                catch (Exception exx)
-                {
-                    MessageBox.Show($"建立失敗: {exx.Message}", "錯誤", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
+                onGetAllInstance();
             }
         }
 
@@ -2522,20 +2530,23 @@ namespace XCoreNET
                 instanceList.Items.Remove(name);
                 instanceList.SelectedIndex = (instanceList.Items.Count - 1 > idx - 1) ? instanceList.Items.Count - 1 : idx - 1;
 
-                Directory.Delete(PathJoin(DATA_FOLDER, ".x-instance", name), true);
+                Directory.Delete(gb.PathJoin(DATA_FOLDER, ".x-instance", name), true);
             }
         }
 
         private void instanceList_SelectedIndexChanged(object sender, EventArgs e)
         {
-            gb.lastInstance = (instanceList.SelectedIndex == 0) ? "" : PathJoin(DATA_FOLDER, ".x-instance", instanceList.SelectedItem.ToString());
+            gb.lastInstance = (instanceList.SelectedIndex == 0) ? "" : gb.PathJoin(DATA_FOLDER, ".x-instance", instanceList.SelectedItem.ToString());
             textBoxInstance.Text = instanceList.SelectedItem.ToString();
-            instanceList.DropDownWidth = (DropDownWidth(instanceList) + 25 > 300) ? 300 : DropDownWidth(instanceList) + 25;
+            instanceList.DropDownWidth = (gb.DropDownWidth(instanceList) + 25 > 300) ? 300 : gb.DropDownWidth(instanceList) + 25;
+
+            setSpecificInstance();
+            gb.savingSession(false);
         }
 
         private void btnInstanceIntro_Click(object sender, EventArgs e)
         {
-            MessageBox.Show($"啟動實例代表的是可獨立運作的 Minecraft 實例，位於「{PathJoin(DATA_FOLDER, ".x-instance")}」資料夾中。\n透過不同的啟動實例，您只需要於設定中輕鬆切換，就能輕鬆使用不同的模組包、模組客戶端及獨立設定，各個實例之間不會互相影響，是對於常在各個客戶端及模組之間切換的玩家而言的良好選擇。", "說明", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            MessageBox.Show($"啟動實例代表的是可獨立運作的 Minecraft 實例，位於「{gb.PathJoin(DATA_FOLDER, ".x-instance")}」資料夾中。\n透過不同的啟動實例，您只需要於設定中輕鬆切換，就能輕鬆使用不同的模組包、模組客戶端及獨立設定，各個實例之間不會互相影響，是對於常在各個客戶端及模組之間切換的玩家而言的良好選擇。", "說明", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         private void textBoxInstance_Click(object sender, EventArgs e)

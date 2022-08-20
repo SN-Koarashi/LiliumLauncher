@@ -242,6 +242,12 @@
   <ItemGroup>
     <Compile Include="ClassModel\globalModel.cs" />
     <Compile Include="ClassModel\launcherModel.cs" />
+    <Compile Include="minecraftAddInstance.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="minecraftAddInstance.Designer.cs">
+      <DependentUpon>minecraftAddInstance.cs</DependentUpon>
+    </Compile>
     <Compile Include="minecraftMainForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -292,6 +298,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="loginGoogleForm.resx">
       <DependentUpon>loginGoogleForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="minecraftAddInstance.resx">
+      <DependentUpon>minecraftAddInstance.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="minecraftForm.resx">
       <DependentUpon>minecraftForm.cs</DependentUpon>

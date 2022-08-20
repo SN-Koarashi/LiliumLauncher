@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Net.Http;
 using System.Net.NetworkInformation;
 using System.Security.Cryptography;
@@ -263,6 +264,25 @@ namespace Global
             {
                 MessageBox.Show($"更新檢查過程發生例外狀況: {exx.Message}", "說明", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+
+        public static string PathJoin(params string[] args)
+        {
+            string[] result = args.Select(x => x.Replace('/', Path.DirectorySeparatorChar)).ToArray();
+            return Path.GetFullPath(String.Join(Path.DirectorySeparatorChar.ToString(), result));
+        }
+        public static int DropDownWidth(ComboBox myCombo)
+        {
+            int maxWidth = 0, temp = 0;
+            foreach (var obj in myCombo.Items)
+            {
+                temp = TextRenderer.MeasureText(obj.ToString(), myCombo.Font).Width;
+                if (temp > maxWidth)
+                {
+                    maxWidth = temp;
+                }
+            }
+            return maxWidth;
         }
 
         public static int CompareVersionStrings(string v1, string v2)
