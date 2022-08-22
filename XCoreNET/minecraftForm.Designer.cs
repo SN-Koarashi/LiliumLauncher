@@ -39,8 +39,9 @@
             this.btnLaunch = new System.Windows.Forms.Button();
             this.progressBar = new System.Windows.Forms.ProgressBar();
             this.panelHeader = new System.Windows.Forms.Panel();
-            this.textVersionSelected = new System.Windows.Forms.TextBox();
+            this.panelVersion = new System.Windows.Forms.Panel();
             this.versionList = new System.Windows.Forms.ComboBox();
+            this.textVersionSelected = new System.Windows.Forms.TextBox();
             this.textUser = new System.Windows.Forms.TextBox();
             this.avatar = new System.Windows.Forms.PictureBox();
             this.settingPage = new System.Windows.Forms.TabPage();
@@ -81,13 +82,15 @@
             this.textBox = new System.Windows.Forms.TextBox();
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.timerConcurrent = new System.Windows.Forms.Timer(this.components);
-            this.panelVersion = new System.Windows.Forms.Panel();
+            this.updatePage = new System.Windows.Forms.TabPage();
+            this.textBoxUpdateNote = new System.Windows.Forms.RichTextBox();
             this.tabControl1.SuspendLayout();
             this.mainPage.SuspendLayout();
             this.panelBody.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.webView)).BeginInit();
             this.panelFooter.SuspendLayout();
             this.panelHeader.SuspendLayout();
+            this.panelVersion.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.avatar)).BeginInit();
             this.settingPage.SuspendLayout();
             this.groupBoxMemory.SuspendLayout();
@@ -102,7 +105,7 @@
             this.groupBoxDataFolder.SuspendLayout();
             this.panelSettingsLeft.SuspendLayout();
             this.debugPage.SuspendLayout();
-            this.panelVersion.SuspendLayout();
+            this.updatePage.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -110,6 +113,7 @@
             this.tabControl1.Controls.Add(this.mainPage);
             this.tabControl1.Controls.Add(this.settingPage);
             this.tabControl1.Controls.Add(this.debugPage);
+            this.tabControl1.Controls.Add(this.updatePage);
             this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControl1.Font = new System.Drawing.Font("微軟正黑體", 10F);
             this.tabControl1.Location = new System.Drawing.Point(0, 0);
@@ -118,6 +122,7 @@
             this.tabControl1.SelectedIndex = 0;
             this.tabControl1.Size = new System.Drawing.Size(464, 321);
             this.tabControl1.TabIndex = 0;
+            this.tabControl1.SelectedIndexChanged += new System.EventHandler(this.tabControl1_SelectedIndexChanged);
             // 
             // mainPage
             // 
@@ -210,15 +215,14 @@
             this.panelHeader.Size = new System.Drawing.Size(450, 41);
             this.panelHeader.TabIndex = 6;
             // 
-            // textVersionSelected
+            // panelVersion
             // 
-            this.textVersionSelected.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.textVersionSelected.Location = new System.Drawing.Point(5, 5);
-            this.textVersionSelected.Name = "textVersionSelected";
-            this.textVersionSelected.ReadOnly = true;
-            this.textVersionSelected.Size = new System.Drawing.Size(160, 25);
-            this.textVersionSelected.TabIndex = 1;
-            this.textVersionSelected.Click += new System.EventHandler(this.textVersionSelected_Click);
+            this.panelVersion.Controls.Add(this.versionList);
+            this.panelVersion.Controls.Add(this.textVersionSelected);
+            this.panelVersion.Location = new System.Drawing.Point(263, 0);
+            this.panelVersion.Name = "panelVersion";
+            this.panelVersion.Size = new System.Drawing.Size(187, 35);
+            this.panelVersion.TabIndex = 1;
             // 
             // versionList
             // 
@@ -230,6 +234,16 @@
             this.versionList.Size = new System.Drawing.Size(19, 25);
             this.versionList.TabIndex = 7;
             this.versionList.SelectionChangeCommitted += new System.EventHandler(this.versionList_SelectionChangeCommitted);
+            // 
+            // textVersionSelected
+            // 
+            this.textVersionSelected.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.textVersionSelected.Location = new System.Drawing.Point(5, 5);
+            this.textVersionSelected.Name = "textVersionSelected";
+            this.textVersionSelected.ReadOnly = true;
+            this.textVersionSelected.Size = new System.Drawing.Size(160, 25);
+            this.textVersionSelected.TabIndex = 1;
+            this.textVersionSelected.Click += new System.EventHandler(this.textVersionSelected_Click);
             // 
             // textUser
             // 
@@ -648,6 +662,7 @@
             this.textBox.Dock = System.Windows.Forms.DockStyle.Fill;
             this.textBox.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.textBox.Location = new System.Drawing.Point(3, 3);
+            this.textBox.MaxLength = 2147483647;
             this.textBox.Multiline = true;
             this.textBox.Name = "textBox";
             this.textBox.ReadOnly = true;
@@ -659,14 +674,26 @@
             // 
             this.timerConcurrent.Tick += new System.EventHandler(this.timerConcurrent_Tick);
             // 
-            // panelVersion
+            // updatePage
             // 
-            this.panelVersion.Controls.Add(this.versionList);
-            this.panelVersion.Controls.Add(this.textVersionSelected);
-            this.panelVersion.Location = new System.Drawing.Point(263, 0);
-            this.panelVersion.Name = "panelVersion";
-            this.panelVersion.Size = new System.Drawing.Size(187, 35);
-            this.panelVersion.TabIndex = 1;
+            this.updatePage.Controls.Add(this.textBoxUpdateNote);
+            this.updatePage.Location = new System.Drawing.Point(4, 26);
+            this.updatePage.Name = "updatePage";
+            this.updatePage.Padding = new System.Windows.Forms.Padding(3);
+            this.updatePage.Size = new System.Drawing.Size(456, 291);
+            this.updatePage.TabIndex = 3;
+            this.updatePage.Text = "更新日誌";
+            this.updatePage.UseVisualStyleBackColor = true;
+            // 
+            // textBoxUpdateNote
+            // 
+            this.textBoxUpdateNote.BackColor = System.Drawing.SystemColors.Control;
+            this.textBoxUpdateNote.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.textBoxUpdateNote.Location = new System.Drawing.Point(3, 3);
+            this.textBoxUpdateNote.Name = "textBoxUpdateNote";
+            this.textBoxUpdateNote.Size = new System.Drawing.Size(450, 285);
+            this.textBoxUpdateNote.TabIndex = 0;
+            this.textBoxUpdateNote.Text = "";
             // 
             // minecraftForm
             // 
@@ -693,6 +720,8 @@
             this.panelFooter.PerformLayout();
             this.panelHeader.ResumeLayout(false);
             this.panelHeader.PerformLayout();
+            this.panelVersion.ResumeLayout(false);
+            this.panelVersion.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.avatar)).EndInit();
             this.settingPage.ResumeLayout(false);
             this.groupBoxMemory.ResumeLayout(false);
@@ -713,8 +742,7 @@
             this.panelSettingsLeft.PerformLayout();
             this.debugPage.ResumeLayout(false);
             this.debugPage.PerformLayout();
-            this.panelVersion.ResumeLayout(false);
-            this.panelVersion.PerformLayout();
+            this.updatePage.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -773,5 +801,7 @@
         private System.Windows.Forms.ComboBox instanceList;
         private System.Windows.Forms.TextBox textBoxInstance;
         private System.Windows.Forms.Panel panelVersion;
+        private System.Windows.Forms.TabPage updatePage;
+        private System.Windows.Forms.RichTextBox textBoxUpdateNote;
     }
 }

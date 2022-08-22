@@ -74,5 +74,13 @@ namespace XCoreNET.Tasks
             Console.WriteLine($"createIndexes: {body}");
             return JsonConvert.DeserializeObject<JObject>(body);
         }
+        public async Task<JObject> getUpdateNotes(string url)
+        {
+            var client = new HttpClient();
+            var body = await client.GetStringAsync(url);
+
+            Console.WriteLine($"getUpdateNotes: {body}");
+            return JsonConvert.DeserializeObject<JObject>(body);
+        }
     }
 }

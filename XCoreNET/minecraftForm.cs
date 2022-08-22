@@ -6,6 +6,7 @@ using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Data;
 using System.Diagnostics;
 using System.Globalization;
 using System.IO;
@@ -2587,6 +2588,44 @@ namespace XCoreNET
         private void textBoxInstance_Click(object sender, EventArgs e)
         {
             textBoxInstance.SelectAll();
+        }
+
+        private async void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (tabControl1.SelectedIndex == 3)
+            {
+                if (textBoxUpdateNote.Lines.Length > 0) return;
+
+                try
+                {
+                    textBoxUpdateNote.Text = "讀取中...";
+
+                    // https://api.rss2json.com/v1/api.json?rss_url=https://github.com/SN-Koarashi/XCoreNET/releases.atom
+                    JObject obj = await launcher.getUpdateNotes("https://api.rss2json.com/v1/api.json?rss_url=https://github.com/SN-Koarashi/XCoreNET/releases.atom");
+
+                    textBoxUpdateNote.Text = "";
+                    foreach (JObject item in obj["items"])
+                    {
+                        string title = item["title"].ToString();
+                        string date = item["pubDate"].ToString();
+                        string content = item["content"].ToString();
+
+                        content = content.Replace("\n", "");
+                        content = content.Replace("<br>", Environment.NewLine + " ");
+                        content = Regex.Replace(content, @"<p>v(.*?)</p>", "");
+                        content = Regex.Replace(content, @"<(.*?)>", "");
+                        content = Regex.Replace(content, @"</(.*?)>", "");
+
+                        string data = $" [{title}] {date}{Environment.NewLine} {content}{Environment.NewLine}{Environment.NewLine}";
+                        textBoxUpdateNote.AppendText(data);
+                    }
+                }
+                catch (Exception exx)
+                {
+                    Console.WriteLine(exx.Message);
+                    textBoxUpdateNote.Text = $"無法載入RSS摘要: {exx.Message}";
+                }
+            }
         }
     }
 }
