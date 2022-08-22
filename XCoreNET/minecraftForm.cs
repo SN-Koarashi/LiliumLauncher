@@ -2097,10 +2097,11 @@ namespace XCoreNET
                 };
 
 
-
                 proc.Start();
                 proc.BeginOutputReadLine();
+                proc.BeginErrorReadLine();
                 proc.OutputDataReceived += OutputDataReceivedHandler;
+                proc.ErrorDataReceived += ErrorDataReceivedHandler;
 
                 trayIcon.ContextMenuStrip.Items[trayIcon.ContextMenuStrip.Items.Count - 2].Enabled = true;
                 trayIcon.ContextMenuStrip.Items[trayIcon.ContextMenuStrip.Items.Count - 2].Click += handler;
@@ -2131,7 +2132,7 @@ namespace XCoreNET
                     }
                 };
 
-
+                // 當要關閉啟動器時且遊戲仍在執行時的提醒
                 this.FormClosing += (sender, e) =>
                 {
                     if (!proc.HasExited)
@@ -2152,10 +2153,44 @@ namespace XCoreNET
                         }
                     }
                 };
+
+
+                // 取得JVM啟動例外狀況訊息，並在處理程序結束後跳出視窗提醒
+                string JVMErr = "";
+                proc.ErrorDataReceived += (sender, e) =>
+                {
+                    if (e.Data != null)
+                    {
+                        var data = e.Data.Trim();
+                        JVMErr += data + Environment.NewLine;
+                    };
+                };
+
+                proc.Exited += (sender, e) =>
+                {
+                    if (JVMErr.Length > 0)
+                    {
+                        MessageBox.Show(JVMErr, "JVM 啟動過程發生錯誤", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                };
             }
             catch (Exception e)
             {
                 Console.WriteLine(e.Message);
+            }
+        }
+
+
+        private void ErrorDataReceivedHandler(object sender, DataReceivedEventArgs args)
+        {
+            if (args.Data != null)
+            {
+                var data = args.Data.Trim();
+
+                this.Invoke(new Action(() =>
+                {
+                    outputDebug("JVM", data);
+                }));
             }
         }
 
