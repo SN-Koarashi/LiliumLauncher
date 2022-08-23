@@ -46,7 +46,7 @@ namespace XCoreNET
 
         private void btnIntro_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("請將「實例名稱」輸入您自身可辨識的自訂名稱。\n而「以指定版本啟動」之設定若為開啟，將會在您選擇此實例時自動以指定版本啟動遊戲，藉此省去頻繁修改版本的動作。", "說明", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            MessageBox.Show("請將「實例名稱」輸入您自身可辨識的自訂名稱。\n而「以指定版本啟動」之設定若為開啟，將會在您選擇此實例時自動「鎖定」為指定版本，藉此省去頻繁修改版本的動作。", "說明", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         private void btnOK_Click(object sender, EventArgs e)

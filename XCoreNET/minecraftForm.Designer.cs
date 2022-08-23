@@ -217,6 +217,7 @@
             // 
             // panelVersion
             // 
+            this.panelVersion.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.panelVersion.Controls.Add(this.versionList);
             this.panelVersion.Controls.Add(this.textVersionSelected);
             this.panelVersion.Location = new System.Drawing.Point(263, 0);
