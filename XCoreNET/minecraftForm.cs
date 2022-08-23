@@ -20,6 +20,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using XCoreNET.Properties;
 using XCoreNET.Tasks;
+using static XCoreNET.ClassModel.globalModel;
 using static XCoreNET.ClassModel.launcherModel;
 using static XCoreNET.Tasks.launcherTask;
 
@@ -617,7 +618,7 @@ namespace XCoreNET
                         MessageBox.Show("此帳號來自 Xbox Live 無法使用或是被禁止的國家/地區", "錯誤", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         break;
                     case "2148916238":
-                        MessageBox.Show("此帳號設定的年齡為兒童（18 歲以下），除非該帳戶由成人添加到家庭，否則無法繼續操作", "錯誤", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        MessageBox.Show("此帳號設定的年齡為兒童（18 歲以下），除非該帳戶由成人新增到家庭帳戶，否則無法繼續操作", "錯誤", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         break;
                 }
 
@@ -747,6 +748,15 @@ namespace XCoreNET
             settingAllControl(true);
             TaskbarManager.Instance.SetProgressState(TaskbarProgressBarState.NoProgress, Handle);
 
+
+            if (!gb.account.ContainsKey(gb.minecraftUUID) && gb.minecraftUUID.Length > 0)
+            {
+                AccountModel am = new AccountModel();
+                am.username = gb.minecraftUsername;
+                am.refreshToken = gb.refreshToken;
+                am.lastUsed = new DateTime().ToString("yyyy-MM-dd HH:mm:ss");
+                gb.account.Add(gb.minecraftUUID, am);
+            }
 
             if (!gb.firstStart)
                 gb.checkForUpdate();
@@ -2351,31 +2361,9 @@ namespace XCoreNET
             gb.savingSession(false);
         }
 
-        private async void btnLogoutAll_Click(object sender, EventArgs e)
+        private void btnLogoutAll_Click(object sender, EventArgs e)
         {
-            settingAllControl(false);
 
-            var result = MessageBox.Show("這會清除在此啟動器中儲存的所有登入資料並且將您登出，是否繼續？", "警告", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
-            if (result == DialogResult.Yes)
-            {
-                Microsoft.Web.WebView2.WinForms.WebView2 tempWebView = new Microsoft.Web.WebView2.WinForms.WebView2();
-                await tempWebView.EnsureCoreWebView2Async(null);
-
-                var cookies = await tempWebView.CoreWebView2.CookieManager.GetCookiesAsync(gb.getMicrosoftOAuthURL());
-
-                foreach (var cookie in cookies)
-                {
-                    tempWebView.CoreWebView2.CookieManager.DeleteCookie(cookie);
-                }
-
-                tempWebView.Dispose();
-
-                btnLogout_Click(sender, e);
-            }
-            else
-            {
-                settingAllControl(true);
-            }
         }
 
         private void textBoxInterval_Click(object sender, EventArgs e)
@@ -2542,11 +2530,14 @@ namespace XCoreNET
 
         private void btnInstanceAdd_Click(object sender, EventArgs e)
         {
-            var result = new minecraftAddInstance(versionList.Items, DATA_FOLDER).ShowDialog();
+            minecraftAddInstance ai = new minecraftAddInstance(versionList.Items, DATA_FOLDER);
+            var result = ai.ShowDialog();
             if (result == DialogResult.OK)
             {
                 onGetAllInstance();
             }
+
+            ai.Dispose();
         }
 
         private void btnInstanceDel_Click(object sender, EventArgs e)
@@ -2626,6 +2617,21 @@ namespace XCoreNET
                     textBoxUpdateNote.Text = $"無法載入RSS摘要: {exx.Message}";
                 }
             }
+        }
+
+        private void btnMultiAcc_Click(object sender, EventArgs e)
+        {
+            minecraftMultuAccount ma = new minecraftMultuAccount();
+
+            var result = ma.ShowDialog();
+
+            if (result == DialogResult.OK)
+            {
+                onRefreshToken(gb.refreshToken);
+                tabControl1.SelectedIndex = 0;
+            }
+
+            ma.Dispose();
         }
     }
 }

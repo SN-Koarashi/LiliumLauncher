@@ -18,11 +18,19 @@ namespace XCoreNET.ClassModel
             public string appUID { get; set; }
         }
 
+        public class AccountModel
+        {
+            public string username { get; set; }
+            public string refreshToken { get; set; }
+            public string lastUsed { get; set; }
+        }
+
         public class SessionModel
         {
             public Dictionary<string, object> launcher { get; set; }
             public Dictionary<string, object> minecraft { get; set; }
             public Dictionary<string, object> versionOptions { get; set; }
+            public Dictionary<string, AccountModel> account { get; set; }
             public List<string> instance { get; set; }
             public string lastInstance { get; set; }
             public string refreshToken { get; set; }

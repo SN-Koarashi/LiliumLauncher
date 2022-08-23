@@ -1,6 +1,6 @@
 ﻿namespace XCoreNET
 {
-    partial class loginMicrosoftForm
+    partial class minecraftMultuAccount
     {
         /// <summary>
         /// Required designer variable.
@@ -28,45 +28,39 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.webView = new Microsoft.Web.WebView2.WinForms.WebView2();
-            ((System.ComponentModel.ISupportInitialize)(this.webView)).BeginInit();
+            this.panel = new System.Windows.Forms.Panel();
             this.SuspendLayout();
             // 
-            // webView
+            // panel
             // 
-            this.webView.AllowExternalDrop = true;
-            this.webView.CreationProperties = null;
-            this.webView.DefaultBackgroundColor = System.Drawing.Color.White;
-            this.webView.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.webView.Location = new System.Drawing.Point(0, 0);
-            this.webView.Name = "webView";
-            this.webView.Size = new System.Drawing.Size(464, 601);
-            this.webView.TabIndex = 0;
-            this.webView.ZoomFactor = 1D;
-            this.webView.NavigationStarting += new System.EventHandler<Microsoft.Web.WebView2.Core.CoreWebView2NavigationStartingEventArgs>(this.webView_NavigationStarting);
+            this.panel.AutoScroll = true;
+            this.panel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel.Location = new System.Drawing.Point(0, 0);
+            this.panel.Name = "panel";
+            this.panel.Size = new System.Drawing.Size(304, 261);
+            this.panel.TabIndex = 1;
             // 
-            // loginMicrosoftForm
+            // minecraftMultuAccount
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(464, 601);
-            this.Controls.Add(this.webView);
+            this.ClientSize = new System.Drawing.Size(304, 261);
+            this.Controls.Add(this.panel);
             this.MaximizeBox = false;
+            this.MaximumSize = new System.Drawing.Size(320, 1080);
             this.MinimizeBox = false;
-            this.MinimumSize = new System.Drawing.Size(360, 640);
-            this.Name = "loginMicrosoftForm";
+            this.MinimumSize = new System.Drawing.Size(320, 300);
+            this.Name = "minecraftMultuAccount";
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "Microsoft 身分認證";
-            this.Load += new System.EventHandler(this.loginMicrosoftForm_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.webView)).EndInit();
+            this.Text = "多帳號管理";
+            this.Load += new System.EventHandler(this.minecraftMultuAccount_Load);
             this.ResumeLayout(false);
 
         }
 
         #endregion
-
-        private Microsoft.Web.WebView2.WinForms.WebView2 webView;
+        private System.Windows.Forms.Panel panel;
     }
 }

@@ -58,7 +58,7 @@
             this.Name = "loginGoogleForm";
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Google 身分認證";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.loginGoogleForm_FormClosed);
             this.Load += new System.EventHandler(this.loginGoogleForm_Load);

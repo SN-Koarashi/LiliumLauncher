@@ -42,11 +42,12 @@
             // 
             // btnLogin
             // 
-            this.btnLogin.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.tableLayoutPanel1.SetColumnSpan(this.btnLogin, 2);
+            this.btnLogin.Dock = System.Windows.Forms.DockStyle.Fill;
             this.btnLogin.Font = new System.Drawing.Font("微軟正黑體", 10F);
             this.btnLogin.Location = new System.Drawing.Point(137, 3);
             this.btnLogin.Name = "btnLogin";
-            this.btnLogin.Size = new System.Drawing.Size(188, 37);
+            this.btnLogin.Size = new System.Drawing.Size(188, 36);
             this.btnLogin.TabIndex = 0;
             this.btnLogin.Text = "使用 Microsoft 帳戶登入";
             this.btnLogin.UseVisualStyleBackColor = true;
@@ -54,8 +55,9 @@
             // 
             // btnSetting
             // 
+            this.tableLayoutPanel1.SetColumnSpan(this.btnSetting, 2);
             this.btnSetting.Font = new System.Drawing.Font("微軟正黑體", 10F);
-            this.btnSetting.Location = new System.Drawing.Point(137, 46);
+            this.btnSetting.Location = new System.Drawing.Point(137, 45);
             this.btnSetting.Name = "btnSetting";
             this.btnSetting.Size = new System.Drawing.Size(188, 33);
             this.btnSetting.TabIndex = 1;
@@ -65,6 +67,8 @@
             // 
             // btnUpdate
             // 
+            this.btnUpdate.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.tableLayoutPanel1.SetColumnSpan(this.btnUpdate, 2);
             this.btnUpdate.Font = new System.Drawing.Font("微軟正黑體", 10F);
             this.btnUpdate.Location = new System.Drawing.Point(137, 85);
             this.btnUpdate.Name = "btnUpdate";
@@ -76,25 +80,24 @@
             // 
             // tableLayoutPanel1
             // 
-            this.tableLayoutPanel1.ColumnCount = 3;
+            this.tableLayoutPanel1.ColumnCount = 4;
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 29F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 42F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 21F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 21F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 29F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanel1.Controls.Add(this.btnLogin, 1, 0);
-            this.tableLayoutPanel1.Controls.Add(this.btnUpdate, 1, 2);
             this.tableLayoutPanel1.Controls.Add(this.btnSetting, 1, 1);
+            this.tableLayoutPanel1.Controls.Add(this.btnUpdate, 1, 2);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 154);
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 159);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 4;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 39F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 42F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 43F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(464, 167);
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(464, 162);
             this.tableLayoutPanel1.TabIndex = 3;
-            this.tableLayoutPanel1.Paint += new System.Windows.Forms.PaintEventHandler(this.tableLayoutPanel1_Paint);
             // 
             // tableLayoutPanel2
             // 
@@ -111,7 +114,7 @@
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 47.19101F));
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 52.80899F));
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 64F));
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(464, 154);
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(464, 159);
             this.tableLayoutPanel2.TabIndex = 5;
             // 
             // label1

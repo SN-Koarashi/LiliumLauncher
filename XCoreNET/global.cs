@@ -38,6 +38,7 @@ namespace Global
         public static int maxMemoryUsage = 0;
         public static bool usingMaxMemoryUsage = false;
         public static bool isConcurrent = true;
+        public static Dictionary<string, AccountModel> account = new Dictionary<string, AccountModel>();
         public readonly static string azureClientID = "c5a69008-2ee1-403f-aa2a-3d324e0213d7";
         public static startupParmsModel startupParms = new startupParmsModel();
 
@@ -55,8 +56,17 @@ namespace Global
         {
             return (long)((DateTime.Now.ToUniversalTime() - JanFirst1970).TotalMilliseconds + 0.5);
         }
+
+        public static void resetTokens(string uuid)
+        {
+            if (account.ContainsKey(uuid))
+                account.Remove(uuid);
+        }
         public static void resetTokens()
         {
+            if (account.ContainsKey(minecraftUUID))
+                account.Remove(minecraftUUID);
+
             azureToken = "";
             launchToken = "";
             refreshToken = "";
@@ -94,6 +104,7 @@ namespace Global
                     release = verOptRelease,
                     snapshot = verOptSnapshot
                 },
+                account = account,
                 refreshToken = refreshToken,
                 mainFolder = mainFolder,
                 lastVersionID = lastVersionID,
@@ -154,9 +165,20 @@ namespace Global
 
                     maxMemoryUsage = Convert.ToInt32(GetValueOrDefault<string, object, long>(result.launcher, "maxMemoryUsage", long.Parse(maxMemoryUsage.ToString())));
                     usingMaxMemoryUsage = GetValueOrDefault<string, object, bool>(result.launcher, "usingMaxMemoryUsage", usingMaxMemoryUsage);
+                    account = (result.account != null) ? result.account : account;
 
                     lastVersionID = result.lastVersionID;
                     runInterval = (result.runInterval >= 0) ? result.runInterval : 1;
+
+
+                    if (!account.ContainsKey(minecraftUUID) && minecraftUUID.Length > 0)
+                    {
+                        AccountModel am = new AccountModel();
+                        am.username = minecraftUsername;
+                        am.refreshToken = refreshToken;
+                        am.lastUsed = new DateTime().ToString("yyyy-MM-dd HH:mm:ss");
+                        account.Add(minecraftUUID, am);
+                    }
                 }
                 catch (Exception exx)
                 {

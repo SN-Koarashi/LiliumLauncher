@@ -254,6 +254,12 @@
     <Compile Include="minecraftMainForm.Designer.cs">
       <DependentUpon>minecraftMainForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="minecraftMultuAccount.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="minecraftMultuAccount.Designer.cs">
+      <DependentUpon>minecraftMultuAccount.cs</DependentUpon>
+    </Compile>
     <Compile Include="settingForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -307,6 +313,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="minecraftMainForm.resx">
       <DependentUpon>minecraftMainForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="minecraftMultuAccount.resx">
+      <DependentUpon>minecraftMultuAccount.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

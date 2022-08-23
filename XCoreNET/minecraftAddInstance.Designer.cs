@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.textBoxNowVersion = new System.Windows.Forms.TextBox();
             this.specificVersionList = new System.Windows.Forms.ComboBox();
             this.chkOpenSpecific = new System.Windows.Forms.CheckBox();
             this.textInstanceName = new System.Windows.Forms.TextBox();
@@ -36,7 +37,6 @@
             this.label1 = new System.Windows.Forms.Label();
             this.btnIntro = new System.Windows.Forms.Button();
             this.btnOK = new System.Windows.Forms.Button();
-            this.textBoxNowVersion = new System.Windows.Forms.TextBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.SuspendLayout();
@@ -54,6 +54,15 @@
             this.groupBox1.TabIndex = 1;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "以指定版本啟動";
+            // 
+            // textBoxNowVersion
+            // 
+            this.textBoxNowVersion.Enabled = false;
+            this.textBoxNowVersion.Location = new System.Drawing.Point(64, 22);
+            this.textBoxNowVersion.Name = "textBoxNowVersion";
+            this.textBoxNowVersion.ReadOnly = true;
+            this.textBoxNowVersion.Size = new System.Drawing.Size(130, 23);
+            this.textBoxNowVersion.TabIndex = 1;
             // 
             // specificVersionList
             // 
@@ -133,15 +142,6 @@
             this.btnOK.UseVisualStyleBackColor = true;
             this.btnOK.Click += new System.EventHandler(this.btnOK_Click);
             // 
-            // textBoxNowVersion
-            // 
-            this.textBoxNowVersion.Enabled = false;
-            this.textBoxNowVersion.Location = new System.Drawing.Point(64, 22);
-            this.textBoxNowVersion.Name = "textBoxNowVersion";
-            this.textBoxNowVersion.ReadOnly = true;
-            this.textBoxNowVersion.Size = new System.Drawing.Size(130, 23);
-            this.textBoxNowVersion.TabIndex = 1;
-            // 
             // minecraftAddInstance
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
@@ -161,7 +161,7 @@
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "新增實例";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.minecraftAddInstance_FormClosing);
             this.groupBox1.ResumeLayout(false);

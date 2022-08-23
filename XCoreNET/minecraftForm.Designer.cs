@@ -56,7 +56,7 @@
             this.chkBoxSnapshot = new System.Windows.Forms.CheckBox();
             this.chkBoxRelease = new System.Windows.Forms.CheckBox();
             this.groupBoxAccount = new System.Windows.Forms.GroupBox();
-            this.btnLogoutAll = new System.Windows.Forms.Button();
+            this.btnMultiAcc = new System.Windows.Forms.Button();
             this.btnLogout = new System.Windows.Forms.Button();
             this.btnSwitchAcc = new System.Windows.Forms.Button();
             this.groupBoxMainProg = new System.Windows.Forms.GroupBox();
@@ -80,10 +80,10 @@
             this.textBoxAD = new System.Windows.Forms.TextBox();
             this.debugPage = new System.Windows.Forms.TabPage();
             this.textBox = new System.Windows.Forms.TextBox();
-            this.toolTip = new System.Windows.Forms.ToolTip(this.components);
-            this.timerConcurrent = new System.Windows.Forms.Timer(this.components);
             this.updatePage = new System.Windows.Forms.TabPage();
             this.textBoxUpdateNote = new System.Windows.Forms.RichTextBox();
+            this.toolTip = new System.Windows.Forms.ToolTip(this.components);
+            this.timerConcurrent = new System.Windows.Forms.Timer(this.components);
             this.tabControl1.SuspendLayout();
             this.mainPage.SuspendLayout();
             this.panelBody.SuspendLayout();
@@ -398,7 +398,7 @@
             // 
             // groupBoxAccount
             // 
-            this.groupBoxAccount.Controls.Add(this.btnLogoutAll);
+            this.groupBoxAccount.Controls.Add(this.btnMultiAcc);
             this.groupBoxAccount.Controls.Add(this.btnLogout);
             this.groupBoxAccount.Controls.Add(this.btnSwitchAcc);
             this.groupBoxAccount.Location = new System.Drawing.Point(8, 106);
@@ -408,19 +408,19 @@
             this.groupBoxAccount.TabStop = false;
             this.groupBoxAccount.Text = "帳號選項";
             // 
-            // btnLogoutAll
+            // btnMultiAcc
             // 
-            this.btnLogoutAll.Location = new System.Drawing.Point(6, 90);
-            this.btnLogoutAll.Name = "btnLogoutAll";
-            this.btnLogoutAll.Size = new System.Drawing.Size(139, 28);
-            this.btnLogoutAll.TabIndex = 9;
-            this.btnLogoutAll.Text = "清除所有登入資料";
-            this.btnLogoutAll.UseVisualStyleBackColor = true;
-            this.btnLogoutAll.Click += new System.EventHandler(this.btnLogoutAll_Click);
+            this.btnMultiAcc.Location = new System.Drawing.Point(6, 57);
+            this.btnMultiAcc.Name = "btnMultiAcc";
+            this.btnMultiAcc.Size = new System.Drawing.Size(139, 28);
+            this.btnMultiAcc.TabIndex = 10;
+            this.btnMultiAcc.Text = "多帳號管理";
+            this.btnMultiAcc.UseVisualStyleBackColor = true;
+            this.btnMultiAcc.Click += new System.EventHandler(this.btnMultiAcc_Click);
             // 
             // btnLogout
             // 
-            this.btnLogout.Location = new System.Drawing.Point(6, 56);
+            this.btnLogout.Location = new System.Drawing.Point(6, 91);
             this.btnLogout.Name = "btnLogout";
             this.btnLogout.Size = new System.Drawing.Size(139, 28);
             this.btnLogout.TabIndex = 1;
@@ -434,7 +434,7 @@
             this.btnSwitchAcc.Name = "btnSwitchAcc";
             this.btnSwitchAcc.Size = new System.Drawing.Size(139, 28);
             this.btnSwitchAcc.TabIndex = 0;
-            this.btnSwitchAcc.Text = "登入其他帳號";
+            this.btnSwitchAcc.Text = "新增帳號";
             this.btnSwitchAcc.UseVisualStyleBackColor = true;
             this.btnSwitchAcc.Click += new System.EventHandler(this.btnSwitchAcc_Click);
             // 
@@ -670,10 +670,6 @@
             this.textBox.Size = new System.Drawing.Size(450, 285);
             this.textBox.TabIndex = 0;
             // 
-            // timerConcurrent
-            // 
-            this.timerConcurrent.Tick += new System.EventHandler(this.timerConcurrent_Tick);
-            // 
             // updatePage
             // 
             this.updatePage.Controls.Add(this.textBoxUpdateNote);
@@ -694,6 +690,10 @@
             this.textBoxUpdateNote.Size = new System.Drawing.Size(450, 285);
             this.textBoxUpdateNote.TabIndex = 0;
             this.textBoxUpdateNote.Text = "";
+            // 
+            // timerConcurrent
+            // 
+            this.timerConcurrent.Tick += new System.EventHandler(this.timerConcurrent_Tick);
             // 
             // minecraftForm
             // 
@@ -779,7 +779,6 @@
         private System.Windows.Forms.GroupBox groupBoxVersion;
         private System.Windows.Forms.CheckBox chkBoxRelease;
         private System.Windows.Forms.CheckBox chkBoxSnapshot;
-        private System.Windows.Forms.Button btnLogoutAll;
         private System.Windows.Forms.GroupBox groupBoxVersionReload;
         private System.Windows.Forms.Button buttonVerReload;
         private System.Windows.Forms.TrackBar trackBarMiB;
@@ -803,5 +802,6 @@
         private System.Windows.Forms.Panel panelVersion;
         private System.Windows.Forms.TabPage updatePage;
         private System.Windows.Forms.RichTextBox textBoxUpdateNote;
+        private System.Windows.Forms.Button btnMultiAcc;
     }
 }
