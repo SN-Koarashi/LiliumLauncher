@@ -2600,6 +2600,8 @@ namespace XCoreNET
                         string title = item["title"].ToString();
                         string date = item["pubDate"].ToString();
                         string content = item["content"].ToString();
+                        DateTime dateTime = DateTime.Parse(date);
+                        dateTime = dateTime.AddHours(8); // UTC+8
 
                         content = content.Replace("\n", "");
                         content = content.Replace("<br>", Environment.NewLine + " ");
@@ -2607,7 +2609,7 @@ namespace XCoreNET
                         content = Regex.Replace(content, @"<(.*?)>", "");
                         content = Regex.Replace(content, @"</(.*?)>", "");
 
-                        string data = $" [{title}] {date}{Environment.NewLine} {content}{Environment.NewLine}{Environment.NewLine}";
+                        string data = $" [{title}] {dateTime.ToString("yyyy年M月d日 HH:mm:ss")} (UTC+8){Environment.NewLine} {content}{Environment.NewLine}{Environment.NewLine}";
                         textBoxUpdateNote.AppendText(data);
                     }
                 }

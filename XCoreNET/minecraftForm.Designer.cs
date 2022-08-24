@@ -65,7 +65,6 @@
             this.groupBoxInterval = new System.Windows.Forms.GroupBox();
             this.chkConcurrent = new System.Windows.Forms.CheckBox();
             this.textBoxInterval = new System.Windows.Forms.TextBox();
-            this.panelSettingsTop = new System.Windows.Forms.Panel();
             this.groupBoxInstance = new System.Windows.Forms.GroupBox();
             this.textBoxInstance = new System.Windows.Forms.TextBox();
             this.btnInstanceIntro = new System.Windows.Forms.Button();
@@ -84,6 +83,7 @@
             this.textBoxUpdateNote = new System.Windows.Forms.RichTextBox();
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.timerConcurrent = new System.Windows.Forms.Timer(this.components);
+            this.panelMainSettings = new System.Windows.Forms.Panel();
             this.tabControl1.SuspendLayout();
             this.mainPage.SuspendLayout();
             this.panelBody.SuspendLayout();
@@ -100,12 +100,12 @@
             this.groupBoxAccount.SuspendLayout();
             this.groupBoxMainProg.SuspendLayout();
             this.groupBoxInterval.SuspendLayout();
-            this.panelSettingsTop.SuspendLayout();
             this.groupBoxInstance.SuspendLayout();
             this.groupBoxDataFolder.SuspendLayout();
             this.panelSettingsLeft.SuspendLayout();
             this.debugPage.SuspendLayout();
             this.updatePage.SuspendLayout();
+            this.panelMainSettings.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -161,6 +161,7 @@
             // 
             // panelFooter
             // 
+            this.panelFooter.BackColor = System.Drawing.SystemColors.Control;
             this.panelFooter.Controls.Add(this.textStatus);
             this.panelFooter.Controls.Add(this.btnLaunch);
             this.panelFooter.Controls.Add(this.progressBar);
@@ -206,6 +207,7 @@
             // 
             // panelHeader
             // 
+            this.panelHeader.BackColor = System.Drawing.SystemColors.Control;
             this.panelHeader.Controls.Add(this.panelVersion);
             this.panelHeader.Controls.Add(this.textUser);
             this.panelHeader.Controls.Add(this.avatar);
@@ -273,13 +275,7 @@
             // settingPage
             // 
             this.settingPage.BackColor = System.Drawing.SystemColors.Control;
-            this.settingPage.Controls.Add(this.groupBoxMemory);
-            this.settingPage.Controls.Add(this.groupBoxVersionReload);
-            this.settingPage.Controls.Add(this.groupBoxVersion);
-            this.settingPage.Controls.Add(this.groupBoxAccount);
-            this.settingPage.Controls.Add(this.groupBoxMainProg);
-            this.settingPage.Controls.Add(this.groupBoxInterval);
-            this.settingPage.Controls.Add(this.panelSettingsTop);
+            this.settingPage.Controls.Add(this.panelMainSettings);
             this.settingPage.Location = new System.Drawing.Point(4, 26);
             this.settingPage.Name = "settingPage";
             this.settingPage.Size = new System.Drawing.Size(456, 291);
@@ -291,7 +287,7 @@
             this.groupBoxMemory.Controls.Add(this.checkBoxMaxMem);
             this.groupBoxMemory.Controls.Add(this.trackBarMiB);
             this.groupBoxMemory.Controls.Add(this.textBoxMiB);
-            this.groupBoxMemory.Location = new System.Drawing.Point(165, 205);
+            this.groupBoxMemory.Location = new System.Drawing.Point(160, 196);
             this.groupBoxMemory.Name = "groupBoxMemory";
             this.groupBoxMemory.Size = new System.Drawing.Size(283, 83);
             this.groupBoxMemory.TabIndex = 11;
@@ -335,7 +331,7 @@
             // 
             this.groupBoxVersionReload.Controls.Add(this.btnVerRecache);
             this.groupBoxVersionReload.Controls.Add(this.buttonVerReload);
-            this.groupBoxVersionReload.Location = new System.Drawing.Point(266, 106);
+            this.groupBoxVersionReload.Location = new System.Drawing.Point(261, 97);
             this.groupBoxVersionReload.Name = "groupBoxVersionReload";
             this.groupBoxVersionReload.Size = new System.Drawing.Size(93, 93);
             this.groupBoxVersionReload.TabIndex = 9;
@@ -366,7 +362,7 @@
             // 
             this.groupBoxVersion.Controls.Add(this.chkBoxSnapshot);
             this.groupBoxVersion.Controls.Add(this.chkBoxRelease);
-            this.groupBoxVersion.Location = new System.Drawing.Point(365, 106);
+            this.groupBoxVersion.Location = new System.Drawing.Point(360, 97);
             this.groupBoxVersion.Name = "groupBoxVersion";
             this.groupBoxVersion.Size = new System.Drawing.Size(83, 93);
             this.groupBoxVersion.TabIndex = 8;
@@ -402,7 +398,7 @@
             this.groupBoxAccount.Controls.Add(this.btnMultiAcc);
             this.groupBoxAccount.Controls.Add(this.btnLogout);
             this.groupBoxAccount.Controls.Add(this.btnSwitchAcc);
-            this.groupBoxAccount.Location = new System.Drawing.Point(8, 106);
+            this.groupBoxAccount.Location = new System.Drawing.Point(3, 97);
             this.groupBoxAccount.Name = "groupBoxAccount";
             this.groupBoxAccount.Size = new System.Drawing.Size(151, 125);
             this.groupBoxAccount.TabIndex = 7;
@@ -443,7 +439,7 @@
             // 
             this.groupBoxMainProg.Controls.Add(this.btnChkUpdate);
             this.groupBoxMainProg.Controls.Add(this.btnMainSetting);
-            this.groupBoxMainProg.Location = new System.Drawing.Point(165, 106);
+            this.groupBoxMainProg.Location = new System.Drawing.Point(160, 97);
             this.groupBoxMainProg.Name = "groupBoxMainProg";
             this.groupBoxMainProg.Size = new System.Drawing.Size(95, 93);
             this.groupBoxMainProg.TabIndex = 6;
@@ -474,7 +470,7 @@
             // 
             this.groupBoxInterval.Controls.Add(this.chkConcurrent);
             this.groupBoxInterval.Controls.Add(this.textBoxInterval);
-            this.groupBoxInterval.Location = new System.Drawing.Point(8, 235);
+            this.groupBoxInterval.Location = new System.Drawing.Point(3, 226);
             this.groupBoxInterval.Name = "groupBoxInterval";
             this.groupBoxInterval.Size = new System.Drawing.Size(151, 53);
             this.groupBoxInterval.TabIndex = 3;
@@ -507,16 +503,6 @@
             this.textBoxInterval.Click += new System.EventHandler(this.textBoxInterval_Click);
             this.textBoxInterval.KeyUp += new System.Windows.Forms.KeyEventHandler(this.textBoxInterval_KeyUp);
             // 
-            // panelSettingsTop
-            // 
-            this.panelSettingsTop.Controls.Add(this.groupBoxInstance);
-            this.panelSettingsTop.Controls.Add(this.groupBoxDataFolder);
-            this.panelSettingsTop.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panelSettingsTop.Location = new System.Drawing.Point(0, 0);
-            this.panelSettingsTop.Name = "panelSettingsTop";
-            this.panelSettingsTop.Size = new System.Drawing.Size(456, 100);
-            this.panelSettingsTop.TabIndex = 1;
-            // 
             // groupBoxInstance
             // 
             this.groupBoxInstance.Controls.Add(this.textBoxInstance);
@@ -524,7 +510,7 @@
             this.groupBoxInstance.Controls.Add(this.btnInstanceDel);
             this.groupBoxInstance.Controls.Add(this.btnInstanceAdd);
             this.groupBoxInstance.Controls.Add(this.instanceList);
-            this.groupBoxInstance.Location = new System.Drawing.Point(288, 10);
+            this.groupBoxInstance.Location = new System.Drawing.Point(283, 3);
             this.groupBoxInstance.Name = "groupBoxInstance";
             this.groupBoxInstance.Size = new System.Drawing.Size(160, 88);
             this.groupBoxInstance.TabIndex = 1;
@@ -585,7 +571,7 @@
             // groupBoxDataFolder
             // 
             this.groupBoxDataFolder.Controls.Add(this.panelSettingsLeft);
-            this.groupBoxDataFolder.Location = new System.Drawing.Point(8, 10);
+            this.groupBoxDataFolder.Location = new System.Drawing.Point(3, 3);
             this.groupBoxDataFolder.Name = "groupBoxDataFolder";
             this.groupBoxDataFolder.Size = new System.Drawing.Size(274, 88);
             this.groupBoxDataFolder.TabIndex = 0;
@@ -696,10 +682,27 @@
             // 
             this.timerConcurrent.Tick += new System.EventHandler(this.timerConcurrent_Tick);
             // 
+            // panelMainSettings
+            // 
+            this.panelMainSettings.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.panelMainSettings.Controls.Add(this.groupBoxDataFolder);
+            this.panelMainSettings.Controls.Add(this.groupBoxInstance);
+            this.panelMainSettings.Controls.Add(this.groupBoxInterval);
+            this.panelMainSettings.Controls.Add(this.groupBoxMemory);
+            this.panelMainSettings.Controls.Add(this.groupBoxMainProg);
+            this.panelMainSettings.Controls.Add(this.groupBoxAccount);
+            this.panelMainSettings.Controls.Add(this.groupBoxVersionReload);
+            this.panelMainSettings.Controls.Add(this.groupBoxVersion);
+            this.panelMainSettings.Location = new System.Drawing.Point(3, 7);
+            this.panelMainSettings.Name = "panelMainSettings";
+            this.panelMainSettings.Size = new System.Drawing.Size(450, 284);
+            this.panelMainSettings.TabIndex = 12;
+            // 
             // minecraftForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.SystemColors.Control;
             this.ClientSize = new System.Drawing.Size(464, 321);
             this.Controls.Add(this.tabControl1);
             this.Font = new System.Drawing.Font("新細明體", 9F);
@@ -735,7 +738,6 @@
             this.groupBoxMainProg.ResumeLayout(false);
             this.groupBoxInterval.ResumeLayout(false);
             this.groupBoxInterval.PerformLayout();
-            this.panelSettingsTop.ResumeLayout(false);
             this.groupBoxInstance.ResumeLayout(false);
             this.groupBoxInstance.PerformLayout();
             this.groupBoxDataFolder.ResumeLayout(false);
@@ -744,6 +746,7 @@
             this.debugPage.ResumeLayout(false);
             this.debugPage.PerformLayout();
             this.updatePage.ResumeLayout(false);
+            this.panelMainSettings.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -765,7 +768,6 @@
         private System.Windows.Forms.TextBox textUser;
         private System.Windows.Forms.TabPage settingPage;
         private System.Windows.Forms.GroupBox groupBoxDataFolder;
-        private System.Windows.Forms.Panel panelSettingsTop;
         private System.Windows.Forms.Panel panelSettingsLeft;
         private System.Windows.Forms.ComboBox versionList;
         private System.Windows.Forms.GroupBox groupBoxInterval;
@@ -804,5 +806,6 @@
         private System.Windows.Forms.TabPage updatePage;
         private System.Windows.Forms.RichTextBox textBoxUpdateNote;
         private System.Windows.Forms.Button btnMultiAcc;
+        private System.Windows.Forms.Panel panelMainSettings;
     }
 }
