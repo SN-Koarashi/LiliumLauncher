@@ -62,6 +62,10 @@ namespace XCoreNET
                     btnSwitch.Click += (senderx, ex) =>
                     {
                         gb.refreshToken = item.Value.refreshToken;
+                        gb.launchToken = item.Value.accessToken;
+                        gb.launchTokenExpiresAt = item.Value.expiresAt;
+                        gb.minecraftUsername = item.Value.username;
+                        gb.minecraftUUID = item.Key;
 
                         this.DialogResult = DialogResult.OK;
                     };

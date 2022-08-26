@@ -22,7 +22,9 @@ namespace XCoreNET.ClassModel
         {
             public string username { get; set; }
             public string refreshToken { get; set; }
+            public string accessToken { get; set; }
             public string lastUsed { get; set; }
+            public long expiresAt { get; set; }
         }
 
         public class SessionModel

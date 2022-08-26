@@ -176,6 +176,8 @@ namespace Global
                         AccountModel am = new AccountModel();
                         am.username = minecraftUsername;
                         am.refreshToken = refreshToken;
+                        am.accessToken = launchToken;
+                        am.expiresAt = launchTokenExpiresAt;
                         am.lastUsed = new DateTime().ToString("yyyy-MM-dd HH:mm:ss");
                         account.Add(minecraftUUID, am);
                     }

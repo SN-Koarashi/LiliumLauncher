@@ -553,6 +553,8 @@ namespace XCoreNET
         {
             if (isClosed) return;
 
+            avatar.Visible = false;
+            textUser.Visible = false;
             TaskbarManager.Instance.SetProgressState(TaskbarProgressBarState.Indeterminate, Handle);
             settingAllControl(false);
             progressBar.Style = ProgressBarStyle.Marquee;
@@ -742,21 +744,21 @@ namespace XCoreNET
             gb.startupParms.username = username;
             gb.startupParms.uuid = uuid;
             gb.startupParms.accessToken = gb.launchToken;
-            gb.savingSession(false);
 
+            gb.account.Remove(gb.minecraftUUID);
+            AccountModel am = new AccountModel();
+            am.username = gb.minecraftUsername;
+            am.refreshToken = gb.refreshToken;
+            am.accessToken = gb.launchToken;
+            am.expiresAt = gb.launchTokenExpiresAt;
+            am.lastUsed = new DateTime().ToString("yyyy-MM-dd HH:mm:ss");
+            gb.account.Add(gb.minecraftUUID, am);
+
+            gb.savingSession(false);
             onGetAllVersion();
             settingAllControl(true);
             TaskbarManager.Instance.SetProgressState(TaskbarProgressBarState.NoProgress, Handle);
 
-
-            if (!gb.account.ContainsKey(gb.minecraftUUID) && gb.minecraftUUID.Length > 0)
-            {
-                AccountModel am = new AccountModel();
-                am.username = gb.minecraftUsername;
-                am.refreshToken = gb.refreshToken;
-                am.lastUsed = new DateTime().ToString("yyyy-MM-dd HH:mm:ss");
-                gb.account.Add(gb.minecraftUUID, am);
-            }
 
             if (!gb.firstStart)
                 gb.checkForUpdate();
@@ -2629,7 +2631,14 @@ namespace XCoreNET
 
             if (result == DialogResult.OK)
             {
-                onRefreshToken(gb.refreshToken);
+                if (gb.launchToken != null && gb.launchToken.Length > 0 && gb.getNowMilliseconds() - gb.launchTokenExpiresAt < 0)
+                {
+                    loginSuccess(gb.minecraftUsername, gb.minecraftUUID);
+                }
+                else
+                {
+                    onRefreshToken(gb.refreshToken);
+                }
                 tabControl1.SelectedIndex = 0;
             }
 
