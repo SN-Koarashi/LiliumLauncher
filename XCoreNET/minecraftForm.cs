@@ -1121,7 +1121,7 @@ namespace XCoreNET
             progressBar.Style = ProgressBarStyle.Blocks;
             TaskbarManager.Instance.SetProgressState(TaskbarProgressBarState.Normal, Handle);
             output("INFO", "建立 Java 執行環境");
-            var runtime = objKit["javaVersion"]["component"].ToString();
+            var runtime = (objKit["javaVersion"] != null) ? objKit["javaVersion"]["component"].ToString() : "jre-legacy";
 
             var obj = await launcher.getJavaRuntime();
             var resource_url = obj["windows-x64"][runtime][0]["manifest"]["url"].ToString();
@@ -2172,7 +2172,7 @@ namespace XCoreNET
                 string JVMErr = "";
                 proc.ErrorDataReceived += (sender, e) =>
                 {
-                    if (e.Data != null)
+                    if (e.Data != null && gb.startupParms.loggerIndex != null)
                     {
                         var data = e.Data.Trim();
                         JVMErr += data + Environment.NewLine;

@@ -30,10 +30,12 @@ namespace XCoreNET
 
                 TextBox username = new TextBox();
                 username.ReadOnly = true;
-                username.Location = new System.Drawing.Point(x + 36, y * 2 + 40 * k);
+                username.Location = new System.Drawing.Point(x + 36, (int)(y * 2.5 + 40 * k));
                 username.Text = item.Value.username;
-                username.Font = new Font("Verdana", 9);
+                username.Font = new Font("Verdana", 10);
                 username.Width = 130;
+                username.BorderStyle = BorderStyle.None;
+                toolTip.SetToolTip(username, item.Key);
 
                 Button btnSwitch = new Button();
                 btnSwitch.Text = "切換";
@@ -56,6 +58,8 @@ namespace XCoreNET
                 {
                     btnSwitch.Enabled = false;
                     btnDel.Enabled = false;
+                    username.SelectionStart = username.TextLength;
+                    username.SelectionLength = 0;
                 }
                 else
                 {
