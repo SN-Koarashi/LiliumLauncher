@@ -2302,13 +2302,15 @@ namespace XCoreNET
 
         private async void btnSwitchAcc_Click(object sender, EventArgs e)
         {
+            settingAllControl(false);
             loginMicrosoftForm lmf = new loginMicrosoftForm();
             var resultDialog = lmf.ShowDialog();
             if (resultDialog != DialogResult.Cancel)
             {
                 Tasks.loginChallengeTask challenge = new Tasks.loginChallengeTask(true);
                 var result = await challenge.start();
-
+                // 讓視窗置頂，而不是聚焦在瀏覽器或其他地方
+                this.TopMost = true;
                 if (result == DialogResult.OK)
                 {
                     progressBar.Maximum = 60;
@@ -2319,6 +2321,13 @@ namespace XCoreNET
 
                     tabControl1.SelectedIndex = 0;
                 }
+                else
+                {
+                    settingAllControl(true);
+                }
+
+                // 取消置頂，才不會擋到其他視窗
+                this.TopMost = false;
             }
 
             lmf.Dispose();

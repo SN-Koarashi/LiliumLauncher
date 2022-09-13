@@ -42,6 +42,7 @@ namespace XCoreNET
 
         private async void btnLogin_ClickAsync(object sender, EventArgs e)
         {
+            tableLayoutPanel1.Enabled = false;
             loginMicrosoftForm lmf = new loginMicrosoftForm();
             var resultDialog = lmf.ShowDialog();
             if (resultDialog != DialogResult.Cancel)
@@ -52,6 +53,8 @@ namespace XCoreNET
 
                 this.DialogResult = result;
             }
+
+            tableLayoutPanel1.Enabled = true;
         }
 
         private void btnSetting_Click(object sender, EventArgs e)

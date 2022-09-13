@@ -37,10 +37,19 @@ namespace XCoreNET
                 Console.WriteLine($"框架核心版本尚未找到: {availableVersion}");
                 MessageBox.Show("找不到 WebView2 核心框架，因此無法透過 Microsoft OAuth 登入您的帳戶", "錯誤", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 
-                var result = MessageBox.Show("是否要重新導向到下載頁面以下載 Microsoft Edge WebView2？", "說明", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
-                if (result == DialogResult.Yes)
+                var openOrigin = MessageBox.Show("是否以瀏覽器進行登入驗證？", "說明", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
+                if(openOrigin == DialogResult.Yes)
                 {
-                    OpenUrl("https://developer.microsoft.com/zh-tw/microsoft-edge/webview2/");
+                    OpenUrl(gb.getMicrosoftOAuthURL());
+                    this.DialogResult = DialogResult.Ignore;
+                }
+                else
+                {
+                    var result = MessageBox.Show("是否要重新導向到下載頁面以下載 Microsoft Edge WebView2？", "說明", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
+                    if (result == DialogResult.Yes)
+                    {
+                        OpenUrl("https://developer.microsoft.com/zh-tw/microsoft-edge/webview2/");
+                    }
                 }
 
                 this.Close();
