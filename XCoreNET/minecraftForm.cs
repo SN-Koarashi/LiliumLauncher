@@ -2329,6 +2329,10 @@ namespace XCoreNET
                 // 取消置頂，才不會擋到其他視窗
                 this.TopMost = false;
             }
+            else
+            {
+                settingAllControl(true);
+            }
 
             lmf.Dispose();
         }

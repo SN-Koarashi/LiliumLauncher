@@ -20,6 +20,10 @@ Load multiple social media sites and web chat rooms through the Microsoft Edge W
 - 若由應用程式本身安裝更新檔案，將會在下載後使用安靜模式安裝，並且依照自我更新程式(`XCoreNET-Updater`)之執行位置來選擇安裝路徑
 - If the update file is installed by the application itself, it will be installed in silent mode after downloading, and the installation path will be selected according to the execution location of the self-updater (`XCoreNET-Updater`)
 
+## 編譯 | Compile
+- 因為專案本身有使用 Costura.Fody NuGet套件包，因此可能會在編譯/偵錯過程出現 `MSB4086: 嘗試對條件 "($(MsBuildMajorVersion) < 16)" 中評估為 "" (而非數字) 的 "$(MsBuildMajorVersion)" 進行數字比較。` 的錯誤，只要在 NuGet 套件管理中解除並重新安裝 Costura.Fody 即可解決
+
 ## 參考 | Reference
 - [[UPDATE] Google Auth Flows and WebView2](https://github.com/MicrosoftEdge/WebView2Feedback/issues/1647)
 - [OAuth for Apps: Samples for Windows](https://github.com/Beej126/oauth-apps-for-windows)
+- [Fix: “A numeric comparison was attempted” at VS build (Costura.Fody)](https://zoomicon.wordpress.com/2019/10/18/fix-a-numeric-comparison-was-attempted-at-vs-build-costura-fody/)
