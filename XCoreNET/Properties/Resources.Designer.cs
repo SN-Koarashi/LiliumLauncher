@@ -61,6 +61,24 @@ namespace XCoreNET.Properties {
         }
         
         /// <summary>
+        ///   查詢類似 &lt;html&gt;
+        ///&lt;head&gt;
+        ///&lt;meta charset=&quot;utf-8&quot; /&gt;
+        ///&lt;/head&gt;
+        ///&lt;body&gt;
+        ///	&lt;div align=&quot;center&quot;&gt;
+        ///		&lt;h1&gt;工作階段已結束，請關閉此視窗並回到應用程式。&lt;/h1&gt;
+        ///	&lt;/div&gt;
+        ///&lt;/body&gt;
+        ///&lt;/html&gt; 的當地語系化字串。
+        /// </summary>
+        internal static string http_response {
+            get {
+                return ResourceManager.GetString("http_response", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查詢類似                        GNU通用公共授權
         ///                    第三版 2007年6月29日
         ///

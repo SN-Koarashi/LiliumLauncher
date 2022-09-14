@@ -39,7 +39,8 @@ namespace XCoreNET.Tasks
                 // Sends an HTTP response to the browser.
                 var response = context.Response;
                 //string responseString = string.Format("<html><head></head><body>Please return to the app.</body></html>");
-                string responseString = "<html><head><meta charset=\"utf-8\" /></head><body><div align=\"center\"><h1>工作階段已結束，請關閉此視窗並回到應用程式。</h1></div></body></html>";
+                //string responseString = "<html><head><meta charset=\"utf-8\" /></head><body><div align=\"center\"><h1>工作階段已結束，請關閉此視窗並回到應用程式。</h1></div></body></html>";
+                string responseString = Properties.Resources.http_response;
                 var buffer = System.Text.Encoding.UTF8.GetBytes(responseString);
                 response.ContentLength64 = buffer.Length;
                 var responseOutput = response.OutputStream;
