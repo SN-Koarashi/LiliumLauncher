@@ -38,15 +38,20 @@
             this.label1 = new System.Windows.Forms.Label();
             this.textBox2 = new System.Windows.Forms.TextBox();
             this.textBox1 = new System.Windows.Forms.TextBox();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.radLauncherDef = new System.Windows.Forms.RadioButton();
+            this.radLauncherWebView = new System.Windows.Forms.RadioButton();
+            this.radLauncherBrowser = new System.Windows.Forms.RadioButton();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
+            this.groupBox3.SuspendLayout();
             this.SuspendLayout();
             // 
             // btnApply
             // 
-            this.btnApply.Location = new System.Drawing.Point(218, 186);
+            this.btnApply.Location = new System.Drawing.Point(311, 184);
             this.btnApply.Name = "btnApply";
-            this.btnApply.Size = new System.Drawing.Size(75, 23);
+            this.btnApply.Size = new System.Drawing.Size(87, 23);
             this.btnApply.TabIndex = 0;
             this.btnApply.Text = "套用";
             this.btnApply.UseVisualStyleBackColor = true;
@@ -54,9 +59,9 @@
             // 
             // btnOK
             // 
-            this.btnOK.Location = new System.Drawing.Point(218, 157);
+            this.btnOK.Location = new System.Drawing.Point(219, 184);
             this.btnOK.Name = "btnOK";
-            this.btnOK.Size = new System.Drawing.Size(75, 23);
+            this.btnOK.Size = new System.Drawing.Size(86, 23);
             this.btnOK.TabIndex = 1;
             this.btnOK.Text = "確定";
             this.btnOK.UseVisualStyleBackColor = true;
@@ -68,7 +73,7 @@
             this.groupBox1.Controls.Add(this.chkNoWebView);
             this.groupBox1.Location = new System.Drawing.Point(12, 12);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(200, 72);
+            this.groupBox1.Size = new System.Drawing.Size(386, 72);
             this.groupBox1.TabIndex = 2;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "啟動參數";
@@ -76,6 +81,8 @@
             // chkLauncherMain
             // 
             this.chkLauncherMain.AutoSize = true;
+            this.chkLauncherMain.Checked = true;
+            this.chkLauncherMain.CheckState = System.Windows.Forms.CheckState.Checked;
             this.chkLauncherMain.Location = new System.Drawing.Point(7, 45);
             this.chkLauncherMain.Name = "chkLauncherMain";
             this.chkLauncherMain.Size = new System.Drawing.Size(183, 16);
@@ -144,19 +151,69 @@
             this.textBox1.Text = "https://www.snkms.com/chat/webchat2/";
             this.textBox1.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
             // 
+            // groupBox3
+            // 
+            this.groupBox3.Controls.Add(this.radLauncherBrowser);
+            this.groupBox3.Controls.Add(this.radLauncherWebView);
+            this.groupBox3.Controls.Add(this.radLauncherDef);
+            this.groupBox3.Location = new System.Drawing.Point(219, 90);
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.Size = new System.Drawing.Size(179, 88);
+            this.groupBox3.TabIndex = 4;
+            this.groupBox3.TabStop = false;
+            this.groupBox3.Text = "啟動器登入方式";
+            // 
+            // radLauncherDef
+            // 
+            this.radLauncherDef.AutoSize = true;
+            this.radLauncherDef.Checked = true;
+            this.radLauncherDef.Location = new System.Drawing.Point(7, 20);
+            this.radLauncherDef.Name = "radLauncherDef";
+            this.radLauncherDef.Size = new System.Drawing.Size(166, 16);
+            this.radLauncherDef.TabIndex = 0;
+            this.radLauncherDef.TabStop = true;
+            this.radLauncherDef.Text = "預設 (依條件詢問啟動方式)";
+            this.radLauncherDef.UseVisualStyleBackColor = true;
+            this.radLauncherDef.Click += new System.EventHandler(this.radLauncherDef_Click);
+            // 
+            // radLauncherWebView
+            // 
+            this.radLauncherWebView.AutoSize = true;
+            this.radLauncherWebView.Location = new System.Drawing.Point(7, 43);
+            this.radLauncherWebView.Name = "radLauncherWebView";
+            this.radLauncherWebView.Size = new System.Drawing.Size(165, 16);
+            this.radLauncherWebView.TabIndex = 1;
+            this.radLauncherWebView.TabStop = true;
+            this.radLauncherWebView.Text = "永遠以 WevView2 框架登入";
+            this.radLauncherWebView.UseVisualStyleBackColor = true;
+            this.radLauncherWebView.Click += new System.EventHandler(this.radLauncherWebView_Click);
+            // 
+            // radLauncherBrowser
+            // 
+            this.radLauncherBrowser.AutoSize = true;
+            this.radLauncherBrowser.Location = new System.Drawing.Point(7, 65);
+            this.radLauncherBrowser.Name = "radLauncherBrowser";
+            this.radLauncherBrowser.Size = new System.Drawing.Size(143, 16);
+            this.radLauncherBrowser.TabIndex = 5;
+            this.radLauncherBrowser.TabStop = true;
+            this.radLauncherBrowser.Text = "永遠以原生瀏覽器登入";
+            this.radLauncherBrowser.UseVisualStyleBackColor = true;
+            this.radLauncherBrowser.Click += new System.EventHandler(this.radLauncherBrowser_Click);
+            // 
             // settingForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(301, 214);
+            this.ClientSize = new System.Drawing.Size(410, 214);
+            this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.btnOK);
             this.Controls.Add(this.btnApply);
             this.MaximizeBox = false;
-            this.MaximumSize = new System.Drawing.Size(317, 253);
+            this.MaximumSize = new System.Drawing.Size(426, 253);
             this.MinimizeBox = false;
-            this.MinimumSize = new System.Drawing.Size(317, 253);
+            this.MinimumSize = new System.Drawing.Size(426, 253);
             this.Name = "settingForm";
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
@@ -168,6 +225,8 @@
             this.groupBox1.PerformLayout();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
+            this.groupBox3.ResumeLayout(false);
+            this.groupBox3.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -184,5 +243,9 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox textBox2;
         private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.GroupBox groupBox3;
+        private System.Windows.Forms.RadioButton radLauncherBrowser;
+        private System.Windows.Forms.RadioButton radLauncherWebView;
+        private System.Windows.Forms.RadioButton radLauncherDef;
     }
 }

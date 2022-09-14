@@ -22,6 +22,7 @@ namespace Global
         public static bool verOptSnapshot = false;
         public static bool firstStart = false;
         public static List<string> instance = new List<string>();
+        public static string loginMethod = "default";
         public static string lastInstance = "";
         public static string mainFolderName = ".minecraft-xcorenet";
         public static string mainFolder = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + Path.DirectorySeparatorChar + mainFolderName;

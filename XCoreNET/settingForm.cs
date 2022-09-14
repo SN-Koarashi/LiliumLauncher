@@ -9,6 +9,7 @@ namespace XCoreNET
 {
     public partial class settingForm : Form
     {
+        private string temp_login_method = "default";
         public settingForm()
         {
             InitializeComponent();
@@ -22,6 +23,22 @@ namespace XCoreNET
 
                 chkLauncherMain.Checked = pm.launcher;
                 chkNoWebView.Checked = pm.noWevView;
+
+                if (pm.loginMethod != null)
+                {
+                    if (pm.loginMethod.Equals("webview2"))
+                    {
+                        radLauncherWebView.Checked = true;
+                    }
+                    else if (pm.loginMethod.Equals("browser"))
+                    {
+                        radLauncherBrowser.Checked = true;
+                    }
+                    else
+                    {
+                        radLauncherDef.Checked = true;
+                    }
+                }
             }
         }
 
@@ -29,33 +46,42 @@ namespace XCoreNET
         {
             try
             {
+                bool notifyBox = false;
+
                 if (textBox1.Text != String.Empty)
                     new Uri(textBox1.Text);
 
                 if (textBox2.Text != String.Empty)
                     new Uri(textBox2.Text);
 
+                if (!gb.launcherHomepage.Equals(textBox2.Text) || !gb.mainHomepage.Equals(textBox1.Text))
+                    notifyBox = true;
+
 
                 ProgramModel pm = new ProgramModel();
                 pm.launcher = chkLauncherMain.Checked;
                 pm.noWevView = chkNoWebView.Checked;
+                pm.loginMethod = temp_login_method;
                 pm.mainURL = (textBox1.Text != String.Empty) ? textBox1.Text : "https://www.snkms.com/chat/webchat2/";
                 pm.launcherURL = (textBox2.Text != String.Empty) ? textBox2.Text : "https://www.snkms.com/minecraftNews.html";
 
                 gb.mainHomepage = new Uri(pm.mainURL);
                 gb.launcherHomepage = new Uri(pm.launcherURL);
+                gb.loginMethod = temp_login_method;
 
                 Directory.CreateDirectory("settings");
                 File.WriteAllText($"settings{Path.DirectorySeparatorChar}programs_settings.json", JsonConvert.SerializeObject(pm));
 
 
-                var result = MessageBox.Show("變更需要重新啟動程式才能生效，要現在重新啟動嗎？", "說明", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-                if (result == DialogResult.Yes)
+                if (notifyBox)
                 {
-                    System.Diagnostics.Process.Start(Application.ExecutablePath);
-                    Environment.Exit(0);
+                    var result = MessageBox.Show("變更啟動參數需要重新啟動程式才能生效，要現在重新啟動嗎？", "說明", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                    if (result == DialogResult.Yes)
+                    {
+                        System.Diagnostics.Process.Start(Application.ExecutablePath);
+                        Environment.Exit(0);
+                    }
                 }
-
 
 
                 btnApply.Enabled = false;
@@ -104,6 +130,30 @@ namespace XCoreNET
         {
             btnApply.Enabled = true;
             btnOK.Enabled = true;
+        }
+
+        private void radLauncherDef_Click(object sender, EventArgs e)
+        {
+            btnApply.Enabled = true;
+            btnOK.Enabled = true;
+
+            temp_login_method = "default";
+        }
+
+        private void radLauncherWebView_Click(object sender, EventArgs e)
+        {
+            btnApply.Enabled = true;
+            btnOK.Enabled = true;
+
+            temp_login_method = "webview2";
+        }
+
+        private void radLauncherBrowser_Click(object sender, EventArgs e)
+        {
+            btnApply.Enabled = true;
+            btnOK.Enabled = true;
+
+            temp_login_method = "browser";
         }
     }
 }

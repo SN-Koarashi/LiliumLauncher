@@ -31,31 +31,76 @@ namespace XCoreNET
                 CoreWebView2Environment.CompareBrowserVersions(availableVersion, "100.0.0.0") >= 0)
             {
                 Console.WriteLine($"找到框架核心版本: {availableVersion}");
+                if (gb.loginMethod.Equals("browser"))
+                {
+                    askBrowserLogin(true);
+                }
             }
             else
             {
                 Console.WriteLine($"框架核心版本尚未找到: {availableVersion}");
-                MessageBox.Show("找不到 WebView2 核心框架，因此無法透過 Microsoft OAuth 登入您的帳戶", "錯誤", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-
-                var openOrigin = MessageBox.Show("是否以瀏覽器進行登入驗證？", "說明", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
-                if(openOrigin == DialogResult.Yes)
+                if (gb.loginMethod.Equals("webview2"))
                 {
-                    OpenUrl(gb.getMicrosoftOAuthURL());
-                    this.DialogResult = DialogResult.Ignore;
+                    WebView2CoreNotFound();
+                    askWebViewDownload(true);
+                }
+                else if (gb.loginMethod.Equals("browser"))
+                {
+                    askBrowserLogin(true);
                 }
                 else
                 {
-                    var result = MessageBox.Show("是否要重新導向到下載頁面以下載 Microsoft Edge WebView2？", "說明", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
-                    if (result == DialogResult.Yes)
+                    WebView2CoreNotFound();
+                    if (!askWebViewDownload(false))
                     {
-                        OpenUrl("https://developer.microsoft.com/zh-tw/microsoft-edge/webview2/");
+                        askBrowserLogin(false);
                     }
                 }
 
                 this.Close();
             }
         }
+        private void askBrowserLogin(bool ignoreAsk)
+        {
+            if (ignoreAsk)
+            {
+                OpenUrl(gb.getMicrosoftOAuthURL());
+                this.DialogResult = DialogResult.Ignore;
+            }
+            else
+            {
 
+                var openOrigin = MessageBox.Show("是否以瀏覽器進行登入驗證？", "說明", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
+                if (openOrigin == DialogResult.Yes)
+                {
+                    OpenUrl(gb.getMicrosoftOAuthURL());
+                    this.DialogResult = DialogResult.Ignore;
+                }
+                else
+                {
+                    MessageBox.Show("無法登入 Microsoft 帳戶", "錯誤", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
+        private void WebView2CoreNotFound()
+        {
+            MessageBox.Show("找不到 WebView2 核心框架，因此無法透過 Microsoft OAuth 登入您的帳戶", "錯誤", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+        }
+        private bool askWebViewDownload(bool showError)
+        {
+            var result = MessageBox.Show("是否要重新導向到下載頁面以下載 Microsoft Edge WebView2？", "說明", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
+            if (result == DialogResult.Yes)
+            {
+                OpenUrl("https://developer.microsoft.com/zh-tw/microsoft-edge/webview2/");
+                return true;
+            }
+            else if (result == DialogResult.No && showError)
+            {
+                MessageBox.Show("無法登入 Microsoft 帳戶", "錯誤", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+            return false;
+        }
         private async void webView_NavigationStarting(object sender, Microsoft.Web.WebView2.Core.CoreWebView2NavigationStartingEventArgs e)
         {
             if (e.Uri.StartsWith("http://localhost:5026/"))

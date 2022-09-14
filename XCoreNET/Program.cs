@@ -29,6 +29,7 @@ namespace XCoreNET
                 pm = JsonConvert.DeserializeObject<ProgramModel>(data);
                 gb.launcherHomepage = new Uri(pm.launcherURL);
                 gb.mainHomepage = new Uri(pm.mainURL);
+                gb.loginMethod = pm.loginMethod;
             }
             else
             {
