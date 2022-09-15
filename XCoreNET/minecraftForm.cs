@@ -2378,10 +2378,10 @@ namespace XCoreNET
                 else
                 {
                     settingAllControl(true);
-
-                    if (proc != null && !proc.HasExited)
-                        proc.Kill();
                 }
+
+                if (proc != null && !proc.HasExited)
+                    proc.Kill();
 
                 // 取消置頂，才不會擋到其他視窗
                 this.TopMost = false;
@@ -2396,20 +2396,27 @@ namespace XCoreNET
 
         private void btnLogout_Click(object sender, EventArgs e)
         {
-            gb.resetTokens();
-            gb.savingSession(true);
-
-            FormCollection fc = Application.OpenForms;
-
-            if (fc[0].Name == this.Name)
+            settingAllControl(false);
+            var result = MessageBox.Show("確定要登出嗎？","說明",MessageBoxButtons.YesNo,MessageBoxIcon.Question);
+            if (result == DialogResult.Yes)
             {
-                System.Diagnostics.Process.Start(Application.ExecutablePath);
-                Environment.Exit(0);
+                gb.resetTokens();
+                gb.savingSession(true);
+
+                FormCollection fc = Application.OpenForms;
+
+                if (fc[0].Name == this.Name)
+                {
+                    System.Diagnostics.Process.Start(Application.ExecutablePath);
+                    Environment.Exit(0);
+                }
+                else
+                {
+                    this.Close();
+                }
             }
             else
-            {
-                this.Close();
-            }
+                settingAllControl(true);
         }
 
         private void chkBoxRelease_Click(object sender, EventArgs e)
