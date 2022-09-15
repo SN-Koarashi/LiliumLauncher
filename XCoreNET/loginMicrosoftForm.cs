@@ -1,5 +1,6 @@
 ﻿using Global;
 using Microsoft.Web.WebView2.Core;
+using Microsoft.Win32;
 using System;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
@@ -64,7 +65,7 @@ namespace XCoreNET
         {
             if (ignoreAsk)
             {
-                OpenUrl(gb.getMicrosoftOAuthURL());
+                //OpenUrl(gb.getMicrosoftOAuthURL());
                 this.DialogResult = DialogResult.Ignore;
             }
             else
@@ -73,7 +74,7 @@ namespace XCoreNET
                 var openOrigin = MessageBox.Show("是否以瀏覽器進行登入驗證？", "說明", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
                 if (openOrigin == DialogResult.Yes)
                 {
-                    OpenUrl(gb.getMicrosoftOAuthURL());
+                    //OpenUrl(gb.getMicrosoftOAuthURL());
                     this.DialogResult = DialogResult.Ignore;
                 }
                 else
@@ -116,7 +117,6 @@ namespace XCoreNET
                 this.Close();
             }
         }
-
         private void OpenUrl(string url)
         {
             try

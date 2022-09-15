@@ -1,8 +1,12 @@
 ﻿using Global;
+using Microsoft.Win32;
 using System;
+using System.Diagnostics;
 using System.Net;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static XCoreNET.ClassModel.globalModel;
 
 namespace XCoreNET.Tasks
 {
@@ -30,6 +34,7 @@ namespace XCoreNET.Tasks
                 http.Prefixes.Add(redirectURI);
                 output("Listening...");
                 http.Start();
+                gb.httpUsing = true;
 
 
 
@@ -48,6 +53,7 @@ namespace XCoreNET.Tasks
                 {
                     responseOutput.Close();
                     http.Stop();
+                    gb.httpUsing = false;
                     Console.WriteLine("HTTP server stopped.");
                 });
 
@@ -74,7 +80,47 @@ namespace XCoreNET.Tasks
                 return DialogResult.None;
             }
         }
+        public static BrowserInfoModel DeterminePath()
+        {
+            string path = String.Empty;
+            string prodID = String.Empty;
+            RegistryKey regKey = null;
+            string ErrorMessage = null;
 
+            try
+            {
+                //set the registry key we want to open
+                regKey = Registry.CurrentUser.OpenSubKey(@"Software\Microsoft\Windows\Shell\Associations\UrlAssociations\http\UserChoice", false);
+
+                //get rid of the enclosing quotes
+                prodID = regKey.GetValue("Progid").ToString().Replace("" + (char)34, "");
+                Console.WriteLine($"Prod Name: {prodID}");
+
+                regKey = Registry.ClassesRoot.OpenSubKey(prodID + @"\shell\open\command", false);
+                
+                path = regKey.GetValue(null).ToString().Replace("" + (char)34, "");
+
+                if (!path.EndsWith("exe"))
+                    path = path.Substring(0, path.LastIndexOf(".exe") + 4);
+            }
+            catch (Exception ex)
+            {
+                ErrorMessage = string.Format("ERROR: An exception of type: {0} occurred in method: {1} in the following module", ex.GetType(), ex.TargetSite);
+                Console.WriteLine(ErrorMessage);
+            }
+            finally
+            {
+                //check and see if the key is still open, if so
+                //then close it
+                if (regKey != null)
+                    regKey.Close();
+            }
+
+            BrowserInfoModel bim = new BrowserInfoModel();
+            bim.name = prodID;
+            bim.path = path;
+            return bim;
+        }
         private void output(string output)
         {
             Console.WriteLine(output);

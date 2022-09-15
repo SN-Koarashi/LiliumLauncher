@@ -15,7 +15,7 @@ namespace XCoreNET.ClassModel
             public string loggerIndex { get; set; }
             public string javaRuntime { get; set; }
             public string minecraftArguments { get; set; }
-            public string appUID { get; set; }
+            public string startupUID { get; set; }
         }
 
         public class AccountModel
@@ -27,6 +27,11 @@ namespace XCoreNET.ClassModel
             public long expiresAt { get; set; }
         }
 
+        public class BrowserInfoModel
+        {
+            public string path { get; set; }
+            public string name { get; set; }
+        }
         public class SessionModel
         {
             public Dictionary<string, object> launcher { get; set; }

@@ -18,6 +18,9 @@ namespace Global
     class gb
     {
         private static DateTime JanFirst1970 = new DateTime(1970, 1, 1);
+        public readonly static string azureClientID = "c5a69008-2ee1-403f-aa2a-3d324e0213d7";
+        public readonly static string appUID = Guid.NewGuid().ToString();
+        public static bool httpUsing = false;
         public static bool verOptRelease = true;
         public static bool verOptSnapshot = false;
         public static bool firstStart = false;
@@ -40,7 +43,6 @@ namespace Global
         public static bool usingMaxMemoryUsage = false;
         public static bool isConcurrent = true;
         public static Dictionary<string, AccountModel> account = new Dictionary<string, AccountModel>();
-        public readonly static string azureClientID = "c5a69008-2ee1-403f-aa2a-3d324e0213d7";
         public static startupParmsModel startupParms = new startupParmsModel();
 
         public static string getMicrosoftOAuthURL()
@@ -82,7 +84,7 @@ namespace Global
             startupParms.loggerIndex = null;
             startupParms.main = null;
             startupParms.version = null;
-            startupParms.appUID = null;
+            startupParms.startupUID = null;
         }
         public static void savingSession(bool isSync)
         {

@@ -1792,9 +1792,9 @@ namespace XCoreNET
             if (isClosed) return;
 
             TaskbarManager.Instance.SetProgressState(TaskbarProgressBarState.Indeterminate, Handle);
+            gb.startupParms.startupUID = Guid.NewGuid().ToString();
             output("INFO", "解壓縮動態函數庫");
-            gb.startupParms.appUID = Guid.NewGuid().ToString();
-            var dir = gb.PathJoin(DATA_FOLDER, "bin", gb.startupParms.appUID);
+            var dir = gb.PathJoin(DATA_FOLDER, "bin", gb.startupParms.startupUID);
             Directory.CreateDirectory(dir);
 
             var nativesPath = new List<string>();
@@ -1972,7 +1972,7 @@ namespace XCoreNET
             jvm.Add("-Xms512m");
             jvm.Add("-Dminecraft.launcher.brand=XCoreNET");
             jvm.Add("-Dminecraft.launcher.version=" + Application.ProductVersion);
-            jvm.Add("-Djava.library.path=" + gb.PathJoin(DATA_FOLDER, "bin", gb.startupParms.appUID));
+            jvm.Add("-Djava.library.path=" + gb.PathJoin(DATA_FOLDER, "bin", gb.startupParms.startupUID));
 
             if (gb.usingMaxMemoryUsage && gb.maxMemoryUsage > 0)
                 jvm.Add($"-Xmx{gb.maxMemoryUsage}m");
@@ -2096,7 +2096,7 @@ namespace XCoreNET
 
                         progressBar.Style = ProgressBarStyle.Blocks;
                         output("INFO", "關閉遊戲");
-                        Directory.Delete(gb.PathJoin(DATA_FOLDER, "bin", gb.startupParms.appUID), true);
+                        Directory.Delete(gb.PathJoin(DATA_FOLDER, "bin", gb.startupParms.startupUID), true);
                         settingAllControl(true);
 
                         this.ShowInTaskbar = true;
@@ -2303,10 +2303,64 @@ namespace XCoreNET
         private async void btnSwitchAcc_Click(object sender, EventArgs e)
         {
             settingAllControl(false);
+            Process proc = null;
             loginMicrosoftForm lmf = new loginMicrosoftForm();
             var resultDialog = lmf.ShowDialog();
             if (resultDialog != DialogResult.Cancel)
             {
+                BrowserInfoModel bim = Tasks.loginChallengeTask.DeterminePath();
+
+                if (bim.name.Equals("MSEdgeHTM") || bim.name.Equals("ChromeHTML"))
+                {
+                    try
+                    {
+                        string profilePath = Path.GetFullPath(Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "/browser_profile/" + bim.name);
+                        string profileArgs = $"--user-data-dir=\"{profilePath}\"";
+                        
+                        Console.WriteLine(bim.path);
+                        Console.WriteLine($"Profile: {profilePath}");
+                        ProcessStartInfo startInfo = new ProcessStartInfo();
+                        startInfo.FileName = bim.path;
+                        //startInfo.Arguments = $"--app={gb.getMicrosoftOAuthURL()} --new-window --user-data-dir=\"C:\\XXX\"";
+                        startInfo.Arguments = $"--inprivate --private --incognito --new-window {profileArgs} {gb.getMicrosoftOAuthURL()}";
+                        startInfo.UseShellExecute = false;
+                        startInfo.CreateNoWindow = true;
+
+                        proc = new Process();
+                        proc.StartInfo = startInfo;
+                        proc.EnableRaisingEvents = true;
+                        proc.Start();
+
+                        proc.Exited += (bSender, ve) =>
+                        {
+                            Console.WriteLine("瀏覽器已關閉");
+                            if (gb.httpUsing)
+                            {
+                                WebClient client = new WebClient();
+                                client.DownloadString("http://localhost:5026/?type=cancel&error=BrowserClosed");
+                            }
+                            Task.Delay(500).Wait();
+                            this.Invoke(new Action(() =>
+                            {
+                                Directory.Delete(Path.GetFullPath(profilePath + "/Default/Network"), true);
+                                settingAllControl(true);
+                            }));
+                        };
+                    }
+                    catch(Exception exx)
+                    {
+                        Console.WriteLine(exx);
+                        outputDebug("ERROR",exx.StackTrace);
+                        MessageBox.Show(exx.Message,"錯誤",MessageBoxButtons.OK,MessageBoxIcon.Error);
+                        settingAllControl(true);
+                        return;
+                    }
+                }
+                else
+                {
+                    Process.Start(gb.getMicrosoftOAuthURL());
+                }
+                
                 Tasks.loginChallengeTask challenge = new Tasks.loginChallengeTask(true);
                 var result = await challenge.start();
                 // 讓視窗置頂，而不是聚焦在瀏覽器或其他地方
@@ -2324,6 +2378,9 @@ namespace XCoreNET
                 else
                 {
                     settingAllControl(true);
+
+                    if (proc != null && !proc.HasExited)
+                        proc.Kill();
                 }
 
                 // 取消置頂，才不會擋到其他視窗
