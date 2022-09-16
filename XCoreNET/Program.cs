@@ -27,9 +27,9 @@ namespace XCoreNET
             {
                 var data = File.ReadAllText(path);
                 pm = JsonConvert.DeserializeObject<ProgramModel>(data);
-                gb.launcherHomepage = new Uri(pm.launcherURL);
-                gb.mainHomepage = new Uri(pm.mainURL);
-                gb.loginMethod = pm.loginMethod;
+                gb.launcherHomepage = (pm.launcherURL != null) ? new Uri(pm.launcherURL) : gb.launcherHomepage;
+                gb.mainHomepage = (pm.mainURL != null) ? new Uri(pm.mainURL) : gb.mainHomepage;
+                gb.loginMethod = (pm.loginMethod != null) ? pm.loginMethod : gb.loginMethod;
             }
             else
             {
@@ -38,6 +38,7 @@ namespace XCoreNET
                 pm.noWevView = false;
                 pm.launcherURL = gb.launcherHomepage.ToString();
                 pm.mainURL = gb.mainHomepage.ToString();
+                pm.loginMethod = gb.loginMethod;
 
                 var data = JsonConvert.SerializeObject(pm);
                 Directory.CreateDirectory(Path.GetFullPath(Directory.GetCurrentDirectory() + "/settings"));
