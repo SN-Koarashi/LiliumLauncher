@@ -1,6 +1,9 @@
 ﻿using Global;
 using System;
+using System.Diagnostics;
+using System.IO;
 using System.Windows.Forms;
+using static XCoreNET.ClassModel.globalModel;
 
 namespace XCoreNET
 {
@@ -42,11 +45,45 @@ namespace XCoreNET
 
         private async void btnLogin_ClickAsync(object sender, EventArgs e)
         {
+            Process proc = null;
             tableLayoutPanel1.Enabled = false;
             loginMicrosoftForm lmf = new loginMicrosoftForm();
             var resultDialog = lmf.ShowDialog();
             if (resultDialog != DialogResult.Cancel)
             {
+                BrowserInfoModel bim = Tasks.loginChallengeTask.DeterminePath();
+
+                if (Tasks.loginChallengeTask.SupportBrowser(bim))
+                {
+                    try
+                    {
+                        string profilePath = Path.GetFullPath(Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "/browser_profile/" + bim.name);
+                        string profileArgs = $"--user-data-dir=\"{profilePath}\"";
+
+                        Console.WriteLine(bim.path);
+                        Console.WriteLine($"Profile: {profilePath}");
+                        proc = new Process();
+                        proc.StartInfo = Tasks.loginChallengeTask.BrowserStartInfo(bim, profileArgs);
+                        proc.EnableRaisingEvents = true;
+                        proc.Start();
+
+                        proc.Exited += (bSender, ve) =>
+                        {
+                            Tasks.loginChallengeTask.BrowserClosed(profilePath);
+                        };
+                    }
+                    catch (Exception exx)
+                    {
+                        Console.WriteLine(exx);
+                        MessageBox.Show(exx.Message, "錯誤", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
+                }
+                else
+                {
+                    Process.Start(gb.getMicrosoftOAuthURL());
+                }
+
                 Tasks.loginChallengeTask challenge = new Tasks.loginChallengeTask();
                 var result = await challenge.start();
                 gb.firstStart = false;

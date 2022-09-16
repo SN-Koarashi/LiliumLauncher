@@ -2,8 +2,8 @@
 using Microsoft.Win32;
 using System;
 using System.Diagnostics;
+using System.IO;
 using System.Net;
-using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using static XCoreNET.ClassModel.globalModel;
@@ -80,6 +80,32 @@ namespace XCoreNET.Tasks
                 return DialogResult.None;
             }
         }
+
+        public static bool SupportBrowser(BrowserInfoModel bim)
+        {
+            return bim.name.Equals("MSEdgeHTM") || bim.name.Equals("ChromeHTML");
+        }
+        public static ProcessStartInfo BrowserStartInfo(BrowserInfoModel bim, string profile)
+        {
+            ProcessStartInfo startInfo = new ProcessStartInfo();
+            startInfo.FileName = bim.path;
+            startInfo.Arguments = $"--inprivate --private --incognito --new-window {profile} {gb.getMicrosoftOAuthURL()}";
+            startInfo.UseShellExecute = false;
+            startInfo.CreateNoWindow = true;
+
+            return startInfo;
+        }
+        public static void BrowserClosed(string path)
+        {
+            Console.WriteLine("瀏覽器已關閉");
+            if (gb.httpUsing)
+            {
+                WebClient client = new WebClient();
+                client.DownloadString("http://localhost:5026/?type=cancel&error=BrowserClosed");
+            }
+            Task.Delay(500).Wait();
+            Directory.Delete(Path.GetFullPath(path + "/Default/Network"), true);
+        }
         public static BrowserInfoModel DeterminePath()
         {
             string path = String.Empty;
@@ -97,7 +123,7 @@ namespace XCoreNET.Tasks
                 Console.WriteLine($"Prod Name: {prodID}");
 
                 regKey = Registry.ClassesRoot.OpenSubKey(prodID + @"\shell\open\command", false);
-                
+
                 path = regKey.GetValue(null).ToString().Replace("" + (char)34, "");
 
                 if (!path.EndsWith("exe"))

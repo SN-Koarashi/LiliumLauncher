@@ -2310,48 +2310,34 @@ namespace XCoreNET
             {
                 BrowserInfoModel bim = Tasks.loginChallengeTask.DeterminePath();
 
-                if (bim.name.Equals("MSEdgeHTM") || bim.name.Equals("ChromeHTML"))
+                if (Tasks.loginChallengeTask.SupportBrowser(bim))
                 {
                     try
                     {
                         string profilePath = Path.GetFullPath(Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "/browser_profile/" + bim.name);
                         string profileArgs = $"--user-data-dir=\"{profilePath}\"";
-                        
+
                         Console.WriteLine(bim.path);
                         Console.WriteLine($"Profile: {profilePath}");
-                        ProcessStartInfo startInfo = new ProcessStartInfo();
-                        startInfo.FileName = bim.path;
-                        //startInfo.Arguments = $"--app={gb.getMicrosoftOAuthURL()} --new-window --user-data-dir=\"C:\\XXX\"";
-                        startInfo.Arguments = $"--inprivate --private --incognito --new-window {profileArgs} {gb.getMicrosoftOAuthURL()}";
-                        startInfo.UseShellExecute = false;
-                        startInfo.CreateNoWindow = true;
-
                         proc = new Process();
-                        proc.StartInfo = startInfo;
+                        proc.StartInfo = Tasks.loginChallengeTask.BrowserStartInfo(bim, profileArgs);
                         proc.EnableRaisingEvents = true;
                         proc.Start();
 
                         proc.Exited += (bSender, ve) =>
                         {
-                            Console.WriteLine("瀏覽器已關閉");
-                            if (gb.httpUsing)
-                            {
-                                WebClient client = new WebClient();
-                                client.DownloadString("http://localhost:5026/?type=cancel&error=BrowserClosed");
-                            }
-                            Task.Delay(500).Wait();
+                            Tasks.loginChallengeTask.BrowserClosed(profilePath);
                             this.Invoke(new Action(() =>
                             {
-                                Directory.Delete(Path.GetFullPath(profilePath + "/Default/Network"), true);
                                 settingAllControl(true);
                             }));
                         };
                     }
-                    catch(Exception exx)
+                    catch (Exception exx)
                     {
                         Console.WriteLine(exx);
-                        outputDebug("ERROR",exx.StackTrace);
-                        MessageBox.Show(exx.Message,"錯誤",MessageBoxButtons.OK,MessageBoxIcon.Error);
+                        outputDebug("ERROR", exx.StackTrace);
+                        MessageBox.Show(exx.Message, "錯誤", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         settingAllControl(true);
                         return;
                     }
@@ -2360,7 +2346,7 @@ namespace XCoreNET
                 {
                     Process.Start(gb.getMicrosoftOAuthURL());
                 }
-                
+
                 Tasks.loginChallengeTask challenge = new Tasks.loginChallengeTask(true);
                 var result = await challenge.start();
                 // 讓視窗置頂，而不是聚焦在瀏覽器或其他地方
@@ -2397,7 +2383,7 @@ namespace XCoreNET
         private void btnLogout_Click(object sender, EventArgs e)
         {
             settingAllControl(false);
-            var result = MessageBox.Show("確定要登出嗎？","說明",MessageBoxButtons.YesNo,MessageBoxIcon.Question);
+            var result = MessageBox.Show("確定要登出嗎？", "說明", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             if (result == DialogResult.Yes)
             {
                 gb.resetTokens();
