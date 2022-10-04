@@ -150,9 +150,30 @@ namespace XCoreNET
 
             textBoxAD.Text = gb.mainFolder;
             DATA_FOLDER = gb.mainFolder;
+            try
+            {
+                Directory.CreateDirectory(DATA_FOLDER);
+                Directory.CreateDirectory(gb.PathJoin(DATA_FOLDER, ".x-instance"));
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message + Environment.NewLine + "因此替換為啟動器預設路徑。", "警告", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                createGameDefFolder();
+            }
+
+            onGetAllInstance();
+        }
+
+        private void createGameDefFolder()
+        {
+            gb.mainFolder = gb.mainFolderDefault;
+            textBoxAD.Text = gb.mainFolder;
+            DATA_FOLDER = gb.mainFolder;
             Directory.CreateDirectory(DATA_FOLDER);
             Directory.CreateDirectory(gb.PathJoin(DATA_FOLDER, ".x-instance"));
 
+
+            onGetAllVersion();
             onGetAllInstance();
         }
 
@@ -397,7 +418,6 @@ namespace XCoreNET
                     instanceList.Items.Add(dirArr.Last());
                 }
             }
-
 
             if (gb.lastInstance == null || gb.lastInstance.Length == 0 || !Directory.Exists(gb.lastInstance))
             {
@@ -826,12 +846,22 @@ namespace XCoreNET
 
         private void btnOpenFolder_Click(object sender, EventArgs e)
         {
-            Process.Start(new System.Diagnostics.ProcessStartInfo()
+            try
             {
-                FileName = DATA_FOLDER,
-                UseShellExecute = true,
-                Verb = "open"
-            });
+                Process.Start(new System.Diagnostics.ProcessStartInfo()
+                {
+                    FileName = DATA_FOLDER,
+                    UseShellExecute = true,
+                    Verb = "open"
+                });
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message + Environment.NewLine + "因此替換為啟動器預設路徑。", "警告", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                createGameDefFolder();
+                Task.Delay(1000).Wait();
+                btnOpenFolder_Click(sender, e);
+            }
         }
 
 
@@ -876,6 +906,9 @@ namespace XCoreNET
 
         private void onVersionInfo()
         {
+            if (!Directory.Exists(gb.mainFolder))
+                createGameDefFolder();
+
             customVer = null;
             settingAllControl(false);
             progressBar.Value = 0;
@@ -2588,7 +2621,12 @@ namespace XCoreNET
                     Directory.CreateDirectory(gb.PathJoin(DATA_FOLDER, ".x-instance"));
                     gb.savingSession(true);
 
+
                     onGetAllVersion();
+                    onGetAllInstance();
+
+                    instanceList.SelectedIndex = 0;
+                    gb.lastInstance = "";
                 }
             }
         }

@@ -45,45 +45,45 @@
             this.textUser = new System.Windows.Forms.TextBox();
             this.avatar = new System.Windows.Forms.PictureBox();
             this.settingPage = new System.Windows.Forms.TabPage();
-            this.groupBoxMemory = new System.Windows.Forms.GroupBox();
-            this.checkBoxMaxMem = new System.Windows.Forms.CheckBox();
-            this.trackBarMiB = new System.Windows.Forms.TrackBar();
-            this.textBoxMiB = new System.Windows.Forms.TextBox();
-            this.groupBoxVersionReload = new System.Windows.Forms.GroupBox();
-            this.btnVerRecache = new System.Windows.Forms.Button();
-            this.buttonVerReload = new System.Windows.Forms.Button();
-            this.groupBoxVersion = new System.Windows.Forms.GroupBox();
-            this.chkBoxSnapshot = new System.Windows.Forms.CheckBox();
-            this.chkBoxRelease = new System.Windows.Forms.CheckBox();
-            this.groupBoxAccount = new System.Windows.Forms.GroupBox();
-            this.btnMultiAcc = new System.Windows.Forms.Button();
-            this.btnLogout = new System.Windows.Forms.Button();
-            this.btnSwitchAcc = new System.Windows.Forms.Button();
-            this.groupBoxMainProg = new System.Windows.Forms.GroupBox();
-            this.btnChkUpdate = new System.Windows.Forms.Button();
-            this.btnMainSetting = new System.Windows.Forms.Button();
-            this.groupBoxInterval = new System.Windows.Forms.GroupBox();
-            this.chkConcurrent = new System.Windows.Forms.CheckBox();
-            this.textBoxInterval = new System.Windows.Forms.TextBox();
-            this.groupBoxInstance = new System.Windows.Forms.GroupBox();
-            this.textBoxInstance = new System.Windows.Forms.TextBox();
-            this.btnInstanceIntro = new System.Windows.Forms.Button();
-            this.btnInstanceDel = new System.Windows.Forms.Button();
-            this.btnInstanceAdd = new System.Windows.Forms.Button();
-            this.instanceList = new System.Windows.Forms.ComboBox();
+            this.panelMainSettings = new System.Windows.Forms.Panel();
             this.groupBoxDataFolder = new System.Windows.Forms.GroupBox();
             this.panelSettingsLeft = new System.Windows.Forms.Panel();
             this.btnVerifyFile = new System.Windows.Forms.Button();
             this.btnOpenFolder = new System.Windows.Forms.Button();
             this.btnChangeFolder = new System.Windows.Forms.Button();
             this.textBoxAD = new System.Windows.Forms.TextBox();
+            this.groupBoxInstance = new System.Windows.Forms.GroupBox();
+            this.textBoxInstance = new System.Windows.Forms.TextBox();
+            this.btnInstanceIntro = new System.Windows.Forms.Button();
+            this.btnInstanceDel = new System.Windows.Forms.Button();
+            this.btnInstanceAdd = new System.Windows.Forms.Button();
+            this.instanceList = new System.Windows.Forms.ComboBox();
+            this.groupBoxInterval = new System.Windows.Forms.GroupBox();
+            this.chkConcurrent = new System.Windows.Forms.CheckBox();
+            this.textBoxInterval = new System.Windows.Forms.TextBox();
+            this.groupBoxMemory = new System.Windows.Forms.GroupBox();
+            this.checkBoxMaxMem = new System.Windows.Forms.CheckBox();
+            this.trackBarMiB = new System.Windows.Forms.TrackBar();
+            this.textBoxMiB = new System.Windows.Forms.TextBox();
+            this.groupBoxMainProg = new System.Windows.Forms.GroupBox();
+            this.btnChkUpdate = new System.Windows.Forms.Button();
+            this.btnMainSetting = new System.Windows.Forms.Button();
+            this.groupBoxAccount = new System.Windows.Forms.GroupBox();
+            this.btnMultiAcc = new System.Windows.Forms.Button();
+            this.btnLogout = new System.Windows.Forms.Button();
+            this.btnSwitchAcc = new System.Windows.Forms.Button();
+            this.groupBoxVersionReload = new System.Windows.Forms.GroupBox();
+            this.btnVerRecache = new System.Windows.Forms.Button();
+            this.buttonVerReload = new System.Windows.Forms.Button();
+            this.groupBoxVersion = new System.Windows.Forms.GroupBox();
+            this.chkBoxSnapshot = new System.Windows.Forms.CheckBox();
+            this.chkBoxRelease = new System.Windows.Forms.CheckBox();
             this.debugPage = new System.Windows.Forms.TabPage();
             this.textBox = new System.Windows.Forms.TextBox();
             this.updatePage = new System.Windows.Forms.TabPage();
             this.textBoxUpdateNote = new System.Windows.Forms.RichTextBox();
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.timerConcurrent = new System.Windows.Forms.Timer(this.components);
-            this.panelMainSettings = new System.Windows.Forms.Panel();
             this.tabControl1.SuspendLayout();
             this.mainPage.SuspendLayout();
             this.panelBody.SuspendLayout();
@@ -93,19 +93,19 @@
             this.panelVersion.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.avatar)).BeginInit();
             this.settingPage.SuspendLayout();
-            this.groupBoxMemory.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.trackBarMiB)).BeginInit();
-            this.groupBoxVersionReload.SuspendLayout();
-            this.groupBoxVersion.SuspendLayout();
-            this.groupBoxAccount.SuspendLayout();
-            this.groupBoxMainProg.SuspendLayout();
-            this.groupBoxInterval.SuspendLayout();
-            this.groupBoxInstance.SuspendLayout();
+            this.panelMainSettings.SuspendLayout();
             this.groupBoxDataFolder.SuspendLayout();
             this.panelSettingsLeft.SuspendLayout();
+            this.groupBoxInstance.SuspendLayout();
+            this.groupBoxInterval.SuspendLayout();
+            this.groupBoxMemory.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBarMiB)).BeginInit();
+            this.groupBoxMainProg.SuspendLayout();
+            this.groupBoxAccount.SuspendLayout();
+            this.groupBoxVersionReload.SuspendLayout();
+            this.groupBoxVersion.SuspendLayout();
             this.debugPage.SuspendLayout();
             this.updatePage.SuspendLayout();
-            this.panelMainSettings.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -282,6 +282,189 @@
             this.settingPage.TabIndex = 2;
             this.settingPage.Text = "設定";
             // 
+            // panelMainSettings
+            // 
+            this.panelMainSettings.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.panelMainSettings.Controls.Add(this.groupBoxDataFolder);
+            this.panelMainSettings.Controls.Add(this.groupBoxInstance);
+            this.panelMainSettings.Controls.Add(this.groupBoxInterval);
+            this.panelMainSettings.Controls.Add(this.groupBoxMemory);
+            this.panelMainSettings.Controls.Add(this.groupBoxMainProg);
+            this.panelMainSettings.Controls.Add(this.groupBoxAccount);
+            this.panelMainSettings.Controls.Add(this.groupBoxVersionReload);
+            this.panelMainSettings.Controls.Add(this.groupBoxVersion);
+            this.panelMainSettings.Location = new System.Drawing.Point(3, 7);
+            this.panelMainSettings.Name = "panelMainSettings";
+            this.panelMainSettings.Size = new System.Drawing.Size(450, 284);
+            this.panelMainSettings.TabIndex = 12;
+            // 
+            // groupBoxDataFolder
+            // 
+            this.groupBoxDataFolder.Controls.Add(this.panelSettingsLeft);
+            this.groupBoxDataFolder.Location = new System.Drawing.Point(3, 3);
+            this.groupBoxDataFolder.Name = "groupBoxDataFolder";
+            this.groupBoxDataFolder.Size = new System.Drawing.Size(274, 88);
+            this.groupBoxDataFolder.TabIndex = 0;
+            this.groupBoxDataFolder.TabStop = false;
+            this.groupBoxDataFolder.Text = "Minecraft 主程式資料";
+            // 
+            // panelSettingsLeft
+            // 
+            this.panelSettingsLeft.Controls.Add(this.btnVerifyFile);
+            this.panelSettingsLeft.Controls.Add(this.btnOpenFolder);
+            this.panelSettingsLeft.Controls.Add(this.btnChangeFolder);
+            this.panelSettingsLeft.Controls.Add(this.textBoxAD);
+            this.panelSettingsLeft.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panelSettingsLeft.Location = new System.Drawing.Point(3, 21);
+            this.panelSettingsLeft.Name = "panelSettingsLeft";
+            this.panelSettingsLeft.Size = new System.Drawing.Size(268, 64);
+            this.panelSettingsLeft.TabIndex = 0;
+            // 
+            // btnVerifyFile
+            // 
+            this.btnVerifyFile.Location = new System.Drawing.Point(105, 3);
+            this.btnVerifyFile.Name = "btnVerifyFile";
+            this.btnVerifyFile.Size = new System.Drawing.Size(131, 30);
+            this.btnVerifyFile.TabIndex = 4;
+            this.btnVerifyFile.Text = "檢查資料完整性";
+            this.toolTip.SetToolTip(this.btnVerifyFile, "驗證所有資料的雜湊值，並且不啟動遊戲");
+            this.btnVerifyFile.UseVisualStyleBackColor = true;
+            this.btnVerifyFile.Click += new System.EventHandler(this.btnVerifyFile_Click);
+            // 
+            // btnOpenFolder
+            // 
+            this.btnOpenFolder.Location = new System.Drawing.Point(3, 3);
+            this.btnOpenFolder.Name = "btnOpenFolder";
+            this.btnOpenFolder.Size = new System.Drawing.Size(96, 30);
+            this.btnOpenFolder.TabIndex = 3;
+            this.btnOpenFolder.Text = "開啟資料夾";
+            this.toolTip.SetToolTip(this.btnOpenFolder, "開啟目前主程式所在的資料夾");
+            this.btnOpenFolder.UseVisualStyleBackColor = true;
+            this.btnOpenFolder.Click += new System.EventHandler(this.btnOpenFolder_Click);
+            // 
+            // btnChangeFolder
+            // 
+            this.btnChangeFolder.Location = new System.Drawing.Point(239, 38);
+            this.btnChangeFolder.Name = "btnChangeFolder";
+            this.btnChangeFolder.Size = new System.Drawing.Size(25, 23);
+            this.btnChangeFolder.TabIndex = 3;
+            this.btnChangeFolder.Text = "…";
+            this.toolTip.SetToolTip(this.btnChangeFolder, "選擇新的資料夾作為主程式資料存放位置");
+            this.btnChangeFolder.UseVisualStyleBackColor = true;
+            this.btnChangeFolder.Click += new System.EventHandler(this.btnChangeFolder_Click);
+            // 
+            // textBoxAD
+            // 
+            this.textBoxAD.BackColor = System.Drawing.SystemColors.Control;
+            this.textBoxAD.Font = new System.Drawing.Font("微軟正黑體", 9F);
+            this.textBoxAD.Location = new System.Drawing.Point(3, 38);
+            this.textBoxAD.Name = "textBoxAD";
+            this.textBoxAD.ReadOnly = true;
+            this.textBoxAD.Size = new System.Drawing.Size(233, 23);
+            this.textBoxAD.TabIndex = 2;
+            // 
+            // groupBoxInstance
+            // 
+            this.groupBoxInstance.Controls.Add(this.textBoxInstance);
+            this.groupBoxInstance.Controls.Add(this.btnInstanceIntro);
+            this.groupBoxInstance.Controls.Add(this.btnInstanceDel);
+            this.groupBoxInstance.Controls.Add(this.btnInstanceAdd);
+            this.groupBoxInstance.Controls.Add(this.instanceList);
+            this.groupBoxInstance.Location = new System.Drawing.Point(283, 3);
+            this.groupBoxInstance.Name = "groupBoxInstance";
+            this.groupBoxInstance.Size = new System.Drawing.Size(160, 88);
+            this.groupBoxInstance.TabIndex = 1;
+            this.groupBoxInstance.TabStop = false;
+            this.groupBoxInstance.Text = "啟動實例管理";
+            // 
+            // textBoxInstance
+            // 
+            this.textBoxInstance.Location = new System.Drawing.Point(6, 57);
+            this.textBoxInstance.Name = "textBoxInstance";
+            this.textBoxInstance.ReadOnly = true;
+            this.textBoxInstance.Size = new System.Drawing.Size(129, 25);
+            this.textBoxInstance.TabIndex = 4;
+            this.textBoxInstance.Click += new System.EventHandler(this.textBoxInstance_Click);
+            // 
+            // btnInstanceIntro
+            // 
+            this.btnInstanceIntro.Location = new System.Drawing.Point(108, 25);
+            this.btnInstanceIntro.Name = "btnInstanceIntro";
+            this.btnInstanceIntro.Size = new System.Drawing.Size(46, 27);
+            this.btnInstanceIntro.TabIndex = 3;
+            this.btnInstanceIntro.Text = "說明";
+            this.btnInstanceIntro.UseVisualStyleBackColor = true;
+            this.btnInstanceIntro.Click += new System.EventHandler(this.btnInstanceIntro_Click);
+            // 
+            // btnInstanceDel
+            // 
+            this.btnInstanceDel.Location = new System.Drawing.Point(57, 25);
+            this.btnInstanceDel.Name = "btnInstanceDel";
+            this.btnInstanceDel.Size = new System.Drawing.Size(46, 27);
+            this.btnInstanceDel.TabIndex = 2;
+            this.btnInstanceDel.Text = "刪除";
+            this.btnInstanceDel.UseVisualStyleBackColor = true;
+            this.btnInstanceDel.Click += new System.EventHandler(this.btnInstanceDel_Click);
+            // 
+            // btnInstanceAdd
+            // 
+            this.btnInstanceAdd.Location = new System.Drawing.Point(6, 25);
+            this.btnInstanceAdd.Name = "btnInstanceAdd";
+            this.btnInstanceAdd.Size = new System.Drawing.Size(46, 27);
+            this.btnInstanceAdd.TabIndex = 1;
+            this.btnInstanceAdd.Text = "新增";
+            this.btnInstanceAdd.UseVisualStyleBackColor = true;
+            this.btnInstanceAdd.Click += new System.EventHandler(this.btnInstanceAdd_Click);
+            // 
+            // instanceList
+            // 
+            this.instanceList.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.instanceList.FormattingEnabled = true;
+            this.instanceList.Items.AddRange(new object[] {
+            "無"});
+            this.instanceList.Location = new System.Drawing.Point(136, 57);
+            this.instanceList.Name = "instanceList";
+            this.instanceList.Size = new System.Drawing.Size(19, 25);
+            this.instanceList.TabIndex = 0;
+            this.instanceList.SelectedIndexChanged += new System.EventHandler(this.instanceList_SelectedIndexChanged);
+            // 
+            // groupBoxInterval
+            // 
+            this.groupBoxInterval.Controls.Add(this.chkConcurrent);
+            this.groupBoxInterval.Controls.Add(this.textBoxInterval);
+            this.groupBoxInterval.Location = new System.Drawing.Point(3, 226);
+            this.groupBoxInterval.Name = "groupBoxInterval";
+            this.groupBoxInterval.Size = new System.Drawing.Size(151, 53);
+            this.groupBoxInterval.TabIndex = 3;
+            this.groupBoxInterval.TabStop = false;
+            this.groupBoxInterval.Text = "執行間隔與下載模式";
+            // 
+            // chkConcurrent
+            // 
+            this.chkConcurrent.AutoSize = true;
+            this.chkConcurrent.Checked = true;
+            this.chkConcurrent.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chkConcurrent.Location = new System.Drawing.Point(62, 23);
+            this.chkConcurrent.Name = "chkConcurrent";
+            this.chkConcurrent.Size = new System.Drawing.Size(83, 22);
+            this.chkConcurrent.TabIndex = 1;
+            this.chkConcurrent.Text = "並行下載";
+            this.chkConcurrent.UseVisualStyleBackColor = true;
+            this.chkConcurrent.Click += new System.EventHandler(this.chkConcurrent_Click);
+            // 
+            // textBoxInterval
+            // 
+            this.textBoxInterval.Location = new System.Drawing.Point(6, 22);
+            this.textBoxInterval.MaxLength = 2;
+            this.textBoxInterval.Name = "textBoxInterval";
+            this.textBoxInterval.Size = new System.Drawing.Size(52, 25);
+            this.textBoxInterval.TabIndex = 0;
+            this.textBoxInterval.Text = "0";
+            this.textBoxInterval.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.toolTip.SetToolTip(this.textBoxInterval, "程式執行下載與檢查檔案時的間隔，過短的間隔可能導致渲染出現延遲");
+            this.textBoxInterval.Click += new System.EventHandler(this.textBoxInterval_Click);
+            this.textBoxInterval.KeyUp += new System.Windows.Forms.KeyEventHandler(this.textBoxInterval_KeyUp);
+            // 
             // groupBoxMemory
             // 
             this.groupBoxMemory.Controls.Add(this.checkBoxMaxMem);
@@ -326,6 +509,79 @@
             this.textBoxMiB.TabIndex = 11;
             this.textBoxMiB.KeyUp += new System.Windows.Forms.KeyEventHandler(this.textBoxMiB_KeyUp);
             this.textBoxMiB.Leave += new System.EventHandler(this.textBoxMiB_Leave);
+            // 
+            // groupBoxMainProg
+            // 
+            this.groupBoxMainProg.Controls.Add(this.btnChkUpdate);
+            this.groupBoxMainProg.Controls.Add(this.btnMainSetting);
+            this.groupBoxMainProg.Location = new System.Drawing.Point(160, 97);
+            this.groupBoxMainProg.Name = "groupBoxMainProg";
+            this.groupBoxMainProg.Size = new System.Drawing.Size(95, 93);
+            this.groupBoxMainProg.TabIndex = 6;
+            this.groupBoxMainProg.TabStop = false;
+            this.groupBoxMainProg.Text = "啟動器選項";
+            // 
+            // btnChkUpdate
+            // 
+            this.btnChkUpdate.Location = new System.Drawing.Point(7, 22);
+            this.btnChkUpdate.Name = "btnChkUpdate";
+            this.btnChkUpdate.Size = new System.Drawing.Size(82, 28);
+            this.btnChkUpdate.TabIndex = 5;
+            this.btnChkUpdate.Text = "檢查更新";
+            this.btnChkUpdate.UseVisualStyleBackColor = true;
+            this.btnChkUpdate.Click += new System.EventHandler(this.btnChkUpdate_Click);
+            // 
+            // btnMainSetting
+            // 
+            this.btnMainSetting.Location = new System.Drawing.Point(7, 57);
+            this.btnMainSetting.Name = "btnMainSetting";
+            this.btnMainSetting.Size = new System.Drawing.Size(82, 28);
+            this.btnMainSetting.TabIndex = 4;
+            this.btnMainSetting.Text = "系統設定";
+            this.btnMainSetting.UseVisualStyleBackColor = true;
+            this.btnMainSetting.Click += new System.EventHandler(this.btnMainSetting_Click);
+            // 
+            // groupBoxAccount
+            // 
+            this.groupBoxAccount.Controls.Add(this.btnMultiAcc);
+            this.groupBoxAccount.Controls.Add(this.btnLogout);
+            this.groupBoxAccount.Controls.Add(this.btnSwitchAcc);
+            this.groupBoxAccount.Location = new System.Drawing.Point(3, 97);
+            this.groupBoxAccount.Name = "groupBoxAccount";
+            this.groupBoxAccount.Size = new System.Drawing.Size(151, 125);
+            this.groupBoxAccount.TabIndex = 7;
+            this.groupBoxAccount.TabStop = false;
+            this.groupBoxAccount.Text = "帳號選項";
+            // 
+            // btnMultiAcc
+            // 
+            this.btnMultiAcc.Location = new System.Drawing.Point(6, 57);
+            this.btnMultiAcc.Name = "btnMultiAcc";
+            this.btnMultiAcc.Size = new System.Drawing.Size(139, 28);
+            this.btnMultiAcc.TabIndex = 10;
+            this.btnMultiAcc.Text = "多帳號管理";
+            this.btnMultiAcc.UseVisualStyleBackColor = true;
+            this.btnMultiAcc.Click += new System.EventHandler(this.btnMultiAcc_Click);
+            // 
+            // btnLogout
+            // 
+            this.btnLogout.Location = new System.Drawing.Point(6, 91);
+            this.btnLogout.Name = "btnLogout";
+            this.btnLogout.Size = new System.Drawing.Size(139, 28);
+            this.btnLogout.TabIndex = 1;
+            this.btnLogout.Text = "登出此帳號";
+            this.btnLogout.UseVisualStyleBackColor = true;
+            this.btnLogout.Click += new System.EventHandler(this.btnLogout_Click);
+            // 
+            // btnSwitchAcc
+            // 
+            this.btnSwitchAcc.Location = new System.Drawing.Point(6, 22);
+            this.btnSwitchAcc.Name = "btnSwitchAcc";
+            this.btnSwitchAcc.Size = new System.Drawing.Size(139, 28);
+            this.btnSwitchAcc.TabIndex = 0;
+            this.btnSwitchAcc.Text = "新增帳號";
+            this.btnSwitchAcc.UseVisualStyleBackColor = true;
+            this.btnSwitchAcc.Click += new System.EventHandler(this.btnSwitchAcc_Click);
             // 
             // groupBoxVersionReload
             // 
@@ -393,246 +649,6 @@
             this.chkBoxRelease.UseVisualStyleBackColor = true;
             this.chkBoxRelease.Click += new System.EventHandler(this.chkBoxRelease_Click);
             // 
-            // groupBoxAccount
-            // 
-            this.groupBoxAccount.Controls.Add(this.btnMultiAcc);
-            this.groupBoxAccount.Controls.Add(this.btnLogout);
-            this.groupBoxAccount.Controls.Add(this.btnSwitchAcc);
-            this.groupBoxAccount.Location = new System.Drawing.Point(3, 97);
-            this.groupBoxAccount.Name = "groupBoxAccount";
-            this.groupBoxAccount.Size = new System.Drawing.Size(151, 125);
-            this.groupBoxAccount.TabIndex = 7;
-            this.groupBoxAccount.TabStop = false;
-            this.groupBoxAccount.Text = "帳號選項";
-            // 
-            // btnMultiAcc
-            // 
-            this.btnMultiAcc.Location = new System.Drawing.Point(6, 57);
-            this.btnMultiAcc.Name = "btnMultiAcc";
-            this.btnMultiAcc.Size = new System.Drawing.Size(139, 28);
-            this.btnMultiAcc.TabIndex = 10;
-            this.btnMultiAcc.Text = "多帳號管理";
-            this.btnMultiAcc.UseVisualStyleBackColor = true;
-            this.btnMultiAcc.Click += new System.EventHandler(this.btnMultiAcc_Click);
-            // 
-            // btnLogout
-            // 
-            this.btnLogout.Location = new System.Drawing.Point(6, 91);
-            this.btnLogout.Name = "btnLogout";
-            this.btnLogout.Size = new System.Drawing.Size(139, 28);
-            this.btnLogout.TabIndex = 1;
-            this.btnLogout.Text = "登出此帳號";
-            this.btnLogout.UseVisualStyleBackColor = true;
-            this.btnLogout.Click += new System.EventHandler(this.btnLogout_Click);
-            // 
-            // btnSwitchAcc
-            // 
-            this.btnSwitchAcc.Location = new System.Drawing.Point(6, 22);
-            this.btnSwitchAcc.Name = "btnSwitchAcc";
-            this.btnSwitchAcc.Size = new System.Drawing.Size(139, 28);
-            this.btnSwitchAcc.TabIndex = 0;
-            this.btnSwitchAcc.Text = "新增帳號";
-            this.btnSwitchAcc.UseVisualStyleBackColor = true;
-            this.btnSwitchAcc.Click += new System.EventHandler(this.btnSwitchAcc_Click);
-            // 
-            // groupBoxMainProg
-            // 
-            this.groupBoxMainProg.Controls.Add(this.btnChkUpdate);
-            this.groupBoxMainProg.Controls.Add(this.btnMainSetting);
-            this.groupBoxMainProg.Location = new System.Drawing.Point(160, 97);
-            this.groupBoxMainProg.Name = "groupBoxMainProg";
-            this.groupBoxMainProg.Size = new System.Drawing.Size(95, 93);
-            this.groupBoxMainProg.TabIndex = 6;
-            this.groupBoxMainProg.TabStop = false;
-            this.groupBoxMainProg.Text = "啟動器選項";
-            // 
-            // btnChkUpdate
-            // 
-            this.btnChkUpdate.Location = new System.Drawing.Point(7, 22);
-            this.btnChkUpdate.Name = "btnChkUpdate";
-            this.btnChkUpdate.Size = new System.Drawing.Size(82, 28);
-            this.btnChkUpdate.TabIndex = 5;
-            this.btnChkUpdate.Text = "檢查更新";
-            this.btnChkUpdate.UseVisualStyleBackColor = true;
-            this.btnChkUpdate.Click += new System.EventHandler(this.btnChkUpdate_Click);
-            // 
-            // btnMainSetting
-            // 
-            this.btnMainSetting.Location = new System.Drawing.Point(7, 57);
-            this.btnMainSetting.Name = "btnMainSetting";
-            this.btnMainSetting.Size = new System.Drawing.Size(82, 28);
-            this.btnMainSetting.TabIndex = 4;
-            this.btnMainSetting.Text = "系統設定";
-            this.btnMainSetting.UseVisualStyleBackColor = true;
-            this.btnMainSetting.Click += new System.EventHandler(this.btnMainSetting_Click);
-            // 
-            // groupBoxInterval
-            // 
-            this.groupBoxInterval.Controls.Add(this.chkConcurrent);
-            this.groupBoxInterval.Controls.Add(this.textBoxInterval);
-            this.groupBoxInterval.Location = new System.Drawing.Point(3, 226);
-            this.groupBoxInterval.Name = "groupBoxInterval";
-            this.groupBoxInterval.Size = new System.Drawing.Size(151, 53);
-            this.groupBoxInterval.TabIndex = 3;
-            this.groupBoxInterval.TabStop = false;
-            this.groupBoxInterval.Text = "執行間隔與下載模式";
-            // 
-            // chkConcurrent
-            // 
-            this.chkConcurrent.AutoSize = true;
-            this.chkConcurrent.Checked = true;
-            this.chkConcurrent.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkConcurrent.Location = new System.Drawing.Point(62, 23);
-            this.chkConcurrent.Name = "chkConcurrent";
-            this.chkConcurrent.Size = new System.Drawing.Size(83, 22);
-            this.chkConcurrent.TabIndex = 1;
-            this.chkConcurrent.Text = "並行下載";
-            this.chkConcurrent.UseVisualStyleBackColor = true;
-            this.chkConcurrent.Click += new System.EventHandler(this.chkConcurrent_Click);
-            // 
-            // textBoxInterval
-            // 
-            this.textBoxInterval.Location = new System.Drawing.Point(6, 22);
-            this.textBoxInterval.MaxLength = 2;
-            this.textBoxInterval.Name = "textBoxInterval";
-            this.textBoxInterval.Size = new System.Drawing.Size(52, 25);
-            this.textBoxInterval.TabIndex = 0;
-            this.textBoxInterval.Text = "0";
-            this.textBoxInterval.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.toolTip.SetToolTip(this.textBoxInterval, "程式執行下載與檢查檔案時的間隔，過短的間隔可能導致渲染出現延遲");
-            this.textBoxInterval.Click += new System.EventHandler(this.textBoxInterval_Click);
-            this.textBoxInterval.KeyUp += new System.Windows.Forms.KeyEventHandler(this.textBoxInterval_KeyUp);
-            // 
-            // groupBoxInstance
-            // 
-            this.groupBoxInstance.Controls.Add(this.textBoxInstance);
-            this.groupBoxInstance.Controls.Add(this.btnInstanceIntro);
-            this.groupBoxInstance.Controls.Add(this.btnInstanceDel);
-            this.groupBoxInstance.Controls.Add(this.btnInstanceAdd);
-            this.groupBoxInstance.Controls.Add(this.instanceList);
-            this.groupBoxInstance.Location = new System.Drawing.Point(283, 3);
-            this.groupBoxInstance.Name = "groupBoxInstance";
-            this.groupBoxInstance.Size = new System.Drawing.Size(160, 88);
-            this.groupBoxInstance.TabIndex = 1;
-            this.groupBoxInstance.TabStop = false;
-            this.groupBoxInstance.Text = "啟動實例管理";
-            // 
-            // textBoxInstance
-            // 
-            this.textBoxInstance.Location = new System.Drawing.Point(6, 57);
-            this.textBoxInstance.Name = "textBoxInstance";
-            this.textBoxInstance.ReadOnly = true;
-            this.textBoxInstance.Size = new System.Drawing.Size(129, 25);
-            this.textBoxInstance.TabIndex = 4;
-            this.textBoxInstance.Click += new System.EventHandler(this.textBoxInstance_Click);
-            // 
-            // btnInstanceIntro
-            // 
-            this.btnInstanceIntro.Location = new System.Drawing.Point(108, 25);
-            this.btnInstanceIntro.Name = "btnInstanceIntro";
-            this.btnInstanceIntro.Size = new System.Drawing.Size(46, 27);
-            this.btnInstanceIntro.TabIndex = 3;
-            this.btnInstanceIntro.Text = "說明";
-            this.btnInstanceIntro.UseVisualStyleBackColor = true;
-            this.btnInstanceIntro.Click += new System.EventHandler(this.btnInstanceIntro_Click);
-            // 
-            // btnInstanceDel
-            // 
-            this.btnInstanceDel.Location = new System.Drawing.Point(57, 25);
-            this.btnInstanceDel.Name = "btnInstanceDel";
-            this.btnInstanceDel.Size = new System.Drawing.Size(46, 27);
-            this.btnInstanceDel.TabIndex = 2;
-            this.btnInstanceDel.Text = "刪除";
-            this.btnInstanceDel.UseVisualStyleBackColor = true;
-            this.btnInstanceDel.Click += new System.EventHandler(this.btnInstanceDel_Click);
-            // 
-            // btnInstanceAdd
-            // 
-            this.btnInstanceAdd.Location = new System.Drawing.Point(6, 25);
-            this.btnInstanceAdd.Name = "btnInstanceAdd";
-            this.btnInstanceAdd.Size = new System.Drawing.Size(46, 27);
-            this.btnInstanceAdd.TabIndex = 1;
-            this.btnInstanceAdd.Text = "新增";
-            this.btnInstanceAdd.UseVisualStyleBackColor = true;
-            this.btnInstanceAdd.Click += new System.EventHandler(this.btnInstanceAdd_Click);
-            // 
-            // instanceList
-            // 
-            this.instanceList.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.instanceList.FormattingEnabled = true;
-            this.instanceList.Items.AddRange(new object[] {
-            "無"});
-            this.instanceList.Location = new System.Drawing.Point(136, 57);
-            this.instanceList.Name = "instanceList";
-            this.instanceList.Size = new System.Drawing.Size(19, 25);
-            this.instanceList.TabIndex = 0;
-            this.instanceList.SelectedIndexChanged += new System.EventHandler(this.instanceList_SelectedIndexChanged);
-            // 
-            // groupBoxDataFolder
-            // 
-            this.groupBoxDataFolder.Controls.Add(this.panelSettingsLeft);
-            this.groupBoxDataFolder.Location = new System.Drawing.Point(3, 3);
-            this.groupBoxDataFolder.Name = "groupBoxDataFolder";
-            this.groupBoxDataFolder.Size = new System.Drawing.Size(274, 88);
-            this.groupBoxDataFolder.TabIndex = 0;
-            this.groupBoxDataFolder.TabStop = false;
-            this.groupBoxDataFolder.Text = "Minecraft 主程式資料";
-            // 
-            // panelSettingsLeft
-            // 
-            this.panelSettingsLeft.Controls.Add(this.btnVerifyFile);
-            this.panelSettingsLeft.Controls.Add(this.btnOpenFolder);
-            this.panelSettingsLeft.Controls.Add(this.btnChangeFolder);
-            this.panelSettingsLeft.Controls.Add(this.textBoxAD);
-            this.panelSettingsLeft.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelSettingsLeft.Location = new System.Drawing.Point(3, 21);
-            this.panelSettingsLeft.Name = "panelSettingsLeft";
-            this.panelSettingsLeft.Size = new System.Drawing.Size(268, 64);
-            this.panelSettingsLeft.TabIndex = 0;
-            // 
-            // btnVerifyFile
-            // 
-            this.btnVerifyFile.Location = new System.Drawing.Point(105, 3);
-            this.btnVerifyFile.Name = "btnVerifyFile";
-            this.btnVerifyFile.Size = new System.Drawing.Size(131, 30);
-            this.btnVerifyFile.TabIndex = 4;
-            this.btnVerifyFile.Text = "檢查資料完整性";
-            this.toolTip.SetToolTip(this.btnVerifyFile, "驗證所有資料的雜湊值，並且不啟動遊戲");
-            this.btnVerifyFile.UseVisualStyleBackColor = true;
-            this.btnVerifyFile.Click += new System.EventHandler(this.btnVerifyFile_Click);
-            // 
-            // btnOpenFolder
-            // 
-            this.btnOpenFolder.Location = new System.Drawing.Point(3, 3);
-            this.btnOpenFolder.Name = "btnOpenFolder";
-            this.btnOpenFolder.Size = new System.Drawing.Size(96, 30);
-            this.btnOpenFolder.TabIndex = 3;
-            this.btnOpenFolder.Text = "開啟資料夾";
-            this.toolTip.SetToolTip(this.btnOpenFolder, "開啟目前主程式所在的資料夾");
-            this.btnOpenFolder.UseVisualStyleBackColor = true;
-            this.btnOpenFolder.Click += new System.EventHandler(this.btnOpenFolder_Click);
-            // 
-            // btnChangeFolder
-            // 
-            this.btnChangeFolder.Location = new System.Drawing.Point(239, 38);
-            this.btnChangeFolder.Name = "btnChangeFolder";
-            this.btnChangeFolder.Size = new System.Drawing.Size(25, 23);
-            this.btnChangeFolder.TabIndex = 3;
-            this.btnChangeFolder.Text = "…";
-            this.toolTip.SetToolTip(this.btnChangeFolder, "選擇新的資料夾作為主程式資料存放位置");
-            this.btnChangeFolder.UseVisualStyleBackColor = true;
-            this.btnChangeFolder.Click += new System.EventHandler(this.btnChangeFolder_Click);
-            // 
-            // textBoxAD
-            // 
-            this.textBoxAD.BackColor = System.Drawing.SystemColors.Control;
-            this.textBoxAD.Font = new System.Drawing.Font("微軟正黑體", 9F);
-            this.textBoxAD.Location = new System.Drawing.Point(3, 38);
-            this.textBoxAD.Name = "textBoxAD";
-            this.textBoxAD.ReadOnly = true;
-            this.textBoxAD.Size = new System.Drawing.Size(233, 23);
-            this.textBoxAD.TabIndex = 2;
-            // 
             // debugPage
             // 
             this.debugPage.Controls.Add(this.textBox);
@@ -682,22 +698,6 @@
             // 
             this.timerConcurrent.Tick += new System.EventHandler(this.timerConcurrent_Tick);
             // 
-            // panelMainSettings
-            // 
-            this.panelMainSettings.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.panelMainSettings.Controls.Add(this.groupBoxDataFolder);
-            this.panelMainSettings.Controls.Add(this.groupBoxInstance);
-            this.panelMainSettings.Controls.Add(this.groupBoxInterval);
-            this.panelMainSettings.Controls.Add(this.groupBoxMemory);
-            this.panelMainSettings.Controls.Add(this.groupBoxMainProg);
-            this.panelMainSettings.Controls.Add(this.groupBoxAccount);
-            this.panelMainSettings.Controls.Add(this.groupBoxVersionReload);
-            this.panelMainSettings.Controls.Add(this.groupBoxVersion);
-            this.panelMainSettings.Location = new System.Drawing.Point(3, 7);
-            this.panelMainSettings.Name = "panelMainSettings";
-            this.panelMainSettings.Size = new System.Drawing.Size(450, 284);
-            this.panelMainSettings.TabIndex = 12;
-            // 
             // minecraftForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -728,25 +728,25 @@
             this.panelVersion.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.avatar)).EndInit();
             this.settingPage.ResumeLayout(false);
-            this.groupBoxMemory.ResumeLayout(false);
-            this.groupBoxMemory.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.trackBarMiB)).EndInit();
-            this.groupBoxVersionReload.ResumeLayout(false);
-            this.groupBoxVersion.ResumeLayout(false);
-            this.groupBoxVersion.PerformLayout();
-            this.groupBoxAccount.ResumeLayout(false);
-            this.groupBoxMainProg.ResumeLayout(false);
-            this.groupBoxInterval.ResumeLayout(false);
-            this.groupBoxInterval.PerformLayout();
-            this.groupBoxInstance.ResumeLayout(false);
-            this.groupBoxInstance.PerformLayout();
+            this.panelMainSettings.ResumeLayout(false);
             this.groupBoxDataFolder.ResumeLayout(false);
             this.panelSettingsLeft.ResumeLayout(false);
             this.panelSettingsLeft.PerformLayout();
+            this.groupBoxInstance.ResumeLayout(false);
+            this.groupBoxInstance.PerformLayout();
+            this.groupBoxInterval.ResumeLayout(false);
+            this.groupBoxInterval.PerformLayout();
+            this.groupBoxMemory.ResumeLayout(false);
+            this.groupBoxMemory.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBarMiB)).EndInit();
+            this.groupBoxMainProg.ResumeLayout(false);
+            this.groupBoxAccount.ResumeLayout(false);
+            this.groupBoxVersionReload.ResumeLayout(false);
+            this.groupBoxVersion.ResumeLayout(false);
+            this.groupBoxVersion.PerformLayout();
             this.debugPage.ResumeLayout(false);
             this.debugPage.PerformLayout();
             this.updatePage.ResumeLayout(false);
-            this.panelMainSettings.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }

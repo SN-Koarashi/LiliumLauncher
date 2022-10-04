@@ -29,6 +29,7 @@ namespace Global
         public static string lastInstance = "";
         public static string mainFolderName = ".minecraft-xcorenet";
         public static string mainFolder = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + Path.DirectorySeparatorChar + mainFolderName;
+        public static readonly string mainFolderDefault = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + Path.DirectorySeparatorChar + mainFolderName;
         public static string azureToken = "";
         public static string launchToken = "";
         public static string refreshToken = "";
