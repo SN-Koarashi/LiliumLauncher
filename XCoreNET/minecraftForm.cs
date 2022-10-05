@@ -2342,7 +2342,6 @@ namespace XCoreNET
             if (resultDialog != DialogResult.Cancel)
             {
                 BrowserInfoModel bim = Tasks.loginChallengeTask.DeterminePath();
-
                 if (Tasks.loginChallengeTask.SupportBrowser(bim))
                 {
                     try
@@ -2740,6 +2739,11 @@ namespace XCoreNET
                 {
                     onRefreshToken(gb.refreshToken);
                 }
+                tabControl1.SelectedIndex = 0;
+            }
+            else if (result == DialogResult.Abort)
+            {
+                onRefreshToken(gb.refreshToken);
                 tabControl1.SelectedIndex = 0;
             }
 

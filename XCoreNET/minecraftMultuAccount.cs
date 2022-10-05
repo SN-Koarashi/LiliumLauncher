@@ -56,10 +56,23 @@ namespace XCoreNET
 
                 if (item.Key.Equals(gb.minecraftUUID))
                 {
-                    btnSwitch.Enabled = false;
                     btnDel.Enabled = false;
                     username.SelectionStart = username.TextLength;
                     username.SelectionLength = 0;
+
+                    btnSwitch.Text = "刷新";
+                    btnSwitch.Click += (senderx, ex) =>
+                    {
+                        gb.refreshToken = item.Value.refreshToken;
+                        gb.launchToken = item.Value.accessToken;
+                        gb.launchTokenExpiresAt = item.Value.expiresAt;
+                        gb.minecraftUsername = item.Value.username;
+                        gb.minecraftUUID = item.Key;
+
+                        this.DialogResult = DialogResult.Abort;
+                    };
+
+                    toolTip.SetToolTip(btnSwitch, "刷新目前帳號的登入權杖，可以解決一些伺服器或服務無法登入的問題");
                 }
                 else
                 {
@@ -83,6 +96,9 @@ namespace XCoreNET
                             DrawingAccountList();
                         }
                     };
+
+                    toolTip.SetToolTip(btnSwitch, "切換至此帳號並取得新的登入權杖");
+                    toolTip.SetToolTip(btnDel, "從多帳號管理中刪除此帳號的紀錄");
                 }
 
                 k++;
