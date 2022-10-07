@@ -868,13 +868,16 @@ namespace XCoreNET
         private delegate void DelSettingAllControl(bool isEnabled);
         private void settingAllControl(bool isEnabled)
         {
+            btnVerifyFile.Enabled = isEnabled;
+            btnChangeFolder.Enabled = isEnabled;
             btnLaunch.Enabled = isEnabled;
+            textBoxAD.Enabled = isEnabled;
             textStatus.Enabled = isEnabled;
             textVersionSelected.Enabled = isEnabled;
+            groupBoxDataFolder.Enabled = isEnabled;
             groupBoxMainProg.Enabled = isEnabled;
             groupBoxAccount.Enabled = isEnabled;
             groupBoxVersion.Enabled = isEnabled;
-            groupBoxDataFolder.Enabled = isEnabled;
             groupBoxInterval.Enabled = isEnabled;
             groupBoxVersionReload.Enabled = isEnabled;
             groupBoxMemory.Enabled = isEnabled;
@@ -888,6 +891,13 @@ namespace XCoreNET
                 downloadList.Clear();
                 nativesList.Clear();
                 librariesList.Clear();
+            }
+        }
+        private void settingAllControl(bool isEnabled, bool unlockOpenFolder) {
+            settingAllControl(isEnabled);
+            if (unlockOpenFolder)
+            {
+                groupBoxDataFolder.Enabled = !isEnabled;
             }
         }
 
@@ -2152,6 +2162,7 @@ namespace XCoreNET
                 trayIcon.ContextMenuStrip.Items[trayIcon.ContextMenuStrip.Items.Count - 2].Enabled = true;
                 trayIcon.ContextMenuStrip.Items[trayIcon.ContextMenuStrip.Items.Count - 2].Click += handler;
 
+                settingAllControl(false, true);
 
                 // 舊版本(pre-1.6)會在遊戲關閉時依附於啟動器之下，導致無法完全關閉，此時需要強制結束處理程序
                 proc.OutputDataReceived += (sender, args) =>
