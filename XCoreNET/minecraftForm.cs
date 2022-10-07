@@ -557,7 +557,7 @@ namespace XCoreNET
                 MessageBox.Show(bearer["error_description"].ToString(), "錯誤", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
                 FormCollection fc = Application.OpenForms;
-                if (fc[0].Name == this.Name)
+                if (fc != null && fc.Count > 0 && fc[0].Name == this.Name)
                 {
                     System.Diagnostics.Process.Start(Application.ExecutablePath);
                     Environment.Exit(0);
@@ -589,7 +589,7 @@ namespace XCoreNET
                 MessageBox.Show(result["error_description"].ToString(), "錯誤", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
                 FormCollection fc = Application.OpenForms;
-                if (fc[0].Name == this.Name)
+                if (fc != null && fc.Count > 0 && fc[0].Name == this.Name)
                 {
                     System.Diagnostics.Process.Start(Application.ExecutablePath);
                     Environment.Exit(0);
@@ -645,7 +645,7 @@ namespace XCoreNET
                 }
 
                 FormCollection fc = Application.OpenForms;
-                if (fc[0].Name == this.Name)
+                if (fc != null && fc.Count > 0 && fc[0].Name == this.Name)
                 {
                     System.Diagnostics.Process.Start(Application.ExecutablePath);
                     Environment.Exit(0);
@@ -698,7 +698,7 @@ namespace XCoreNET
             {
                 MessageBox.Show("此帳號沒有購買 Minecraft", "錯誤", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 FormCollection fc = Application.OpenForms;
-                if (fc[0].Name == this.Name)
+                if (fc != null && fc.Count > 0 && fc[0].Name == this.Name)
                 {
                     System.Diagnostics.Process.Start(Application.ExecutablePath);
                     Environment.Exit(0);
@@ -726,7 +726,7 @@ namespace XCoreNET
             {
                 MessageBox.Show("此帳號沒有購買 Minecraft", "錯誤", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 FormCollection fc = Application.OpenForms;
-                if (fc[0].Name == this.Name)
+                if (fc != null && fc.Count > 0 && fc[0].Name == this.Name)
                 {
                     System.Diagnostics.Process.Start(Application.ExecutablePath);
                     Environment.Exit(0);
@@ -2423,7 +2423,7 @@ namespace XCoreNET
 
                 FormCollection fc = Application.OpenForms;
 
-                if (fc[0].Name == this.Name)
+                if (fc != null && fc.Count > 0 && fc[0].Name == this.Name)
                 {
                     System.Diagnostics.Process.Start(Application.ExecutablePath);
                     Environment.Exit(0);
