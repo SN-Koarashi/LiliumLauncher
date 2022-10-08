@@ -11,6 +11,7 @@ namespace XCoreNET
     {
         bool wantLaunch = false;
         bool isWebViewDisposed = false;
+        bool isForced = false;
 
         public main()
         {
@@ -27,6 +28,10 @@ namespace XCoreNET
                 {
                     isWebViewDisposed = true;
                 }
+                if (arg.ToLower().Equals("-forcechat"))
+                {
+                    isForced = true;
+                }
             }
 
             InitializeComponent();
@@ -36,6 +41,12 @@ namespace XCoreNET
         public void InitialzeMain()
         {
             this.DoubleBuffered = true;
+
+            if (isForced) {
+                minecraftMenu.Visible = false;
+                minecraftLaunchMenu.Visible = false;
+                systemSettingsMenu.Visible = false;
+            }
         }
 
         private void Form1_Load(object sender, EventArgs e)

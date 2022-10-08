@@ -73,6 +73,7 @@ namespace XCoreNET
             else
             {
                 bool onlyLauncher = false;
+                bool forceWebChat = false;
                 foreach (var arg in args)
                 {
                     if (arg.ToLower().Equals("-launcher"))
@@ -80,9 +81,16 @@ namespace XCoreNET
                         Console.WriteLine("初始化啟動器進入點");
                         onlyLauncher = true;
                     }
+                    if (arg.ToLower().Equals("-forcechat"))
+                    {
+                        forceWebChat = true;
+                    }
                 }
 
-                if (onlyLauncher)
+
+                if(forceWebChat)
+                    Application.Run(new main(args));
+                else if (onlyLauncher)
                     Application.Run(new minecraftForm(args));
                 else
                     Application.Run(new main(args));
