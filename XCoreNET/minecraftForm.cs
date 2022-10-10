@@ -2482,6 +2482,7 @@ namespace XCoreNET
         private void buttonVerReload_Click(object sender, EventArgs e)
         {
             onGetAllVersion();
+            onGetAllInstance();
         }
 
         private void trackBarMiB_Scroll(object sender, EventArgs e)
@@ -2561,6 +2562,7 @@ namespace XCoreNET
             settingAllControl(false);
             version_manifest_v2 = (JArray)(await launcher.getAllVersion())["versions"];
             onGetAllVersion();
+            onGetAllInstance();
             settingAllControl(true);
         }
 

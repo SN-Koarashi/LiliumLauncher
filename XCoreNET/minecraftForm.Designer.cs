@@ -601,6 +601,7 @@
             this.btnVerRecache.Size = new System.Drawing.Size(80, 28);
             this.btnVerRecache.TabIndex = 1;
             this.btnVerRecache.Text = "重新快取";
+            this.toolTip.SetToolTip(this.btnVerRecache, "向 Mojang 重新快取版本列表及重新載入啟動實例列表");
             this.btnVerRecache.UseVisualStyleBackColor = true;
             this.btnVerRecache.Click += new System.EventHandler(this.btnVerRecache_Click);
             // 
@@ -611,6 +612,7 @@
             this.buttonVerReload.Size = new System.Drawing.Size(80, 28);
             this.buttonVerReload.TabIndex = 0;
             this.buttonVerReload.Text = "重新載入";
+            this.toolTip.SetToolTip(this.buttonVerReload, "重新載入版本列表及啟動實例列表");
             this.buttonVerReload.UseVisualStyleBackColor = true;
             this.buttonVerReload.Click += new System.EventHandler(this.buttonVerReload_Click);
             // 
