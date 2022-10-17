@@ -554,7 +554,9 @@ namespace XCoreNET
             }
             else
             {
+                gb.resetTokens();
                 MessageBox.Show(bearer["error_description"].ToString(), "錯誤", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                gb.savingSession(true);
 
                 FormCollection fc = Application.OpenForms;
                 if (fc != null && fc.Count > 0 && fc[0].Name == this.Name)
@@ -586,7 +588,9 @@ namespace XCoreNET
 
             if (result.ContainsKey("error"))
             {
+                gb.resetTokens();
                 MessageBox.Show(result["error_description"].ToString(), "錯誤", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                gb.savingSession(true);
 
                 FormCollection fc = Application.OpenForms;
                 if (fc != null && fc.Count > 0 && fc[0].Name == this.Name)
