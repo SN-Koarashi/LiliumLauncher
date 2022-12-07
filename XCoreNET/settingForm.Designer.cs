@@ -39,9 +39,9 @@
             this.textBox2 = new System.Windows.Forms.TextBox();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.radLauncherDef = new System.Windows.Forms.RadioButton();
-            this.radLauncherWebView = new System.Windows.Forms.RadioButton();
             this.radLauncherBrowser = new System.Windows.Forms.RadioButton();
+            this.radLauncherWebView = new System.Windows.Forms.RadioButton();
+            this.radLauncherDef = new System.Windows.Forms.RadioButton();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -163,18 +163,17 @@
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "啟動器登入方式";
             // 
-            // radLauncherDef
+            // radLauncherBrowser
             // 
-            this.radLauncherDef.AutoSize = true;
-            this.radLauncherDef.Checked = true;
-            this.radLauncherDef.Location = new System.Drawing.Point(7, 20);
-            this.radLauncherDef.Name = "radLauncherDef";
-            this.radLauncherDef.Size = new System.Drawing.Size(166, 16);
-            this.radLauncherDef.TabIndex = 0;
-            this.radLauncherDef.TabStop = true;
-            this.radLauncherDef.Text = "預設 (依條件詢問啟動方式)";
-            this.radLauncherDef.UseVisualStyleBackColor = true;
-            this.radLauncherDef.Click += new System.EventHandler(this.radLauncherDef_Click);
+            this.radLauncherBrowser.AutoSize = true;
+            this.radLauncherBrowser.Location = new System.Drawing.Point(7, 65);
+            this.radLauncherBrowser.Name = "radLauncherBrowser";
+            this.radLauncherBrowser.Size = new System.Drawing.Size(143, 16);
+            this.radLauncherBrowser.TabIndex = 5;
+            this.radLauncherBrowser.TabStop = true;
+            this.radLauncherBrowser.Text = "永遠以原生瀏覽器登入";
+            this.radLauncherBrowser.UseVisualStyleBackColor = true;
+            this.radLauncherBrowser.Click += new System.EventHandler(this.radLauncherBrowser_Click);
             // 
             // radLauncherWebView
             // 
@@ -188,17 +187,18 @@
             this.radLauncherWebView.UseVisualStyleBackColor = true;
             this.radLauncherWebView.Click += new System.EventHandler(this.radLauncherWebView_Click);
             // 
-            // radLauncherBrowser
+            // radLauncherDef
             // 
-            this.radLauncherBrowser.AutoSize = true;
-            this.radLauncherBrowser.Location = new System.Drawing.Point(7, 65);
-            this.radLauncherBrowser.Name = "radLauncherBrowser";
-            this.radLauncherBrowser.Size = new System.Drawing.Size(143, 16);
-            this.radLauncherBrowser.TabIndex = 5;
-            this.radLauncherBrowser.TabStop = true;
-            this.radLauncherBrowser.Text = "永遠以原生瀏覽器登入";
-            this.radLauncherBrowser.UseVisualStyleBackColor = true;
-            this.radLauncherBrowser.Click += new System.EventHandler(this.radLauncherBrowser_Click);
+            this.radLauncherDef.AutoSize = true;
+            this.radLauncherDef.Checked = true;
+            this.radLauncherDef.Location = new System.Drawing.Point(7, 20);
+            this.radLauncherDef.Name = "radLauncherDef";
+            this.radLauncherDef.Size = new System.Drawing.Size(166, 16);
+            this.radLauncherDef.TabIndex = 0;
+            this.radLauncherDef.TabStop = true;
+            this.radLauncherDef.Text = "預設 (依條件詢問啟動方式)";
+            this.radLauncherDef.UseVisualStyleBackColor = true;
+            this.radLauncherDef.Click += new System.EventHandler(this.radLauncherDef_Click);
             // 
             // settingForm
             // 

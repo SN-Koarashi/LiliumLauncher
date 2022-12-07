@@ -313,6 +313,7 @@ namespace Global
             return maxWidth;
         }
 
+        // https://stackoverflow.com/questions/7568147/compare-version-numbers-without-using-split-function
         public static int CompareVersionStrings(string v1, string v2)
         {
             int rc = -1000;
@@ -331,7 +332,24 @@ namespace Global
                 if (v2parts.Length < i + 1)
                     break; // we're done here
 
-                rc = String.Compare(v1parts[i], v2parts[i], StringComparison.Ordinal);
+                string v1Token = v1parts[i];
+                string v2Token = v2parts[i];
+
+                int x;
+                bool v1Numeric = int.TryParse(v1Token, out x);
+                bool v2Numeric = int.TryParse(v2Token, out x);
+
+                // handle scenario {"2" versus "20"} by prepending zeroes, e.g. it would become {"02" versus "20"}
+                if (v1Numeric && v2Numeric)
+                {
+                    while (v1Token.Length < v2Token.Length)
+                        v1Token = "0" + v1Token;
+                    while (v2Token.Length < v1Token.Length)
+                        v2Token = "0" + v2Token;
+                }
+
+                rc = String.Compare(v1Token, v2Token, StringComparison.Ordinal);
+                //Console.WriteLine("v1Token=" + v1Token + " v2Token=" + v2Token + " rc=" + rc);
                 if (rc != 0)
                     break;
             }

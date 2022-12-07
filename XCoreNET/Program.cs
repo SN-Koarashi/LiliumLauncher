@@ -88,7 +88,7 @@ namespace XCoreNET
                 }
 
 
-                if(forceWebChat)
+                if (forceWebChat)
                     Application.Run(new main(args));
                 else if (onlyLauncher)
                     Application.Run(new minecraftForm(args));

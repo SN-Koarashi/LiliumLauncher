@@ -897,7 +897,8 @@ namespace XCoreNET
                 librariesList.Clear();
             }
         }
-        private void settingAllControl(bool isEnabled, bool unlockOpenFolder) {
+        private void settingAllControl(bool isEnabled, bool unlockOpenFolder)
+        {
             settingAllControl(isEnabled);
             if (unlockOpenFolder)
             {
@@ -1551,8 +1552,6 @@ namespace XCoreNET
                         //var compareVer = new Version(insideModel.version);
                         var nowVer = version;
                         var compareVer = insideModel.version;
-                        Console.WriteLine($"{nativesList[className].dir} , {insideModel.dir}");
-                        Console.WriteLine($"{nowVer} , {compareVer}");
 
                         if (gb.CompareVersionStrings(nowVer, compareVer) > 0)
                         {

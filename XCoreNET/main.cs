@@ -42,7 +42,8 @@ namespace XCoreNET
         {
             this.DoubleBuffered = true;
 
-            if (isForced) {
+            if (isForced)
+            {
                 minecraftMenu.Visible = false;
                 minecraftLaunchMenu.Visible = false;
                 systemSettingsMenu.Visible = false;
