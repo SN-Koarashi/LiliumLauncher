@@ -845,6 +845,11 @@ namespace XCoreNET
                 this.ShowInTaskbar = false;
                 trayIcon.Visible = true;
             }
+
+            if(this.WindowState == FormWindowState.Normal)
+            {
+                textStatus.Width = this.Width - 140;
+            }
         }
 
 

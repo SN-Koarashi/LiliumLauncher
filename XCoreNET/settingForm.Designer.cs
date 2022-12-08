@@ -73,7 +73,7 @@
             this.groupBox1.Controls.Add(this.chkNoWebView);
             this.groupBox1.Location = new System.Drawing.Point(12, 12);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(386, 72);
+            this.groupBox1.Size = new System.Drawing.Size(385, 72);
             this.groupBox1.TabIndex = 2;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "啟動參數";
@@ -156,7 +156,7 @@
             this.groupBox3.Controls.Add(this.radLauncherBrowser);
             this.groupBox3.Controls.Add(this.radLauncherWebView);
             this.groupBox3.Controls.Add(this.radLauncherDef);
-            this.groupBox3.Location = new System.Drawing.Point(219, 90);
+            this.groupBox3.Location = new System.Drawing.Point(218, 90);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Size = new System.Drawing.Size(179, 88);
             this.groupBox3.TabIndex = 4;
