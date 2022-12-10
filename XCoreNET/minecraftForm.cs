@@ -2364,42 +2364,45 @@ namespace XCoreNET
             var resultDialog = lmf.ShowDialog();
             if (resultDialog != DialogResult.Cancel)
             {
-                BrowserInfoModel bim = Tasks.loginChallengeTask.DeterminePath();
-                if (Tasks.loginChallengeTask.SupportBrowser(bim))
+                if (resultDialog == DialogResult.Ignore)
                 {
-                    try
+                    BrowserInfoModel bim = Tasks.loginChallengeTask.DeterminePath();
+                    if (Tasks.loginChallengeTask.SupportBrowser(bim))
                     {
-                        string profilePath = Path.GetFullPath(Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "/browser_profile/" + bim.name);
-                        string profileArgs = $"--user-data-dir=\"{profilePath}\"";
-
-                        Console.WriteLine(bim.path);
-                        Console.WriteLine($"Profile: {profilePath}");
-                        proc = new Process();
-                        proc.StartInfo = Tasks.loginChallengeTask.BrowserStartInfo(bim, profileArgs);
-                        proc.EnableRaisingEvents = true;
-                        proc.Start();
-
-                        proc.Exited += (bSender, ve) =>
+                        try
                         {
-                            Tasks.loginChallengeTask.BrowserClosed(profilePath);
-                            this.Invoke(new Action(() =>
+                            string profilePath = Path.GetFullPath(Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "/browser_profile/" + bim.name);
+                            string profileArgs = $"--user-data-dir=\"{profilePath}\"";
+
+                            Console.WriteLine(bim.path);
+                            Console.WriteLine($"Profile: {profilePath}");
+                            proc = new Process();
+                            proc.StartInfo = Tasks.loginChallengeTask.BrowserStartInfo(bim, profileArgs);
+                            proc.EnableRaisingEvents = true;
+                            proc.Start();
+
+                            proc.Exited += (bSender, ve) =>
                             {
-                                settingAllControl(true);
-                            }));
-                        };
+                                Tasks.loginChallengeTask.BrowserClosed(profilePath);
+                                this.Invoke(new Action(() =>
+                                {
+                                    settingAllControl(true);
+                                }));
+                            };
+                        }
+                        catch (Exception exx)
+                        {
+                            Console.WriteLine(exx);
+                            outputDebug("ERROR", exx.StackTrace);
+                            MessageBox.Show(exx.Message, "錯誤", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            settingAllControl(true);
+                            return;
+                        }
                     }
-                    catch (Exception exx)
+                    else
                     {
-                        Console.WriteLine(exx);
-                        outputDebug("ERROR", exx.StackTrace);
-                        MessageBox.Show(exx.Message, "錯誤", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        settingAllControl(true);
-                        return;
+                        Process.Start(gb.getMicrosoftOAuthURL());
                     }
-                }
-                else
-                {
-                    Process.Start(gb.getMicrosoftOAuthURL());
                 }
 
                 Tasks.loginChallengeTask challenge = new Tasks.loginChallengeTask(true);
