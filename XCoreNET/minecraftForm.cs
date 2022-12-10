@@ -375,16 +375,16 @@ namespace XCoreNET
         private void setSpecificInstance()
         {
             // 不選擇啟動實例
-            if (gb.lastInstance == null || gb.lastInstance.Length == 0)
+            if (gb.currentInstance.lastname == null || gb.currentInstance.lastname.Length == 0)
             {
                 versionList.Enabled = true;
             }
             else
             {
                 // 選擇啟動實例
-                if (File.Exists(gb.PathJoin(gb.lastInstance, "version.bin")))
+                if (File.Exists(gb.PathJoin(gb.currentInstance.lastname, "version.bin")))
                 {
-                    byte[] data = File.ReadAllBytes(gb.PathJoin(gb.lastInstance, "version.bin"));
+                    byte[] data = File.ReadAllBytes(gb.PathJoin(gb.currentInstance.lastname, "version.bin"));
                     string dataString = Encoding.Default.GetString(data);
                     if (versionList.Items.IndexOf(dataString) != -1)
                     {
@@ -419,14 +419,14 @@ namespace XCoreNET
                 }
             }
 
-            if (gb.lastInstance == null || gb.lastInstance.Length == 0 || !Directory.Exists(gb.lastInstance))
+            if (gb.currentInstance.lastname == null || gb.currentInstance.lastname.Length == 0 || !Directory.Exists(gb.currentInstance.lastname))
             {
                 instanceList.SelectedIndex = 0;
-                gb.lastInstance = "";
+                gb.currentInstance.lastname = "";
             }
             else
             {
-                instanceList.SelectedItem = gb.lastInstance.Split(Path.DirectorySeparatorChar).Last();
+                instanceList.SelectedItem = gb.currentInstance.lastname.Split(Path.DirectorySeparatorChar).Last();
             }
         }
         private async void onGetAllVersion()
@@ -846,7 +846,7 @@ namespace XCoreNET
                 trayIcon.Visible = true;
             }
 
-            if(this.WindowState == FormWindowState.Normal)
+            if (this.WindowState == FormWindowState.Normal)
             {
                 textStatus.Width = this.Width - 140;
             }
@@ -1908,9 +1908,9 @@ namespace XCoreNET
             string lang = ci.Name;
 
             string dir;
-            if (gb.lastInstance != null && gb.lastInstance.Length > 0)
+            if (gb.currentInstance.lastname != null && gb.currentInstance.lastname.Length > 0)
             {
-                dir = gb.PathJoin(gb.lastInstance, "options.txt");
+                dir = gb.PathJoin(gb.currentInstance.lastname, "options.txt");
             }
             else
             {
@@ -1956,7 +1956,7 @@ namespace XCoreNET
             output("INFO", "啟動遊戲");
 
             var assetsDir = gb.PathJoin(DATA_FOLDER, "assets");
-            var gameDir = (gb.lastInstance.Length == 0) ? DATA_FOLDER : gb.lastInstance;
+            var gameDir = (gb.currentInstance.lastname.Length == 0) ? DATA_FOLDER : gb.currentInstance.lastname;
 
             var cDir = gb.PathJoin(DATA_FOLDER, "versions", gb.startupParms.version, gb.startupParms.version + ".jar");
             if (customVer != null && !File.Exists(cDir))
@@ -2061,6 +2061,10 @@ namespace XCoreNET
             string startupParms = "";
 
             startupParms += String.Join(" ", jvm) + " ";
+
+            if (gb.currentInstance.jvmParms != null && gb.currentInstance.jvmParms.Length > 0)
+                startupParms += gb.currentInstance.jvmParms + " ";
+
             startupParms += String.Join(" ", classPath) + " ";
 
 
@@ -2099,7 +2103,7 @@ namespace XCoreNET
             startupParms += builder.ToString();
 
             ProcessStartInfo startInfo = new ProcessStartInfo();
-            startInfo.FileName = javaPath;
+            startInfo.FileName = (gb.currentInstance.javaPath != null && gb.currentInstance.javaPath.Length > 0) ? gb.currentInstance.javaPath : javaPath;
             startInfo.Arguments = startupParms;
             startInfo.RedirectStandardOutput = true;
             startInfo.RedirectStandardError = true;
@@ -2646,14 +2650,25 @@ namespace XCoreNET
                     onGetAllInstance();
 
                     instanceList.SelectedIndex = 0;
-                    gb.lastInstance = "";
+                    gb.currentInstance.lastname = "";
                 }
             }
         }
 
         private void btnInstanceAdd_Click(object sender, EventArgs e)
         {
-            minecraftAddInstance ai = new minecraftAddInstance(versionList.Items, DATA_FOLDER);
+            minecraftActionInstance ai = new minecraftActionInstance(versionList.Items, DATA_FOLDER, null);
+            var result = ai.ShowDialog();
+            if (result == DialogResult.OK)
+            {
+                onGetAllInstance();
+            }
+
+            ai.Dispose();
+        }
+        private void btnInstanceEdit_Click(object sender, EventArgs e)
+        {
+            minecraftActionInstance ai = new minecraftActionInstance(versionList.Items, DATA_FOLDER, gb.currentInstance.lastname);
             var result = ai.ShowDialog();
             if (result == DialogResult.OK)
             {
@@ -2680,13 +2695,47 @@ namespace XCoreNET
                 instanceList.Items.Remove(name);
                 instanceList.SelectedIndex = (instanceList.Items.Count - 1 > idx - 1) ? instanceList.Items.Count - 1 : idx - 1;
 
+                string tempPath = gb.PathJoin(DATA_FOLDER, ".x-instance", name);
+
+                if (gb.allInstance.ContainsKey(tempPath))
+                {
+                    gb.allInstance.Remove(tempPath);
+                }
+
                 Directory.Delete(gb.PathJoin(DATA_FOLDER, ".x-instance", name), true);
             }
         }
 
         private void instanceList_SelectedIndexChanged(object sender, EventArgs e)
         {
-            gb.lastInstance = (instanceList.SelectedIndex == 0) ? "" : gb.PathJoin(DATA_FOLDER, ".x-instance", instanceList.SelectedItem.ToString());
+            if (instanceList.SelectedIndex <= 0)
+            {
+                gb.currentInstance = new InstanceModel();
+                btnInstanceEdit.Enabled = false;
+                btnInstanceDel.Enabled = false;
+            }
+            else
+            {
+                btnInstanceEdit.Enabled = true;
+                btnInstanceDel.Enabled = true;
+
+                InstanceModel cIns = null;
+                string tempPath = gb.PathJoin(DATA_FOLDER, ".x-instance", instanceList.SelectedItem.ToString());
+
+                if (gb.allInstance.TryGetValue(tempPath, out cIns))
+                {
+                    gb.currentInstance = cIns;
+                }
+                else
+                {
+                    MessageBox.Show($"找不到該啟動實例：\n{tempPath}\n可能是因為啟動器尚未儲存到此實例設定檔，請刪除該資料夾後並重新建立。", "警告", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    instanceList.SelectedIndex = 0;
+                    textBoxInstance.Text = instanceList.SelectedItem.ToString();
+                    onGetAllInstance();
+                    return;
+                }
+            }
+
             textBoxInstance.Text = instanceList.SelectedItem.ToString();
             instanceList.DropDownWidth = (gb.DropDownWidth(instanceList) + 25 > 300) ? 300 : gb.DropDownWidth(instanceList) + 25;
 

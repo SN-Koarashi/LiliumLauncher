@@ -26,7 +26,6 @@ namespace Global
         public static bool firstStart = false;
         public static List<string> instance = new List<string>();
         public static string loginMethod = "default";
-        public static string lastInstance = "";
         public static string mainFolderName = ".minecraft-xcorenet";
         public static string mainFolder = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + Path.DirectorySeparatorChar + mainFolderName;
         public static readonly string mainFolderDefault = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + Path.DirectorySeparatorChar + mainFolderName;
@@ -44,7 +43,9 @@ namespace Global
         public static bool usingMaxMemoryUsage = false;
         public static bool isConcurrent = true;
         public static Dictionary<string, AccountModel> account = new Dictionary<string, AccountModel>();
+        public static Dictionary<string, InstanceModel> allInstance = new Dictionary<string, InstanceModel>();
         public static startupParmsModel startupParms = new startupParmsModel();
+        public static InstanceModel currentInstance = new InstanceModel();
 
         public static string getMicrosoftOAuthURL()
         {
@@ -108,11 +109,12 @@ namespace Global
                     release = verOptRelease,
                     snapshot = verOptSnapshot
                 },
+                currentInstance = currentInstance,
+                allInstance = allInstance,
                 account = account,
                 refreshToken = refreshToken,
                 mainFolder = mainFolder,
                 lastVersionID = lastVersionID,
-                lastInstance = lastInstance,
                 runInterval = runInterval,
                 isConcurrent = isConcurrent
             };
@@ -165,7 +167,8 @@ namespace Global
                     minecraftUUID = GetValueOrDefault<string, object, string>(result.minecraft, "uuid", minecraftUUID);
                     verOptRelease = GetValueOrDefault<string, object, bool>(result.versionOptions, "release", verOptRelease);
                     verOptSnapshot = GetValueOrDefault<string, object, bool>(result.versionOptions, "snapshot", verOptSnapshot);
-                    lastInstance = (result.lastInstance != null) ? result.lastInstance : lastInstance;
+                    currentInstance = (result.currentInstance != null) ? result.currentInstance : currentInstance;
+                    allInstance = (result.allInstance != null) ? result.allInstance : allInstance;
 
                     maxMemoryUsage = Convert.ToInt32(GetValueOrDefault<string, object, long>(result.launcher, "maxMemoryUsage", long.Parse(maxMemoryUsage.ToString())));
                     usingMaxMemoryUsage = GetValueOrDefault<string, object, bool>(result.launcher, "usingMaxMemoryUsage", usingMaxMemoryUsage);
@@ -173,6 +176,7 @@ namespace Global
 
                     lastVersionID = result.lastVersionID;
                     runInterval = (result.runInterval >= 0) ? result.runInterval : 1;
+
 
 
                     if (!account.ContainsKey(minecraftUUID) && minecraftUUID.Length > 0)

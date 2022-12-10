@@ -38,8 +38,9 @@ namespace XCoreNET.ClassModel
             public Dictionary<string, object> minecraft { get; set; }
             public Dictionary<string, object> versionOptions { get; set; }
             public Dictionary<string, AccountModel> account { get; set; }
+            public InstanceModel currentInstance { get; set; }
+            public Dictionary<string, InstanceModel> allInstance { get; set; }
             public List<string> instance { get; set; }
-            public string lastInstance { get; set; }
             public string refreshToken { get; set; }
             public string mainFolder { get; set; }
             public string lastVersionID { get; set; }
@@ -55,6 +56,12 @@ namespace XCoreNET.ClassModel
             public string loginMethod { get; set; }
             public string mainURL { get; set; }
             public string launcherURL { get; set; }
+        }
+        public class InstanceModel
+        {
+            public string lastname { get; set; }
+            public string jvmParms { get; set; }
+            public string javaPath { get; set; }
         }
     }
 }

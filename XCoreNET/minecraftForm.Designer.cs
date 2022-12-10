@@ -53,8 +53,8 @@
             this.btnChangeFolder = new System.Windows.Forms.Button();
             this.textBoxAD = new System.Windows.Forms.TextBox();
             this.groupBoxInstance = new System.Windows.Forms.GroupBox();
+            this.btnInstanceEdit = new System.Windows.Forms.Button();
             this.textBoxInstance = new System.Windows.Forms.TextBox();
-            this.btnInstanceIntro = new System.Windows.Forms.Button();
             this.btnInstanceDel = new System.Windows.Forms.Button();
             this.btnInstanceAdd = new System.Windows.Forms.Button();
             this.instanceList = new System.Windows.Forms.ComboBox();
@@ -365,8 +365,8 @@
             // 
             // groupBoxInstance
             // 
+            this.groupBoxInstance.Controls.Add(this.btnInstanceEdit);
             this.groupBoxInstance.Controls.Add(this.textBoxInstance);
-            this.groupBoxInstance.Controls.Add(this.btnInstanceIntro);
             this.groupBoxInstance.Controls.Add(this.btnInstanceDel);
             this.groupBoxInstance.Controls.Add(this.btnInstanceAdd);
             this.groupBoxInstance.Controls.Add(this.instanceList);
@@ -376,6 +376,18 @@
             this.groupBoxInstance.TabIndex = 1;
             this.groupBoxInstance.TabStop = false;
             this.groupBoxInstance.Text = "啟動實例管理";
+            this.toolTip.SetToolTip(this.groupBoxInstance, "啟動實例代表的是可獨立運作的 Minecraft 實例，透過不同的啟動實例，您只需要於設定中輕鬆切換，就能輕鬆使用不同的模組包、模組客戶端及獨立設定，各個實例之間" +
+        "不會互相影響，是對於常在各個客戶端及模組之間切換的玩家而言的良好選擇。");
+            // 
+            // btnInstanceEdit
+            // 
+            this.btnInstanceEdit.Location = new System.Drawing.Point(58, 25);
+            this.btnInstanceEdit.Name = "btnInstanceEdit";
+            this.btnInstanceEdit.Size = new System.Drawing.Size(46, 27);
+            this.btnInstanceEdit.TabIndex = 5;
+            this.btnInstanceEdit.Text = "編輯";
+            this.btnInstanceEdit.UseVisualStyleBackColor = true;
+            this.btnInstanceEdit.Click += new System.EventHandler(this.btnInstanceEdit_Click);
             // 
             // textBoxInstance
             // 
@@ -386,19 +398,9 @@
             this.textBoxInstance.TabIndex = 4;
             this.textBoxInstance.Click += new System.EventHandler(this.textBoxInstance_Click);
             // 
-            // btnInstanceIntro
-            // 
-            this.btnInstanceIntro.Location = new System.Drawing.Point(108, 25);
-            this.btnInstanceIntro.Name = "btnInstanceIntro";
-            this.btnInstanceIntro.Size = new System.Drawing.Size(46, 27);
-            this.btnInstanceIntro.TabIndex = 3;
-            this.btnInstanceIntro.Text = "說明";
-            this.btnInstanceIntro.UseVisualStyleBackColor = true;
-            this.btnInstanceIntro.Click += new System.EventHandler(this.btnInstanceIntro_Click);
-            // 
             // btnInstanceDel
             // 
-            this.btnInstanceDel.Location = new System.Drawing.Point(57, 25);
+            this.btnInstanceDel.Location = new System.Drawing.Point(109, 26);
             this.btnInstanceDel.Name = "btnInstanceDel";
             this.btnInstanceDel.Size = new System.Drawing.Size(46, 27);
             this.btnInstanceDel.TabIndex = 2;
@@ -799,7 +801,6 @@
         private System.Windows.Forms.Button btnChangeFolder;
         private System.Windows.Forms.TextBox textBoxAD;
         private System.Windows.Forms.GroupBox groupBoxInstance;
-        private System.Windows.Forms.Button btnInstanceIntro;
         private System.Windows.Forms.Button btnInstanceDel;
         private System.Windows.Forms.Button btnInstanceAdd;
         private System.Windows.Forms.ComboBox instanceList;
@@ -809,5 +810,6 @@
         private System.Windows.Forms.RichTextBox textBoxUpdateNote;
         private System.Windows.Forms.Button btnMultiAcc;
         private System.Windows.Forms.Panel panelMainSettings;
+        private System.Windows.Forms.Button btnInstanceEdit;
     }
 }
