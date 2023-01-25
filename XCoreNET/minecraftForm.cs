@@ -785,7 +785,7 @@ namespace XCoreNET
 
 
             if (!gb.firstStart)
-                gb.checkForUpdate();
+                gb.checkForUpdate(false);
         }
 
         int tryReload = 0;
@@ -2353,7 +2353,7 @@ namespace XCoreNET
 
         private void btnChkUpdate_Click(object sender, EventArgs e)
         {
-            gb.checkForUpdate();
+            gb.checkForUpdate(true);
         }
 
         private async void btnSwitchAcc_Click(object sender, EventArgs e)

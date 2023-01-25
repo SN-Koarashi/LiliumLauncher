@@ -53,6 +53,7 @@ namespace XCoreNET.ClassModel
         {
             public bool noWevView { get; set; }
             public bool launcher { get; set; }
+            public bool? checkForUpdates { get; set; }
             public string loginMethod { get; set; }
             public string mainURL { get; set; }
             public string launcherURL { get; set; }

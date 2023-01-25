@@ -62,7 +62,7 @@ namespace XCoreNET
             }
 
 
-            checkUpdate_Click(sender, e);
+            gb.checkForUpdate(false);
             string availableVersion = null;
             try
             {
@@ -225,7 +225,7 @@ namespace XCoreNET
 
         private void checkUpdate_Click(object sender, EventArgs e)
         {
-            gb.checkForUpdate();
+            gb.checkForUpdate(true);
         }
 
         private void aboutMenu_Click(object sender, EventArgs e)

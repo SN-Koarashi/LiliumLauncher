@@ -20,6 +20,7 @@ namespace Global
         private static DateTime JanFirst1970 = new DateTime(1970, 1, 1);
         public readonly static string azureClientID = "c5a69008-2ee1-403f-aa2a-3d324e0213d7";
         public readonly static string appUID = Guid.NewGuid().ToString();
+        public static bool isCheckUpdate = true;
         public static bool httpUsing = false;
         public static bool verOptRelease = true;
         public static bool verOptSnapshot = false;
@@ -235,8 +236,15 @@ namespace Global
         }
 
 
-        public static async void checkForUpdate()
+        public static async void checkForUpdate(bool isForce)
         {
+            if (!isCheckUpdate && !isForce) {
+                Console.WriteLine("不執行更新檢查");
+                firstStart = true;
+                cleanTempFiles();
+                return; 
+            }
+
             string hostUrl = "https://github.com/SN-Koarashi/XCoreNET/releases/latest";
             var handler = new HttpClientHandler
             {
@@ -271,7 +279,8 @@ namespace Global
                     if (resultUpdate == DialogResult.Yes)
                     {
                         var p = new Process();
-                        p.StartInfo.FileName = UpdaterPath + Path.DirectorySeparatorChar + "XCoreNET-Updater.exe";  // just for example, you can use yours.
+                        p.StartInfo.FileName = UpdaterPath + Path.DirectorySeparatorChar + "XCoreNET.exe";  // just for example, you can use yours.
+                        p.StartInfo.Arguments = "-updater";
                         p.Start();
                         Application.Exit();
                     }
@@ -281,12 +290,7 @@ namespace Global
                     if (!firstStart)
                     {
                         firstStart = true;
-                        string tempFileInstaller = UpdaterPath + Path.DirectorySeparatorChar + "XCoreNET-installer-temp.exe";
-                        string tempFilePatcher = UpdaterPath + Path.DirectorySeparatorChar + "patcher.bat";
-                        if (File.Exists(tempFileInstaller))
-                            File.Delete(tempFileInstaller);
-                        if (File.Exists(tempFilePatcher))
-                            File.Delete(tempFilePatcher);
+                        cleanTempFiles();
                     }
                     else
                         MessageBox.Show("應用程式已為最新版本", "說明", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -296,6 +300,17 @@ namespace Global
             {
                 MessageBox.Show($"更新檢查過程發生例外狀況: {exx.Message}", "說明", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+
+        private static void cleanTempFiles() {
+            string UpdaterPath = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
+
+            string tempFileInstaller = UpdaterPath + Path.DirectorySeparatorChar + "XCoreNET-installer-temp.exe";
+            string tempFilePatcher = UpdaterPath + Path.DirectorySeparatorChar + "patcher.bat";
+            if (File.Exists(tempFileInstaller))
+                File.Delete(tempFileInstaller);
+            if (File.Exists(tempFilePatcher))
+                File.Delete(tempFilePatcher);
         }
 
         public static string PathJoin(params string[] args)

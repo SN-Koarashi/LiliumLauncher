@@ -42,6 +42,7 @@
             this.radLauncherBrowser = new System.Windows.Forms.RadioButton();
             this.radLauncherWebView = new System.Windows.Forms.RadioButton();
             this.radLauncherDef = new System.Windows.Forms.RadioButton();
+            this.chkUpdates = new System.Windows.Forms.CheckBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -69,6 +70,7 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.chkUpdates);
             this.groupBox1.Controls.Add(this.chkLauncherMain);
             this.groupBox1.Controls.Add(this.chkNoWebView);
             this.groupBox1.Location = new System.Drawing.Point(12, 12);
@@ -200,6 +202,19 @@
             this.radLauncherDef.UseVisualStyleBackColor = true;
             this.radLauncherDef.Click += new System.EventHandler(this.radLauncherDef_Click);
             // 
+            // chkUpdates
+            // 
+            this.chkUpdates.AutoSize = true;
+            this.chkUpdates.Checked = true;
+            this.chkUpdates.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chkUpdates.Location = new System.Drawing.Point(206, 21);
+            this.chkUpdates.Name = "chkUpdates";
+            this.chkUpdates.Size = new System.Drawing.Size(108, 16);
+            this.chkUpdates.TabIndex = 2;
+            this.chkUpdates.Text = "啟動時檢查更新";
+            this.chkUpdates.UseVisualStyleBackColor = true;
+            this.chkUpdates.CheckedChanged += new System.EventHandler(this.chkUpdates_CheckedChanged);
+            // 
             // settingForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -247,5 +262,6 @@
         private System.Windows.Forms.RadioButton radLauncherBrowser;
         private System.Windows.Forms.RadioButton radLauncherWebView;
         private System.Windows.Forms.RadioButton radLauncherDef;
+        private System.Windows.Forms.CheckBox chkUpdates;
     }
 }

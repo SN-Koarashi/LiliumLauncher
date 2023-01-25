@@ -30,6 +30,7 @@ namespace XCoreNET
                 gb.launcherHomepage = (pm.launcherURL != null) ? new Uri(pm.launcherURL) : gb.launcherHomepage;
                 gb.mainHomepage = (pm.mainURL != null) ? new Uri(pm.mainURL) : gb.mainHomepage;
                 gb.loginMethod = (pm.loginMethod != null) ? pm.loginMethod : gb.loginMethod;
+                gb.isCheckUpdate = (bool)(pm.checkForUpdates != null ? pm.checkForUpdates : true);
             }
             else
             {
@@ -39,6 +40,7 @@ namespace XCoreNET
                 pm.launcherURL = gb.launcherHomepage.ToString();
                 pm.mainURL = gb.mainHomepage.ToString();
                 pm.loginMethod = gb.loginMethod;
+                pm.checkForUpdates = true;
 
                 var data = JsonConvert.SerializeObject(pm);
                 Directory.CreateDirectory(Path.GetFullPath(Directory.GetCurrentDirectory() + "/settings"));
@@ -72,6 +74,7 @@ namespace XCoreNET
             }
             else
             {
+                bool isUpdater = false;
                 bool onlyLauncher = false;
                 bool forceWebChat = false;
                 foreach (var arg in args)
@@ -85,10 +88,17 @@ namespace XCoreNET
                     {
                         forceWebChat = true;
                     }
+                    if (arg.ToLower().Equals("-updater"))
+                    {
+                        Console.WriteLine("初始化更新程式進入點");
+                        isUpdater = true;
+                    }
                 }
 
 
-                if (forceWebChat)
+                if(isUpdater)
+                    Application.Run(new mainUpdater());
+                else if (forceWebChat)
                     Application.Run(new main(args));
                 else if (onlyLauncher)
                     Application.Run(new minecraftForm(args));

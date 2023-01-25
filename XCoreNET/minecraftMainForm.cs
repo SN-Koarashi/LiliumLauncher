@@ -102,12 +102,12 @@ namespace XCoreNET
 
         private void btnUpdate_Click(object sender, EventArgs e)
         {
-            gb.checkForUpdate();
+            gb.checkForUpdate(true);
         }
 
         private void minecraftMainForm_Load(object sender, EventArgs e)
         {
-            btnUpdate_Click(sender, e);
+            gb.checkForUpdate(false);
         }
     }
 }

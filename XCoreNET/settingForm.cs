@@ -23,6 +23,7 @@ namespace XCoreNET
 
                 chkLauncherMain.Checked = pm.launcher;
                 chkNoWebView.Checked = pm.noWevView;
+                chkUpdates.Checked = (bool) (pm.checkForUpdates != null ? pm.checkForUpdates : true);
 
                 if (pm.loginMethod != null)
                 {
@@ -59,6 +60,7 @@ namespace XCoreNET
 
 
                 ProgramModel pm = new ProgramModel();
+                pm.checkForUpdates = chkUpdates.Checked;
                 pm.launcher = chkLauncherMain.Checked;
                 pm.noWevView = chkNoWebView.Checked;
                 pm.loginMethod = temp_login_method;
@@ -154,6 +156,12 @@ namespace XCoreNET
             btnOK.Enabled = true;
 
             temp_login_method = "browser";
+        }
+
+        private void chkUpdates_CheckedChanged(object sender, EventArgs e)
+        {
+            btnApply.Enabled = true;
+            btnOK.Enabled = true;
         }
     }
 }
