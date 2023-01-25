@@ -96,7 +96,7 @@ namespace XCoreNET
                 }
 
 
-                if(isUpdater)
+                if (isUpdater)
                     Application.Run(new mainUpdater());
                 else if (forceWebChat)
                     Application.Run(new main(args));

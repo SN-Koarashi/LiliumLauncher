@@ -238,11 +238,12 @@ namespace Global
 
         public static async void checkForUpdate(bool isForce)
         {
-            if (!isCheckUpdate && !isForce) {
+            if (!isCheckUpdate && !isForce)
+            {
                 Console.WriteLine("不執行更新檢查");
                 firstStart = true;
                 cleanTempFiles();
-                return; 
+                return;
             }
 
             string hostUrl = "https://github.com/SN-Koarashi/XCoreNET/releases/latest";
@@ -302,7 +303,8 @@ namespace Global
             }
         }
 
-        private static void cleanTempFiles() {
+        private static void cleanTempFiles()
+        {
             string UpdaterPath = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
 
             string tempFileInstaller = UpdaterPath + Path.DirectorySeparatorChar + "XCoreNET-installer-temp.exe";

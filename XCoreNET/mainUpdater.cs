@@ -1,14 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data;
 using System.Diagnostics;
-using System.Drawing;
 using System.IO;
-using System.Linq;
 using System.Net;
 using System.Net.Http;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -27,7 +23,8 @@ namespace XCoreNET
             checkUpdating();
         }
 
-        private async void checkUpdating() {
+        private async void checkUpdating()
+        {
             try
             {
                 string hostUrl = "https://github.com/SN-Koarashi/XCoreNET/releases/latest";
@@ -44,7 +41,7 @@ namespace XCoreNET
 
                 var result = await httpClient.SendAsync(request);
                 string latestURL = result.Headers.Location.AbsoluteUri;
-        
+
                 var versionInfo = FileVersionInfo.GetVersionInfo(@UpdaterPath + Path.DirectorySeparatorChar + "XCoreNET.exe");
                 Version versionLocal = new Version(versionInfo.ProductVersion);
                 Version versionRemote = new Version(latestURL.Split(new string[] { "/releases/tag/" }, StringSplitOptions.None)[1].Replace("v", string.Empty));
@@ -70,7 +67,8 @@ namespace XCoreNET
                     client.DownloadFileCompleted += new AsyncCompletedEventHandler((s, e) => client_DownloadFileCompleted(s, e));
                     client.DownloadFileAsync(new Uri(downloadURL), "XCoreNET-installer-temp.exe");
                 }
-                else {
+                else
+                {
                     isClosed = true;
 
                     label2.Text = "應用程式已為最新版本";

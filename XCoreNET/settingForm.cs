@@ -23,7 +23,7 @@ namespace XCoreNET
 
                 chkLauncherMain.Checked = pm.launcher;
                 chkNoWebView.Checked = pm.noWevView;
-                chkUpdates.Checked = (bool) (pm.checkForUpdates != null ? pm.checkForUpdates : true);
+                chkUpdates.Checked = (bool)(pm.checkForUpdates != null ? pm.checkForUpdates : true);
 
                 if (pm.loginMethod != null)
                 {
