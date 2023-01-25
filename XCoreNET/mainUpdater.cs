@@ -99,7 +99,10 @@ namespace XCoreNET
                 NowSize = int.Parse(e.BytesReceived.ToString());
 
                 label2.Text = $"正在下載... {NowSize}/{TotalSize} Bytes";
-                progressBar1.Value = e.ProgressPercentage;
+
+                // https://stackoverflow.com/questions/49507984/e-progresspercentage-returns-0-50
+                //progressBar1.Value = e.ProgressPercentage;
+                progressBar1.Value = (int)(e.BytesReceived / e.TotalBytesToReceive * 100);
             });
         }
         private void client_DownloadFileCompleted(object sender, AsyncCompletedEventArgs e)
