@@ -1,5 +1,5 @@
-[![Releases Download Count](https://img.shields.io/github/downloads/SN-Koarashi/XCoreNET/total.png?&style=for-the-badge&color=Green&label=Downloads)](https://github.com/SN-Koarashi/XCoreNET/releases/latest)
-[![Releases version](https://img.shields.io/github/v/release/SN-Koarashi/XCoreNET.png?&style=for-the-badge&color=Green&label=releases)](https://github.com/SN-Koarashi/XCoreNET/releases/latest)
+[![Releases Download Counter](https://img.shields.io/github/downloads/SN-Koarashi/XCoreNET/total.png?style=for-the-badge&color=0969da&label=Downloads)](https://github.com/SN-Koarashi/XCoreNET/releases/latest)
+[![Releases version](https://img.shields.io/github/v/release/SN-Koarashi/XCoreNET.png?style=for-the-badge&color=0969da&label=releases)](https://github.com/SN-Koarashi/XCoreNET/releases/latest)
 
 # XCoreNET - 輕量化的解決方案 | Lightweight solution (Display language is Traditional Chinese ONLY)
 透過 Microsoft Edge WebView2 框架載入多個社交媒體網站及網路即時聊天室
