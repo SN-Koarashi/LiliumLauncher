@@ -826,6 +826,7 @@ namespace XCoreNET
             DateTime dateTime = System.DateTime.Now;
 
             string time = $"{dateTime.Hour.ToString("00")}:{dateTime.Minute.ToString("00")}:{dateTime.Second.ToString("00")}.{dateTime.Millisecond.ToString("000")} ";
+
             textBox.AppendText($"{time} [{type}] {output}" + Environment.NewLine);
 
             Console.WriteLine(output);
@@ -1257,7 +1258,7 @@ namespace XCoreNET
 
                 progressBar.Value = 0;
                 progressBar.Maximum = concurrentTotalSize;
-                timerConcurrent.Enabled = true;
+                //timerConcurrent.Enabled = true;
 
                 for (int i = 0; i < indexObj.Count; i += 200)
                 {
@@ -1669,7 +1670,7 @@ namespace XCoreNET
 
                 progressBar.Value = 0;
                 progressBar.Maximum = concurrentTotalSize;
-                timerConcurrent.Enabled = true;
+                //timerConcurrent.Enabled = true;
 
                 for (int i = 0; i < indexObj.Count; i += 200)
                 {
@@ -1800,7 +1801,7 @@ namespace XCoreNET
 
                 progressBar.Value = 0;
                 progressBar.Maximum = concurrentTotalSize;
-                timerConcurrent.Enabled = true;
+                //timerConcurrent.Enabled = true;
 
                 for (int i = 0; i < SortedIndexObj.Count; i += 200)
                 {
@@ -2621,8 +2622,8 @@ namespace XCoreNET
 
         private void timerConcurrent_Tick(object sender, EventArgs e)
         {
-            Console.WriteLine("timer ticked");
-            UpdateDownloadState();
+            //Console.WriteLine("timer ticked");
+            //UpdateDownloadState();
         }
 
         private void btnChangeFolder_Click(object sender, EventArgs e)

@@ -33,7 +33,6 @@
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.mainPage = new System.Windows.Forms.TabPage();
             this.panelBody = new System.Windows.Forms.Panel();
-            this.webView = new Microsoft.Web.WebView2.WinForms.WebView2();
             this.panelFooter = new System.Windows.Forms.Panel();
             this.textStatus = new System.Windows.Forms.TextBox();
             this.btnLaunch = new System.Windows.Forms.Button();
@@ -84,10 +83,10 @@
             this.textBoxUpdateNote = new System.Windows.Forms.RichTextBox();
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.timerConcurrent = new System.Windows.Forms.Timer(this.components);
+            this.webView = new Microsoft.Web.WebView2.WinForms.WebView2();
             this.tabControl1.SuspendLayout();
             this.mainPage.SuspendLayout();
             this.panelBody.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.webView)).BeginInit();
             this.panelFooter.SuspendLayout();
             this.panelHeader.SuspendLayout();
             this.panelVersion.SuspendLayout();
@@ -106,6 +105,7 @@
             this.groupBoxVersion.SuspendLayout();
             this.debugPage.SuspendLayout();
             this.updatePage.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.webView)).BeginInit();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -145,19 +145,6 @@
             this.panelBody.Name = "panelBody";
             this.panelBody.Size = new System.Drawing.Size(450, 176);
             this.panelBody.TabIndex = 8;
-            // 
-            // webView
-            // 
-            this.webView.AllowExternalDrop = true;
-            this.webView.CreationProperties = null;
-            this.webView.DefaultBackgroundColor = System.Drawing.SystemColors.Control;
-            this.webView.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.webView.Location = new System.Drawing.Point(0, 0);
-            this.webView.Name = "webView";
-            this.webView.Size = new System.Drawing.Size(450, 176);
-            this.webView.Source = new System.Uri("https://www.snkms.com/minecraftNews.html", System.UriKind.Absolute);
-            this.webView.TabIndex = 0;
-            this.webView.ZoomFactor = 1D;
             // 
             // panelFooter
             // 
@@ -702,6 +689,19 @@
             // 
             this.timerConcurrent.Tick += new System.EventHandler(this.timerConcurrent_Tick);
             // 
+            // webView
+            // 
+            this.webView.AllowExternalDrop = true;
+            this.webView.CreationProperties = null;
+            this.webView.DefaultBackgroundColor = System.Drawing.SystemColors.Control;
+            this.webView.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.webView.Location = new System.Drawing.Point(0, 0);
+            this.webView.Name = "webView";
+            this.webView.Size = new System.Drawing.Size(450, 176);
+            this.webView.Source = new System.Uri("https://www.snkms.com/minecraftNews.html", System.UriKind.Absolute);
+            this.webView.TabIndex = 0;
+            this.webView.ZoomFactor = 1D;
+            // 
             // minecraftForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -723,7 +723,6 @@
             this.tabControl1.ResumeLayout(false);
             this.mainPage.ResumeLayout(false);
             this.panelBody.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.webView)).EndInit();
             this.panelFooter.ResumeLayout(false);
             this.panelFooter.PerformLayout();
             this.panelHeader.ResumeLayout(false);
@@ -751,6 +750,7 @@
             this.debugPage.ResumeLayout(false);
             this.debugPage.PerformLayout();
             this.updatePage.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.webView)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -767,7 +767,6 @@
         private System.Windows.Forms.Panel panelFooter;
         private System.Windows.Forms.Panel panelHeader;
         private System.Windows.Forms.Panel panelBody;
-        private Microsoft.Web.WebView2.WinForms.WebView2 webView;
         private System.Windows.Forms.TextBox textStatus;
         private System.Windows.Forms.TextBox textUser;
         private System.Windows.Forms.TabPage settingPage;
@@ -811,5 +810,6 @@
         private System.Windows.Forms.Button btnMultiAcc;
         private System.Windows.Forms.Panel panelMainSettings;
         private System.Windows.Forms.Button btnInstanceEdit;
+        private Microsoft.Web.WebView2.WinForms.WebView2 webView;
     }
 }
