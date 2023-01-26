@@ -103,6 +103,7 @@ namespace XCoreNET
                 // https://stackoverflow.com/questions/49507984/e-progresspercentage-returns-0-50
                 //progressBar1.Value = e.ProgressPercentage;
                 progressBar1.Value = (int)(e.BytesReceived / e.TotalBytesToReceive * 100);
+                Application.DoEvents();
             });
         }
         private void client_DownloadFileCompleted(object sender, AsyncCompletedEventArgs e)
