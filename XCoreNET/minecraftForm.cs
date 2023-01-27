@@ -886,7 +886,7 @@ namespace XCoreNET
             settingAllControl(false);
             progressBar.Value = 0;
 
-            if (gb.versionNameList.Count == 0)
+            if (gb.versionNameList.Count == 0 || gb.lastVersionID.Length == 0 || textVersionSelected.Text.Length == 0)
             {
                 MessageBox.Show("未找到有效的版本可供啟動", "警告", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 settingAllControl(true);
