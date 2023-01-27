@@ -99,10 +99,13 @@ namespace XCoreNET
                 NowSize = int.Parse(e.BytesReceived.ToString());
 
                 label2.Text = $"正在下載... {NowSize}/{TotalSize} Bytes";
+                Console.WriteLine($"正在下載... {NowSize}/{TotalSize} Bytes");
 
                 // https://stackoverflow.com/questions/49507984/e-progresspercentage-returns-0-50
                 //progressBar1.Value = e.ProgressPercentage;
-                progressBar1.Value = (int)(e.BytesReceived / e.TotalBytesToReceive * 100);
+                double percent = (double)NowSize / (double)TotalSize * 100;
+
+                progressBar1.Value = (int)Math.Floor(percent);
                 Application.DoEvents();
             });
         }
@@ -114,23 +117,7 @@ namespace XCoreNET
             {
                 if (e.Error == null && !e.Cancelled)
                 {
-                    outputDebug("INFO", $"下載完成，準備安裝...");
-                    label2.Text = "準備安裝...";
-                    progressBar1.Style = ProgressBarStyle.Marquee;
-
-                    List<string> cmdLine = new List<string>();
-                    cmdLine.Add("@echo off");
-                    cmdLine.Add($"CD {UpdaterPath}");
-                    cmdLine.Add($"start /wait XCoreNET-installer-temp.exe /S /D={UpdaterPath}");
-                    cmdLine.Add("start XCoreNET.exe");
-                    File.WriteAllLines(Path.GetFullPath(UpdaterPath + "/patcher.bat"), cmdLine);
-
-                    Process p = new Process();
-                    p.StartInfo.CreateNoWindow = true;
-                    p.StartInfo.UseShellExecute = false;
-                    p.StartInfo.FileName = "patcher.bat";
-                    p.Start();
-                    Environment.Exit(0);
+                    StartInstalling();
                 }
                 else
                 {
@@ -149,6 +136,33 @@ namespace XCoreNET
                     Environment.Exit(0);
                 }
             });
+        }
+
+        private async void StartInstalling()
+        {
+            outputDebug("INFO", $"下載完成，準備安裝...");
+            label2.Text = "下載完成";
+            await Task.Delay(650);
+            label2.Text = "準備安裝...";
+            progressBar1.Style = ProgressBarStyle.Marquee;
+
+            await Task.Delay(1000);
+
+            List<string> cmdLine = new List<string>();
+            cmdLine.Add("@echo off");
+            cmdLine.Add($"CD {UpdaterPath}");
+            cmdLine.Add($"timeout 2");
+            cmdLine.Add($"start /wait XCoreNET-installer-temp.exe /S /D={UpdaterPath}");
+            cmdLine.Add("start XCoreNET.exe");
+            File.WriteAllLines(Path.GetFullPath(UpdaterPath + "/patcher.bat"), cmdLine);
+
+            Process p = new Process();
+            p.StartInfo.CreateNoWindow = true;
+            p.StartInfo.UseShellExecute = false;
+            p.StartInfo.FileName = "patcher.bat";
+
+            p.Start();
+            Environment.Exit(0);
         }
 
         private void outputDebug(string type, string content)
