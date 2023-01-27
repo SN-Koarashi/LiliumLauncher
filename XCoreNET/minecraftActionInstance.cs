@@ -18,15 +18,16 @@ namespace XCoreNET
             InitializeComponent();
         }
 
-        public minecraftActionInstance(ComboBox.ObjectCollection args, string mainFolder, string instance)
+        public minecraftActionInstance(string mainFolder, string instance)
         {
             InitializeComponent();
 
-
+            /*
             foreach (var item in args)
             {
                 specificVersionList.Items.Add(item);
             }
+            */
 
             DATA_FOLDER = mainFolder;
             currentInstance = instance;
@@ -34,13 +35,8 @@ namespace XCoreNET
 
         private void chkOpenSpecific_CheckedChanged(object sender, EventArgs e)
         {
-            specificVersionList.Enabled = chkOpenSpecific.Checked;
+            btnVersionSelector.Enabled = chkOpenSpecific.Checked;
             textBoxNowVersion.Enabled = chkOpenSpecific.Checked;
-
-            if (!chkOpenSpecific.Checked)
-                specificVersionList.SelectedIndex = -1;
-
-            specificVersionList.DropDownWidth = (gb.DropDownWidth(specificVersionList) + 25 > 300) ? 300 : gb.DropDownWidth(specificVersionList) + 25;
         }
 
 
@@ -86,10 +82,14 @@ namespace XCoreNET
                             destPath = oldPath;
                         }
 
-                        if (chkOpenSpecific.Checked && specificVersionList.SelectedIndex != -1)
+                        if (chkOpenSpecific.Checked && textBoxNowVersion.Text.Length > 0)
                         {
-                            byte[] data = Encoding.ASCII.GetBytes(specificVersionList.SelectedItem.ToString());
+                            byte[] data = Encoding.ASCII.GetBytes(textBoxNowVersion.Text);
                             File.WriteAllBytes(gb.PathJoin(destPath, "version.bin"), data);
+                        }
+                        else if (File.Exists(gb.PathJoin(destPath, "version.bin")))
+                        {
+                            File.Delete(gb.PathJoin(destPath, "version.bin"));
                         }
 
                         this.DialogResult = DialogResult.OK;
@@ -106,9 +106,9 @@ namespace XCoreNET
                         {
                             Directory.CreateDirectory(path);
 
-                            if (chkOpenSpecific.Checked && specificVersionList.SelectedIndex != -1)
+                            if (chkOpenSpecific.Checked && textBoxNowVersion.Text.Length > 0)
                             {
-                                byte[] data = Encoding.ASCII.GetBytes(specificVersionList.SelectedItem.ToString());
+                                byte[] data = Encoding.ASCII.GetBytes(textBoxNowVersion.Text);
                                 File.WriteAllBytes(gb.PathJoin(path, "version.bin"), data);
                             }
 
@@ -142,14 +142,6 @@ namespace XCoreNET
         private void minecraftAddInstance_FormClosing(object sender, FormClosingEventArgs e)
         {
 
-        }
-
-        private void specificVersionList_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if (specificVersionList.SelectedIndex != -1)
-                textBoxNowVersion.Text = specificVersionList.SelectedItem.ToString();
-            else
-                textBoxNowVersion.Text = "";
         }
 
         private void btnJava_Click(object sender, EventArgs e)
@@ -202,12 +194,11 @@ namespace XCoreNET
                     {
                         string data = File.ReadAllText(gb.PathJoin(currentInstance, "version.bin"));
 
-                        foreach (var item in specificVersionList.Items)
+                        foreach (var item in gb.versionListModels)
                         {
-                            if (item.ToString().Equals(data))
+                            if (item.version.Equals(data))
                             {
-                                specificVersionList.SelectedItem = item;
-                                textBoxNowVersion.Text = item.ToString();
+                                textBoxNowVersion.Text = item.version;
                                 chkOpenSpecific.Checked = true;
                             }
                         }
@@ -219,6 +210,18 @@ namespace XCoreNET
                     this.Close();
                 }
             }
+        }
+
+        private void btnVersionSelector_Click(object sender, EventArgs e)
+        {
+            minecraftVersionSelector form = new minecraftVersionSelector();
+            var result = form.ShowDialog();
+            if (result == DialogResult.OK)
+            {
+                textBoxNowVersion.Text = gb.lastVersionID;
+            }
+
+            form.Dispose();
         }
     }
 }

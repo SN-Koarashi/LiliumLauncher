@@ -1,4 +1,6 @@
-﻿namespace XCoreNET.ClassModel
+﻿using System;
+
+namespace XCoreNET.ClassModel
 {
     class launcherModel
     {
@@ -26,6 +28,15 @@
             public string path { get; set; }
             public int size { get; set; }
             public int totSize { get; set; }
+        }
+
+        public class VersionListModel
+        {
+            public string version { get; set; }
+            public string type { get; set; }
+            public string url { get; set; }
+            public bool isInstalled { get; set; }
+            public DateTime datetime { get; set; }
         }
     }
 }

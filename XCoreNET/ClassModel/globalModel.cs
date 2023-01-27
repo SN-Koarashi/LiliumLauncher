@@ -47,6 +47,7 @@ namespace XCoreNET.ClassModel
             public string windowSize { get; set; }
             public int runInterval { get; set; }
             public bool isConcurrent { get; set; }
+            public bool? verStatusFilter { get; set; }
 
         }
         public class ProgramModel

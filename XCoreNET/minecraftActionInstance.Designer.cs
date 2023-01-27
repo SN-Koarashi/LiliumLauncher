@@ -30,7 +30,6 @@
         {
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.textBoxNowVersion = new System.Windows.Forms.TextBox();
-            this.specificVersionList = new System.Windows.Forms.ComboBox();
             this.chkOpenSpecific = new System.Windows.Forms.CheckBox();
             this.textInstanceName = new System.Windows.Forms.TextBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
@@ -43,6 +42,7 @@
             this.label2 = new System.Windows.Forms.Label();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.textJVM = new System.Windows.Forms.TextBox();
+            this.btnVersionSelector = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -51,8 +51,8 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.btnVersionSelector);
             this.groupBox1.Controls.Add(this.textBoxNowVersion);
-            this.groupBox1.Controls.Add(this.specificVersionList);
             this.groupBox1.Controls.Add(this.chkOpenSpecific);
             this.groupBox1.Location = new System.Drawing.Point(12, 97);
             this.groupBox1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
@@ -71,19 +71,6 @@
             this.textBoxNowVersion.ReadOnly = true;
             this.textBoxNowVersion.Size = new System.Drawing.Size(130, 23);
             this.textBoxNowVersion.TabIndex = 1;
-            // 
-            // specificVersionList
-            // 
-            this.specificVersionList.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.specificVersionList.Enabled = false;
-            this.specificVersionList.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.specificVersionList.FormattingEnabled = true;
-            this.specificVersionList.Location = new System.Drawing.Point(196, 22);
-            this.specificVersionList.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.specificVersionList.Name = "specificVersionList";
-            this.specificVersionList.Size = new System.Drawing.Size(18, 22);
-            this.specificVersionList.TabIndex = 0;
-            this.specificVersionList.SelectedIndexChanged += new System.EventHandler(this.specificVersionList_SelectedIndexChanged);
             // 
             // chkOpenSpecific
             // 
@@ -207,7 +194,18 @@
             this.textJVM.Size = new System.Drawing.Size(209, 23);
             this.textJVM.TabIndex = 0;
             // 
-            // minecraftAddInstance
+            // btnVersionSelector
+            // 
+            this.btnVersionSelector.Enabled = false;
+            this.btnVersionSelector.Location = new System.Drawing.Point(197, 21);
+            this.btnVersionSelector.Name = "btnVersionSelector";
+            this.btnVersionSelector.Size = new System.Drawing.Size(22, 25);
+            this.btnVersionSelector.TabIndex = 3;
+            this.btnVersionSelector.Text = "＋";
+            this.btnVersionSelector.UseVisualStyleBackColor = true;
+            this.btnVersionSelector.Click += new System.EventHandler(this.btnVersionSelector_Click);
+            // 
+            // minecraftActionInstance
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -224,7 +222,7 @@
             this.MaximumSize = new System.Drawing.Size(267, 388);
             this.MinimizeBox = false;
             this.MinimumSize = new System.Drawing.Size(267, 388);
-            this.Name = "minecraftAddInstance";
+            this.Name = "minecraftActionInstance";
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
@@ -247,7 +245,6 @@
         #endregion
 
         private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.ComboBox specificVersionList;
         private System.Windows.Forms.CheckBox chkOpenSpecific;
         private System.Windows.Forms.TextBox textInstanceName;
         private System.Windows.Forms.GroupBox groupBox2;
@@ -261,5 +258,6 @@
         private System.Windows.Forms.Button btnJava;
         private System.Windows.Forms.GroupBox groupBox4;
         private System.Windows.Forms.TextBox textJVM;
+        private System.Windows.Forms.Button btnVersionSelector;
     }
 }

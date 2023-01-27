@@ -242,6 +242,12 @@
   <ItemGroup>
     <Compile Include="ClassModel\globalModel.cs" />
     <Compile Include="ClassModel\launcherModel.cs" />
+    <Compile Include="minecraftVersionSelector.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="minecraftVersionSelector.Designer.cs">
+      <DependentUpon>minecraftVersionSelector.cs</DependentUpon>
+    </Compile>
     <Compile Include="mainUpdater.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -302,6 +308,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Tasks\launcherTask.cs" />
     <Compile Include="Tasks\loginChallengeTask.cs" />
+    <EmbeddedResource Include="minecraftVersionSelector.resx">
+      <DependentUpon>minecraftVersionSelector.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="loginMicrosoftForm.resx">
       <DependentUpon>loginMicrosoftForm.cs</DependentUpon>
     </EmbeddedResource>

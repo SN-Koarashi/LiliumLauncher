@@ -126,9 +126,6 @@ namespace XCoreNET
 
             textBoxInterval.Text = gb.runInterval.ToString();
 
-
-            chkBoxRelease.Checked = gb.verOptRelease;
-            chkBoxSnapshot.Checked = gb.verOptSnapshot;
             chkConcurrent.Checked = gb.isConcurrent;
 
             maxMemory = Convert.ToInt32(Math.Floor(Convert.ToDouble(new ComputerInfo().TotalPhysicalMemory / 1024 / 1024 / 1000)) - 2) * 1024;
@@ -377,31 +374,36 @@ namespace XCoreNET
             // 不選擇啟動實例
             if (gb.currentInstance.lastname == null || gb.currentInstance.lastname.Length == 0)
             {
-                versionList.Enabled = true;
+                btnVersionSelector.Enabled = true;
             }
             else
             {
                 // 選擇啟動實例
                 if (File.Exists(gb.PathJoin(gb.currentInstance.lastname, "version.bin")))
                 {
+
                     byte[] data = File.ReadAllBytes(gb.PathJoin(gb.currentInstance.lastname, "version.bin"));
                     string dataString = Encoding.Default.GetString(data);
-                    if (versionList.Items.IndexOf(dataString) != -1)
+
+                    Console.WriteLine(gb.versionNameList.IndexOf(dataString));
+                    if (gb.versionNameList.IndexOf(dataString) != -1)
                     {
-                        versionList.SelectedItem = dataString;
                         textVersionSelected.Text = dataString;
-                        versionList.Enabled = false;
+                        btnVersionSelector.Enabled = false;
                     }
                     else
                     {
-                        versionList.Enabled = true;
+                        btnVersionSelector.Enabled = true;
                     }
                 }
                 else
                 {
-                    versionList.Enabled = true;
+                    btnVersionSelector.Enabled = true;
                 }
             }
+
+            if (btnVersionSelector.Enabled)
+                textVersionSelected.Text = gb.lastVersionID;
         }
         private void onGetAllInstance()
         {
@@ -431,103 +433,54 @@ namespace XCoreNET
         }
         private async void onGetAllVersion()
         {
-            bool hasTakeManifesst = false;
+            btnVersionSelector.Enabled = false;
+            Directory.CreateDirectory(gb.PathJoin(DATA_FOLDER, "versions"));
+            var folderName = Directory.GetDirectories(gb.PathJoin(DATA_FOLDER, "versions"));
 
-            textVersionSelected.Text = "";
-            releaseList.Clear();
-            versionList.Items.Clear();
+            gb.versionListModels.Clear();
+            gb.versionNameInstalledList.Clear();
+            gb.versionNameList.Clear();
+
+            foreach (var nameFull in folderName)
+            {
+                var name = nameFull.Split('\\').Last();
+                gb.versionNameInstalledList.Add(name);
+            }
 
             if (version_manifest_v2 == null)
                 version_manifest_v2 = (JArray)(await launcher.getAllVersion())["versions"];
 
             foreach (var v in version_manifest_v2)
             {
-                if (v["type"].ToString().Equals("release") && gb.verOptRelease)
+                if (v["type"].ToString().Equals("release") || v["type"].ToString().Equals("snapshot"))
                 {
-                    releaseList.Add(v["id"].ToString(), v["url"].ToString());
-                    hasTakeManifesst = true;
-                }
-                if (v["type"].ToString().Equals("snapshot") && gb.verOptSnapshot)
-                {
-                    releaseList.Add(v["id"].ToString(), v["url"].ToString());
-                    hasTakeManifesst = true;
-                }
+                    VersionListModel vlm = new VersionListModel();
+                    vlm.version = v["id"].ToString();
+                    vlm.type = v["type"].ToString();
+                    vlm.url = v["url"].ToString();
+                    vlm.datetime = DateTime.Parse(v["releaseTime"].ToString());
+                    vlm.isInstalled = (gb.versionNameInstalledList.IndexOf(vlm.version) != -1) ? true : false;
 
-                if (!releaseListDateTime.ContainsKey(v["id"].ToString()))
-                    releaseListDateTime.Add(v["id"].ToString(), DateTime.Parse(v["releaseTime"].ToString()));
-            }
-
-            foreach (var r in releaseList)
-            {
-                versionList.Items.Add(r.Key);
-            }
-
-            Directory.CreateDirectory(gb.PathJoin(DATA_FOLDER, "versions"));
-
-            var folderName = Directory.GetDirectories(gb.PathJoin(DATA_FOLDER, "versions"));
-            var installedName = new List<string>();
-            foreach (var nameFull in folderName)
-            {
-                var name = nameFull.Split('\\').Last();
-                installedName.Add(name);
-            }
-
-            foreach (var nowName in installedName)
-            {
-                foreach (var v in version_manifest_v2)
-                {
-                    if (v["id"].ToString().Equals(nowName) && !releaseList.ContainsKey(nowName))
-                        releaseList.Add(nowName, v["url"].ToString());
-                }
-
-                if (!versionList.Items.Contains(nowName))
-                {
-                    versionList.Items.Add(nowName);
+                    gb.versionListModels.Add(vlm);
+                    gb.versionNameList.Add(vlm.version);
                 }
             }
 
-            // 沒有提取任何發布版本的話，對已安裝在本機的版本列表進行排序
-            if (!hasTakeManifesst)
-            {
-                var items = versionList.Items;
-                var customVersion = new List<string>();
-                var vanillaVersion = new List<string>();
 
-                foreach (var item in items)
+            foreach (var name in gb.versionNameInstalledList)
+            {
+                if (gb.versionNameList.IndexOf(name) == -1)
                 {
-                    if (releaseList.ContainsKey(item.ToString()))
-                        vanillaVersion.Add(item.ToString());
-                    else
-                        customVersion.Add(item.ToString());
+                    VersionListModel vlm = new VersionListModel();
+                    vlm.version = name;
+                    vlm.type = "loader";
+                    vlm.datetime = File.GetCreationTime(gb.PathJoin(DATA_FOLDER, "versions", name, $"{name}.json"));
+                    vlm.isInstalled = true;
+
+                    gb.versionListModels.Add(vlm);
+                    gb.versionNameList.Add(name);
                 }
-
-
-                vanillaVersion.Sort((x, y) => -DateTime.Compare(releaseListDateTime[x], releaseListDateTime[y]));
-                customVersion.Sort();
-
-                versionList.Items.Clear();
-                versionList.Items.AddRange(vanillaVersion.ToArray());
-                versionList.Items.AddRange(customVersion.ToArray());
             }
-
-            versionList.DropDownWidth = (gb.DropDownWidth(versionList) + 25 > 300) ? 300 : gb.DropDownWidth(versionList) + 25;
-
-            foreach (var item in versionList.Items)
-            {
-                if (item.ToString().Equals(gb.lastVersionID))
-                    versionList.SelectedItem = item;
-            }
-
-            if (versionList.Items.Count > 0 && versionList.SelectedItem != null)
-                textVersionSelected.Text = versionList.SelectedItem.ToString();
-            else if (versionList.SelectedItem == null && versionList.Items.Count > 0)
-            {
-                textVersionSelected.Text = versionList.Items[0].ToString();
-                versionList.SelectedIndex = 0;
-            }
-
-            groupBoxVersion.Enabled = true;
-
             setSpecificInstance();
         }
 
@@ -887,7 +840,6 @@ namespace XCoreNET
             groupBoxDataFolder.Enabled = isEnabled;
             groupBoxMainProg.Enabled = isEnabled;
             groupBoxAccount.Enabled = isEnabled;
-            groupBoxVersion.Enabled = isEnabled;
             groupBoxInterval.Enabled = isEnabled;
             groupBoxVersionReload.Enabled = isEnabled;
             groupBoxMemory.Enabled = isEnabled;
@@ -934,7 +886,7 @@ namespace XCoreNET
             settingAllControl(false);
             progressBar.Value = 0;
 
-            if (versionList.Items.Count == 0)
+            if (gb.versionNameList.Count == 0)
             {
                 MessageBox.Show("未找到有效的版本可供啟動", "警告", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 settingAllControl(true);
@@ -942,15 +894,23 @@ namespace XCoreNET
             }
 
             gb.resetStartupParms();
+            gb.lastVersionID = textVersionSelected.Text;
 
-            gb.lastVersionID = versionList.SelectedItem.ToString();
+            string selectVersion = null;
+            string verURL = null;
 
-            string selectVersion = versionList.Items[versionList.SelectedIndex].ToString();
-            string verURL;
+            foreach (var oVlm in gb.versionListModels)
+            {
+                if (oVlm.version.Equals(gb.lastVersionID))
+                {
+                    selectVersion = oVlm.version;
+                    verURL = oVlm.url;
+                }
+            }
 
             gb.savingSession(false);
 
-            if (releaseList.TryGetValue(selectVersion, out verURL))
+            if (selectVersion != null && verURL != null)
             {
                 onCreateIndexes(selectVersion, verURL);
             }
@@ -969,15 +929,17 @@ namespace XCoreNET
 
                 var data = File.ReadAllText(dir);
                 JObject obj = JsonConvert.DeserializeObject<JObject>(data);
+                var vanillaInfo = (obj["inheritsFrom"] != null) ? obj["inheritsFrom"] : obj["jar"];
 
-
-                if (releaseList.TryGetValue(obj["inheritsFrom"].ToString(), out verURL))
+                if (File.Exists(gb.PathJoin(DATA_FOLDER, "versions", vanillaInfo.ToString(), $"{vanillaInfo.ToString()}.jar")))
                 {
-
-                }
-                else if (obj["jar"] != null)
-                {
-                    verURL = releaseList[obj["jar"].ToString()];
+                    foreach (var item in gb.versionListModels)
+                    {
+                        if (item.version.Equals(vanillaInfo.ToString()))
+                        {
+                            verURL = item.url;
+                        }
+                    }
                 }
 
                 if (verURL != null && verURL.Length > 0)
@@ -988,7 +950,6 @@ namespace XCoreNET
                 else
                 {
                     string vanillaVersion = "";
-                    var vanillaInfo = (obj["inheritsFrom"] != null) ? obj["inheritsFrom"] : obj["jar"];
                     if (vanillaInfo != null)
                     {
                         vanillaVersion = vanillaInfo.ToString();
@@ -1004,16 +965,10 @@ namespace XCoreNET
                             {
                                 if (item["id"].ToString().Equals(vanillaVersion))
                                 {
-                                    if (!releaseList.ContainsKey(item["id"].ToString()))
-                                        releaseList.Add(item["id"].ToString(), item["url"].ToString());
-
-                                    versionList.Items.Add(item["id"].ToString());
+                                    textVersionSelected.Text = item["id"].ToString();
                                     break;
                                 }
                             }
-
-                            versionList.SelectedIndex = versionList.Items.Count - 1;
-                            textVersionSelected.Text = versionList.SelectedItem.ToString();
 
                             checkFile = true;
                             onVersionInfo();
@@ -2117,7 +2072,7 @@ namespace XCoreNET
             proc.StartInfo = startInfo;
             proc.EnableRaisingEvents = true;
 
-            var installedPath = gb.PathJoin(DATA_FOLDER, "versions", versionList.SelectedItem.ToString(), "installed.");
+            var installedPath = gb.PathJoin(DATA_FOLDER, "versions", textVersionSelected.Text, "installed.");
             if (!File.Exists(installedPath))
             {
                 File.WriteAllText(installedPath, DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss"));
@@ -2341,11 +2296,6 @@ namespace XCoreNET
             textVersionSelected.SelectAll();
         }
 
-        private void versionList_SelectionChangeCommitted(object sender, EventArgs e)
-        {
-            textVersionSelected.Text = versionList.SelectedItem.ToString();
-        }
-
         private void btnMainSetting_Click(object sender, EventArgs e)
         {
             settingForm sf = new settingForm();
@@ -2464,21 +2414,6 @@ namespace XCoreNET
                 settingAllControl(true);
         }
 
-        private void chkBoxRelease_Click(object sender, EventArgs e)
-        {
-            groupBoxVersion.Enabled = false;
-            gb.verOptRelease = chkBoxRelease.Checked;
-            gb.savingSession(false);
-            onGetAllVersion();
-        }
-
-        private void chkBoxSnapshot_Click(object sender, EventArgs e)
-        {
-            groupBoxVersion.Enabled = false;
-            gb.verOptSnapshot = chkBoxSnapshot.Checked;
-            gb.savingSession(false);
-            onGetAllVersion();
-        }
         private void chkConcurrent_Click(object sender, EventArgs e)
         {
             gb.isConcurrent = chkConcurrent.Checked;
@@ -2661,7 +2596,7 @@ namespace XCoreNET
 
         private void btnInstanceAdd_Click(object sender, EventArgs e)
         {
-            minecraftActionInstance ai = new minecraftActionInstance(versionList.Items, DATA_FOLDER, null);
+            minecraftActionInstance ai = new minecraftActionInstance(DATA_FOLDER, null);
             var result = ai.ShowDialog();
             if (result == DialogResult.OK)
             {
@@ -2672,7 +2607,7 @@ namespace XCoreNET
         }
         private void btnInstanceEdit_Click(object sender, EventArgs e)
         {
-            minecraftActionInstance ai = new minecraftActionInstance(versionList.Items, DATA_FOLDER, gb.currentInstance.lastname);
+            minecraftActionInstance ai = new minecraftActionInstance(DATA_FOLDER, gb.currentInstance.lastname);
             var result = ai.ShowDialog();
             if (result == DialogResult.OK)
             {
@@ -2822,6 +2757,18 @@ namespace XCoreNET
             }
 
             ma.Dispose();
+        }
+
+        private void btnVersionSelector_Click(object sender, EventArgs e)
+        {
+            minecraftVersionSelector form = new minecraftVersionSelector();
+            var result = form.ShowDialog();
+            if (result == DialogResult.OK)
+            {
+                textVersionSelected.Text = gb.lastVersionID;
+            }
+
+            form.Dispose();
         }
     }
 }

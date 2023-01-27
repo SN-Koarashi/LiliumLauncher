@@ -12,6 +12,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using static XCoreNET.ClassModel.globalModel;
+using static XCoreNET.ClassModel.launcherModel;
 
 namespace Global
 {
@@ -24,7 +25,9 @@ namespace Global
         public static bool httpUsing = false;
         public static bool verOptRelease = true;
         public static bool verOptSnapshot = false;
+        public static bool verOptLoader = false;
         public static bool firstStart = false;
+        public static bool? verStatusFilter = null;
         public static List<string> instance = new List<string>();
         public static string loginMethod = "default";
         public static string mainFolderName = ".minecraft-xcorenet";
@@ -47,6 +50,9 @@ namespace Global
         public static Dictionary<string, InstanceModel> allInstance = new Dictionary<string, InstanceModel>();
         public static startupParmsModel startupParms = new startupParmsModel();
         public static InstanceModel currentInstance = new InstanceModel();
+        public static List<VersionListModel> versionListModels = new List<VersionListModel>();
+        public static List<string> versionNameList = new List<string>();
+        public static List<string> versionNameInstalledList = new List<string>();
 
         public static string getMicrosoftOAuthURL()
         {
@@ -108,8 +114,10 @@ namespace Global
                 versionOptions = new
                 {
                     release = verOptRelease,
-                    snapshot = verOptSnapshot
+                    snapshot = verOptSnapshot,
+                    loader = verOptLoader
                 },
+                verStatusFilter = verStatusFilter,
                 currentInstance = currentInstance,
                 allInstance = allInstance,
                 account = account,
@@ -160,6 +168,7 @@ namespace Global
                     var result = JsonConvert.DeserializeObject<SessionModel>(decrypted);
 
                     isConcurrent = result.isConcurrent;
+                    verStatusFilter = result.verStatusFilter;
                     mainFolder = (result.mainFolder != null) ? result.mainFolder : mainFolder;
                     refreshToken = result.refreshToken;
                     launchToken = GetValueOrDefault<string, object, string>(result.launcher, "token", launchToken);
@@ -168,6 +177,7 @@ namespace Global
                     minecraftUUID = GetValueOrDefault<string, object, string>(result.minecraft, "uuid", minecraftUUID);
                     verOptRelease = GetValueOrDefault<string, object, bool>(result.versionOptions, "release", verOptRelease);
                     verOptSnapshot = GetValueOrDefault<string, object, bool>(result.versionOptions, "snapshot", verOptSnapshot);
+                    verOptLoader = GetValueOrDefault<string, object, bool>(result.versionOptions, "loader", verOptLoader);
                     currentInstance = (result.currentInstance != null) ? result.currentInstance : currentInstance;
                     allInstance = (result.allInstance != null) ? result.allInstance : allInstance;
 

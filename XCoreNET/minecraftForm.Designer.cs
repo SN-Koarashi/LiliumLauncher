@@ -33,13 +33,13 @@
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.mainPage = new System.Windows.Forms.TabPage();
             this.panelBody = new System.Windows.Forms.Panel();
+            this.webView = new Microsoft.Web.WebView2.WinForms.WebView2();
             this.panelFooter = new System.Windows.Forms.Panel();
             this.textStatus = new System.Windows.Forms.TextBox();
             this.btnLaunch = new System.Windows.Forms.Button();
             this.progressBar = new System.Windows.Forms.ProgressBar();
             this.panelHeader = new System.Windows.Forms.Panel();
             this.panelVersion = new System.Windows.Forms.Panel();
-            this.versionList = new System.Windows.Forms.ComboBox();
             this.textVersionSelected = new System.Windows.Forms.TextBox();
             this.textUser = new System.Windows.Forms.TextBox();
             this.avatar = new System.Windows.Forms.PictureBox();
@@ -74,19 +74,17 @@
             this.groupBoxVersionReload = new System.Windows.Forms.GroupBox();
             this.btnVerRecache = new System.Windows.Forms.Button();
             this.buttonVerReload = new System.Windows.Forms.Button();
-            this.groupBoxVersion = new System.Windows.Forms.GroupBox();
-            this.chkBoxSnapshot = new System.Windows.Forms.CheckBox();
-            this.chkBoxRelease = new System.Windows.Forms.CheckBox();
             this.debugPage = new System.Windows.Forms.TabPage();
             this.textBox = new System.Windows.Forms.TextBox();
             this.updatePage = new System.Windows.Forms.TabPage();
             this.textBoxUpdateNote = new System.Windows.Forms.RichTextBox();
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.timerConcurrent = new System.Windows.Forms.Timer(this.components);
-            this.webView = new Microsoft.Web.WebView2.WinForms.WebView2();
+            this.btnVersionSelector = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.mainPage.SuspendLayout();
             this.panelBody.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.webView)).BeginInit();
             this.panelFooter.SuspendLayout();
             this.panelHeader.SuspendLayout();
             this.panelVersion.SuspendLayout();
@@ -102,10 +100,8 @@
             this.groupBoxMainProg.SuspendLayout();
             this.groupBoxAccount.SuspendLayout();
             this.groupBoxVersionReload.SuspendLayout();
-            this.groupBoxVersion.SuspendLayout();
             this.debugPage.SuspendLayout();
             this.updatePage.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.webView)).BeginInit();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -145,6 +141,19 @@
             this.panelBody.Name = "panelBody";
             this.panelBody.Size = new System.Drawing.Size(450, 176);
             this.panelBody.TabIndex = 8;
+            // 
+            // webView
+            // 
+            this.webView.AllowExternalDrop = true;
+            this.webView.CreationProperties = null;
+            this.webView.DefaultBackgroundColor = System.Drawing.SystemColors.Control;
+            this.webView.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.webView.Location = new System.Drawing.Point(0, 0);
+            this.webView.Name = "webView";
+            this.webView.Size = new System.Drawing.Size(450, 176);
+            this.webView.Source = new System.Uri("https://www.snkms.com/minecraftNews.html", System.UriKind.Absolute);
+            this.webView.TabIndex = 0;
+            this.webView.ZoomFactor = 1D;
             // 
             // panelFooter
             // 
@@ -207,31 +216,20 @@
             // panelVersion
             // 
             this.panelVersion.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.panelVersion.Controls.Add(this.versionList);
+            this.panelVersion.Controls.Add(this.btnVersionSelector);
             this.panelVersion.Controls.Add(this.textVersionSelected);
-            this.panelVersion.Location = new System.Drawing.Point(263, 0);
+            this.panelVersion.Location = new System.Drawing.Point(265, 0);
             this.panelVersion.Name = "panelVersion";
-            this.panelVersion.Size = new System.Drawing.Size(187, 35);
+            this.panelVersion.Size = new System.Drawing.Size(185, 35);
             this.panelVersion.TabIndex = 1;
-            // 
-            // versionList
-            // 
-            this.versionList.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.versionList.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.versionList.FormattingEnabled = true;
-            this.versionList.Location = new System.Drawing.Point(166, 5);
-            this.versionList.Name = "versionList";
-            this.versionList.Size = new System.Drawing.Size(19, 25);
-            this.versionList.TabIndex = 7;
-            this.versionList.SelectionChangeCommitted += new System.EventHandler(this.versionList_SelectionChangeCommitted);
             // 
             // textVersionSelected
             // 
             this.textVersionSelected.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.textVersionSelected.Location = new System.Drawing.Point(5, 5);
+            this.textVersionSelected.Location = new System.Drawing.Point(3, 5);
             this.textVersionSelected.Name = "textVersionSelected";
             this.textVersionSelected.ReadOnly = true;
-            this.textVersionSelected.Size = new System.Drawing.Size(160, 25);
+            this.textVersionSelected.Size = new System.Drawing.Size(156, 25);
             this.textVersionSelected.TabIndex = 1;
             this.textVersionSelected.Click += new System.EventHandler(this.textVersionSelected_Click);
             // 
@@ -279,7 +277,6 @@
             this.panelMainSettings.Controls.Add(this.groupBoxMainProg);
             this.panelMainSettings.Controls.Add(this.groupBoxAccount);
             this.panelMainSettings.Controls.Add(this.groupBoxVersionReload);
-            this.panelMainSettings.Controls.Add(this.groupBoxVersion);
             this.panelMainSettings.Location = new System.Drawing.Point(3, 7);
             this.panelMainSettings.Name = "panelMainSettings";
             this.panelMainSettings.Size = new System.Drawing.Size(450, 284);
@@ -505,7 +502,7 @@
             this.groupBoxMainProg.Controls.Add(this.btnMainSetting);
             this.groupBoxMainProg.Location = new System.Drawing.Point(160, 97);
             this.groupBoxMainProg.Name = "groupBoxMainProg";
-            this.groupBoxMainProg.Size = new System.Drawing.Size(95, 93);
+            this.groupBoxMainProg.Size = new System.Drawing.Size(117, 93);
             this.groupBoxMainProg.TabIndex = 6;
             this.groupBoxMainProg.TabStop = false;
             this.groupBoxMainProg.Text = "啟動器選項";
@@ -514,7 +511,7 @@
             // 
             this.btnChkUpdate.Location = new System.Drawing.Point(7, 22);
             this.btnChkUpdate.Name = "btnChkUpdate";
-            this.btnChkUpdate.Size = new System.Drawing.Size(82, 28);
+            this.btnChkUpdate.Size = new System.Drawing.Size(103, 28);
             this.btnChkUpdate.TabIndex = 5;
             this.btnChkUpdate.Text = "檢查更新";
             this.btnChkUpdate.UseVisualStyleBackColor = true;
@@ -524,7 +521,7 @@
             // 
             this.btnMainSetting.Location = new System.Drawing.Point(7, 57);
             this.btnMainSetting.Name = "btnMainSetting";
-            this.btnMainSetting.Size = new System.Drawing.Size(82, 28);
+            this.btnMainSetting.Size = new System.Drawing.Size(103, 28);
             this.btnMainSetting.TabIndex = 4;
             this.btnMainSetting.Text = "系統設定";
             this.btnMainSetting.UseVisualStyleBackColor = true;
@@ -576,9 +573,9 @@
             // 
             this.groupBoxVersionReload.Controls.Add(this.btnVerRecache);
             this.groupBoxVersionReload.Controls.Add(this.buttonVerReload);
-            this.groupBoxVersionReload.Location = new System.Drawing.Point(261, 97);
+            this.groupBoxVersionReload.Location = new System.Drawing.Point(283, 97);
             this.groupBoxVersionReload.Name = "groupBoxVersionReload";
-            this.groupBoxVersionReload.Size = new System.Drawing.Size(93, 93);
+            this.groupBoxVersionReload.Size = new System.Drawing.Size(160, 93);
             this.groupBoxVersionReload.TabIndex = 9;
             this.groupBoxVersionReload.TabStop = false;
             this.groupBoxVersionReload.Text = "版本資料";
@@ -587,7 +584,7 @@
             // 
             this.btnVerRecache.Location = new System.Drawing.Point(7, 56);
             this.btnVerRecache.Name = "btnVerRecache";
-            this.btnVerRecache.Size = new System.Drawing.Size(80, 28);
+            this.btnVerRecache.Size = new System.Drawing.Size(147, 28);
             this.btnVerRecache.TabIndex = 1;
             this.btnVerRecache.Text = "重新快取";
             this.toolTip.SetToolTip(this.btnVerRecache, "向 Mojang 重新快取版本列表及重新載入啟動實例列表");
@@ -598,47 +595,12 @@
             // 
             this.buttonVerReload.Location = new System.Drawing.Point(7, 21);
             this.buttonVerReload.Name = "buttonVerReload";
-            this.buttonVerReload.Size = new System.Drawing.Size(80, 28);
+            this.buttonVerReload.Size = new System.Drawing.Size(147, 28);
             this.buttonVerReload.TabIndex = 0;
             this.buttonVerReload.Text = "重新載入";
             this.toolTip.SetToolTip(this.buttonVerReload, "重新載入版本列表及啟動實例列表");
             this.buttonVerReload.UseVisualStyleBackColor = true;
             this.buttonVerReload.Click += new System.EventHandler(this.buttonVerReload_Click);
-            // 
-            // groupBoxVersion
-            // 
-            this.groupBoxVersion.Controls.Add(this.chkBoxSnapshot);
-            this.groupBoxVersion.Controls.Add(this.chkBoxRelease);
-            this.groupBoxVersion.Location = new System.Drawing.Point(360, 97);
-            this.groupBoxVersion.Name = "groupBoxVersion";
-            this.groupBoxVersion.Size = new System.Drawing.Size(83, 93);
-            this.groupBoxVersion.TabIndex = 8;
-            this.groupBoxVersion.TabStop = false;
-            this.groupBoxVersion.Text = "版本選項";
-            // 
-            // chkBoxSnapshot
-            // 
-            this.chkBoxSnapshot.AutoSize = true;
-            this.chkBoxSnapshot.Location = new System.Drawing.Point(9, 53);
-            this.chkBoxSnapshot.Name = "chkBoxSnapshot";
-            this.chkBoxSnapshot.Size = new System.Drawing.Size(69, 22);
-            this.chkBoxSnapshot.TabIndex = 1;
-            this.chkBoxSnapshot.Text = "快照版";
-            this.chkBoxSnapshot.UseVisualStyleBackColor = true;
-            this.chkBoxSnapshot.Click += new System.EventHandler(this.chkBoxSnapshot_Click);
-            // 
-            // chkBoxRelease
-            // 
-            this.chkBoxRelease.AutoSize = true;
-            this.chkBoxRelease.Checked = true;
-            this.chkBoxRelease.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkBoxRelease.Location = new System.Drawing.Point(9, 25);
-            this.chkBoxRelease.Name = "chkBoxRelease";
-            this.chkBoxRelease.Size = new System.Drawing.Size(69, 22);
-            this.chkBoxRelease.TabIndex = 0;
-            this.chkBoxRelease.Text = "正式版";
-            this.chkBoxRelease.UseVisualStyleBackColor = true;
-            this.chkBoxRelease.Click += new System.EventHandler(this.chkBoxRelease_Click);
             // 
             // debugPage
             // 
@@ -689,18 +651,16 @@
             // 
             this.timerConcurrent.Tick += new System.EventHandler(this.timerConcurrent_Tick);
             // 
-            // webView
+            // btnVersionSelector
             // 
-            this.webView.AllowExternalDrop = true;
-            this.webView.CreationProperties = null;
-            this.webView.DefaultBackgroundColor = System.Drawing.SystemColors.Control;
-            this.webView.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.webView.Location = new System.Drawing.Point(0, 0);
-            this.webView.Name = "webView";
-            this.webView.Size = new System.Drawing.Size(450, 176);
-            this.webView.Source = new System.Uri("https://www.snkms.com/minecraftNews.html", System.UriKind.Absolute);
-            this.webView.TabIndex = 0;
-            this.webView.ZoomFactor = 1D;
+            this.btnVersionSelector.Enabled = false;
+            this.btnVersionSelector.Location = new System.Drawing.Point(160, 5);
+            this.btnVersionSelector.Name = "btnVersionSelector";
+            this.btnVersionSelector.Size = new System.Drawing.Size(22, 25);
+            this.btnVersionSelector.TabIndex = 2;
+            this.btnVersionSelector.Text = "＋";
+            this.btnVersionSelector.UseVisualStyleBackColor = true;
+            this.btnVersionSelector.Click += new System.EventHandler(this.btnVersionSelector_Click);
             // 
             // minecraftForm
             // 
@@ -723,6 +683,7 @@
             this.tabControl1.ResumeLayout(false);
             this.mainPage.ResumeLayout(false);
             this.panelBody.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.webView)).EndInit();
             this.panelFooter.ResumeLayout(false);
             this.panelFooter.PerformLayout();
             this.panelHeader.ResumeLayout(false);
@@ -745,12 +706,9 @@
             this.groupBoxMainProg.ResumeLayout(false);
             this.groupBoxAccount.ResumeLayout(false);
             this.groupBoxVersionReload.ResumeLayout(false);
-            this.groupBoxVersion.ResumeLayout(false);
-            this.groupBoxVersion.PerformLayout();
             this.debugPage.ResumeLayout(false);
             this.debugPage.PerformLayout();
             this.updatePage.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.webView)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -772,7 +730,6 @@
         private System.Windows.Forms.TabPage settingPage;
         private System.Windows.Forms.GroupBox groupBoxDataFolder;
         private System.Windows.Forms.Panel panelSettingsLeft;
-        private System.Windows.Forms.ComboBox versionList;
         private System.Windows.Forms.GroupBox groupBoxInterval;
         private System.Windows.Forms.ToolTip toolTip;
         private System.Windows.Forms.TextBox textVersionSelected;
@@ -782,9 +739,6 @@
         private System.Windows.Forms.GroupBox groupBoxAccount;
         private System.Windows.Forms.Button btnSwitchAcc;
         private System.Windows.Forms.Button btnLogout;
-        private System.Windows.Forms.GroupBox groupBoxVersion;
-        private System.Windows.Forms.CheckBox chkBoxRelease;
-        private System.Windows.Forms.CheckBox chkBoxSnapshot;
         private System.Windows.Forms.GroupBox groupBoxVersionReload;
         private System.Windows.Forms.Button buttonVerReload;
         private System.Windows.Forms.TrackBar trackBarMiB;
@@ -811,5 +765,6 @@
         private System.Windows.Forms.Panel panelMainSettings;
         private System.Windows.Forms.Button btnInstanceEdit;
         private Microsoft.Web.WebView2.WinForms.WebView2 webView;
+        private System.Windows.Forms.Button btnVersionSelector;
     }
 }
