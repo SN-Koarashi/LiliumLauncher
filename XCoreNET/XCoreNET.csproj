@@ -242,6 +242,18 @@
   <ItemGroup>
     <Compile Include="ClassModel\globalModel.cs" />
     <Compile Include="ClassModel\launcherModel.cs" />
+    <Compile Include="Partial\minecraftForm\minecraftForm.authification.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Partial\minecraftForm\minecraftForm.downloader.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Partial\minecraftForm\minecraftForm.initialization.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Partial\minecraftForm\minecraftForm.launchingProcess.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="minecraftVersionSelector.cs">
       <SubType>Form</SubType>
     </Compile>

@@ -40,6 +40,7 @@
             this.progressBar = new System.Windows.Forms.ProgressBar();
             this.panelHeader = new System.Windows.Forms.Panel();
             this.panelVersion = new System.Windows.Forms.Panel();
+            this.btnVersionSelector = new System.Windows.Forms.Button();
             this.textVersionSelected = new System.Windows.Forms.TextBox();
             this.textUser = new System.Windows.Forms.TextBox();
             this.avatar = new System.Windows.Forms.PictureBox();
@@ -80,7 +81,6 @@
             this.textBoxUpdateNote = new System.Windows.Forms.RichTextBox();
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.timerConcurrent = new System.Windows.Forms.Timer(this.components);
-            this.btnVersionSelector = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.mainPage.SuspendLayout();
             this.panelBody.SuspendLayout();
@@ -139,7 +139,7 @@
             this.panelBody.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelBody.Location = new System.Drawing.Point(3, 44);
             this.panelBody.Name = "panelBody";
-            this.panelBody.Size = new System.Drawing.Size(450, 176);
+            this.panelBody.Size = new System.Drawing.Size(450, 185);
             this.panelBody.TabIndex = 8;
             // 
             // webView
@@ -150,7 +150,7 @@
             this.webView.Dock = System.Windows.Forms.DockStyle.Fill;
             this.webView.Location = new System.Drawing.Point(0, 0);
             this.webView.Name = "webView";
-            this.webView.Size = new System.Drawing.Size(450, 176);
+            this.webView.Size = new System.Drawing.Size(450, 185);
             this.webView.Source = new System.Uri("https://www.snkms.com/minecraftNews.html", System.UriKind.Absolute);
             this.webView.TabIndex = 0;
             this.webView.ZoomFactor = 1D;
@@ -162,9 +162,9 @@
             this.panelFooter.Controls.Add(this.btnLaunch);
             this.panelFooter.Controls.Add(this.progressBar);
             this.panelFooter.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panelFooter.Location = new System.Drawing.Point(3, 220);
+            this.panelFooter.Location = new System.Drawing.Point(3, 229);
             this.panelFooter.Name = "panelFooter";
-            this.panelFooter.Size = new System.Drawing.Size(450, 68);
+            this.panelFooter.Size = new System.Drawing.Size(450, 59);
             this.panelFooter.TabIndex = 7;
             // 
             // textStatus
@@ -173,7 +173,7 @@
             this.textStatus.BackColor = System.Drawing.SystemColors.Control;
             this.textStatus.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.textStatus.Font = new System.Drawing.Font("Verdana", 10F);
-            this.textStatus.Location = new System.Drawing.Point(5, 14);
+            this.textStatus.Location = new System.Drawing.Point(5, 12);
             this.textStatus.Name = "textStatus";
             this.textStatus.ReadOnly = true;
             this.textStatus.Size = new System.Drawing.Size(340, 17);
@@ -198,7 +198,7 @@
             this.progressBar.Margin = new System.Windows.Forms.Padding(15);
             this.progressBar.MarqueeAnimationSpeed = 5;
             this.progressBar.Name = "progressBar";
-            this.progressBar.Size = new System.Drawing.Size(450, 28);
+            this.progressBar.Size = new System.Drawing.Size(450, 19);
             this.progressBar.TabIndex = 2;
             // 
             // panelHeader
@@ -222,6 +222,17 @@
             this.panelVersion.Name = "panelVersion";
             this.panelVersion.Size = new System.Drawing.Size(185, 35);
             this.panelVersion.TabIndex = 1;
+            // 
+            // btnVersionSelector
+            // 
+            this.btnVersionSelector.Enabled = false;
+            this.btnVersionSelector.Location = new System.Drawing.Point(160, 5);
+            this.btnVersionSelector.Name = "btnVersionSelector";
+            this.btnVersionSelector.Size = new System.Drawing.Size(22, 25);
+            this.btnVersionSelector.TabIndex = 2;
+            this.btnVersionSelector.Text = "＋";
+            this.btnVersionSelector.UseVisualStyleBackColor = true;
+            this.btnVersionSelector.Click += new System.EventHandler(this.btnVersionSelector_Click);
             // 
             // textVersionSelected
             // 
@@ -650,17 +661,6 @@
             // timerConcurrent
             // 
             this.timerConcurrent.Tick += new System.EventHandler(this.timerConcurrent_Tick);
-            // 
-            // btnVersionSelector
-            // 
-            this.btnVersionSelector.Enabled = false;
-            this.btnVersionSelector.Location = new System.Drawing.Point(160, 5);
-            this.btnVersionSelector.Name = "btnVersionSelector";
-            this.btnVersionSelector.Size = new System.Drawing.Size(22, 25);
-            this.btnVersionSelector.TabIndex = 2;
-            this.btnVersionSelector.Text = "＋";
-            this.btnVersionSelector.UseVisualStyleBackColor = true;
-            this.btnVersionSelector.Click += new System.EventHandler(this.btnVersionSelector_Click);
             // 
             // minecraftForm
             // 
