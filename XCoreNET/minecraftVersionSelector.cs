@@ -11,18 +11,36 @@ namespace XCoreNET
     {
         bool? statusFilter = null;
 
+        private void setTranslate()
+        {
+            this.Text = gb.lang.FORM_TITLE_VERSION_SELECTOR;
+            this.Font = new Font(gb.lang.FONT_FAMILY_CHILD, gb.lang.FONT_SIZE_CHILD);
+
+            groupBox1.Text = gb.lang.GROUP_STATUS_FILTER;
+            groupBox2.Text = gb.lang.GROUP_VERSION_FILTER;
+
+            radAll.Text = gb.lang.RAD_STATUS_ALL;
+            radInstalled.Text = gb.lang.RAD_STATUS_INSTALL;
+            radNoInstalled.Text = gb.lang.RAD_STATUS_NON_INSTALL;
+
+            chkRelease.Text = gb.lang.CHK_VERSION_RELEASE;
+            chkSnapshot.Text = gb.lang.CHK_VERSION_SNAPSHOT;
+            chkLoader.Text = gb.lang.CHK_VERSION_LOADER;
+        }
+
         public minecraftVersionSelector()
         {
             InitializeComponent();
+            setTranslate();
         }
 
         private void setDataView(bool? showInstalled)
         {
             DataTable DataTable = new DataTable();
-            DataTable.Columns.Add("版本");
-            DataTable.Columns.Add("類型");
-            DataTable.Columns.Add("發行 / 安裝日期(?)");
-            DataTable.Columns.Add("狀態");
+            DataTable.Columns.Add(gb.lang.GRID_VERSION);
+            DataTable.Columns.Add(gb.lang.GRID_TYPE);
+            DataTable.Columns.Add(gb.lang.GRID_DATE);
+            DataTable.Columns.Add(gb.lang.GRID_STATUS);
 
             foreach (var vlm in gb.versionListModels)
             {
@@ -32,8 +50,8 @@ namespace XCoreNET
                         DataTable.Rows.Add(new string[] {
                             vlm.version,
                             vlm.type,
-                            vlm.datetime.ToString("yyyy-MM-dd HH:mm:ss"),
-                            (vlm.isInstalled)?"已安裝":"未安裝"
+                            vlm.datetime.ToString(gb.lang.GRID_DATE_FORMAT),
+                            (vlm.isInstalled)?gb.lang.GRID_INSTALLED:gb.lang.GRID_NON_INSTALLED
                         });
                 }
             }
@@ -97,9 +115,9 @@ namespace XCoreNET
             dataGridView1.Columns[0].Width = 110;
             dataGridView1.Columns[1].Width = 65;
             dataGridView1.Columns[2].Width = 125;
-            dataGridView1.Columns[3].Width = 60;
+            dataGridView1.Columns[3].Width = 90;
 
-            dataGridView1.Columns[2].ToolTipText = "原版程式載入器顯示發行日期；自行安裝之模組載入器則顯示安裝日期。";
+            dataGridView1.Columns[2].ToolTipText = gb.lang.TOOLTIP_GRID_DATE_INTRO;
 
             dataGridView1.Sort(dataGridView1.Columns[2], ListSortDirection.Descending);
 
@@ -109,9 +127,11 @@ namespace XCoreNET
             {
                 width += col.Width;
             }
-            this.Width = width + 76 + 124;
-            this.MaximumSize = new Size(this.Width, 350);
-            this.MinimumSize = new Size(this.Width, 350);
+            width += 76 + panelMain.Width;
+
+            this.MaximumSize = new Size(width, 350);
+            this.MinimumSize = new Size(width, 350);
+            this.Width = width;
         }
 
         private void minecraftVersionSelector_Resize(object sender, EventArgs e)

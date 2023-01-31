@@ -9,9 +9,20 @@ namespace XCoreNET
 {
     public partial class minecraftMainForm : Form
     {
+        private void setTranslate()
+        {
+            btnLogin.Text = gb.lang.BTN_LOGIN_MICROSOFT;
+            btnSetting.Text = gb.lang.BTN_SETTINGS;
+            btnUpdate.Text = gb.lang.BTN_CHECK_UPDATE;
+
+            label2.Text = gb.lang.LAB_SLOGAN;
+
+            this.Font = new System.Drawing.Font(gb.lang.FONT_FAMILY, gb.lang.FONT_SIZE);
+        }
         public minecraftMainForm()
         {
             InitializeComponent();
+            setTranslate();
 
             if (gb.account.Count > 0)
             {
@@ -20,7 +31,7 @@ namespace XCoreNET
 
                 Button btnSwitch = new Button();
                 btnSwitch.Width = btnLogin.Width;
-                btnSwitch.Text = "切換帳戶";
+                btnSwitch.Text = gb.lang.BTN_SWITCH_ACCOUNT;
                 btnSwitch.Font = btnLogin.Font;
                 btnSwitch.Height = btnLogin.Height;
                 this.tableLayoutPanel1.Controls.Add(btnSwitch, 2, 1);
@@ -29,7 +40,7 @@ namespace XCoreNET
                 btnSwitch.Click += (senderx, ex) =>
                 {
                     minecraftMultuAccount ma = new minecraftMultuAccount();
-                    ma.Text = "切換至其他已登入帳戶";
+                    ma.Text = gb.lang.FORM_TITLE_SWITCHING_ACCOUNT;
                     var result = ma.ShowDialog();
                     if (result == DialogResult.OK)
                     {

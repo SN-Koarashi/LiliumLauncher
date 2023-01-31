@@ -58,6 +58,7 @@ namespace XCoreNET.ClassModel
             public string loginMethod { get; set; }
             public string mainURL { get; set; }
             public string launcherURL { get; set; }
+            public string langCode { get; set; }
         }
         public class InstanceModel
         {

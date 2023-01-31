@@ -11,6 +11,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using XCoreNET.ClassModel;
 using static XCoreNET.ClassModel.globalModel;
 using static XCoreNET.ClassModel.launcherModel;
 
@@ -40,6 +41,7 @@ namespace Global
         public static string minecraftUUID = "";
         public static string minecraftUsername = "";
         public static string lastVersionID = "";
+        public static string langCode = "";
         public static int runInterval = 0;
         public static Uri mainHomepage = new Uri("https://www.snkms.com/chat/webchat2/");
         public static Uri launcherHomepage = new Uri("https://www.snkms.com/minecraftNews.html");
@@ -53,6 +55,23 @@ namespace Global
         public static List<VersionListModel> versionListModels = new List<VersionListModel>();
         public static List<string> versionNameList = new List<string>();
         public static List<string> versionNameInstalledList = new List<string>();
+        public static translateModel lang = new translateModel();
+
+        public static void setTranslate() {
+            string path = $"locates{Path.DirectorySeparatorChar}{langCode}.json";
+            if (File.Exists(path))
+            {
+                var data = File.ReadAllText(path);
+                var result = JsonConvert.DeserializeObject<translateModel>(data);
+                lang = result;
+            }
+            else {
+                path = $"locates{Path.DirectorySeparatorChar}en-US.json";
+                var data = File.ReadAllText(path);
+                var result = JsonConvert.DeserializeObject<translateModel>(data);
+                lang = result;
+            }
+        }
 
         public static string getMicrosoftOAuthURL()
         {
@@ -286,7 +305,7 @@ namespace Global
                 var compareResult = versionRemote.CompareTo(versionLocal);
                 if (compareResult > 0)
                 {
-                    var resultUpdate = MessageBox.Show("有新的應用程式版本可用，是否執行更新？", "說明", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                    var resultUpdate = MessageBox.Show(lang.DIALOG_APPLICATION_UPDATE_CONFIRM, lang.DIALOG_INFO, MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
                     if (resultUpdate == DialogResult.Yes)
                     {
                         var p = new Process();
@@ -304,12 +323,12 @@ namespace Global
                         cleanTempFiles();
                     }
                     else
-                        MessageBox.Show("應用程式已為最新版本", "說明", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        MessageBox.Show(lang.DIALOG_APPLICATION_LATEST, lang.DIALOG_INFO, MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
             }
             catch (Exception exx)
             {
-                MessageBox.Show($"更新檢查過程發生例外狀況: {exx.Message}", "說明", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($"{lang.DIALOG_APPLICATION_CHECKING_UPDATE_ERROR}{exx.Message}", lang.DIALOG_INFO, MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 

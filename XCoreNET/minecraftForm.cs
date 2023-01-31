@@ -27,9 +27,6 @@ namespace XCoreNET
         string DATA_FOLDER;
         string INSTALLED_PATH;
 
-        //Dictionary<string, string> releaseList = new Dictionary<string, string>();
-        //Dictionary<string, DateTime> releaseListDateTime = new Dictionary<string, DateTime>();
-
         Dictionary<string, DownloadListModel> downloadList = new Dictionary<string, DownloadListModel>();
         Dictionary<string, LibrariesModel> nativesList = new Dictionary<string, LibrariesModel>();
         Dictionary<string, LibrariesModel> librariesList = new Dictionary<string, LibrariesModel>();
@@ -143,7 +140,7 @@ namespace XCoreNET
         private void onGetAllInstance()
         {
             instanceList.Items.Clear();
-            instanceList.Items.Add("無");
+            instanceList.Items.Add(gb.lang.CONTENT_NONE);
 
             gb.instance = Directory.GetDirectories(gb.PathJoin(DATA_FOLDER, ".x-instance")).ToList<string>();
 
@@ -275,7 +272,7 @@ namespace XCoreNET
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message + Environment.NewLine + "因此替換為啟動器預設路徑。", "警告", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show(ex.Message + Environment.NewLine + gb.lang.DIALOG_REPLACE_DEFAULT_PATH, gb.lang.DIALOG_WARNING, MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 createGameDefFolder();
                 Task.Delay(1000).Wait();
                 btnOpenFolder_Click(sender, e);
@@ -331,6 +328,7 @@ namespace XCoreNET
             tabControl1.SelectedIndex = 0;
         }
 
+        /*
         private void textBoxInterval_KeyUp(object sender, KeyEventArgs e)
         {
             int result;
@@ -357,6 +355,7 @@ namespace XCoreNET
                 gb.savingSession(false);
             }
         }
+        */
 
         private void textVersionSelected_Click(object sender, EventArgs e)
         {
@@ -412,7 +411,7 @@ namespace XCoreNET
                         {
                             Console.WriteLine(exx);
                             outputDebug("ERROR", exx.StackTrace);
-                            MessageBox.Show(exx.Message, "錯誤", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            MessageBox.Show(exx.Message, gb.lang.DIALOG_ERROR, MessageBoxButtons.OK, MessageBoxIcon.Error);
                             settingAllControl(true);
                             return;
                         }
@@ -459,7 +458,7 @@ namespace XCoreNET
         private void btnLogout_Click(object sender, EventArgs e)
         {
             settingAllControl(false);
-            var result = MessageBox.Show("確定要登出嗎？", "說明", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            var result = MessageBox.Show(gb.lang.DIALOG_LOGOUT, gb.lang.DIALOG_INFO, MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             if (result == DialogResult.Yes)
             {
                 gb.resetTokens();
@@ -479,22 +478,6 @@ namespace XCoreNET
             }
             else
                 settingAllControl(true);
-        }
-
-        private void chkConcurrent_Click(object sender, EventArgs e)
-        {
-            gb.isConcurrent = chkConcurrent.Checked;
-            gb.savingSession(false);
-        }
-
-        private void btnLogoutAll_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void textBoxInterval_Click(object sender, EventArgs e)
-        {
-            textBoxInterval.SelectAll();
         }
 
         private void buttonVerReload_Click(object sender, EventArgs e)
@@ -616,7 +599,7 @@ namespace XCoreNET
         {
             using (var fbd = new FolderBrowserDialog())
             {
-                fbd.Description = "選擇一個新的位置作為 Minecraft 主程式資料的存放地點。";
+                fbd.Description = gb.lang.DIALOG_CHOOSE_NEW_MINECRAFT_PATH;
                 fbd.SelectedPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
 
                 DialogResult result = fbd.ShowDialog();
@@ -672,11 +655,11 @@ namespace XCoreNET
         {
             if (instanceList.SelectedIndex == 0)
             {
-                MessageBox.Show($"無法刪除此實例", "錯誤", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(gb.lang.DIALOG_CANT_DELETE_INSTANCE, gb.lang.DIALOG_ERROR, MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
-            var result = MessageBox.Show($"這將刪除下方選項所選中的實例名稱「{instanceList.SelectedItem.ToString()}」及其資料夾內容，確定要繼續嗎？", "警告", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            var result = MessageBox.Show(gb.lang.DIALOG_DELETE_INSTANCE_CONFIRM.Replace("%INSTANCE_NAME%", instanceList.SelectedItem.ToString()), gb.lang.DIALOG_ERROR, MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             if (result == DialogResult.Yes)
             {
                 var name = instanceList.SelectedItem.ToString();
@@ -718,7 +701,7 @@ namespace XCoreNET
                 }
                 else
                 {
-                    MessageBox.Show($"找不到該啟動實例：\n{tempPath}\n可能是因為啟動器尚未儲存到此實例設定檔，請刪除該資料夾後並重新建立。", "警告", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBox.Show(gb.lang.DIALOG_CANT_FIND_INSTANCE.Replace("%PATH%",tempPath), gb.lang.DIALOG_ERROR, MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     instanceList.SelectedIndex = 0;
                     textBoxInstance.Text = instanceList.SelectedItem.ToString();
                     onGetAllInstance();
@@ -731,11 +714,6 @@ namespace XCoreNET
 
             setSpecificInstance();
             gb.savingSession(false);
-        }
-
-        private void btnInstanceIntro_Click(object sender, EventArgs e)
-        {
-            MessageBox.Show($"啟動實例代表的是可獨立運作的 Minecraft 實例，位於「{gb.PathJoin(DATA_FOLDER, ".x-instance")}」資料夾中。\n透過不同的啟動實例，您只需要於設定中輕鬆切換，就能輕鬆使用不同的模組包、模組客戶端及獨立設定，各個實例之間不會互相影響，是對於常在各個客戶端及模組之間切換的玩家而言的良好選擇。", "說明", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         private void textBoxInstance_Click(object sender, EventArgs e)
@@ -751,7 +729,7 @@ namespace XCoreNET
 
                 try
                 {
-                    textBoxUpdateNote.Text = "讀取中...";
+                    textBoxUpdateNote.Text = gb.lang.LAB_LOADING;
 
                     // https://api.rss2json.com/v1/api.json?rss_url=https://github.com/SN-Koarashi/XCoreNET/releases.atom
                     JObject obj = await launcher.getUpdateNotes("https://api.rss2json.com/v1/api.json?rss_url=https://github.com/SN-Koarashi/XCoreNET/releases.atom");
@@ -762,8 +740,7 @@ namespace XCoreNET
                         string title = item["title"].ToString();
                         string date = item["pubDate"].ToString();
                         string content = item["content"].ToString();
-                        DateTime dateTime = DateTime.Parse(date);
-                        dateTime = dateTime.AddHours(8); // UTC+8
+                        DateTime dateTime = DateTime.Parse(date).ToLocalTime();
 
                         content = content.Replace("\n", "");
                         content = content.Replace("<br>", Environment.NewLine + " ");
@@ -771,14 +748,14 @@ namespace XCoreNET
                         content = Regex.Replace(content, @"<(.*?)>", "");
                         content = Regex.Replace(content, @"</(.*?)>", "");
 
-                        string data = $" [{title}] {dateTime.ToString("yyyy年M月d日 HH:mm:ss")} (UTC+8){Environment.NewLine} {content}{Environment.NewLine}{Environment.NewLine}";
+                        string data = $" [{title}] {dateTime.ToString(gb.lang.LAB_CHANGELOG_DATE_FORMAT)} ({TimeZone.CurrentTimeZone.StandardName}){Environment.NewLine} {content}{Environment.NewLine}{Environment.NewLine}";
                         textBoxUpdateNote.AppendText(data);
                     }
                 }
                 catch (Exception exx)
                 {
                     Console.WriteLine(exx.Message);
-                    textBoxUpdateNote.Text = $"無法載入RSS摘要: {exx.Message}";
+                    textBoxUpdateNote.Text = $"{gb.lang.LAB_CHANGELOG_RSS_ERROR} {exx.Message}";
                 }
             }
         }
@@ -820,6 +797,18 @@ namespace XCoreNET
             }
 
             form.Dispose();
+        }
+
+        private void radConcurrent_Click(object sender, EventArgs e)
+        {
+            gb.isConcurrent = radConcurrent.Checked;
+            gb.savingSession(false);
+        }
+
+        private void radSingle_Click(object sender, EventArgs e)
+        {
+            gb.isConcurrent = radConcurrent.Checked;
+            gb.savingSession(false);
         }
     }
 }

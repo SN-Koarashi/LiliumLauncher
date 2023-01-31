@@ -67,7 +67,7 @@ namespace XCoreNET.Tasks
                 else
                 {
                     output($"登入失敗: {context.Request.QueryString.Get("error")}");
-                    MessageBox.Show($"登入失敗: {context.Request.QueryString.Get("error")}\n{context.Request.QueryString.Get("error_description")}", "說明", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show($"{gb.lang.DIALOG_LOGIN_FAILED}{context.Request.QueryString.Get("error")}\n{context.Request.QueryString.Get("error_description")}", gb.lang.DIALOG_INFO, MessageBoxButtons.OK, MessageBoxIcon.Error);
 
                     return DialogResult.None;
                 }
@@ -75,7 +75,7 @@ namespace XCoreNET.Tasks
             catch (Exception exx)
             {
                 output($"登入失敗: {exx.Message}");
-                MessageBox.Show($"登入失敗: {exx.Message}", "說明", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($"{gb.lang.DIALOG_LOGIN_FAILED}{exx.Message}", gb.lang.DIALOG_INFO, MessageBoxButtons.OK, MessageBoxIcon.Error);
 
                 return DialogResult.None;
             }

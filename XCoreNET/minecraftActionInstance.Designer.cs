@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.btnVersionSelector = new System.Windows.Forms.Button();
             this.textBoxNowVersion = new System.Windows.Forms.TextBox();
             this.chkOpenSpecific = new System.Windows.Forms.CheckBox();
             this.textInstanceName = new System.Windows.Forms.TextBox();
@@ -42,7 +43,6 @@
             this.label2 = new System.Windows.Forms.Label();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.textJVM = new System.Windows.Forms.TextBox();
-            this.btnVersionSelector = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -63,10 +63,23 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "以指定版本啟動";
             // 
+            // btnVersionSelector
+            // 
+            this.btnVersionSelector.Enabled = false;
+            this.btnVersionSelector.Font = new System.Drawing.Font("Verdana", 9F);
+            this.btnVersionSelector.Location = new System.Drawing.Point(197, 21);
+            this.btnVersionSelector.Name = "btnVersionSelector";
+            this.btnVersionSelector.Size = new System.Drawing.Size(22, 25);
+            this.btnVersionSelector.TabIndex = 3;
+            this.btnVersionSelector.Text = "+";
+            this.btnVersionSelector.UseVisualStyleBackColor = true;
+            this.btnVersionSelector.Click += new System.EventHandler(this.btnVersionSelector_Click);
+            // 
             // textBoxNowVersion
             // 
             this.textBoxNowVersion.Enabled = false;
             this.textBoxNowVersion.Location = new System.Drawing.Point(64, 22);
+            this.textBoxNowVersion.MinimumSize = new System.Drawing.Size(0, 23);
             this.textBoxNowVersion.Name = "textBoxNowVersion";
             this.textBoxNowVersion.ReadOnly = true;
             this.textBoxNowVersion.Size = new System.Drawing.Size(130, 23);
@@ -89,6 +102,7 @@
             // 
             this.textInstanceName.Location = new System.Drawing.Point(7, 44);
             this.textInstanceName.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.textInstanceName.MinimumSize = new System.Drawing.Size(0, 23);
             this.textInstanceName.Name = "textInstanceName";
             this.textInstanceName.Size = new System.Drawing.Size(207, 23);
             this.textInstanceName.TabIndex = 2;
@@ -151,21 +165,22 @@
             // 
             // btnJava
             // 
-            this.btnJava.Font = new System.Drawing.Font("微軟正黑體", 10F);
-            this.btnJava.Location = new System.Drawing.Point(193, 44);
+            this.btnJava.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnJava.Location = new System.Drawing.Point(194, 44);
             this.btnJava.Name = "btnJava";
-            this.btnJava.Size = new System.Drawing.Size(26, 23);
+            this.btnJava.Size = new System.Drawing.Size(25, 23);
             this.btnJava.TabIndex = 6;
-            this.btnJava.Text = "...";
+            this.btnJava.Text = "…";
             this.btnJava.UseVisualStyleBackColor = true;
             this.btnJava.Click += new System.EventHandler(this.btnJava_Click);
             // 
             // textJava
             // 
             this.textJava.Location = new System.Drawing.Point(10, 44);
+            this.textJava.MinimumSize = new System.Drawing.Size(0, 23);
             this.textJava.Name = "textJava";
             this.textJava.ReadOnly = true;
-            this.textJava.Size = new System.Drawing.Size(178, 23);
+            this.textJava.Size = new System.Drawing.Size(180, 23);
             this.textJava.TabIndex = 5;
             // 
             // label2
@@ -190,25 +205,14 @@
             // textJVM
             // 
             this.textJVM.Location = new System.Drawing.Point(10, 22);
+            this.textJVM.MinimumSize = new System.Drawing.Size(0, 23);
             this.textJVM.Name = "textJVM";
             this.textJVM.Size = new System.Drawing.Size(209, 23);
             this.textJVM.TabIndex = 0;
             // 
-            // btnVersionSelector
-            // 
-            this.btnVersionSelector.Enabled = false;
-            this.btnVersionSelector.Location = new System.Drawing.Point(197, 21);
-            this.btnVersionSelector.Name = "btnVersionSelector";
-            this.btnVersionSelector.Size = new System.Drawing.Size(22, 25);
-            this.btnVersionSelector.TabIndex = 3;
-            this.btnVersionSelector.Text = "＋";
-            this.btnVersionSelector.UseVisualStyleBackColor = true;
-            this.btnVersionSelector.Click += new System.EventHandler(this.btnVersionSelector_Click);
-            // 
             // minecraftActionInstance
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.ClientSize = new System.Drawing.Size(251, 349);
             this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.groupBox3);

@@ -19,11 +19,11 @@ namespace XCoreNET
             settingAllControl(false);
             progressBar.Style = ProgressBarStyle.Marquee;
 
-            output("INFO", $"正在取得 Azure 驗證");
+            output("INFO", gb.lang.LOGGER_VERIFYING_AZURE);
             var bearer = await authification.Code2Token(azureToken);
             if (!bearer.ContainsKey("error"))
             {
-                output("INFO", "Azure 驗證完成");
+                output("INFO", gb.lang.LOGGER_VERIFYING_AZURE_COMPLETE);
 
 
                 gb.refreshToken = bearer["refresh_token"].ToString();
@@ -34,7 +34,7 @@ namespace XCoreNET
             else
             {
                 gb.resetTokens();
-                MessageBox.Show(bearer["error_description"].ToString(), "錯誤", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(bearer["error_description"].ToString(), gb.lang.DIALOG_ERROR, MessageBoxButtons.OK, MessageBoxIcon.Error);
                 gb.savingSession(true);
 
                 FormCollection fc = Application.OpenForms;
@@ -60,15 +60,15 @@ namespace XCoreNET
             settingAllControl(false);
             progressBar.Style = ProgressBarStyle.Marquee;
 
-            output("INFO", "正在取得刷新權杖");
+            output("INFO", gb.lang.LOGGER_GETTING_REFRESH_TOKEN);
             var result = await authification.refreshToken(gb.refreshToken);
-            output("INFO", "已取得取得刷新權杖");
+            output("INFO", gb.lang.LOGGER_GETTING_REFRESH_TOKEN_COMPLETE);
             progressBar.Value += 10;
 
             if (result.ContainsKey("error"))
             {
                 gb.resetTokens();
-                MessageBox.Show(result["error_description"].ToString(), "錯誤", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(result["error_description"].ToString(), gb.lang.DIALOG_ERROR, MessageBoxButtons.OK, MessageBoxIcon.Error);
                 gb.savingSession(true);
 
                 FormCollection fc = Application.OpenForms;
@@ -94,9 +94,9 @@ namespace XCoreNET
         private async void onXBLToken(string access_token)
         {
             if (isClosed) return;
-            output("INFO", "正在取得 XBL 權杖");
+            output("INFO", gb.lang.LOGGER_GETTING_XBL_TOKEN);
             var token = await authification.getXBLToken(access_token);
-            output("INFO", "已取得 XBL 權杖");
+            output("INFO", gb.lang.LOGGER_GETTING_XBL_TOKEN_COMPLETE);
             progressBar.Value += 10;
 
             var Token = token["Token"].ToString();
@@ -105,9 +105,9 @@ namespace XCoreNET
         private async void onXSTSToken(string XBLToken)
         {
             if (isClosed) return;
-            output("INFO", "正在取得 XSTS 權杖");
+            output("INFO", gb.lang.LOGGER_GETTING_XSTS_TOKEN);
             var token = await authification.getXSTSToken(XBLToken);
-            output("INFO", "已取得 XSTS 權杖");
+            output("INFO", gb.lang.LOGGER_GETTING_XSTS_TOKEN_COMPLETE);
             progressBar.Value += 10;
 
             if (token.ContainsKey("XErr"))
@@ -117,13 +117,13 @@ namespace XCoreNET
                 switch (type)
                 {
                     case "2148916233":
-                        MessageBox.Show("此帳號沒有 Xbox 帳號", "錯誤", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        MessageBox.Show(gb.lang.DIALOG_NO_XBOX_ACCOUNT, gb.lang.DIALOG_ERROR, MessageBoxButtons.OK, MessageBoxIcon.Error);
                         break;
                     case "2148916235":
-                        MessageBox.Show("此帳號來自 Xbox Live 無法使用或是被禁止的國家/地區", "錯誤", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        MessageBox.Show(gb.lang.DIALOG_XBOX_NOT_AVAILABLE, gb.lang.DIALOG_ERROR, MessageBoxButtons.OK, MessageBoxIcon.Error);
                         break;
                     case "2148916238":
-                        MessageBox.Show("此帳號設定的年齡為兒童（18 歲以下），除非該帳戶由成人新增到家庭帳戶，否則無法繼續操作", "錯誤", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        MessageBox.Show(gb.lang.DIALOG_XBOX_IS_CHILD, gb.lang.DIALOG_ERROR, MessageBoxButtons.OK, MessageBoxIcon.Error);
                         break;
                 }
 
@@ -153,9 +153,9 @@ namespace XCoreNET
         {
             if (isClosed) return;
 
-            output("INFO", "正在取得 Minecraft 認證權杖");
+            output("INFO", gb.lang.LOGGER_GETTING_MINECRAFT_TOKEN);
             var token = await authification.getMinecraftAuth(XSTSToken, UserHash);
-            output("INFO", "已取得 Minecraft 認證權杖");
+            output("INFO", gb.lang.LOGGER_GETTING_MINECRAFT_TOKEN_COMPLETE);
             progressBar.Value += 10;
 
             var access_token = token["access_token"].ToString();
@@ -172,14 +172,14 @@ namespace XCoreNET
         {
             if (isClosed) return;
 
-            output("INFO", "正在確認遊戲所有權");
+            output("INFO", gb.lang.LOGGER_CHECKING_MINECRAFT_OWNERSHIP);
             var auth = await authification.checkGameOwnership(accessToken, type);
-            output("INFO", "這個帳戶已擁有 Minecraft");
+            output("INFO", gb.lang.LOGGER_CHECKING_MINECRAFT_OWNERSHIP_COMPLETE);
             progressBar.Value += 10;
 
             if (auth["items"].ToString().Length < 10)
             {
-                MessageBox.Show("此帳號沒有購買 Minecraft", "錯誤", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(gb.lang.DIALOG_NO_MINECRAFT_ACCOUNT, gb.lang.DIALOG_ERROR, MessageBoxButtons.OK, MessageBoxIcon.Error);
                 FormCollection fc = Application.OpenForms;
                 if (fc != null && fc.Count > 0 && fc[0].Name == this.Name)
                 {
@@ -200,14 +200,14 @@ namespace XCoreNET
         {
             if (isClosed) return;
 
-            output("INFO", "正在取得 Minecraft 個人資料");
+            output("INFO", gb.lang.LOGGER_GETTING_MINECRAFT_PROFILE);
             var result = await authification.getMinecraftProfile(accessToken, type);
-            output("INFO", "已成功取得 Minecraft 個人資料");
+            output("INFO", gb.lang.LOGGER_GETTING_MINECRAFT_PROFILE_COMPLETE);
             progressBar.Value += 10;
 
             if (result.ContainsKey("errorType"))
             {
-                MessageBox.Show("此帳號沒有購買 Minecraft", "錯誤", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(gb.lang.DIALOG_NO_MINECRAFT_ACCOUNT, gb.lang.DIALOG_ERROR, MessageBoxButtons.OK, MessageBoxIcon.Error);
                 FormCollection fc = Application.OpenForms;
                 if (fc != null && fc.Count > 0 && fc[0].Name == this.Name)
                 {
@@ -235,7 +235,7 @@ namespace XCoreNET
             if (isClosed) return;
 
             progressBar.Style = ProgressBarStyle.Blocks;
-            output("INFO", $"登入使用者 -{username} -{uuid}");
+            output("INFO", $"{gb.lang.LOGGER_LOGIN_USER} -{username} -{uuid}");
 
             textUser.Text = username;
 

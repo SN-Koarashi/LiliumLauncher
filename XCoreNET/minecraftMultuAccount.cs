@@ -7,9 +7,15 @@ namespace XCoreNET
 {
     public partial class minecraftMultuAccount : Form
     {
+        private void setTranslate()
+        {
+            this.Font = new Font(gb.lang.FONT_FAMILY_CHILD, gb.lang.FONT_SIZE_CHILD);
+            this.Text = gb.lang.FORM_TITLE_MULTI_ACCOUNT;
+        }
         public minecraftMultuAccount()
         {
             InitializeComponent();
+            setTranslate();
         }
 
         private void DrawingAccountList()
@@ -38,16 +44,16 @@ namespace XCoreNET
                 toolTip.SetToolTip(username, item.Key);
 
                 Button btnSwitch = new Button();
-                btnSwitch.Text = "切換";
-                btnSwitch.Width = 50;
+                btnSwitch.Text = gb.lang.BTN_SWITCH;
+                btnSwitch.Width = 60;
                 btnSwitch.Height = 24;
                 btnSwitch.Location = new System.Drawing.Point(x + 170, y * 2 + 40 * k);
 
                 Button btnDel = new Button();
-                btnDel.Text = "刪除";
-                btnDel.Width = 50;
+                btnDel.Text = gb.lang.BTN_DELETE;
+                btnDel.Width = 70;
                 btnDel.Height = 24;
-                btnDel.Location = new System.Drawing.Point(x + 225, y * 2 + 40 * k);
+                btnDel.Location = new System.Drawing.Point(x + 235, y * 2 + 40 * k);
 
                 this.panel.Controls.Add(avatar);
                 this.panel.Controls.Add(btnSwitch);
@@ -60,7 +66,7 @@ namespace XCoreNET
                     username.SelectionStart = username.TextLength;
                     username.SelectionLength = 0;
 
-                    btnSwitch.Text = "刷新";
+                    btnSwitch.Text = gb.lang.BTN_RELOAD;
                     btnSwitch.Click += (senderx, ex) =>
                     {
                         gb.refreshToken = item.Value.refreshToken;
@@ -72,7 +78,7 @@ namespace XCoreNET
                         this.DialogResult = DialogResult.Abort;
                     };
 
-                    toolTip.SetToolTip(btnSwitch, "刷新目前帳號的登入權杖，可以解決一些伺服器或服務無法登入的問題");
+                    toolTip.SetToolTip(btnSwitch, gb.lang.TOOLTIP_REFRESH_ACCESS_TOKEN);
                 }
                 else
                 {
@@ -88,7 +94,7 @@ namespace XCoreNET
                     };
                     btnDel.Click += (senderx, ex) =>
                     {
-                        var reuslt = MessageBox.Show("確定刪除此帳戶的登入權杖嗎？", "說明", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                        var reuslt = MessageBox.Show(gb.lang.DIALOG_DELETE_ACCOUNT_CONFIRM, gb.lang.DIALOG_ERROR, MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                         if (reuslt == DialogResult.Yes)
                         {
                             gb.resetTokens(item.Key);
@@ -97,8 +103,8 @@ namespace XCoreNET
                         }
                     };
 
-                    toolTip.SetToolTip(btnSwitch, "切換至此帳號並取得新的登入權杖");
-                    toolTip.SetToolTip(btnDel, "從多帳號管理中刪除此帳號的紀錄");
+                    toolTip.SetToolTip(btnSwitch, gb.lang.TOOLTIP_SWITCH_ACCOUNT);
+                    toolTip.SetToolTip(btnDel, gb.lang.TOOLTIP_DELETE_ACCOUNT);
                 }
 
                 k++;

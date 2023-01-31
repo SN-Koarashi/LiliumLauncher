@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Global;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -49,7 +50,7 @@ namespace XCoreNET
                 Console.WriteLine($"自我更新程式位址: {UpdaterPath}");
                 Console.WriteLine($"本機應用程式版本: {versionLocal} \t 遠端應用程式版本: {versionRemote}");
 
-                label2.Text = "初始化下載...";
+                label2.Text = gb.lang.LAB_INITIALIZING_DOWNLOAD;
                 progressBar1.Style = ProgressBarStyle.Continuous;
 
                 var compareResult = versionRemote.CompareTo(versionLocal);
@@ -59,7 +60,7 @@ namespace XCoreNET
                     Console.WriteLine($"準備下載更新檔案，請勿關閉程式");
                     Console.WriteLine($"下載位址: {downloadURL}");
 
-                    label2.Text = "準備下載...";
+                    label2.Text = gb.lang.LAB_PREPARING_DOWNLOAD;
 
                     WebClient client = new WebClient();
 
@@ -71,7 +72,7 @@ namespace XCoreNET
                 {
                     isClosed = true;
 
-                    label2.Text = "應用程式已為最新版本";
+                    label2.Text = gb.lang.LAB_APPLICATION_LATEST;
                     progressBar1.Value = 100;
 
                     await Task.Delay(1000);
@@ -83,8 +84,8 @@ namespace XCoreNET
             {
                 isClosed = true;
 
-                label2.Text = "錯誤";
-                MessageBox.Show(exx.ToString(), "錯誤", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                label2.Text = gb.lang.LAB_ERROR;
+                MessageBox.Show(exx.ToString(), gb.lang.DIALOG_ERROR, MessageBoxButtons.OK, MessageBoxIcon.Error);
                 Environment.Exit(0);
             }
         }
@@ -98,7 +99,7 @@ namespace XCoreNET
                 TotalSize = int.Parse(e.TotalBytesToReceive.ToString());
                 NowSize = int.Parse(e.BytesReceived.ToString());
 
-                label2.Text = $"正在下載... {NowSize}/{TotalSize} Bytes";
+                label2.Text = $"{gb.lang.LAB_DOWNLOADING} {NowSize}/{TotalSize} Bytes";
                 Console.WriteLine($"正在下載... {NowSize}/{TotalSize} Bytes");
 
                 // https://stackoverflow.com/questions/49507984/e-progresspercentage-returns-0-50
@@ -123,12 +124,12 @@ namespace XCoreNET
                 {
                     if (e.Cancelled)
                     {
-                        outputDebug("INFO", $"下載已取消");
+                        outputDebug("INFO", gb.lang.LOGGER_DOWNLOAD_CANCELED);
                     }
                     else if (e.Error != null)
                     {
-                        outputDebug("INFO", $"下載失敗: {e.Error}");
-                        MessageBox.Show(e.Error.ToString(), "下載失敗", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        outputDebug("INFO", $"{gb.lang.LOGGER_DOWNLOAD_FAILED}{e.Error}");
+                        MessageBox.Show(e.Error.ToString(), gb.lang.LOGGER_DOWNLOAD_FAILED, MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
 
 
@@ -141,9 +142,9 @@ namespace XCoreNET
         private async void StartInstalling()
         {
             outputDebug("INFO", $"下載完成，準備安裝...");
-            label2.Text = "下載完成";
+            label2.Text = gb.lang.LAB_DOWNLOADED;
             await Task.Delay(650);
-            label2.Text = "準備安裝...";
+            label2.Text = gb.lang.LAB_PREPARING_INSTALL;
             progressBar1.Style = ProgressBarStyle.Marquee;
 
             await Task.Delay(1000);
@@ -179,6 +180,14 @@ namespace XCoreNET
         private void mainUpdater_FormClosed(object sender, FormClosedEventArgs e)
         {
             isClosed = true;
+        }
+
+        private void mainUpdater_Load(object sender, EventArgs e)
+        {
+            this.Text = gb.lang.FORM_TITLE_UPDATER;
+            button1.Text = gb.lang.BTN_CANCEL;
+            label1.Text = gb.lang.LAB_UPDATING;
+            label2.Text = gb.lang.LAB_INITIALIZING;
         }
     }
 }

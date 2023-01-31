@@ -12,15 +12,32 @@ namespace XCoreNET
     {
         string DATA_FOLDER;
         string currentInstance;
+        private void setTranslate()
+        {
+            this.Text = gb.lang.FORM_TITLE_ADD_INSTANCE;
+            this.Font = new System.Drawing.Font(gb.lang.FONT_FAMILY, gb.lang.FONT_SIZE_CHILD);
+            label1.Text = gb.lang.LAB_INSTANCE_INTRO;
+            label2.Text = gb.lang.LAB_JAVA_PATH_INTRO;
+            btnIntro.Text = gb.lang.BTN_INTRO;
+            btnOK.Text = gb.lang.BTN_OK;
 
+            groupBox2.Text = gb.lang.GROUP_INSTANCE_NAME;
+            groupBox1.Text = gb.lang.GROUP_LAUNCH_BY_SPECIFIC_VERSION;
+            groupBox3.Text = gb.lang.GROUP_CUSTOM_JAVA_PATH;
+            groupBox4.Text = gb.lang.GROUP_CUSTOM_JVM;
+
+            chkOpenSpecific.Text = gb.lang.CHK_OPEN;
+        }
         public minecraftActionInstance()
         {
             InitializeComponent();
+            setTranslate();
         }
 
         public minecraftActionInstance(string mainFolder, string instance)
         {
             InitializeComponent();
+            setTranslate();
 
             /*
             foreach (var item in args)
@@ -42,7 +59,7 @@ namespace XCoreNET
 
         private void btnIntro_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("請將「實例名稱」輸入您自身可辨識的自訂名稱。\n而「以指定版本啟動」之設定若為開啟，將會在您選擇此實例時自動「鎖定」為指定版本，藉此省去頻繁修改版本的動作。", "說明", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            MessageBox.Show(gb.lang.DIALOG_INSTANCE_INTRO, gb.lang.DIALOG_INFO, MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         private void btnOK_Click(object sender, EventArgs e)
@@ -99,7 +116,7 @@ namespace XCoreNET
                         var path = gb.PathJoin(DATA_FOLDER, ".x-instance", result.Trim());
                         if (Directory.Exists(path))
                         {
-                            MessageBox.Show($"建立失敗: 此實例名稱已存在", "錯誤", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            MessageBox.Show(gb.lang.DIALOG_INSTANCE_EXIST, gb.lang.DIALOG_ERROR, MessageBoxButtons.OK, MessageBoxIcon.Error);
                             textInstanceName.Text = "";
                         }
                         else
@@ -129,13 +146,13 @@ namespace XCoreNET
                 }
                 catch (Exception exx)
                 {
-                    MessageBox.Show($"建立失敗: {exx.Message}", "錯誤", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show($"{gb.lang.DIALOG_CREATE_UNEXPECTED}{exx.Message}", gb.lang.DIALOG_ERROR, MessageBoxButtons.OK, MessageBoxIcon.Error);
                     textInstanceName.Text = "";
                 }
             }
             else
             {
-                MessageBox.Show($"建立失敗: 請輸入實例名稱", "錯誤", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(gb.lang.DIALOG_INSTANCE_NO_NAME, gb.lang.DIALOG_ERROR, MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -148,7 +165,7 @@ namespace XCoreNET
         {
             using (var fbd = new FolderBrowserDialog())
             {
-                fbd.Description = "選擇一個新的 Java 路徑作為啟動依據。";
+                fbd.Description = gb.lang.DIALOG_JAVA_PATH_INTRO;
                 fbd.SelectedPath = Environment.ExpandEnvironmentVariables("%ProgramW6432%");
 
                 DialogResult result = fbd.ShowDialog();
@@ -162,7 +179,7 @@ namespace XCoreNET
                     }
                     else
                     {
-                        MessageBox.Show("您選擇的目錄中並未含有 Java 應用程式(java.exe)。", "錯誤", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        MessageBox.Show(gb.lang.DIALOG_NO_JAVA_EXIST, gb.lang.DIALOG_ERROR, MessageBoxButtons.OK, MessageBoxIcon.Error);
                         textJava.Text = "";
                     }
                 }
@@ -172,7 +189,6 @@ namespace XCoreNET
                 }
             }
         }
-
         private void minecraftAddInstance_Load_1(object sender, EventArgs e)
         {
             if (currentInstance != null)
@@ -182,7 +198,7 @@ namespace XCoreNET
                 textInstanceName.Text = dirArr.Last();
                 string tempPath = gb.PathJoin(DATA_FOLDER, ".x-instance", dirArr.Last());
 
-                this.Text = $"編輯實例: {dirArr.Last()}";
+                this.Text = gb.lang.FORM_TITLE_EDIT_INSTANCE.Replace("%INSTANCE_NAME%", dirArr.Last());
 
                 if (gb.allInstance.TryGetValue(tempPath, out im))
                 {
@@ -206,7 +222,7 @@ namespace XCoreNET
                 }
                 else
                 {
-                    MessageBox.Show($"無法編輯此實例，該名稱並未存在於啟動器設定檔中。", "錯誤", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show(gb.lang.DIALOG_CANT_EDIT_INSTANCE, gb.lang.DIALOG_ERROR, MessageBoxButtons.OK, MessageBoxIcon.Error);
                     this.Close();
                 }
             }

@@ -3,6 +3,7 @@ using Microsoft.Web.WebView2.Core;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Windows.Forms;
 using static XCoreNET.ClassModel.globalModel;
@@ -17,6 +18,7 @@ namespace XCoreNET
         [STAThread]
         static void Main(string[] args)
         {
+            CultureInfo ci = CultureInfo.CurrentUICulture;
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             ProgramModel pm = null;
@@ -31,6 +33,7 @@ namespace XCoreNET
                 gb.mainHomepage = (pm.mainURL != null) ? new Uri(pm.mainURL) : gb.mainHomepage;
                 gb.loginMethod = (pm.loginMethod != null) ? pm.loginMethod : gb.loginMethod;
                 gb.isCheckUpdate = (bool)(pm.checkForUpdates != null ? pm.checkForUpdates : true);
+                gb.langCode = (pm.langCode != null) ? pm.langCode : ci.Name;
             }
             else
             {
@@ -41,11 +44,14 @@ namespace XCoreNET
                 pm.mainURL = gb.mainHomepage.ToString();
                 pm.loginMethod = gb.loginMethod;
                 pm.checkForUpdates = true;
+                pm.langCode = ci.Name;
 
                 var data = JsonConvert.SerializeObject(pm);
                 Directory.CreateDirectory(Path.GetFullPath(Directory.GetCurrentDirectory() + "/settings"));
                 File.WriteAllText(path, data);
             }
+
+            gb.setTranslate();
 
             if (args.Length == 0)
             {

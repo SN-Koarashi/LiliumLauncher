@@ -62,7 +62,7 @@ namespace XCoreNET
             {
                 if (e.Error == null && !e.Cancelled)
                 {
-                    outputDebug("INFO", $"下載完成: {filename}");
+                    outputDebug("INFO", $"{gb.lang.LOGGER_DOWNLOAD_COMPLETE}{filename}");
 
                     if (filename.StartsWith("icons/"))
                     {
@@ -76,11 +76,11 @@ namespace XCoreNET
                 {
                     if (e.Cancelled)
                     {
-                        outputDebug("INFO", $"下載已取消: {filename}");
+                        outputDebug("INFO", $"{gb.lang.LOGGER_DOWNLOAD_CANCELED}{filename}");
                     }
                     else if (e.Error != null)
                     {
-                        outputDebug("INFO", $"下載失敗: {filename} {e.Error}");
+                        outputDebug("INFO", $"{gb.lang.LOGGER_DOWNLOAD_FAILED}{filename} {e.Error}");
                     }
 
                     //Task.Delay(250).Wait();
@@ -117,7 +117,7 @@ namespace XCoreNET
                 }
 
                 progressBar.Value = tempSize;
-                output("INFO", $"正在並行下載{concurrentType}... {SizeFormatter(concurrentTotalSize, tempSize)} ({concurrentTotalCompletedDisplay}/{indexObj.Count})");
+                output("INFO", $"{gb.lang.LOGGER_PARALLEL_DOWNLOADING}{concurrentType}... {SizeFormatter(concurrentTotalSize, tempSize)} ({concurrentTotalCompletedDisplay}/{indexObj.Count})");
                 TaskbarManager.Instance.SetProgressValue(tempSize, concurrentTotalSize, Handle);
             }
         }

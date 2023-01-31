@@ -12,6 +12,7 @@ namespace XCoreNET
         public loginMicrosoftForm()
         {
             InitializeComponent();
+            this.Text = gb.lang.FORM_TITLE_MICROSOFT_OAUTH;
         }
 
         private void loginMicrosoftForm_Load(object sender, EventArgs e)
@@ -70,7 +71,7 @@ namespace XCoreNET
             else
             {
 
-                var openOrigin = MessageBox.Show("是否以瀏覽器進行登入驗證？", "說明", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
+                var openOrigin = MessageBox.Show(gb.lang.DIALOG_BROWSER_CONFIRM, gb.lang.DIALOG_INFO, MessageBoxButtons.YesNo, MessageBoxIcon.Information);
                 if (openOrigin == DialogResult.Yes)
                 {
                     //OpenUrl(gb.getMicrosoftOAuthURL());
@@ -78,17 +79,17 @@ namespace XCoreNET
                 }
                 else
                 {
-                    MessageBox.Show("無法登入 Microsoft 帳戶", "錯誤", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show(gb.lang.DIALOG_CANT_LOGIN_MICROSOFT, gb.lang.DIALOG_ERROR, MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
         }
         private void WebView2CoreNotFound()
         {
-            MessageBox.Show("找不到 WebView2 核心框架，因此無法透過 Microsoft OAuth 登入您的帳戶", "錯誤", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            MessageBox.Show(gb.lang.DIALOG_NO_WEBVIEW2, gb.lang.DIALOG_ERROR, MessageBoxButtons.OK, MessageBoxIcon.Warning);
         }
         private bool askWebViewDownload(bool showError)
         {
-            var result = MessageBox.Show("是否要重新導向到下載頁面以下載 Microsoft Edge WebView2？", "說明", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
+            var result = MessageBox.Show(gb.lang.DIALOG_REDIRECT_WEBVIEW2_CONFIRM, gb.lang.DIALOG_INFO, MessageBoxButtons.YesNo, MessageBoxIcon.Information);
             if (result == DialogResult.Yes)
             {
                 OpenUrl("https://developer.microsoft.com/zh-tw/microsoft-edge/webview2/");
@@ -96,7 +97,7 @@ namespace XCoreNET
             }
             else if (result == DialogResult.No && showError)
             {
-                MessageBox.Show("無法登入 Microsoft 帳戶", "錯誤", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(gb.lang.DIALOG_CANT_LOGIN_MICROSOFT, gb.lang.DIALOG_ERROR, MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
             return false;

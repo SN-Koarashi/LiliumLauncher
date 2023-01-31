@@ -39,19 +39,18 @@
             this.panel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel.Location = new System.Drawing.Point(0, 0);
             this.panel.Name = "panel";
-            this.panel.Size = new System.Drawing.Size(304, 261);
+            this.panel.Size = new System.Drawing.Size(314, 261);
             this.panel.TabIndex = 1;
             // 
             // minecraftMultuAccount
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(304, 261);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
+            this.ClientSize = new System.Drawing.Size(314, 261);
             this.Controls.Add(this.panel);
             this.MaximizeBox = false;
-            this.MaximumSize = new System.Drawing.Size(320, 1080);
+            this.MaximumSize = new System.Drawing.Size(330, 1080);
             this.MinimizeBox = false;
-            this.MinimumSize = new System.Drawing.Size(320, 300);
+            this.MinimumSize = new System.Drawing.Size(330, 300);
             this.Name = "minecraftMultuAccount";
             this.ShowIcon = false;
             this.ShowInTaskbar = false;

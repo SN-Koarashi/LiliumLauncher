@@ -2,6 +2,7 @@
 using Newtonsoft.Json;
 using System;
 using System.IO;
+using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using static XCoreNET.ClassModel.globalModel;
 
@@ -9,6 +10,7 @@ namespace XCoreNET
 {
     public partial class settingForm : Form
     {
+        bool onStarted = false;
         private string temp_login_method = "default";
         public settingForm()
         {
@@ -41,6 +43,20 @@ namespace XCoreNET
                     }
                 }
             }
+
+
+            for (int i = 0; i < comboBox1.Items.Count; i++)
+            {
+                if (comboBox1.Items[i].ToString().EndsWith($"({gb.langCode})"))
+                {
+                    comboBox1.SelectedIndex = i;
+                }
+            }
+
+            if (comboBox1.SelectedIndex == -1)
+            {
+                comboBox1.SelectedIndex = 0;
+            }
         }
 
         private void btnApply_Click(object sender, EventArgs e)
@@ -48,6 +64,10 @@ namespace XCoreNET
             try
             {
                 bool notifyBox = false;
+                bool langNotify = false;
+                string langText = comboBox1.SelectedItem.ToString();
+                langText = Regex.Replace(langText, @"(.*?) \(([0-9A-Za-z\-_]+)\)", "$2");
+
 
                 if (textBox1.Text != String.Empty)
                     new Uri(textBox1.Text);
@@ -55,9 +75,11 @@ namespace XCoreNET
                 if (textBox2.Text != String.Empty)
                     new Uri(textBox2.Text);
 
+                if (langText != gb.langCode)
+                    langNotify = true;
+
                 if (!gb.launcherHomepage.Equals(textBox2.Text) || !gb.mainHomepage.Equals(textBox1.Text))
                     notifyBox = true;
-
 
                 ProgramModel pm = new ProgramModel();
                 pm.checkForUpdates = chkUpdates.Checked;
@@ -66,6 +88,7 @@ namespace XCoreNET
                 pm.loginMethod = temp_login_method;
                 pm.mainURL = (textBox1.Text != String.Empty) ? textBox1.Text : "https://www.snkms.com/chat/webchat2/";
                 pm.launcherURL = (textBox2.Text != String.Empty) ? textBox2.Text : "https://www.snkms.com/minecraftNews.html";
+                pm.langCode = langText;
 
                 gb.mainHomepage = new Uri(pm.mainURL);
                 gb.launcherHomepage = new Uri(pm.launcherURL);
@@ -77,7 +100,7 @@ namespace XCoreNET
 
                 if (notifyBox)
                 {
-                    var result = MessageBox.Show("變更啟動參數需要重新啟動程式才能生效，要現在重新啟動嗎？", "說明", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                    var result = MessageBox.Show(gb.lang.DIALOG_PARMS_RESTART_CONFIRM, gb.lang.DIALOG_INFO, MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                     if (result == DialogResult.Yes)
                     {
                         System.Diagnostics.Process.Start(Application.ExecutablePath);
@@ -85,13 +108,20 @@ namespace XCoreNET
                     }
                 }
 
-
+                if (langNotify)
+                {
+                    var result = MessageBox.Show(gb.lang.DIALOG_LANG_RESTART_CONFIRM, gb.lang.DIALOG_INFO, MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                    if (result == DialogResult.Yes)
+                    {
+                        Application.Restart();
+                    }
+                }
                 btnApply.Enabled = false;
                 btnOK.Enabled = false;
             }
             catch (UriFormatException ufe)
             {
-                MessageBox.Show(ufe.Message, "錯誤", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(ufe.Message, gb.lang.DIALOG_ERROR, MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -101,13 +131,36 @@ namespace XCoreNET
             this.Close();
         }
 
+        private void setTranslate() {
+            this.Text = gb.lang.FORM_TITLE_SETTINGS;
+            this.Font = new System.Drawing.Font(gb.lang.FONT_FAMILY_CHILD, gb.lang.FONT_SIZE_CHILD);
+            groupBoxLauncherLang.Text = gb.lang.GROUP_LAUNCHER_LANGUAGE;
+            groupBoxLauncherMethod.Text = gb.lang.GROUP_LAUNCHER_LOGIN_METHOD;
+            groupBoxStaarupParms.Text = gb.lang.GROUP_STARTUP_PARMS;
+            groupBoxWebview2Default.Text = gb.lang.GROUP_WEBVIEW2_DEFAULT;
+            label1.Text = gb.lang.LAB_CUSTOM_HOME_URL;
+            label2.Text = gb.lang.LAB_CUSTOM_LAUNCHER_URL;
+            label3.Text = gb.lang.LAB_CHANGE_LANGUAGE_NOTICE;
+            chkLauncherMain.Text = gb.lang.CHK_SETTING_MINECRAFT_TO_MAIN;
+            chkNoWebView.Text = gb.lang.CHK_DISABLED_WEBVIEW2;
+            chkUpdates.Text = gb.lang.CHK_CHECKING_UPDATES_WHEN_START_UP;
+            radLauncherDef.Text = gb.lang.RAD_METHOD_DEFAULT;
+            radLauncherWebView.Text = gb.lang.RAD_METHOD_WEBVIEW2;
+            radLauncherBrowser.Text = gb.lang.RAD_METHOD_BROWSER;
+            btnApply.Text = gb.lang.BTN_APPLY;
+            btnOK.Text = gb.lang.BTN_OK;
+        }
         private void settingForm_Load(object sender, EventArgs e)
         {
+            setTranslate();
+
             btnApply.Enabled = false;
             btnOK.Enabled = false;
 
             textBox1.Text = gb.mainHomepage.ToString();
             textBox2.Text = gb.launcherHomepage.ToString();
+
+            onStarted = true;
         }
 
         private void chkNoWebView_Click(object sender, EventArgs e)
@@ -162,6 +215,15 @@ namespace XCoreNET
         {
             btnApply.Enabled = true;
             btnOK.Enabled = true;
+        }
+
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (onStarted)
+            {
+                btnApply.Enabled = true;
+                btnOK.Enabled = true;
+            }
         }
     }
 }

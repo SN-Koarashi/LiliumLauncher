@@ -33,7 +33,7 @@ namespace XCoreNET
 
             if (gb.versionNameList.Count == 0 || gb.lastVersionID.Length == 0 || textVersionSelected.Text.Length == 0)
             {
-                MessageBox.Show("未找到有效的版本可供啟動", "警告", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show(gb.lang.DIALOG_NO_VALID_VERSION, gb.lang.DIALOG_WARNING, MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 settingAllControl(true);
                 return;
             }
@@ -66,8 +66,8 @@ namespace XCoreNET
                 var dir = gb.PathJoin(DATA_FOLDER, "versions", selectVersion, $"{selectVersion}.json");
                 if (!File.Exists(dir))
                 {
-                    MessageBox.Show($"找不到客戶端版本資訊檔: {selectVersion}.json", "錯誤", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    output("ERROR", $"找不到客戶端版本資訊檔: {selectVersion}.json");
+                    MessageBox.Show($"{gb.lang.LOGGER_NO_CLIENT_PROFILE}: {selectVersion}.json", gb.lang.DIALOG_ERROR, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    output("ERROR", $"{gb.lang.LOGGER_NO_CLIENT_PROFILE}: {selectVersion}.json");
                     settingAllControl(true);
                     return;
                 }
@@ -99,11 +99,11 @@ namespace XCoreNET
                     {
                         vanillaVersion = vanillaInfo.ToString();
                     }
-                    MessageBox.Show($"找不到原生客戶端版本 {vanillaVersion}", "警告", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBox.Show(gb.lang.DIALOG_NO_VANILLA_VERSION.Replace("%VERSION%",vanillaVersion), gb.lang.DIALOG_WARNING, MessageBoxButtons.OK, MessageBoxIcon.Warning);
 
                     if (vanillaVersion.Length > 0)
                     {
-                        var result = MessageBox.Show($"是否要現在安裝原生 {vanillaVersion} 客戶端？", "說明", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                        var result = MessageBox.Show(gb.lang.DIALOG_INSTALL_VANILLA_CONFIRM.Replace("%VERSION%", vanillaVersion), gb.lang.DIALOG_INFO, MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                         if (result == DialogResult.Yes)
                         {
                             foreach (JObject item in version_manifest_v2)
@@ -134,7 +134,7 @@ namespace XCoreNET
 
             progressBar.Style = ProgressBarStyle.Marquee;
             TaskbarManager.Instance.SetProgressState(TaskbarProgressBarState.Indeterminate, Handle);
-            output("INFO", "建立索引資料");
+            output("INFO", gb.lang.LOGGER_CREATE_INDEXES);
             var obj = await launcher.createIndexes(url);
 
             string indexUrl = obj["assetIndex"]["url"].ToString();
@@ -159,7 +159,7 @@ namespace XCoreNET
 
         private async void onCreateGameData(string version, string hash, JObject gameNecessaryKit, string clientURL, string gameAssetJson)
         {
-            output("INFO", "建立遊戲主程式");
+            output("INFO", gb.lang.LOGGER_CREATE_GAME_APPLICATION);
 
             if (customVer == null)
             {
@@ -176,9 +176,9 @@ namespace XCoreNET
 
                 if (!File.Exists(dir_jar) || sha_local != hash)
                 {
-                    if (sha_local.Length > 0 && sha_local != hash) output("WARN", "遊戲主程式雜湊值驗證失敗");
+                    if (sha_local.Length > 0 && sha_local != hash) output("WARN", gb.lang.LOGGER_GAME_APPLICATION_VERIFY_FAILD);
 
-                    output("INFO", "正在下載遊戲主程式");
+                    output("INFO", gb.lang.LOGGER_DOWNLOAD_GAME_APPLICATION);
                     await launcher.downloadResource(clientURL, dir_jar);
                 }
 
@@ -207,7 +207,7 @@ namespace XCoreNET
                 var dir_jar = gb.PathJoin(DATA_FOLDER, "versions", version, $"{version}.jar");
                 if (File.Exists(dir_jar) && new FileInfo(dir_jar).Length == 0)
                 {
-                    output("INFO", "正在下載遊戲主程式");
+                    output("INFO", gb.lang.LOGGER_DOWNLOAD_GAME_APPLICATION);
                     await launcher.downloadResource(clientURL, dir_jar);
                 }
 
@@ -236,7 +236,7 @@ namespace XCoreNET
                 }
             }
 
-            output("INFO", "遊戲主程式建立完成");
+            output("INFO", gb.lang.LOGGER_GAME_APPLICATION_COMPLETE);
 
             gb.startupParms.version = version;
 
@@ -253,7 +253,7 @@ namespace XCoreNET
 
         private async void onCreateLogger(string url, string filename)
         {
-            output("INFO", "建立記錄器規則");
+            output("INFO", gb.lang.LOGGER_CREATE_LOGGER_CONFIGURATION);
             var dir = gb.PathJoin(DATA_FOLDER, "assets/log-configs");
             Directory.CreateDirectory(dir);
 
@@ -269,12 +269,12 @@ namespace XCoreNET
             indexObj = new List<ConcurrentDownloadListModel>();
             concurrentTotalSize = 0;
             concurrentTotalCompletedDisplay = 0;
-            concurrentType = " Java 執行環境";
+            concurrentType = " " + gb.lang.LOGGER_JAVA_RUNTIME;
             concurrentNowSize = new Dictionary<string, ConcurrentDownloadListModel>();
 
             progressBar.Style = ProgressBarStyle.Blocks;
             TaskbarManager.Instance.SetProgressState(TaskbarProgressBarState.Normal, Handle);
-            output("INFO", "建立 Java 執行環境");
+            output("INFO",  gb.lang.LOGGER_CREATE_JAVA_RUNTIME);
             var runtime = (objKit["javaVersion"] != null) ? objKit["javaVersion"]["component"].ToString() : "jre-legacy";
 
             var obj = await launcher.getJavaRuntime();
@@ -331,17 +331,17 @@ namespace XCoreNET
                                 concurrentNowSize.Add(list.Key, cdlm);
 
                             concurrentTotalSize += int.Parse(list.Value["downloads"]["raw"]["size"].ToString());
-                            output("INFO", $"索引 Java {obj["windows-x64"][runtime][0]["version"]["name"]} 執行環境... ({index}/{total}) {list.Key}");
+                            output("INFO", $"{gb.lang.LOGGER_INDEXING} Java {obj["windows-x64"][runtime][0]["version"]["name"]} {gb.lang.LOGGER_RUNTIME}... ({index}/{total}) {list.Key}");
                         }
                         else
                         {
-                            output("INFO", $"下載 Java {obj["windows-x64"][runtime][0]["version"]["name"]} 執行環境... ({index}/{total}) {list.Key}");
+                            output("INFO", $"{gb.lang.LOGGER_DOWNLOADING} Java {obj["windows-x64"][runtime][0]["version"]["name"]} {gb.lang.LOGGER_RUNTIME}... ({index}/{total}) {list.Key}");
                             await launcher.downloadResource(url, path + ".");
                         }
                     }
                     else
                     {
-                        output("INFO", $"檢查 Java {obj["windows-x64"][runtime][0]["version"]["name"]} 執行環境... ({index}/{total}) {list.Key}");
+                        output("INFO", $"{gb.lang.LOGGER_CHECKING} Java {obj["windows-x64"][runtime][0]["version"]["name"]} {gb.lang.LOGGER_RUNTIME}... ({index}/{total}) {list.Key}");
                     }
                 }
 
@@ -354,7 +354,7 @@ namespace XCoreNET
 
             if (indexObj.Count > 0)
             {
-                output("INFO", $"準備並行下載 Java 執行環境...");
+                output("INFO", gb.lang.LOGGER_PREPARE_PARALLEL_DOWNLOAD_JAVA_RUNTIME);
 
                 progressBar.Value = 0;
                 progressBar.Maximum = concurrentTotalSize;
@@ -396,10 +396,10 @@ namespace XCoreNET
             indexObj = new List<ConcurrentDownloadListModel>();
             concurrentTotalCompletedDisplay = 0;
             concurrentTotalSize = 0;
-            concurrentType = "必要元件";
+            concurrentType = gb.lang.LOGGER_NECESSARY_FILE;
             concurrentNowSize = new Dictionary<string, ConcurrentDownloadListModel>();
 
-            output("INFO", "建立必要元件");
+            output("INFO", gb.lang.LOGGER_CREATE_NECESSARY_FILE);
             var dir = gb.PathJoin(DATA_FOLDER, "libraries");
             Directory.CreateDirectory(dir);
 
@@ -509,7 +509,7 @@ namespace XCoreNET
                     }
                 }
 
-                output("INFO", $"取得必要元件索引... ({index}/{total})");
+                output("INFO", $"{gb.lang.LOGGER_CATCH_NECESSARY_FILE_INDEXES} ({index}/{total})");
                 progressBar.Value = index;
 
                 if (!isClosed)
@@ -565,7 +565,7 @@ namespace XCoreNET
                                     if (!downloadList.ContainsKey(hash))
                                         downloadList.Add(hash, xlm);
 
-                                    output("INFO", $"取得必要元件索引(自訂客戶端): {xlm.path}");
+                                    output("INFO", $"{gb.lang.LOGGER_CATCH_NECESSARY_FILE_INDEXES_CUSTOM}{xlm.path}");
                                 }
                             }
                             else
@@ -585,7 +585,7 @@ namespace XCoreNET
                                 if (!downloadList.ContainsKey(url))
                                     downloadList.Add(url, xlm);
 
-                                output("INFO", $"取得必要元件索引(自訂客戶端): {xlm.path}");
+                                output("INFO", $"{gb.lang.LOGGER_CATCH_NECESSARY_FILE_INDEXES_CUSTOM}{xlm.path}");
                             }
                         }
                     }
@@ -723,13 +723,13 @@ namespace XCoreNET
 
                 if (d.Key.StartsWith("custom-"))
                 {
-                    output("INFO", $"檢查必要元件... ({index}/{total}) {d.Value.className}");
+                    output("INFO", $"{gb.lang.LOGGER_CHECKING_NECESSARY_FILE} ({index}/{total}) {d.Value.className}");
                 }
                 else
                 {
                     if (!File.Exists(cPath) || sha_local != sha_remote || sha_remote.Length == 0)
                     {
-                        if (sha_local.Length > 0 && sha_local != sha_remote) output("WARN", $"雜湊值驗證失敗 {cFilename} 將重新下載");
+                        if (sha_local.Length > 0 && sha_local != sha_remote) output("WARN", gb.lang.LOGGER_VERIFY_FILE_FAILED.Replace("%FILENAME%",cFilename));
 
 
                         if (gb.isConcurrent)
@@ -747,17 +747,17 @@ namespace XCoreNET
                                 concurrentNowSize.Add(d.Key, cdlm);
 
                             concurrentTotalSize += d.Value.size;
-                            output("INFO", $"索引必要元件... ({index}/{total}) {d.Value.className}");
+                            output("INFO", $"{gb.lang.LOGGER_INDEXING_NECESSARY_FILE} ({index}/{total}) {d.Value.className}");
                         }
                         else
                         {
-                            output("INFO", $"下載必要元件... ({index}/{total}) {d.Value.className}");
+                            output("INFO", $"{gb.lang.LOGGER_DOWNLOAD_NECESSARY_FILE} ({index}/{total}) {d.Value.className}");
                             await launcher.downloadResource(d.Key, cPath);
                         }
                     }
                     else
                     {
-                        output("INFO", $"檢查必要元件... ({index}/{total}) {d.Value.className}");
+                        output("INFO", $"{gb.lang.LOGGER_CHECKING_NECESSARY_FILE} ({index}/{total}) {d.Value.className}");
                     }
                 }
 
@@ -766,7 +766,7 @@ namespace XCoreNET
 
             if (indexObj.Count > 0)
             {
-                output("INFO", $"準備並行下載必要元件...");
+                output("INFO", gb.lang.LOGGER_PREPARE_PARALLEL_DOWNLOAD_NECESSARY_FILE);
 
                 progressBar.Value = 0;
                 progressBar.Maximum = concurrentTotalSize;
@@ -797,7 +797,7 @@ namespace XCoreNET
                 UpdateDownloadState();
             }
 
-            output("INFO", "必要元件建立完成");
+            output("INFO", gb.lang.LOGGER_NECESSARY_FILE_COMPLETE);
             onCreateObjects(gameAssetJson);
         }
 
@@ -808,10 +808,10 @@ namespace XCoreNET
             indexObj = new List<ConcurrentDownloadListModel>();
             concurrentTotalCompletedDisplay = 0;
             concurrentTotalSize = 0;
-            concurrentType = "遊戲資料";
+            concurrentType = gb.lang.LOGGER_ASSETS;
             concurrentNowSize = new Dictionary<string, ConcurrentDownloadListModel>();
 
-            output("INFO", "建立遊戲資料");
+            output("INFO", gb.lang.LOGGER_CREATE_ASSETS);
             var dir = gb.PathJoin(DATA_FOLDER, "assets/objects");
             Directory.CreateDirectory(dir);
 
@@ -866,20 +866,20 @@ namespace XCoreNET
                             concurrentNowSize.Add(r.Key, cdlm);
 
                         concurrentTotalSize += int.Parse(r.Value["size"].ToString());
-                        output("INFO", $"索引遊戲資料... ({index}/{total}) {r.Key}");
+                        output("INFO", $"{gb.lang.LOGGER_INDEXING_ASSETS} ({index}/{total}) {r.Key}");
                     }
                     else
                     {
-                        output("INFO", $"下載遊戲資料... ({index}/{total}) {r.Key}");
+                        output("INFO", $"{gb.lang.LOGGER_DOWNLOAD_ASSETS} ({index}/{total}) {r.Key}");
                         await launcher.downloadResource(resource_url, cPath);
                     }
                 }
                 else
                 {
-                    output("INFO", $"檢查遊戲資料... ({index}/{total}) {r.Key}");
+                    output("INFO", $"{gb.lang.LOGGER_CHECKING_ASSETS} ({index}/{total}) {r.Key}");
                 }
 
-                if (r.Key.StartsWith("icons/") && !chkConcurrent.Checked)
+                if (r.Key.StartsWith("icons/") && !gb.isConcurrent)
                 {
                     Directory.CreateDirectory(gb.PathJoin(DATA_FOLDER, "assets", "icons"));
                     File.Copy(cPath, gb.PathJoin(DATA_FOLDER, "assets", r.Key), true);
@@ -895,7 +895,7 @@ namespace XCoreNET
 
             if (indexObj.Count > 0)
             {
-                output("INFO", $"準備並行下載遊戲資料...");
+                output("INFO", gb.lang.LOGGER_PREPARE_PARALLEL_DOWNLOAD_ASSETS);
                 var SortedIndexObj = indexObj.OrderByDescending(o => o.totSize).ToList();
 
 
@@ -932,7 +932,7 @@ namespace XCoreNET
                 onUnzipped();
             else
             {
-                output("INFO", "檢查完畢");
+                output("INFO", gb.lang.LOGGER_CHECKING_COMPLETE);
                 settingAllControl(true);
 
                 if (!isClosed)
@@ -945,7 +945,7 @@ namespace XCoreNET
 
             TaskbarManager.Instance.SetProgressState(TaskbarProgressBarState.Indeterminate, Handle);
             gb.startupParms.startupUID = Guid.NewGuid().ToString();
-            output("INFO", "解壓縮動態函數庫");
+            output("INFO", gb.lang.LOGGER_UNZIPPING_NECESSARY_FILE);
             var dir = gb.PathJoin(DATA_FOLDER, "bin", gb.startupParms.startupUID);
             Directory.CreateDirectory(dir);
 
@@ -990,7 +990,7 @@ namespace XCoreNET
             {
                 TaskbarManager.Instance.SetProgressState(TaskbarProgressBarState.Error, Handle);
 
-                MessageBox.Show("解壓縮過程發生例外狀況，請嘗試檢查資料完整性以解決此錯誤", "錯誤", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(gb.lang.DIALOG_UNZIPPING_ERROR, gb.lang.DIALOG_ERROR, MessageBoxButtons.OK, MessageBoxIcon.Error);
                 settingAllControl(true);
                 progressBar.Style = ProgressBarStyle.Blocks;
                 TaskbarManager.Instance.SetProgressState(TaskbarProgressBarState.NoProgress, Handle);
@@ -1004,7 +1004,7 @@ namespace XCoreNET
             if (isClosed) return;
 
             // 舊版本(pre-1.6)會因為語言選項的大小寫問題導致遊戲崩潰
-            output("INFO", "正在相容舊版本");
+            output("INFO", gb.lang.LOGGER_COMPATIBILITY_OLDER_VERSION);
             CultureInfo ci = CultureInfo.CurrentUICulture;
             string lang = ci.Name;
 
@@ -1054,7 +1054,7 @@ namespace XCoreNET
 
             TaskbarManager.Instance.SetProgressState(TaskbarProgressBarState.Indeterminate, Handle);
             progressBar.Style = ProgressBarStyle.Marquee;
-            output("INFO", "啟動遊戲");
+            output("INFO", gb.lang.LOGGER_LAUNCHING_GAME);
 
             var assetsDir = gb.PathJoin(DATA_FOLDER, "assets");
             var gameDir = (gb.currentInstance.lastname.Length == 0) ? DATA_FOLDER : gb.currentInstance.lastname;
@@ -1233,7 +1233,7 @@ namespace XCoreNET
                 EventHandler handler = null;
                 handler = (o, e) =>
                 {
-                    var result = MessageBox.Show("將遊戲立即強制結束，確定要繼續？", "警告", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                    var result = MessageBox.Show(gb.lang.DIALOG_KILL_CHILD_PROCESS_CONFIRM, gb.lang.DIALOG_WARNING, MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
                     if (result == DialogResult.Yes)
                     {
                         proc.Kill();
@@ -1251,7 +1251,7 @@ namespace XCoreNET
                             TaskbarManager.Instance.SetProgressState(TaskbarProgressBarState.NoProgress, Handle);
 
                         progressBar.Style = ProgressBarStyle.Blocks;
-                        output("INFO", "關閉遊戲");
+                        output("INFO", gb.lang.LOGGER_GAME_CLOSED);
                         Directory.Delete(gb.PathJoin(DATA_FOLDER, "bin", gb.startupParms.startupUID), true);
                         settingAllControl(true);
 
@@ -1294,7 +1294,7 @@ namespace XCoreNET
                             {
                                 this.Invoke(new Action(() =>
                                 {
-                                    outputDebug("WARN", "偵測到程式未完全關閉，已強制結束處理程序");
+                                    outputDebug("WARN", gb.lang.LOGGER_GAME_FORCING_CLOSED);
                                 }));
                                 proc.Kill();
                             }
@@ -1307,7 +1307,7 @@ namespace XCoreNET
                 {
                     if (!proc.HasExited)
                     {
-                        var result = MessageBox.Show("關閉啟動器會導致遊戲結束時不會自動清除暫存檔案，您確定要關閉嗎？", "說明", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                        var result = MessageBox.Show(gb.lang.DIALOG_CLOSING_LAUNCHER_CONFIRM, gb.lang.DIALOG_INFO, MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                         if (result == DialogResult.No)
                         {
                             e.Cancel = true;
@@ -1340,7 +1340,7 @@ namespace XCoreNET
                 {
                     if (JVMErr.Length > 0)
                     {
-                        MessageBox.Show(JVMErr, "JVM 啟動過程發生錯誤", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        MessageBox.Show(JVMErr, gb.lang.DIALOG_JVM_ERROR, MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                 };
             }

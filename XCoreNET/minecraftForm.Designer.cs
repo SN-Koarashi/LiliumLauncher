@@ -59,8 +59,8 @@
             this.btnInstanceAdd = new System.Windows.Forms.Button();
             this.instanceList = new System.Windows.Forms.ComboBox();
             this.groupBoxInterval = new System.Windows.Forms.GroupBox();
-            this.chkConcurrent = new System.Windows.Forms.CheckBox();
-            this.textBoxInterval = new System.Windows.Forms.TextBox();
+            this.radConcurrent = new System.Windows.Forms.RadioButton();
+            this.radSingle = new System.Windows.Forms.RadioButton();
             this.groupBoxMemory = new System.Windows.Forms.GroupBox();
             this.checkBoxMaxMem = new System.Windows.Forms.CheckBox();
             this.trackBarMiB = new System.Windows.Forms.TrackBar();
@@ -220,24 +220,26 @@
             this.panelVersion.Controls.Add(this.textVersionSelected);
             this.panelVersion.Location = new System.Drawing.Point(265, 0);
             this.panelVersion.Name = "panelVersion";
-            this.panelVersion.Size = new System.Drawing.Size(185, 35);
+            this.panelVersion.Size = new System.Drawing.Size(185, 38);
             this.panelVersion.TabIndex = 1;
             // 
             // btnVersionSelector
             // 
             this.btnVersionSelector.Enabled = false;
-            this.btnVersionSelector.Location = new System.Drawing.Point(160, 5);
+            this.btnVersionSelector.Font = new System.Drawing.Font("Verdana", 9F);
+            this.btnVersionSelector.Location = new System.Drawing.Point(160, 7);
             this.btnVersionSelector.Name = "btnVersionSelector";
             this.btnVersionSelector.Size = new System.Drawing.Size(22, 25);
             this.btnVersionSelector.TabIndex = 2;
-            this.btnVersionSelector.Text = "＋";
+            this.btnVersionSelector.Text = "+";
             this.btnVersionSelector.UseVisualStyleBackColor = true;
             this.btnVersionSelector.Click += new System.EventHandler(this.btnVersionSelector_Click);
             // 
             // textVersionSelected
             // 
             this.textVersionSelected.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.textVersionSelected.Location = new System.Drawing.Point(3, 5);
+            this.textVersionSelected.Location = new System.Drawing.Point(3, 7);
+            this.textVersionSelected.MinimumSize = new System.Drawing.Size(4, 25);
             this.textVersionSelected.Name = "textVersionSelected";
             this.textVersionSelected.ReadOnly = true;
             this.textVersionSelected.Size = new System.Drawing.Size(156, 25);
@@ -339,12 +341,12 @@
             // 
             // btnChangeFolder
             // 
+            this.btnChangeFolder.Font = new System.Drawing.Font("Verdana", 9F);
             this.btnChangeFolder.Location = new System.Drawing.Point(239, 38);
             this.btnChangeFolder.Name = "btnChangeFolder";
             this.btnChangeFolder.Size = new System.Drawing.Size(25, 23);
             this.btnChangeFolder.TabIndex = 3;
             this.btnChangeFolder.Text = "…";
-            this.toolTip.SetToolTip(this.btnChangeFolder, "選擇新的資料夾作為主程式資料存放位置");
             this.btnChangeFolder.UseVisualStyleBackColor = true;
             this.btnChangeFolder.Click += new System.EventHandler(this.btnChangeFolder_Click);
             // 
@@ -353,6 +355,7 @@
             this.textBoxAD.BackColor = System.Drawing.SystemColors.Control;
             this.textBoxAD.Font = new System.Drawing.Font("微軟正黑體", 9F);
             this.textBoxAD.Location = new System.Drawing.Point(3, 38);
+            this.textBoxAD.MinimumSize = new System.Drawing.Size(4, 25);
             this.textBoxAD.Name = "textBoxAD";
             this.textBoxAD.ReadOnly = true;
             this.textBoxAD.Size = new System.Drawing.Size(233, 23);
@@ -371,8 +374,6 @@
             this.groupBoxInstance.TabIndex = 1;
             this.groupBoxInstance.TabStop = false;
             this.groupBoxInstance.Text = "啟動實例管理";
-            this.toolTip.SetToolTip(this.groupBoxInstance, "啟動實例代表的是可獨立運作的 Minecraft 實例，透過不同的啟動實例，您只需要於設定中輕鬆切換，就能輕鬆使用不同的模組包、模組客戶端及獨立設定，各個實例之間" +
-        "不會互相影響，是對於常在各個客戶端及模組之間切換的玩家而言的良好選擇。");
             // 
             // btnInstanceEdit
             // 
@@ -387,6 +388,7 @@
             // textBoxInstance
             // 
             this.textBoxInstance.Location = new System.Drawing.Point(6, 57);
+            this.textBoxInstance.MinimumSize = new System.Drawing.Size(4, 25);
             this.textBoxInstance.Name = "textBoxInstance";
             this.textBoxInstance.ReadOnly = true;
             this.textBoxInstance.Size = new System.Drawing.Size(129, 25);
@@ -427,40 +429,38 @@
             // 
             // groupBoxInterval
             // 
-            this.groupBoxInterval.Controls.Add(this.chkConcurrent);
-            this.groupBoxInterval.Controls.Add(this.textBoxInterval);
+            this.groupBoxInterval.Controls.Add(this.radConcurrent);
+            this.groupBoxInterval.Controls.Add(this.radSingle);
             this.groupBoxInterval.Location = new System.Drawing.Point(3, 226);
             this.groupBoxInterval.Name = "groupBoxInterval";
             this.groupBoxInterval.Size = new System.Drawing.Size(151, 53);
             this.groupBoxInterval.TabIndex = 3;
             this.groupBoxInterval.TabStop = false;
-            this.groupBoxInterval.Text = "執行間隔與下載模式";
+            this.groupBoxInterval.Text = "下載模式";
             // 
-            // chkConcurrent
+            // radConcurrent
             // 
-            this.chkConcurrent.AutoSize = true;
-            this.chkConcurrent.Checked = true;
-            this.chkConcurrent.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkConcurrent.Location = new System.Drawing.Point(62, 23);
-            this.chkConcurrent.Name = "chkConcurrent";
-            this.chkConcurrent.Size = new System.Drawing.Size(83, 22);
-            this.chkConcurrent.TabIndex = 1;
-            this.chkConcurrent.Text = "並行下載";
-            this.chkConcurrent.UseVisualStyleBackColor = true;
-            this.chkConcurrent.Click += new System.EventHandler(this.chkConcurrent_Click);
+            this.radConcurrent.AutoSize = true;
+            this.radConcurrent.Checked = true;
+            this.radConcurrent.Location = new System.Drawing.Point(69, 24);
+            this.radConcurrent.Name = "radConcurrent";
+            this.radConcurrent.Size = new System.Drawing.Size(54, 22);
+            this.radConcurrent.TabIndex = 1;
+            this.radConcurrent.TabStop = true;
+            this.radConcurrent.Text = "並行";
+            this.radConcurrent.UseVisualStyleBackColor = true;
+            this.radConcurrent.Click += new System.EventHandler(this.radConcurrent_Click);
             // 
-            // textBoxInterval
+            // radSingle
             // 
-            this.textBoxInterval.Location = new System.Drawing.Point(6, 22);
-            this.textBoxInterval.MaxLength = 2;
-            this.textBoxInterval.Name = "textBoxInterval";
-            this.textBoxInterval.Size = new System.Drawing.Size(52, 25);
-            this.textBoxInterval.TabIndex = 0;
-            this.textBoxInterval.Text = "0";
-            this.textBoxInterval.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.toolTip.SetToolTip(this.textBoxInterval, "程式執行下載與檢查檔案時的間隔，過短的間隔可能導致渲染出現延遲");
-            this.textBoxInterval.Click += new System.EventHandler(this.textBoxInterval_Click);
-            this.textBoxInterval.KeyUp += new System.Windows.Forms.KeyEventHandler(this.textBoxInterval_KeyUp);
+            this.radSingle.AutoSize = true;
+            this.radSingle.Location = new System.Drawing.Point(6, 24);
+            this.radSingle.Name = "radSingle";
+            this.radSingle.Size = new System.Drawing.Size(54, 22);
+            this.radSingle.TabIndex = 0;
+            this.radSingle.Text = "逐次";
+            this.radSingle.UseVisualStyleBackColor = true;
+            this.radSingle.Click += new System.EventHandler(this.radSingle_Click);
             // 
             // groupBoxMemory
             // 
@@ -589,7 +589,7 @@
             this.groupBoxVersionReload.Size = new System.Drawing.Size(160, 93);
             this.groupBoxVersionReload.TabIndex = 9;
             this.groupBoxVersionReload.TabStop = false;
-            this.groupBoxVersionReload.Text = "版本資料";
+            this.groupBoxVersionReload.Text = "版本與實例列表";
             // 
             // btnVerRecache
             // 
@@ -608,7 +608,7 @@
             this.buttonVerReload.Name = "buttonVerReload";
             this.buttonVerReload.Size = new System.Drawing.Size(147, 28);
             this.buttonVerReload.TabIndex = 0;
-            this.buttonVerReload.Text = "重新載入";
+            this.buttonVerReload.Text = "重新整理";
             this.toolTip.SetToolTip(this.buttonVerReload, "重新載入版本列表及啟動實例列表");
             this.buttonVerReload.UseVisualStyleBackColor = true;
             this.buttonVerReload.Click += new System.EventHandler(this.buttonVerReload_Click);
@@ -747,8 +747,6 @@
         private System.Windows.Forms.CheckBox checkBoxMaxMem;
         private System.Windows.Forms.Button btnVerRecache;
         private System.Windows.Forms.Timer timerConcurrent;
-        private System.Windows.Forms.CheckBox chkConcurrent;
-        private System.Windows.Forms.TextBox textBoxInterval;
         private System.Windows.Forms.Button btnVerifyFile;
         private System.Windows.Forms.Button btnOpenFolder;
         private System.Windows.Forms.Button btnChangeFolder;
@@ -766,5 +764,7 @@
         private System.Windows.Forms.Button btnInstanceEdit;
         private Microsoft.Web.WebView2.WinForms.WebView2 webView;
         private System.Windows.Forms.Button btnVersionSelector;
+        private System.Windows.Forms.RadioButton radConcurrent;
+        private System.Windows.Forms.RadioButton radSingle;
     }
 }

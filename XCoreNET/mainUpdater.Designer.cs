@@ -89,6 +89,7 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "XCoreNET 自我更新程式";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.mainUpdater_FormClosed);
+            this.Load += new System.EventHandler(this.mainUpdater_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
