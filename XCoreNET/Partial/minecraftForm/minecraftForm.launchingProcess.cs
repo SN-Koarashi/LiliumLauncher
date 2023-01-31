@@ -99,7 +99,7 @@ namespace XCoreNET
                     {
                         vanillaVersion = vanillaInfo.ToString();
                     }
-                    MessageBox.Show(gb.lang.DIALOG_NO_VANILLA_VERSION.Replace("%VERSION%",vanillaVersion), gb.lang.DIALOG_WARNING, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBox.Show(gb.lang.DIALOG_NO_VANILLA_VERSION.Replace("%VERSION%", vanillaVersion), gb.lang.DIALOG_WARNING, MessageBoxButtons.OK, MessageBoxIcon.Warning);
 
                     if (vanillaVersion.Length > 0)
                     {
@@ -274,7 +274,7 @@ namespace XCoreNET
 
             progressBar.Style = ProgressBarStyle.Blocks;
             TaskbarManager.Instance.SetProgressState(TaskbarProgressBarState.Normal, Handle);
-            output("INFO",  gb.lang.LOGGER_CREATE_JAVA_RUNTIME);
+            output("INFO", gb.lang.LOGGER_CREATE_JAVA_RUNTIME);
             var runtime = (objKit["javaVersion"] != null) ? objKit["javaVersion"]["component"].ToString() : "jre-legacy";
 
             var obj = await launcher.getJavaRuntime();
@@ -729,7 +729,7 @@ namespace XCoreNET
                 {
                     if (!File.Exists(cPath) || sha_local != sha_remote || sha_remote.Length == 0)
                     {
-                        if (sha_local.Length > 0 && sha_local != sha_remote) output("WARN", gb.lang.LOGGER_VERIFY_FILE_FAILED.Replace("%FILENAME%",cFilename));
+                        if (sha_local.Length > 0 && sha_local != sha_remote) output("WARN", gb.lang.LOGGER_VERIFY_FILE_FAILED.Replace("%FILENAME%", cFilename));
 
 
                         if (gb.isConcurrent)

@@ -57,7 +57,8 @@ namespace Global
         public static List<string> versionNameInstalledList = new List<string>();
         public static translateModel lang = new translateModel();
 
-        public static void setTranslate() {
+        public static void setTranslate()
+        {
             string path = $"locates{Path.DirectorySeparatorChar}{langCode}.json";
             if (File.Exists(path))
             {
@@ -65,7 +66,8 @@ namespace Global
                 var result = JsonConvert.DeserializeObject<translateModel>(data);
                 lang = result;
             }
-            else {
+            else
+            {
                 path = $"locates{Path.DirectorySeparatorChar}en-US.json";
                 var data = File.ReadAllText(path);
                 var result = JsonConvert.DeserializeObject<translateModel>(data);

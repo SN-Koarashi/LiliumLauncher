@@ -227,14 +227,14 @@ namespace XCoreNET
                 avatar.Visible = false;
                 avatar.LoadAsync(avatar.ImageLocation);
                 tryReload++;
-                outputDebug("WARN", $"使用者頭像載入失敗: {e.Error.Message}");
+                outputDebug("WARN", $"Avatar Loading Failed: {e.Error.Message}");
             }
         }
         private void avatar_Click(object sender, EventArgs e)
         {
             avatar.Cursor = Cursors.WaitCursor;
             avatar.Visible = false;
-            avatar.LoadAsync($"https://cravatar.eu/helmavatar/{gb.minecraftUUID}/32.png");
+            avatar.LoadAsync($"https://cravatar.eu/helmavatar/{gb.minecraftUUID}");
         }
 
         private void minecraftForm_FormClosed(object sender, FormClosedEventArgs e)
@@ -701,7 +701,7 @@ namespace XCoreNET
                 }
                 else
                 {
-                    MessageBox.Show(gb.lang.DIALOG_CANT_FIND_INSTANCE.Replace("%PATH%",tempPath), gb.lang.DIALOG_ERROR, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBox.Show(gb.lang.DIALOG_CANT_FIND_INSTANCE.Replace("%PATH%", tempPath), gb.lang.DIALOG_ERROR, MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     instanceList.SelectedIndex = 0;
                     textBoxInstance.Text = instanceList.SelectedItem.ToString();
                     onGetAllInstance();

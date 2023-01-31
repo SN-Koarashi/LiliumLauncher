@@ -131,7 +131,8 @@ namespace XCoreNET
             this.Close();
         }
 
-        private void setTranslate() {
+        private void setTranslate()
+        {
             this.Text = gb.lang.FORM_TITLE_SETTINGS;
             this.Font = new System.Drawing.Font(gb.lang.FONT_FAMILY_CHILD, gb.lang.FONT_SIZE_CHILD);
             groupBoxLauncherLang.Text = gb.lang.GROUP_LAUNCHER_LANGUAGE;
