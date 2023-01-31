@@ -199,6 +199,9 @@
         public string DIALOG_NO_WEBVIEW2 { get; set; }
         public string DIALOG_BROWSER_CONFIRM { get; set; }
         public string DIALOG_LOGIN_FAILED { get; set; }
+        public string DIALOG_TRAY_MAIN { get; set; }
+        public string TRAY_CLOSE_GAME { get; set; }
+        public string TRAY_CLOSE_LAUNCHER { get; set; }
 
     }
 }

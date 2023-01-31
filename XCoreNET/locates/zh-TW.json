@@ -195,5 +195,8 @@
   "DIALOG_REDIRECT_WEBVIEW2_CONFIRM": "是否要重新導向到下載頁面以下載 Microsoft Edge WebView2？",
   "DIALOG_NO_WEBVIEW2": "找不到 WebView2 核心框架，因此無法透過 Microsoft OAuth 登入您的帳戶",
   "DIALOG_BROWSER_CONFIRM": "是否以瀏覽器進行登入驗證？",
-  "DIALOG_LOGIN_FAILED": "登入失敗: "
+  "DIALOG_LOGIN_FAILED": "登入失敗: ",
+  "DIALOG_TRAY_MAIN": "Minecraft Launcher\n您輕量化的解決方案",
+  "TRAY_CLOSE_GAME": "關閉遊戲",
+  "TRAY_CLOSE_LAUNCHER": "關閉程式"
 }

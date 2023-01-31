@@ -151,13 +151,13 @@ namespace XCoreNET
             menuItemIcon.ToolTipText = "Minecraft Launcher";
             menuItemIcon.Click += (sender, e) =>
             {
-                MessageBox.Show("Minecraft Launcher\n您輕量化的解決方案", "XCoreNET", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show(gb.lang.DIALOG_TRAY_MAIN, "XCoreNET", MessageBoxButtons.OK, MessageBoxIcon.Information);
             };
 
-            var menuItemKill = new ToolStripMenuItem("關閉遊戲");
+            var menuItemKill = new ToolStripMenuItem(gb.lang.TRAY_CLOSE_GAME);
             menuItemKill.Enabled = false;
 
-            var menuItemExit = new ToolStripMenuItem("關閉程式");
+            var menuItemExit = new ToolStripMenuItem(gb.lang.TRAY_CLOSE_LAUNCHER);
             menuItemExit.Click += (sender, e) =>
             {
                 this.Close();

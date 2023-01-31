@@ -195,5 +195,8 @@
   "DIALOG_REDIRECT_WEBVIEW2_CONFIRM": "Do you want to be redirected to the download page to download Microsoft Edge WebView2?",
   "DIALOG_NO_WEBVIEW2": "Login to your account via Microsoft OAuth was failed because the WebView2 core framework could not be found.",
   "DIALOG_BROWSER_CONFIRM": "Do you want to use a browser for login verification?",
-  "DIALOG_LOGIN_FAILED":  "Login Failed: "
+  "DIALOG_LOGIN_FAILED": "Login Failed: ",
+  "DIALOG_TRAY_MAIN": "Minecraft Launcher\nLightweight solution",
+  "TRAY_CLOSE_GAME": "Close Game",
+  "TRAY_CLOSE_LAUNCHER": "Close Launcher"
 }
