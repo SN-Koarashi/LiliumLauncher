@@ -28,6 +28,10 @@ Minecraft 第三方啟動器，同時附帶網路即時聊天室。
 ## 編譯 | Compile
 - 因為專案本身有使用 Costura.Fody NuGet套件包，因此可能會在編譯/偵錯過程出現 `MSB4086: 嘗試對條件 "($(MsBuildMajorVersion) < 16)" 中評估為 "" (而非數字) 的 "$(MsBuildMajorVersion)" 進行數字比較。` 的錯誤，只要在 NuGet 套件管理中解除並重新安裝 Costura.Fody 即可解決
 
+## 附註 | Note
+- XCoreNET focuses on the lightweight of the original launcher. If you want to use a beautiful, multi-functional, and convenient launcher, you can refer to [MultiMC](https://multimc.org/) or [Prism Launcher](https://prismlauncher.org/).
+  - XCoreNET 主要以原版啟動器的輕量化為主，如果想使用兼具美觀、多功能、方便性的啟動器，可以參考 [MultiMC](https://multimc.org/) 或 [Prism Launcher](https://prismlauncher.org/)。
+
 ## 參考 | Reference
 - [[UPDATE] Google Auth Flows and WebView2](https://github.com/MicrosoftEdge/WebView2Feedback/issues/1647)
 - [OAuth for Apps: Samples for Windows](https://github.com/Beej126/oauth-apps-for-windows)
