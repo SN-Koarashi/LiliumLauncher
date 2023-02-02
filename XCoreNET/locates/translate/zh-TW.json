@@ -9,7 +9,7 @@
   "GROUP_LAUNCHER": "啟動器選項",
   "GROUP_VERSION_AND_INSTANCE_DATA": "版本與實例列表",
   "GROUP_DOWNLOAD_MODE": "下載模式",
-  "GROUP_MAX_MEMORY": "遊戲最大記憶體(MB)",
+  "GROUP_MAX_MEMORY": "遊戲最大記憶體(MiB)",
   "GROUP_STARTUP_PARMS": "啟動參數",
   "GROUP_LAUNCHER_LANGUAGE": "啟動器顯示語言",
   "GROUP_WEBVIEW2_DEFAULT": "WebView2 預設載入網址",

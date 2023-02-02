@@ -242,7 +242,7 @@
   <ItemGroup>
     <Compile Include="ClassModel\globalModel.cs" />
     <Compile Include="ClassModel\launcherModel.cs" />
-    <Compile Include="ClassModel\translateModel.cs" />
+    <Compile Include="ClassModel\locateModel.cs" />
     <Compile Include="Partial\minecraftForm\minecraftForm.authification.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -361,10 +361,13 @@
     <EmbeddedResource Include="settingForm.resx">
       <DependentUpon>settingForm.cs</DependentUpon>
     </EmbeddedResource>
-    <None Include="locates\en-US.json">
+    <None Include="locates\translate\en-US.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="locates\zh-TW.json">
+    <None Include="locates\manifest.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="locates\translate\zh-TW.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="packages.config" />
@@ -410,6 +413,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="packages\Microsoft.Web.WebView2.1.0.1245.22\build\Microsoft.Web.WebView2.targets" Condition="Exists('packages\Microsoft.Web.WebView2.1.0.1245.22\build\Microsoft.Web.WebView2.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

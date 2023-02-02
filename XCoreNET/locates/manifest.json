@@ -1,0 +1,14 @@
+﻿{
+  "locates": [
+    {
+      "name": "en-US",
+      "displayName": "English (US)",
+      "country": "United States"
+    },
+    {
+      "name": "zh-TW",
+      "displayName": "繁體中文",
+      "country": "Taiwan"
+    }
+  ]
+}

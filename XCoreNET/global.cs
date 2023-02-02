@@ -14,6 +14,7 @@ using System.Windows.Forms;
 using XCoreNET.ClassModel;
 using static XCoreNET.ClassModel.globalModel;
 using static XCoreNET.ClassModel.launcherModel;
+using static XCoreNET.ClassModel.locateModel;
 
 namespace Global
 {
@@ -59,19 +60,27 @@ namespace Global
 
         public static void setTranslate()
         {
-            string path = $"locates{Path.DirectorySeparatorChar}{langCode}.json";
-            if (File.Exists(path))
+            try
             {
-                var data = File.ReadAllText(path);
-                var result = JsonConvert.DeserializeObject<translateModel>(data);
-                lang = result;
+                string path = $"locates{Path.DirectorySeparatorChar}translate{Path.DirectorySeparatorChar}{langCode}.json";
+                if (File.Exists(path))
+                {
+                    var data = File.ReadAllText(path);
+                    var result = JsonConvert.DeserializeObject<translateModel>(data);
+                    lang = result;
+                }
+                else
+                {
+                    path = $"locates{Path.DirectorySeparatorChar}translate{Path.DirectorySeparatorChar}en-US.json";
+                    var data = File.ReadAllText(path);
+                    var result = JsonConvert.DeserializeObject<translateModel>(data);
+                    lang = result;
+                }
             }
-            else
+            catch(Exception err)
             {
-                path = $"locates{Path.DirectorySeparatorChar}en-US.json";
-                var data = File.ReadAllText(path);
-                var result = JsonConvert.DeserializeObject<translateModel>(data);
-                lang = result;
+                MessageBox.Show(err.Message, "Locate Exception", MessageBoxButtons.OK,MessageBoxIcon.Error);
+                Environment.Exit(0);
             }
         }
 

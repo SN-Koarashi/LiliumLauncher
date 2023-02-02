@@ -44,9 +44,9 @@
             this.radLauncherWebView = new System.Windows.Forms.RadioButton();
             this.radLauncherDef = new System.Windows.Forms.RadioButton();
             this.groupBoxLauncherLang = new System.Windows.Forms.GroupBox();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
-            this.label3 = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.label3 = new System.Windows.Forms.Label();
+            this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.groupBoxStaarupParms.SuspendLayout();
             this.groupBoxWebview2Default.SuspendLayout();
             this.groupBoxLauncherMethod.SuspendLayout();
@@ -232,19 +232,13 @@
             this.groupBoxLauncherLang.TabStop = false;
             this.groupBoxLauncherLang.Text = "啟動器顯示語言";
             // 
-            // comboBox1
+            // panel1
             // 
-            this.comboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.ItemHeight = 12;
-            this.comboBox1.Items.AddRange(new object[] {
-            "English (en-US)",
-            "繁體中文 (zh-TW)"});
-            this.comboBox1.Location = new System.Drawing.Point(6, 57);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(193, 20);
-            this.comboBox1.TabIndex = 0;
-            this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
+            this.panel1.Controls.Add(this.label3);
+            this.panel1.Location = new System.Drawing.Point(9, 19);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(190, 32);
+            this.panel1.TabIndex = 2;
             // 
             // label3
             // 
@@ -256,13 +250,16 @@
             this.label3.Text = "更改語言設定須重新啟動程式";
             this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // panel1
+            // comboBox1
             // 
-            this.panel1.Controls.Add(this.label3);
-            this.panel1.Location = new System.Drawing.Point(9, 19);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(190, 32);
-            this.panel1.TabIndex = 2;
+            this.comboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBox1.FormattingEnabled = true;
+            this.comboBox1.ItemHeight = 12;
+            this.comboBox1.Location = new System.Drawing.Point(6, 57);
+            this.comboBox1.Name = "comboBox1";
+            this.comboBox1.Size = new System.Drawing.Size(193, 20);
+            this.comboBox1.TabIndex = 0;
+            this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
             // 
             // settingForm
             // 

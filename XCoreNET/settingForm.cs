@@ -5,6 +5,7 @@ using System.IO;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using static XCoreNET.ClassModel.globalModel;
+using static XCoreNET.ClassModel.locateModel;
 
 namespace XCoreNET
 {
@@ -12,15 +13,17 @@ namespace XCoreNET
     {
         bool onStarted = false;
         private string temp_login_method = "default";
+        manifestListModel manifestListModel = new manifestListModel();
+
         public settingForm()
         {
             InitializeComponent();
 
-            var path = Path.GetFullPath(Directory.GetCurrentDirectory() + "/settings/programs_settings.json");
+            var settingsPath = Path.GetFullPath(Directory.GetCurrentDirectory() + "/settings/programs_settings.json");
 
-            if (File.Exists(path))
+            if (File.Exists(settingsPath))
             {
-                var data = File.ReadAllText(path);
+                var data = File.ReadAllText(settingsPath);
                 var pm = JsonConvert.DeserializeObject<ProgramModel>(data);
 
                 chkLauncherMain.Checked = pm.launcher;
@@ -44,18 +47,34 @@ namespace XCoreNET
                 }
             }
 
+            var locatesPath = Path.GetFullPath(Directory.GetCurrentDirectory() + "/locates/manifest.json");
 
-            for (int i = 0; i < comboBox1.Items.Count; i++)
+            if (File.Exists(locatesPath))
             {
-                if (comboBox1.Items[i].ToString().EndsWith($"({gb.langCode})"))
+                manifestListModel = JsonConvert.DeserializeObject<manifestListModel>(File.ReadAllText(locatesPath));
+
+                foreach (var locate in manifestListModel.locates)
                 {
-                    comboBox1.SelectedIndex = i;
+                    comboBox1.Items.Add(locate.displayName);
+                }
+
+
+                for (int i = 0; i < manifestListModel.locates.Count; i++)
+                {
+                    if (manifestListModel.locates[i].name.Equals(gb.langCode))
+                    {
+                        comboBox1.SelectedIndex = i;
+                    }
+                }
+
+                if (comboBox1.SelectedIndex == -1)
+                {
+                    comboBox1.SelectedIndex = 0;
                 }
             }
-
-            if (comboBox1.SelectedIndex == -1)
+            else
             {
-                comboBox1.SelectedIndex = 0;
+                comboBox1.Enabled = false;
             }
         }
 
@@ -65,8 +84,8 @@ namespace XCoreNET
             {
                 bool notifyBox = false;
                 bool langNotify = false;
-                string langText = comboBox1.SelectedItem.ToString();
-                langText = Regex.Replace(langText, @"(.*?) \(([0-9A-Za-z\-_]+)\)", "$2");
+                int langIndex = comboBox1.SelectedIndex;
+                string langText = (manifestListModel.locates != null && manifestListModel.locates.Count > 0 && manifestListModel.locates.Count > langIndex) ? manifestListModel.locates[langIndex].name : null;
 
 
                 if (textBox1.Text != String.Empty)
@@ -75,7 +94,7 @@ namespace XCoreNET
                 if (textBox2.Text != String.Empty)
                     new Uri(textBox2.Text);
 
-                if (langText != gb.langCode)
+                if (langText != null && langText != gb.langCode)
                     langNotify = true;
 
                 if (!gb.launcherHomepage.Equals(textBox2.Text) || !gb.mainHomepage.Equals(textBox1.Text))

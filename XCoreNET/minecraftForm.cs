@@ -579,13 +579,13 @@ namespace XCoreNET
             {
                 var totalFormat = Math.Round((double)totBytes / 1024, 3);
                 var nowFormat = Math.Round((double)nowBytes / 1024, 3);
-                return $"{nowFormat} / {totalFormat} KB";
+                return $"{nowFormat} / {totalFormat} KiB";
             }
             else
             {
                 var totalFormat = Math.Round((double)totBytes / 1024 / 1024, 3);
                 var nowFormat = Math.Round((double)nowBytes / 1024 / 1024, 3);
-                return $"{nowFormat} / {totalFormat} MB";
+                return $"{nowFormat} / {totalFormat} MiB";
             }
         }
 
