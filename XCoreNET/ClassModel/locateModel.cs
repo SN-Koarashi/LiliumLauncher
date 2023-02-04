@@ -135,16 +135,13 @@ namespace XCoreNET.ClassModel
             public string LOGGER_DOWNLOAD_GAME_APPLICATION { get; set; }
             public string LOGGER_GAME_APPLICATION_COMPLETE { get; set; }
             public string LOGGER_CREATE_LOGGER_CONFIGURATION { get; set; }
-            public string LOGGER_JAVA_RUNTIME { get; set; }
             public string LOGGER_CREATE_JAVA_RUNTIME { get; set; }
-            public string LOGGER_RUNTIME { get; set; }
-            public string LOGGER_INDEXING { get; set; }
-            public string LOGGER_DOWNLOADING { get; set; }
-            public string LOGGER_CHECKING { get; set; }
+            public string LOGGER_INDEXING_JAVA_RUNTIME { get; set; }
+            public string LOGGER_DOWNLOADING_JAVA_RUNTIME { get; set; }
+            public string LOGGER_CHECKING_JAVA_RUNTIME { get; set; }
             public string LOGGER_PREPARE_PARALLEL_DOWNLOAD_JAVA_RUNTIME { get; set; }
             public string LOGGER_PREPARE_PARALLEL_DOWNLOAD_NECESSARY_FILE { get; set; }
             public string LOGGER_PREPARE_PARALLEL_DOWNLOAD_ASSETS { get; set; }
-            public string LOGGER_NECESSARY_FILE { get; set; }
             public string LOGGER_CREATE_NECESSARY_FILE { get; set; }
             public string LOGGER_CATCH_NECESSARY_FILE_INDEXES { get; set; }
             public string LOGGER_CATCH_NECESSARY_FILE_INDEXES_CUSTOM { get; set; }
@@ -153,7 +150,6 @@ namespace XCoreNET.ClassModel
             public string LOGGER_DOWNLOAD_NECESSARY_FILE { get; set; }
             public string LOGGER_NECESSARY_FILE_COMPLETE { get; set; }
             public string LOGGER_VERIFY_FILE_FAILED { get; set; }
-            public string LOGGER_ASSETS { get; set; }
             public string LOGGER_CREATE_ASSETS { get; set; }
             public string LOGGER_INDEXING_ASSETS { get; set; }
             public string LOGGER_DOWNLOAD_ASSETS { get; set; }
@@ -184,6 +180,9 @@ namespace XCoreNET.ClassModel
             public string LOGGER_GETTING_MINECRAFT_PROFILE_COMPLETE { get; set; }
             public string LOGGER_LOGIN_USER { get; set; }
             public string LOGGER_PARALLEL_DOWNLOADING { get; set; }
+            public string LOGGER_PARALLEL_DOWNLOADING_TYPE_JAVA_RUNTIME { get; set; }
+            public string LOGGER_PARALLEL_DOWNLOADING_TYPE_NECESSARY_FILE { get; set; }
+            public string LOGGER_PARALLEL_DOWNLOADING_TYPE_ASSETS { get; set; }
             public string LOGGER_DOWNLOAD_COMPLETE { get; set; }
             public string LOGGER_DOWNLOAD_CANCELED { get; set; }
             public string LOGGER_DOWNLOAD_FAILED { get; set; }

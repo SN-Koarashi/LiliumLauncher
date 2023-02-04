@@ -117,7 +117,7 @@ namespace XCoreNET
                 }
 
                 progressBar.Value = tempSize;
-                output("INFO", $"{gb.lang.LOGGER_PARALLEL_DOWNLOADING}{concurrentType}... {SizeFormatter(concurrentTotalSize, tempSize)} ({concurrentTotalCompletedDisplay}/{indexObj.Count})");
+                output("INFO", $"{gb.lang.LOGGER_PARALLEL_DOWNLOADING.Replace("%TYPE%", concurrentType)} {SizeFormatter(concurrentTotalSize, tempSize)} ({concurrentTotalCompletedDisplay}/{indexObj.Count})");
                 TaskbarManager.Instance.SetProgressValue(tempSize, concurrentTotalSize, Handle);
             }
         }

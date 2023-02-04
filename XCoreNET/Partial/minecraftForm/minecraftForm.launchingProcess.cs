@@ -269,7 +269,7 @@ namespace XCoreNET
             indexObj = new List<ConcurrentDownloadListModel>();
             concurrentTotalSize = 0;
             concurrentTotalCompletedDisplay = 0;
-            concurrentType = " " + gb.lang.LOGGER_JAVA_RUNTIME;
+            concurrentType = gb.lang.LOGGER_PARALLEL_DOWNLOADING_TYPE_JAVA_RUNTIME;
             concurrentNowSize = new Dictionary<string, ConcurrentDownloadListModel>();
 
             progressBar.Style = ProgressBarStyle.Blocks;
@@ -331,17 +331,17 @@ namespace XCoreNET
                                 concurrentNowSize.Add(list.Key, cdlm);
 
                             concurrentTotalSize += int.Parse(list.Value["downloads"]["raw"]["size"].ToString());
-                            output("INFO", $"{gb.lang.LOGGER_INDEXING} Java {obj["windows-x64"][runtime][0]["version"]["name"]} {gb.lang.LOGGER_RUNTIME}... ({index}/{total}) {list.Key}");
+                            output("INFO", $"{gb.lang.LOGGER_INDEXING_JAVA_RUNTIME.Replace("%VERSION%", obj["windows-x64"][runtime][0]["version"]["name"].ToString())} ({index}/{total}) {list.Key}");
                         }
                         else
                         {
-                            output("INFO", $"{gb.lang.LOGGER_DOWNLOADING} Java {obj["windows-x64"][runtime][0]["version"]["name"]} {gb.lang.LOGGER_RUNTIME}... ({index}/{total}) {list.Key}");
+                            output("INFO", $"{gb.lang.LOGGER_DOWNLOADING_JAVA_RUNTIME.Replace("%VERSION%", obj["windows-x64"][runtime][0]["version"]["name"].ToString())} ({index}/{total}) {list.Key}");
                             await launcher.downloadResource(url, path + ".");
                         }
                     }
                     else
                     {
-                        output("INFO", $"{gb.lang.LOGGER_CHECKING} Java {obj["windows-x64"][runtime][0]["version"]["name"]} {gb.lang.LOGGER_RUNTIME}... ({index}/{total}) {list.Key}");
+                        output("INFO", $"{gb.lang.LOGGER_CHECKING_JAVA_RUNTIME.Replace("%VERSION%", obj["windows-x64"][runtime][0]["version"]["name"].ToString())} ({index}/{total}) {list.Key}");
                     }
                 }
 
@@ -396,7 +396,7 @@ namespace XCoreNET
             indexObj = new List<ConcurrentDownloadListModel>();
             concurrentTotalCompletedDisplay = 0;
             concurrentTotalSize = 0;
-            concurrentType = gb.lang.LOGGER_NECESSARY_FILE;
+            concurrentType = gb.lang.LOGGER_PARALLEL_DOWNLOADING_TYPE_NECESSARY_FILE;
             concurrentNowSize = new Dictionary<string, ConcurrentDownloadListModel>();
 
             output("INFO", gb.lang.LOGGER_CREATE_NECESSARY_FILE);
@@ -808,7 +808,7 @@ namespace XCoreNET
             indexObj = new List<ConcurrentDownloadListModel>();
             concurrentTotalCompletedDisplay = 0;
             concurrentTotalSize = 0;
-            concurrentType = gb.lang.LOGGER_ASSETS;
+            concurrentType = gb.lang.LOGGER_PARALLEL_DOWNLOADING_TYPE_ASSETS;
             concurrentNowSize = new Dictionary<string, ConcurrentDownloadListModel>();
 
             output("INFO", gb.lang.LOGGER_CREATE_ASSETS);

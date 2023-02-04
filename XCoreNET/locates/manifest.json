@@ -9,6 +9,11 @@
       "name": "zh-TW",
       "displayName": "繁體中文",
       "country": "Taiwan"
+    },
+    {
+      "name": "zh-CN",
+      "displayName": "简体中文",
+      "country": "China"
     }
   ]
 }

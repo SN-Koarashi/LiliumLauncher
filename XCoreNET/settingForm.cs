@@ -2,7 +2,6 @@
 using Newtonsoft.Json;
 using System;
 using System.IO;
-using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using static XCoreNET.ClassModel.globalModel;
 using static XCoreNET.ClassModel.locateModel;

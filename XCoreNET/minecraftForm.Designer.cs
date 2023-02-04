@@ -319,9 +319,9 @@
             // 
             // btnVerifyFile
             // 
-            this.btnVerifyFile.Location = new System.Drawing.Point(105, 3);
+            this.btnVerifyFile.Location = new System.Drawing.Point(103, 3);
             this.btnVerifyFile.Name = "btnVerifyFile";
-            this.btnVerifyFile.Size = new System.Drawing.Size(131, 30);
+            this.btnVerifyFile.Size = new System.Drawing.Size(133, 30);
             this.btnVerifyFile.TabIndex = 4;
             this.btnVerifyFile.Text = "檢查資料完整性";
             this.toolTip.SetToolTip(this.btnVerifyFile, "驗證所有資料的雜湊值，並且不啟動遊戲");

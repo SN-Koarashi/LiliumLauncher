@@ -11,7 +11,6 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using XCoreNET.ClassModel;
 using static XCoreNET.ClassModel.globalModel;
 using static XCoreNET.ClassModel.launcherModel;
 using static XCoreNET.ClassModel.locateModel;
@@ -77,9 +76,9 @@ namespace Global
                     lang = result;
                 }
             }
-            catch(Exception err)
+            catch (Exception err)
             {
-                MessageBox.Show(err.Message, "Locate Exception", MessageBoxButtons.OK,MessageBoxIcon.Error);
+                MessageBox.Show(err.Message, "Locate Exception", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 Environment.Exit(0);
             }
         }
