@@ -42,7 +42,7 @@
   "LAB_CUSTOM_LAUNCHER_URL": "自訂啟動器框架載入網址",
   "LAB_CHANGE_LANGUAGE_NOTICE": "更改語言設定須重新啟動程式",
   "RAD_METHOD_DEFAULT": "預設 (依條件詢問啟動方式)",
-  "RAD_METHOD_WEBVIEW2": "永遠以 WevView2 框架登入",
+  "RAD_METHOD_WEBVIEW2": "永遠以 WebView2 框架登入",
   "RAD_METHOD_BROWSER": "永遠以原生瀏覽器登入",
   "BTN_OK": "確定",
   "BTN_APPLY": "套用",
