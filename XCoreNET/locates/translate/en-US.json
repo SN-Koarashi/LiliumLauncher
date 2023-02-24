@@ -171,7 +171,7 @@
   "LOGGER_CHECKING_MINECRAFT_OWNERSHIP_COMPLETE": "Verified game ownership",
   "LOGGER_GETTING_MINECRAFT_PROFILE": "Acquiring Minecraft profile",
   "LOGGER_GETTING_MINECRAFT_PROFILE_COMPLETE": "Acquired Minecraft profile",
-  "LOGGER_LOGIN_USER": "Login User",
+  "LOGGER_LOGIN_USER": "Player Logged",
   "LOGGER_PARALLEL_DOWNLOADING": "Parallel downloading %TYPE%...",
   "LOGGER_PARALLEL_DOWNLOADING_TYPE_JAVA_RUNTIME": "Java runtimes",
   "LOGGER_PARALLEL_DOWNLOADING_TYPE_NECESSARY_FILE": "necessary files",

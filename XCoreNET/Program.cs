@@ -45,6 +45,7 @@ namespace XCoreNET
                 pm.loginMethod = gb.loginMethod;
                 pm.checkForUpdates = true;
                 pm.langCode = ci.Name;
+                gb.langCode = ci.Name;
 
                 var data = JsonConvert.SerializeObject(pm);
                 Directory.CreateDirectory(Path.GetFullPath(Directory.GetCurrentDirectory() + "/settings"));
