@@ -40,6 +40,7 @@ namespace XCoreNET
         List<ConcurrentDownloadListModel> indexObj;
         Dictionary<string, ConcurrentDownloadListModel> concurrentNowSize;
 
+        int concurrentTotalSizeTick;
         int concurrentTotalSize;
         int concurrentTotalCompleted;
         int concurrentTotalCompletedDisplay;
@@ -591,8 +592,12 @@ namespace XCoreNET
 
         private void timerConcurrent_Tick(object sender, EventArgs e)
         {
-            //Console.WriteLine("timer ticked");
-            //UpdateDownloadState();
+            if (concurrentTotalSizeTick != CountDownloadProgress())
+            {
+                Console.WriteLine("timer ticked");
+                UpdateDownloadState();
+                concurrentTotalSizeTick = CountDownloadProgress();
+            }
         }
 
         private void btnChangeFolder_Click(object sender, EventArgs e)

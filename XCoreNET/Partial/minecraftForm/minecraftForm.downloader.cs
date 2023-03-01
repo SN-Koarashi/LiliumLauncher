@@ -1,16 +1,28 @@
 ﻿using Global;
 using Microsoft.WindowsAPICodePack.Taskbar;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Net;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static XCoreNET.ClassModel.launcherModel;
 
 namespace XCoreNET
 {
     public partial class minecraftForm
     {
+        private void initializeThreadDownloader(string langText)
+        {
+            downloadingPath = new List<string>();
+            indexObj = new List<ConcurrentDownloadListModel>();
+            concurrentTotalSize = 0;
+            concurrentTotalCompletedDisplay = 0;
+            concurrentType = langText;
+            concurrentNowSize = new Dictionary<string, ConcurrentDownloadListModel>();
+        }
+
         private void onThreadDownloader(string url, string path, string filename, string UID)
         {
             if (isClosed) return;
@@ -105,20 +117,48 @@ namespace XCoreNET
             UpdateDownloadState();
         }
 
-        private void UpdateDownloadState()
+        private int CountDownloadProgress()
         {
             if (!isClosed && concurrentNowSize != null && concurrentNowSize.Count > 0)
             {
                 int tempSize = 0;
-
                 foreach (var item in concurrentNowSize)
                 {
                     tempSize += item.Value.size;
                 }
 
+                return tempSize;
+            }
+
+            return -1;
+        }
+
+        private void UpdateDownloadState()
+        {
+            if (!isClosed && concurrentNowSize != null && concurrentNowSize.Count > 0)
+            {
+                int tempSize = CountDownloadProgress();
+
                 progressBar.Value = tempSize;
                 output("INFO", $"{gb.lang.LOGGER_PARALLEL_DOWNLOADING.Replace("%TYPE%", concurrentType)} {SizeFormatter(concurrentTotalSize, tempSize)} ({concurrentTotalCompletedDisplay}/{indexObj.Count})");
                 TaskbarManager.Instance.SetProgressValue(tempSize, concurrentTotalSize, Handle);
+            }
+        }
+
+        private int getSingleFileSize(string url)
+        {
+            try
+            {
+                WebClient client = new WebClient();
+                client.OpenRead(url);
+                int bytes_total = Convert.ToInt32(client.ResponseHeaders["Content-Length"]);
+
+                return bytes_total;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, gb.lang.DIALOG_ERROR, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return 0;
             }
         }
     }

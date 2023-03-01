@@ -178,8 +178,46 @@ namespace XCoreNET
                 {
                     if (sha_local.Length > 0 && sha_local != hash) output("WARN", gb.lang.LOGGER_GAME_APPLICATION_VERIFY_FAILD);
 
-                    output("INFO", gb.lang.LOGGER_DOWNLOAD_GAME_APPLICATION);
-                    await launcher.downloadResource(clientURL, dir_jar);
+                    if (gb.isConcurrent)
+                    {
+                        initializeThreadDownloader(gb.lang.LOGGER_PARALLEL_DOWNLOADING_TYPE_APPLICATION);
+
+                        ConcurrentDownloadListModel cdlm = new ConcurrentDownloadListModel();
+                        cdlm.uid = $"{version}.jar";
+                        cdlm.id = $"{version}.jar";
+                        cdlm.url = clientURL;
+                        cdlm.path = dir_jar;
+                        cdlm.size = 0;
+                        cdlm.totSize = getSingleFileSize(clientURL); ;
+                        indexObj.Add(cdlm);
+
+                        if (!concurrentNowSize.ContainsKey($"{version}.jar"))
+                            concurrentNowSize.Add($"{version}.jar", cdlm);
+
+                        concurrentTotalSize += cdlm.totSize;
+
+                        progressBar.Value = 0;
+                        progressBar.Maximum = cdlm.totSize;
+                        progressBar.Style = ProgressBarStyle.Blocks;
+                        TaskbarManager.Instance.SetProgressState(TaskbarProgressBarState.Normal, Handle);
+
+                        timerConcurrent.Enabled = true;
+                        onThreadDownloader(clientURL, dir_jar, $"{version}.jar", $"{version}.jar");
+                        while (concurrentTotalCompleted != 1)
+                        {
+                            await Task.Delay(500);
+                            Console.WriteLine($"while ticked: {concurrentTotalCompleted}/1");
+                        }
+                    }
+                    else
+                    {
+                        progressBar.Style = ProgressBarStyle.Marquee;
+                        TaskbarManager.Instance.SetProgressState(TaskbarProgressBarState.Indeterminate, Handle);
+                        timerConcurrent.Enabled = false;
+
+                        output("INFO", gb.lang.LOGGER_DOWNLOAD_GAME_APPLICATION);
+                        await launcher.downloadResource(clientURL, dir_jar);
+                    }
                 }
 
 
@@ -207,11 +245,49 @@ namespace XCoreNET
                 var dir_jar = gb.PathJoin(DATA_FOLDER, "versions", version, $"{version}.jar");
                 if (File.Exists(dir_jar) && new FileInfo(dir_jar).Length == 0)
                 {
-                    output("INFO", gb.lang.LOGGER_DOWNLOAD_GAME_APPLICATION);
-                    await launcher.downloadResource(clientURL, dir_jar);
+                    if (gb.isConcurrent)
+                    {
+                        initializeThreadDownloader(gb.lang.LOGGER_PARALLEL_DOWNLOADING_TYPE_APPLICATION);
+
+                        ConcurrentDownloadListModel cdlm = new ConcurrentDownloadListModel();
+                        cdlm.uid = $"{version}.jar";
+                        cdlm.id = $"{version}.jar";
+                        cdlm.url = clientURL;
+                        cdlm.path = dir_jar;
+                        cdlm.size = 0;
+                        cdlm.totSize = getSingleFileSize(clientURL); ;
+                        indexObj.Add(cdlm);
+
+                        if (!concurrentNowSize.ContainsKey($"{version}.jar"))
+                            concurrentNowSize.Add($"{version}.jar", cdlm);
+
+                        concurrentTotalSize += cdlm.totSize;
+
+                        progressBar.Value = 0;
+                        progressBar.Maximum = cdlm.totSize;
+                        progressBar.Style = ProgressBarStyle.Blocks;
+                        TaskbarManager.Instance.SetProgressState(TaskbarProgressBarState.Normal, Handle);
+
+                        timerConcurrent.Enabled = true;
+                        onThreadDownloader(clientURL, dir_jar, $"{version}.jar", $"{version}.jar");
+                        while (concurrentTotalCompleted != 1)
+                        {
+                            await Task.Delay(500);
+                            Console.WriteLine($"while ticked: {concurrentTotalCompleted}/1");
+                        }
+                    }
+                    else
+                    {
+                        progressBar.Style = ProgressBarStyle.Marquee;
+                        TaskbarManager.Instance.SetProgressState(TaskbarProgressBarState.Indeterminate, Handle);
+                        timerConcurrent.Enabled = false;
+
+                        output("INFO", gb.lang.LOGGER_DOWNLOAD_GAME_APPLICATION);
+                        await launcher.downloadResource(clientURL, dir_jar);
+                    }
                 }
 
-                if ((customVer["minecraftArguments"] != null))
+                if (customVer["minecraftArguments"] != null)
                 {
                     gb.startupParms.minecraftArguments = customVer["minecraftArguments"].ToString();
                 }
@@ -254,6 +330,9 @@ namespace XCoreNET
         private async void onCreateLogger(string url, string filename)
         {
             output("INFO", gb.lang.LOGGER_CREATE_LOGGER_CONFIGURATION);
+            progressBar.Style = ProgressBarStyle.Marquee;
+            TaskbarManager.Instance.SetProgressState(TaskbarProgressBarState.Indeterminate, Handle);
+
             var dir = gb.PathJoin(DATA_FOLDER, "assets/log-configs");
             Directory.CreateDirectory(dir);
 
@@ -265,13 +344,8 @@ namespace XCoreNET
         private async void onJavaProgram(JObject objKit, string gameAssetJson)
         {
             if (isClosed) return;
-            downloadingPath = new List<string>();
-            indexObj = new List<ConcurrentDownloadListModel>();
-            concurrentTotalSize = 0;
-            concurrentTotalCompletedDisplay = 0;
-            concurrentType = gb.lang.LOGGER_PARALLEL_DOWNLOADING_TYPE_JAVA_RUNTIME;
-            concurrentNowSize = new Dictionary<string, ConcurrentDownloadListModel>();
 
+            initializeThreadDownloader(gb.lang.LOGGER_PARALLEL_DOWNLOADING_TYPE_JAVA_RUNTIME);
             progressBar.Style = ProgressBarStyle.Blocks;
             TaskbarManager.Instance.SetProgressState(TaskbarProgressBarState.Normal, Handle);
             output("INFO", gb.lang.LOGGER_CREATE_JAVA_RUNTIME);
@@ -358,7 +432,7 @@ namespace XCoreNET
 
                 progressBar.Value = 0;
                 progressBar.Maximum = concurrentTotalSize;
-                //timerConcurrent.Enabled = true;
+                timerConcurrent.Enabled = true;
 
                 for (int i = 0; i < indexObj.Count; i += 200)
                 {
@@ -392,13 +466,8 @@ namespace XCoreNET
         private async void onCreateLibraries(JObject objKit, string gameAssetJson)
         {
             if (isClosed) return;
-            downloadingPath = new List<string>();
-            indexObj = new List<ConcurrentDownloadListModel>();
-            concurrentTotalCompletedDisplay = 0;
-            concurrentTotalSize = 0;
-            concurrentType = gb.lang.LOGGER_PARALLEL_DOWNLOADING_TYPE_NECESSARY_FILE;
-            concurrentNowSize = new Dictionary<string, ConcurrentDownloadListModel>();
 
+            initializeThreadDownloader(gb.lang.LOGGER_PARALLEL_DOWNLOADING_TYPE_NECESSARY_FILE);
             output("INFO", gb.lang.LOGGER_CREATE_NECESSARY_FILE);
             var dir = gb.PathJoin(DATA_FOLDER, "libraries");
             Directory.CreateDirectory(dir);
@@ -770,7 +839,7 @@ namespace XCoreNET
 
                 progressBar.Value = 0;
                 progressBar.Maximum = concurrentTotalSize;
-                //timerConcurrent.Enabled = true;
+                timerConcurrent.Enabled = true;
 
                 for (int i = 0; i < indexObj.Count; i += 200)
                 {
@@ -804,13 +873,8 @@ namespace XCoreNET
         private async void onCreateObjects(string gameAssetJson)
         {
             if (isClosed) return;
-            downloadingPath = new List<string>();
-            indexObj = new List<ConcurrentDownloadListModel>();
-            concurrentTotalCompletedDisplay = 0;
-            concurrentTotalSize = 0;
-            concurrentType = gb.lang.LOGGER_PARALLEL_DOWNLOADING_TYPE_ASSETS;
-            concurrentNowSize = new Dictionary<string, ConcurrentDownloadListModel>();
 
+            initializeThreadDownloader(gb.lang.LOGGER_PARALLEL_DOWNLOADING_TYPE_ASSETS);
             output("INFO", gb.lang.LOGGER_CREATE_ASSETS);
             var dir = gb.PathJoin(DATA_FOLDER, "assets/objects");
             Directory.CreateDirectory(dir);
@@ -901,7 +965,7 @@ namespace XCoreNET
 
                 progressBar.Value = 0;
                 progressBar.Maximum = concurrentTotalSize;
-                //timerConcurrent.Enabled = true;
+                timerConcurrent.Enabled = true;
 
                 for (int i = 0; i < SortedIndexObj.Count; i += 200)
                 {

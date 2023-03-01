@@ -79,6 +79,7 @@ namespace XCoreNET
             launcher = new launcherTask();
 
             radConcurrent.Checked = gb.isConcurrent;
+            radSingle.Checked = !gb.isConcurrent;
 
             maxMemory = Convert.ToInt32(Math.Floor(Convert.ToDouble(new ComputerInfo().TotalPhysicalMemory / 1024 / 1024 / 1000)) - 2) * 1024;
             trackBarMiB.Maximum = maxMemory / 1024;

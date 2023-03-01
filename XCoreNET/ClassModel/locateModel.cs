@@ -183,6 +183,7 @@ namespace XCoreNET.ClassModel
             public string LOGGER_PARALLEL_DOWNLOADING_TYPE_JAVA_RUNTIME { get; set; }
             public string LOGGER_PARALLEL_DOWNLOADING_TYPE_NECESSARY_FILE { get; set; }
             public string LOGGER_PARALLEL_DOWNLOADING_TYPE_ASSETS { get; set; }
+            public string LOGGER_PARALLEL_DOWNLOADING_TYPE_APPLICATION { get; set; }
             public string LOGGER_DOWNLOAD_COMPLETE { get; set; }
             public string LOGGER_DOWNLOAD_CANCELED { get; set; }
             public string LOGGER_DOWNLOAD_FAILED { get; set; }
