@@ -346,6 +346,7 @@ namespace XCoreNET
             if (isClosed) return;
 
             initializeThreadDownloader(gb.lang.LOGGER_PARALLEL_DOWNLOADING_TYPE_JAVA_RUNTIME);
+            progressBar.Value = 0;
             progressBar.Style = ProgressBarStyle.Blocks;
             TaskbarManager.Instance.SetProgressState(TaskbarProgressBarState.Normal, Handle);
             output("INFO", gb.lang.LOGGER_CREATE_JAVA_RUNTIME);
@@ -358,7 +359,6 @@ namespace XCoreNET
             var fileList = JsonConvert.DeserializeObject<JObject>(dwObj["files"].ToString());
 
             progressBar.Maximum = fileList.Count;
-            progressBar.Value = 0;
             int total = fileList.Count;
             int index = 0;
 
