@@ -418,12 +418,13 @@
             // instanceList
             // 
             this.instanceList.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.instanceList.Font = new System.Drawing.Font("Arial", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.instanceList.FormattingEnabled = true;
             this.instanceList.Items.AddRange(new object[] {
             "無"});
             this.instanceList.Location = new System.Drawing.Point(136, 57);
             this.instanceList.Name = "instanceList";
-            this.instanceList.Size = new System.Drawing.Size(19, 25);
+            this.instanceList.Size = new System.Drawing.Size(19, 24);
             this.instanceList.TabIndex = 0;
             this.instanceList.SelectedIndexChanged += new System.EventHandler(this.instanceList_SelectedIndexChanged);
             // 
