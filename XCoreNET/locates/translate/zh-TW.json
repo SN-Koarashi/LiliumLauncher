@@ -111,6 +111,8 @@
   "TOOLTIP_VERIFY_FILE": "驗證所有資料的雜湊值，並且不啟動遊戲",
   "TOOLTIP_RELOAD": "重新載入版本列表及啟動實例列表",
   "TOOLTIP_RECACHE": "向 Mojang 重新快取版本列表及重新載入啟動實例列表",
+  "TOOLTIP_DOWNLOAD_SINGLE": "逐個下載每個檔案，並且只在檔案完成寫入時才會進行下一個",
+  "TOOLTIP_DOWNLOAD_CONCURRENCY": "傳送多個TCP連線一次下載多個檔案並且同時寫入，只會在一批下載完畢後執行下一批",
   "DIALOG_APPLICATION_LATEST": "應用程式已為最新版本",
   "DIALOG_APPLICATION_CHECKING_UPDATE_ERROR": "更新檢查過程發生例外狀況: ",
   "DIALOG_APPLICATION_UPDATE_CONFIRM": "有新的應用程式版本可用，是否執行更新？",

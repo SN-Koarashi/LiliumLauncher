@@ -111,6 +111,8 @@
   "TOOLTIP_VERIFY_FILE": "Verify integrity of all files.",
   "TOOLTIP_RELOAD": "Reload version list and instance list.",
   "TOOLTIP_RECACHE": "Recache version list from Mojang and reload instance list.",
+  "TOOLTIP_DOWNLOAD_SINGLE": "Download each file one by one, and only move on to the next one when the current file has finished writing.",
+  "TOOLTIP_DOWNLOAD_CONCURRENCY": "Send multiple TCP connections to download multiple files at once and write to them simultaneously, and only execute the next batch of downloads after the current batch is complete.",
   "DIALOG_APPLICATION_LATEST": "Application is up to date.",
   "DIALOG_APPLICATION_CHECKING_UPDATE_ERROR": "An exception occurred during the update check: ",
   "DIALOG_APPLICATION_UPDATE_CONFIRM": "A new application version is available, do you want to perform an update?",

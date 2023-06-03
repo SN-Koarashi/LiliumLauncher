@@ -207,6 +207,8 @@ namespace XCoreNET
             toolTip.SetToolTip(btnVerifyFile, gb.lang.TOOLTIP_VERIFY_FILE);
             toolTip.SetToolTip(buttonVerReload, gb.lang.TOOLTIP_RELOAD);
             toolTip.SetToolTip(btnVerRecache, gb.lang.TOOLTIP_RECACHE);
+            toolTip.SetToolTip(radConcurrent, gb.lang.TOOLTIP_DOWNLOAD_CONCURRENCY);
+            toolTip.SetToolTip(radSingle, gb.lang.TOOLTIP_DOWNLOAD_SINGLE);
 
             tabControl1.Font = new System.Drawing.Font(gb.lang.FONT_FAMILY, gb.lang.FONT_SIZE);
         }

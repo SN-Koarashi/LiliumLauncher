@@ -111,6 +111,8 @@
   "TOOLTIP_VERIFY_FILE": "验证所有数据的哈希值，并且不启动游戏",
   "TOOLTIP_RELOAD": "重新载入版本列表及启动实例表",
   "TOOLTIP_RECACHE": "向 Mojang 重新缓存版本列表及重新载入启动实例表",
+  "TOOLTIP_DOWNLOAD_SINGLE": "逐个下载每个文件，并且只在文件完成写入时才会进行下一个",
+  "TOOLTIP_DOWNLOAD_CONCURRENCY": "一次传送多个TCP连接以下载多个文件并同时写入，只有在一批下载完毕后才会执行下一批",
   "DIALOG_APPLICATION_LATEST": "应用程序已为最新版本",
   "DIALOG_APPLICATION_CHECKING_UPDATE_ERROR": "更新检查过程发生例外状况: ",
   "DIALOG_APPLICATION_UPDATE_CONFIRM": "有新的应用程式版本可用，是否执行更新？",

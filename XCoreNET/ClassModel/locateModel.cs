@@ -118,6 +118,8 @@ namespace XCoreNET.ClassModel
             public string TOOLTIP_VERIFY_FILE { get; set; }
             public string TOOLTIP_RELOAD { get; set; }
             public string TOOLTIP_RECACHE { get; set; }
+            public string TOOLTIP_DOWNLOAD_SINGLE { get; set; }
+            public string TOOLTIP_DOWNLOAD_CONCURRENCY { get; set; }
             public string DIALOG_APPLICATION_LATEST { get; set; }
             public string DIALOG_APPLICATION_CHECKING_UPDATE_ERROR { get; set; }
             public string DIALOG_APPLICATION_UPDATE_CONFIRM { get; set; }

@@ -1191,7 +1191,12 @@ namespace XCoreNET
             jvm.Add("-Djava.library.path=" + gb.PathJoin(DATA_FOLDER, "bin", gb.startupParms.startupUID));
 
             if (gb.usingMaxMemoryUsage && gb.maxMemoryUsage > 0)
-                jvm.Add($"-Xmx{gb.maxMemoryUsage}m");
+            {
+                if(gb.currentInstance.jvmParms == null || gb.currentInstance.jvmParms != null && gb.currentInstance.jvmParms.ToLower().Contains("-xmx"))
+                {
+                    jvm.Add($"-Xmx{gb.maxMemoryUsage}m");
+                }
+            }
 
             if (gb.startupParms.loggerIndex != null)
                 jvm.Add("-Dlog4j.configurationFile=" + gb.PathJoin(assetsDir, "log-configs", gb.startupParms.loggerIndex));
