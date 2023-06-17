@@ -318,12 +318,20 @@ namespace XCoreNET
         }
         private void btnLaunch_Click(object sender, EventArgs e)
         {
+            buttonVerReload_Click(sender, e);
+
+            textBox.Text = "";
+
             checkFile = false;
             onVersionInfo();
         }
 
         private void btnVerifyFile_Click(object sender, EventArgs e)
         {
+            buttonVerReload_Click(sender, e);
+
+            textBox.Text = "";
+
             checkFile = true;
             onVersionInfo();
             tabControl1.SelectedIndex = 0;

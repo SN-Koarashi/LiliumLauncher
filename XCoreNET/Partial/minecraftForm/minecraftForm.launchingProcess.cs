@@ -131,6 +131,7 @@ namespace XCoreNET
         private async void onCreateIndexes(string version, string url)
         {
             if (isClosed) return;
+            timerConcurrent.Enabled = false;
 
             progressBar.Style = ProgressBarStyle.Marquee;
             TaskbarManager.Instance.SetProgressState(TaskbarProgressBarState.Indeterminate, Handle);
@@ -160,6 +161,7 @@ namespace XCoreNET
         private async void onCreateGameData(string version, string hash, JObject gameNecessaryKit, string clientURL, string gameAssetJson)
         {
             output("INFO", gb.lang.LOGGER_CREATE_GAME_APPLICATION);
+            timerConcurrent.Enabled = false;
 
             if (customVer == null)
             {
@@ -203,11 +205,13 @@ namespace XCoreNET
 
                         timerConcurrent.Enabled = true;
                         onThreadDownloader(clientURL, dir_jar, $"{version}.jar", $"{version}.jar");
+
                         while (concurrentTotalCompleted != 1)
                         {
                             await Task.Delay(500);
                             Console.WriteLine($"while ticked: {concurrentTotalCompleted}/1");
                         }
+
                     }
                     else
                     {
@@ -270,6 +274,7 @@ namespace XCoreNET
 
                         timerConcurrent.Enabled = true;
                         onThreadDownloader(clientURL, dir_jar, $"{version}.jar", $"{version}.jar");
+                        
                         while (concurrentTotalCompleted != 1)
                         {
                             await Task.Delay(500);
@@ -324,6 +329,7 @@ namespace XCoreNET
             if (gameNecessaryKit["logging"] != null)
                 onCreateLogger(gameNecessaryKit["logging"]["client"]["file"]["url"].ToString(), gameNecessaryKit["logging"]["client"]["file"]["id"].ToString());
 
+
             onJavaProgram(gameNecessaryKit, gameAssetJson);
         }
 
@@ -344,6 +350,7 @@ namespace XCoreNET
         private async void onJavaProgram(JObject objKit, string gameAssetJson)
         {
             if (isClosed) return;
+            timerConcurrent.Enabled = false;
 
             initializeThreadDownloader(gb.lang.LOGGER_PARALLEL_DOWNLOADING_TYPE_JAVA_RUNTIME);
             progressBar.Value = 0;
@@ -466,6 +473,7 @@ namespace XCoreNET
         private async void onCreateLibraries(JObject objKit, string gameAssetJson)
         {
             if (isClosed) return;
+            timerConcurrent.Enabled = false;
 
             initializeThreadDownloader(gb.lang.LOGGER_PARALLEL_DOWNLOADING_TYPE_NECESSARY_FILE);
             output("INFO", gb.lang.LOGGER_CREATE_NECESSARY_FILE);
@@ -873,6 +881,7 @@ namespace XCoreNET
         private async void onCreateObjects(string gameAssetJson)
         {
             if (isClosed) return;
+            timerConcurrent.Enabled = false;
 
             initializeThreadDownloader(gb.lang.LOGGER_PARALLEL_DOWNLOADING_TYPE_ASSETS);
             output("INFO", gb.lang.LOGGER_CREATE_ASSETS);
@@ -1006,6 +1015,7 @@ namespace XCoreNET
         private void onUnzipped()
         {
             if (isClosed) return;
+            timerConcurrent.Enabled = false;
 
             TaskbarManager.Instance.SetProgressState(TaskbarProgressBarState.Indeterminate, Handle);
             gb.startupParms.startupUID = Guid.NewGuid().ToString();
@@ -1066,6 +1076,7 @@ namespace XCoreNET
         private void preVersionSupport()
         {
             if (isClosed) return;
+            timerConcurrent.Enabled = false;
 
             // 舊版本(pre-1.6)會因為語言選項的大小寫問題導致遊戲崩潰
             output("INFO", gb.lang.LOGGER_COMPATIBILITY_OLDER_VERSION);

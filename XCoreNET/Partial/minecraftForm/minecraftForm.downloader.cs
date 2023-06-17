@@ -18,6 +18,7 @@ namespace XCoreNET
             downloadingPath = new List<string>();
             indexObj = new List<ConcurrentDownloadListModel>();
             concurrentTotalSize = 0;
+            concurrentTotalCompleted = 0;
             concurrentTotalCompletedDisplay = 0;
             concurrentType = langText;
             concurrentNowSize = new Dictionary<string, ConcurrentDownloadListModel>();
@@ -63,7 +64,7 @@ namespace XCoreNET
 
             this.BeginInvoke((MethodInvoker)delegate
             {
-                concurrentNowSize[UID].size = int.Parse(e.BytesReceived.ToString());
+                 concurrentNowSize[UID].size = int.Parse(e.BytesReceived.ToString());
             });
         }
         private void client_DownloadFileCompleted(object sender, AsyncCompletedEventArgs e, string UID, string path, string url, string filename)
