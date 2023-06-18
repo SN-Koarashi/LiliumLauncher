@@ -3,6 +3,7 @@ using Microsoft.VisualBasic.Devices;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Reflection;
 using System.Windows.Forms;
 using XCoreNET.Properties;
 using XCoreNET.Tasks;
@@ -58,6 +59,8 @@ namespace XCoreNET
                     isWebViewDisposed = true;
                 }
             }
+
+            this.Text = this.Text + " v" + Assembly.GetExecutingAssembly().GetName().Version.ToString();
         }
 
         private void initializeMain(string[] args)
