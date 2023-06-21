@@ -79,8 +79,9 @@ namespace XCoreNET
 
                     if (filename.StartsWith("icons/"))
                     {
-                        Directory.CreateDirectory(gb.PathJoin(DATA_FOLDER, "assets", "icons"));
-                        File.Copy(path, gb.PathJoin(DATA_FOLDER, "assets", filename), true);
+                        string newPath = gb.PathJoin(DATA_FOLDER, "assets", filename);
+                        Directory.CreateDirectory(Path.GetDirectoryName(newPath));
+                        File.Copy(path, newPath, true);
                     }
 
                     FileWriteCompleted(UID);

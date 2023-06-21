@@ -359,6 +359,19 @@ namespace Global
             string[] result = args.Select(x => x.Replace('/', Path.DirectorySeparatorChar)).ToArray();
             return Path.GetFullPath(String.Join(Path.DirectorySeparatorChar.ToString(), result));
         }
+
+        // 取得作業系統名稱
+        public static string getPlatform(bool isNative)
+        {
+            return isNative ? "natives-windows" : "windows-x64";
+        }
+
+        // 取得作業系統名稱
+        public static string getPlatformFriendly()
+        {
+            return "windows";
+        }
+
         public static int DropDownWidth(ComboBox myCombo)
         {
             int maxWidth = 0, temp = 0;

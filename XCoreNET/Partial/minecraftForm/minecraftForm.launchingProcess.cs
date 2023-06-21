@@ -360,7 +360,7 @@ namespace XCoreNET
             var runtime = (objKit["javaVersion"] != null) ? objKit["javaVersion"]["component"].ToString() : "jre-legacy";
 
             var obj = await launcher.getJavaRuntime();
-            var resource_url = obj["windows-x64"][runtime][0]["manifest"]["url"].ToString();
+            var resource_url = obj[gb.getPlatform(false)][runtime][0]["manifest"]["url"].ToString();
 
             var dwObj = await launcher.getJavaDownloadObject(resource_url);
             var fileList = JsonConvert.DeserializeObject<JObject>(dwObj["files"].ToString());
@@ -412,17 +412,17 @@ namespace XCoreNET
                                 concurrentNowSize.Add(list.Key, cdlm);
 
                             concurrentTotalSize += int.Parse(list.Value["downloads"]["raw"]["size"].ToString());
-                            output("INFO", $"{gb.lang.LOGGER_INDEXING_JAVA_RUNTIME.Replace("%VERSION%", obj["windows-x64"][runtime][0]["version"]["name"].ToString())} ({index}/{total}) {list.Key}");
+                            output("INFO", $"{gb.lang.LOGGER_INDEXING_JAVA_RUNTIME.Replace("%VERSION%", obj[gb.getPlatform(false)][runtime][0]["version"]["name"].ToString())} ({index}/{total}) {list.Key}");
                         }
                         else
                         {
-                            output("INFO", $"{gb.lang.LOGGER_DOWNLOADING_JAVA_RUNTIME.Replace("%VERSION%", obj["windows-x64"][runtime][0]["version"]["name"].ToString())} ({index}/{total}) {list.Key}");
+                            output("INFO", $"{gb.lang.LOGGER_DOWNLOADING_JAVA_RUNTIME.Replace("%VERSION%", obj[gb.getPlatform(false)][runtime][0]["version"]["name"].ToString())} ({index}/{total}) {list.Key}");
                             await launcher.downloadResource(url, path + ".");
                         }
                     }
                     else
                     {
-                        output("INFO", $"{gb.lang.LOGGER_CHECKING_JAVA_RUNTIME.Replace("%VERSION%", obj["windows-x64"][runtime][0]["version"]["name"].ToString())} ({index}/{total}) {list.Key}");
+                        output("INFO", $"{gb.lang.LOGGER_CHECKING_JAVA_RUNTIME.Replace("%VERSION%", obj[gb.getPlatform(false)][runtime][0]["version"]["name"].ToString())} ({index}/{total}) {list.Key}");
                     }
                 }
 
@@ -500,7 +500,7 @@ namespace XCoreNET
                     {
                         if (item["action"].ToString().Equals("allow"))
                         {
-                            if (item["os"] == null || item["os"]["name"].ToString().Equals("windows"))
+                            if (item["os"] == null || item["os"]["name"].ToString().Equals(gb.getPlatformFriendly()))
                             {
                                 canDownload = true;
                             }
@@ -508,7 +508,7 @@ namespace XCoreNET
 
                         if (item["action"].ToString().Equals("disallow"))
                         {
-                            if (item["os"] != null && item["os"]["name"].ToString().Equals("windows"))
+                            if (item["os"] != null && item["os"]["name"].ToString().Equals(gb.getPlatformFriendly()))
                             {
                                 canDownload = false;
                                 break;
@@ -525,7 +525,7 @@ namespace XCoreNET
                 if (canDownload && r["downloads"]["artifact"] != null)
                 {
                     DownloadListModel xlm = new DownloadListModel();
-                    if (r["name"].ToString().EndsWith("natives-windows"))
+                    if (r["name"].ToString().EndsWith(gb.getPlatform(true)))
                     {
                         var classNameLen = r["name"].ToString().Split(':').Length;
                         xlm.path = r["downloads"]["artifact"]["path"].ToString();
@@ -559,7 +559,7 @@ namespace XCoreNET
 
                     foreach (var c in cObj)
                     {
-                        if (c.Key.Equals("natives-windows") || !c.Key.StartsWith("natives-"))
+                        if (c.Key.Equals(gb.getPlatform(true)) || !c.Key.StartsWith("natives-"))
                         {
                             DownloadListModel xlm = new DownloadListModel();
                             var obj = JsonConvert.DeserializeObject<JObject>(c.Value.ToString());
@@ -570,7 +570,7 @@ namespace XCoreNET
                             xlm.name = c.Key;
                             string url = obj["url"].ToString();
 
-                            if (c.Key.Equals("natives-windows"))
+                            if (c.Key.Equals(gb.getPlatform(true)))
                             {
                                 xlm.type = 2;
                             }
@@ -704,7 +704,7 @@ namespace XCoreNET
                 var version = "";
                 var className = "";
 
-                if (full_name.Split(':')[nameLen - 1].Contains("natives-windows"))
+                if (full_name.Split(':')[nameLen - 1].Contains(gb.getPlatform(true)))
                 {
                     version = full_name.Split(':')[nameLen - 2];
                     className = full_name.Split(':')[nameLen - 3];
@@ -720,7 +720,7 @@ namespace XCoreNET
                 // natives 檔案 (動態函數庫)
                 if (d.Value.type == 2)
                 {
-                    cFilename = cFilename.Replace("-natives-windows.jar", ".jar");
+                    cFilename = cFilename.Replace("-" + gb.getPlatform(true) + ".jar", ".jar");
                     cDir = gb.PathJoin(dir, d.Value.name, cDir);
 
                     Directory.CreateDirectory(cDir);
