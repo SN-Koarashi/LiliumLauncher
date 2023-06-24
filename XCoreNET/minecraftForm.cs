@@ -221,6 +221,8 @@ namespace XCoreNET
         {
             avatar.Cursor = Cursors.Default;
             avatar.Visible = true;
+            updateTrayAvatar();
+
 
             if (e.Error != null && tryReload < 10)
             {

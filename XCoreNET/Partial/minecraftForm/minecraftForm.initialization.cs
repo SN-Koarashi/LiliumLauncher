@@ -158,6 +158,9 @@ namespace XCoreNET
                 MessageBox.Show(gb.lang.DIALOG_TRAY_MAIN, "XCoreNET", MessageBoxButtons.OK, MessageBoxIcon.Information);
             };
 
+            var menuItemAvatar = new ToolStripMenuItem(textUser.Text, avatar.Image);
+            menuItemAvatar.Image = avatar.Image;
+
             var menuItemKill = new ToolStripMenuItem(gb.lang.TRAY_CLOSE_GAME);
             menuItemKill.Enabled = false;
 
@@ -168,9 +171,16 @@ namespace XCoreNET
             };
 
             trayIcon.ContextMenuStrip.Items.Add(menuItemIcon);
+            trayIcon.ContextMenuStrip.Items.Add(menuItemAvatar);
             trayIcon.ContextMenuStrip.Items.Add(new ToolStripSeparator());
             trayIcon.ContextMenuStrip.Items.Add(menuItemKill);
             trayIcon.ContextMenuStrip.Items.Add(menuItemExit);
+        }
+
+        private void updateTrayAvatar()
+        {
+            trayIcon.ContextMenuStrip.Items.RemoveAt(1);
+            trayIcon.ContextMenuStrip.Items.Insert(1, new ToolStripMenuItem(textUser.Text, avatar.Image));
         }
 
         private void setTranslate()

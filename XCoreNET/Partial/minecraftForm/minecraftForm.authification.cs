@@ -262,6 +262,7 @@ namespace XCoreNET
             settingAllControl(true);
             TaskbarManager.Instance.SetProgressState(TaskbarProgressBarState.NoProgress, Handle);
 
+            updateTrayAvatar();
 
             if (!gb.firstStart)
                 gb.checkForUpdate(false);
