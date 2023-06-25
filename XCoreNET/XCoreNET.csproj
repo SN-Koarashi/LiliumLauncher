@@ -409,7 +409,6 @@
     <None Include="license\WindowsAPICodePack.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <Content Include="http_response.html" />
     <Content Include="logo.ico" />
     <Content Include="Windows Logo.png" />
     <None Include="XCoreNET-Updater.exe">

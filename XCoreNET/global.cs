@@ -386,6 +386,28 @@ namespace Global
             return maxWidth;
         }
 
+        public static string getBrowserLoginHTML()
+        {
+            string html = 
+                "<html>"+
+                    "<head>"+
+                        "<title>OAuth Window</title>"+
+                        "<meta charset=\"utf-8\" />"+
+                        "<style>div{position: fixed;top: 40%;transform: translateY(-50%);left: 0px;right: 0px;}h1{margin: 0px;}</style>"+
+                        "<script>window.history.pushState(null, document.title, \" /? type = session_closed\");"+
+                        "setTimeout(()=>{location.replace(\"about: blank\");},1500);"+
+                        "</script>"+
+                    "</head>"+
+                    "<body>"+
+                        "<div align=\"center\">"+
+                            $"<h1>{lang.HTML_OAUTH_COMPLETE}</h1>"+
+                        "</div>"+
+                    "</body>"+
+                "</html>";
+
+            return html;
+        }
+
         // https://stackoverflow.com/questions/7568147/compare-version-numbers-without-using-split-function
         public static int CompareVersionStrings(string v1, string v2)
         {

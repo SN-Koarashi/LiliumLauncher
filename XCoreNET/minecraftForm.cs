@@ -414,7 +414,8 @@ namespace XCoreNET
                                 Tasks.loginChallengeTask.BrowserClosed(profilePath);
                                 this.Invoke(new Action(() =>
                                 {
-                                    settingAllControl(true);
+                                    if(!progressBar.Style.Equals(ProgressBarStyle.Marquee))
+                                        settingAllControl(true);
                                 }));
                             };
                         }

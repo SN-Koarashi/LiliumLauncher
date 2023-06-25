@@ -200,5 +200,6 @@
   "DIALOG_LOGIN_FAILED": "Login Failed: ",
   "DIALOG_TRAY_MAIN": "Minecraft Launcher\nLightweight solution",
   "TRAY_CLOSE_GAME": "Close Game",
-  "TRAY_CLOSE_LAUNCHER": "Close Launcher"
+  "TRAY_CLOSE_LAUNCHER": "Close Launcher",
+  "HTML_OAUTH_COMPLETE": "The session has ended. Please close this window and return to the application."
 }

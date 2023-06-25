@@ -200,5 +200,6 @@
   "DIALOG_LOGIN_FAILED": "登入失敗: ",
   "DIALOG_TRAY_MAIN": "Minecraft Launcher\n您輕量化的解決方案",
   "TRAY_CLOSE_GAME": "關閉遊戲",
-  "TRAY_CLOSE_LAUNCHER": "關閉程式"
+  "TRAY_CLOSE_LAUNCHER": "關閉程式",
+  "HTML_OAUTH_COMPLETE": "工作階段已結束，請關閉此視窗並回到應用程式。"
 }

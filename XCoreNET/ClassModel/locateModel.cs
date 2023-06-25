@@ -208,6 +208,7 @@ namespace XCoreNET.ClassModel
             public string DIALOG_TRAY_MAIN { get; set; }
             public string TRAY_CLOSE_GAME { get; set; }
             public string TRAY_CLOSE_LAUNCHER { get; set; }
+            public string HTML_OAUTH_COMPLETE { get; set; }
         }
         public class manifestListModel
         {
