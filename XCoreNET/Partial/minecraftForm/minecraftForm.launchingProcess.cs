@@ -15,6 +15,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using XCoreNET.Properties;
 using static XCoreNET.ClassModel.launcherModel;
 using static XCoreNET.Tasks.launcherTask;
 
@@ -1335,9 +1336,8 @@ namespace XCoreNET
                         Directory.Delete(gb.PathJoin(DATA_FOLDER, "bin", gb.startupParms.startupUID), true);
                         settingAllControl(true);
 
-                        this.ShowInTaskbar = true;
-                        this.WindowState = FormWindowState.Normal;
-                        this.Activate();
+                        restoreWindowInFront();
+
                         trayIcon.Visible = false;
                         trayIcon.ContextMenuStrip.Items[trayIcon.ContextMenuStrip.Items.Count - 2].Enabled = false;
                         trayIcon.ContextMenuStrip.Items[trayIcon.ContextMenuStrip.Items.Count - 2].Click -= handler;

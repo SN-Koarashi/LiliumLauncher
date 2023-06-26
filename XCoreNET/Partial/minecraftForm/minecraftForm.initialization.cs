@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using XCoreNET.Properties;
 using XCoreNET.Tasks;
@@ -143,9 +144,7 @@ namespace XCoreNET
             {
                 if (e.Button == MouseButtons.Left)
                 {
-                    this.ShowInTaskbar = true;
-                    this.WindowState = FormWindowState.Normal;
-                    this.Activate();
+                    restoreWindowInFront();
                 }
             };
             trayIcon.Text = "XCoreNET Minecraft Launcher";
@@ -177,10 +176,21 @@ namespace XCoreNET
             trayIcon.ContextMenuStrip.Items.Add(menuItemExit);
         }
 
+        private void restoreWindowInFront()
+        {
+            this.ShowInTaskbar = true;
+            this.WindowState = FormWindowState.Normal;
+            this.FormBorderStyle = FormBorderStyle.Sizable;
+            this.Opacity = 1;
+            this.Icon = Resources.logo;
+            this.Activate();
+        }
+
         private void updateTrayAvatar()
         {
             trayIcon.ContextMenuStrip.Items.RemoveAt(1);
-            trayIcon.ContextMenuStrip.Items.Insert(1, new ToolStripMenuItem(textUser.Text, avatar.Image));
+            trayIcon.ContextMenuStrip.Items.Insert(1, new ToolStripMenuItem(gb.minecraftUsername, avatar.Image));
+            trayIcon.ContextMenuStrip.Items[1].ToolTipText = gb.minecraftUUID;
         }
 
         private void setTranslate()

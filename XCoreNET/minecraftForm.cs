@@ -252,6 +252,8 @@ namespace XCoreNET
             if (!btnLaunch.Enabled && !checkFile && this.WindowState == FormWindowState.Minimized)
             {
                 this.ShowInTaskbar = false;
+                this.FormBorderStyle = FormBorderStyle.SizableToolWindow;
+                this.Opacity = 0;
                 trayIcon.Visible = true;
             }
 
