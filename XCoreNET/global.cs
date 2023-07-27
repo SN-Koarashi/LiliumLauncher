@@ -408,6 +408,14 @@ namespace Global
             return html;
         }
 
+        public static string getDateTimeWithAD() {
+            DateTime utcDateTime = DateTime.UtcNow;
+            TimeZoneInfo localTimeZone = TimeZoneInfo.Local;
+            DateTime localDateTime = TimeZoneInfo.ConvertTimeFromUtc(utcDateTime, localTimeZone);
+
+            return localDateTime.ToString("yyyy-MM-dd HH:mm:ss");
+        }
+
         // https://stackoverflow.com/questions/7568147/compare-version-numbers-without-using-split-function
         public static int CompareVersionStrings(string v1, string v2)
         {

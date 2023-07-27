@@ -254,7 +254,7 @@ namespace XCoreNET
             am.refreshToken = gb.refreshToken;
             am.accessToken = gb.launchToken;
             am.expiresAt = gb.launchTokenExpiresAt;
-            am.lastUsed = new DateTime().ToString("yyyy-MM-dd HH:mm:ss");
+            am.lastUsed = gb.getDateTimeWithAD();
             gb.account.Add(gb.minecraftUUID, am);
 
             gb.savingSession(false);
