@@ -47,6 +47,7 @@
             this.panel1 = new System.Windows.Forms.Panel();
             this.label3 = new System.Windows.Forms.Label();
             this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.chkSaveLog = new System.Windows.Forms.CheckBox();
             this.groupBoxStaarupParms.SuspendLayout();
             this.groupBoxWebview2Default.SuspendLayout();
             this.groupBoxLauncherMethod.SuspendLayout();
@@ -56,7 +57,7 @@
             // 
             // btnApply
             // 
-            this.btnApply.Location = new System.Drawing.Point(399, 212);
+            this.btnApply.Location = new System.Drawing.Point(399, 221);
             this.btnApply.Name = "btnApply";
             this.btnApply.Size = new System.Drawing.Size(87, 28);
             this.btnApply.TabIndex = 0;
@@ -66,7 +67,7 @@
             // 
             // btnOK
             // 
-            this.btnOK.Location = new System.Drawing.Point(307, 212);
+            this.btnOK.Location = new System.Drawing.Point(307, 221);
             this.btnOK.Name = "btnOK";
             this.btnOK.Size = new System.Drawing.Size(86, 28);
             this.btnOK.TabIndex = 1;
@@ -76,12 +77,13 @@
             // 
             // groupBoxStaarupParms
             // 
+            this.groupBoxStaarupParms.Controls.Add(this.chkSaveLog);
             this.groupBoxStaarupParms.Controls.Add(this.chkUpdates);
             this.groupBoxStaarupParms.Controls.Add(this.chkLauncherMain);
             this.groupBoxStaarupParms.Controls.Add(this.chkNoWebView);
             this.groupBoxStaarupParms.Location = new System.Drawing.Point(10, 9);
             this.groupBoxStaarupParms.Name = "groupBoxStaarupParms";
-            this.groupBoxStaarupParms.Size = new System.Drawing.Size(261, 100);
+            this.groupBoxStaarupParms.Size = new System.Drawing.Size(261, 109);
             this.groupBoxStaarupParms.TabIndex = 2;
             this.groupBoxStaarupParms.TabStop = false;
             this.groupBoxStaarupParms.Text = "啟動參數";
@@ -91,7 +93,7 @@
             this.chkUpdates.AutoSize = true;
             this.chkUpdates.Checked = true;
             this.chkUpdates.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkUpdates.Location = new System.Drawing.Point(9, 65);
+            this.chkUpdates.Location = new System.Drawing.Point(9, 62);
             this.chkUpdates.Name = "chkUpdates";
             this.chkUpdates.Size = new System.Drawing.Size(108, 16);
             this.chkUpdates.TabIndex = 2;
@@ -104,7 +106,7 @@
             this.chkLauncherMain.AutoSize = true;
             this.chkLauncherMain.Checked = true;
             this.chkLauncherMain.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkLauncherMain.Location = new System.Drawing.Point(9, 43);
+            this.chkLauncherMain.Location = new System.Drawing.Point(9, 40);
             this.chkLauncherMain.Name = "chkLauncherMain";
             this.chkLauncherMain.Size = new System.Drawing.Size(183, 16);
             this.chkLauncherMain.TabIndex = 1;
@@ -115,7 +117,7 @@
             // chkNoWebView
             // 
             this.chkNoWebView.AutoSize = true;
-            this.chkNoWebView.Location = new System.Drawing.Point(9, 21);
+            this.chkNoWebView.Location = new System.Drawing.Point(9, 18);
             this.chkNoWebView.Name = "chkNoWebView";
             this.chkNoWebView.Size = new System.Drawing.Size(136, 16);
             this.chkNoWebView.TabIndex = 0;
@@ -129,7 +131,7 @@
             this.groupBoxWebview2Default.Controls.Add(this.label1);
             this.groupBoxWebview2Default.Controls.Add(this.textBox2);
             this.groupBoxWebview2Default.Controls.Add(this.textBox1);
-            this.groupBoxWebview2Default.Location = new System.Drawing.Point(10, 115);
+            this.groupBoxWebview2Default.Location = new System.Drawing.Point(10, 124);
             this.groupBoxWebview2Default.Name = "groupBoxWebview2Default";
             this.groupBoxWebview2Default.Size = new System.Drawing.Size(261, 125);
             this.groupBoxWebview2Default.TabIndex = 3;
@@ -261,10 +263,21 @@
             this.comboBox1.TabIndex = 0;
             this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
             // 
+            // chkSaveLog
+            // 
+            this.chkSaveLog.AutoSize = true;
+            this.chkSaveLog.Location = new System.Drawing.Point(9, 84);
+            this.chkSaveLog.Name = "chkSaveLog";
+            this.chkSaveLog.Size = new System.Drawing.Size(132, 16);
+            this.chkSaveLog.TabIndex = 3;
+            this.chkSaveLog.Text = "儲存啟動器執行日誌";
+            this.chkSaveLog.UseVisualStyleBackColor = true;
+            this.chkSaveLog.CheckedChanged += new System.EventHandler(this.chkSaveLog_CheckedChanged);
+            // 
             // settingForm
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-            this.ClientSize = new System.Drawing.Size(498, 248);
+            this.ClientSize = new System.Drawing.Size(498, 261);
             this.Controls.Add(this.groupBoxLauncherLang);
             this.Controls.Add(this.groupBoxLauncherMethod);
             this.Controls.Add(this.groupBoxWebview2Default);
@@ -273,9 +286,9 @@
             this.Controls.Add(this.btnApply);
             this.Font = new System.Drawing.Font("新細明體", 9F);
             this.MaximizeBox = false;
-            this.MaximumSize = new System.Drawing.Size(514, 287);
+            this.MaximumSize = new System.Drawing.Size(514, 300);
             this.MinimizeBox = false;
-            this.MinimumSize = new System.Drawing.Size(514, 287);
+            this.MinimumSize = new System.Drawing.Size(514, 300);
             this.Name = "settingForm";
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
@@ -316,5 +329,6 @@
         private System.Windows.Forms.ComboBox comboBox1;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.CheckBox chkSaveLog;
     }
 }

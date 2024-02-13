@@ -84,6 +84,7 @@ namespace XCoreNET.ClassModel
             public string CHK_VERSION_RELEASE { get; set; }
             public string CHK_VERSION_SNAPSHOT { get; set; }
             public string CHK_VERSION_LOADER { get; set; }
+            public string CHK_SAVE_LOG { get; set; }
             public string LAB_LOADING { get; set; }
             public string LAB_CHANGELOG_DATE_FORMAT { get; set; }
             public string LAB_CHANGELOG_RSS_ERROR { get; set; }

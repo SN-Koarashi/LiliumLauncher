@@ -201,5 +201,6 @@
   "DIALOG_TRAY_MAIN": "Minecraft Launcher\n轻量化的解决方案",
   "TRAY_CLOSE_GAME": "关闭游戏",
   "TRAY_CLOSE_LAUNCHER": "关闭程式",
-  "HTML_OAUTH_COMPLETE": "会话已经结束，请关闭此窗口并返回应用程序。"
+  "HTML_OAUTH_COMPLETE": "会话已经结束，请关闭此窗口并返回应用程序。",
+  "CHK_SAVE_LOG": "保存启动器运行日志"
 }

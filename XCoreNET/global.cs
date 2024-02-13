@@ -22,6 +22,7 @@ namespace Global
         private static DateTime JanFirst1970 = new DateTime(1970, 1, 1);
         public readonly static string azureClientID = "c5a69008-2ee1-403f-aa2a-3d324e0213d7";
         public readonly static string appUID = Guid.NewGuid().ToString();
+        public readonly static long startUnixTime = ((DateTimeOffset) DateTime.UtcNow).ToUnixTimeSeconds();
         public static bool isCheckUpdate = true;
         public static bool httpUsing = false;
         public static bool verOptRelease = true;
@@ -48,6 +49,7 @@ namespace Global
         public static int maxMemoryUsage = 0;
         public static bool usingMaxMemoryUsage = false;
         public static bool isConcurrent = true;
+        public static bool isSaveLogFile = false;
         public static Dictionary<string, AccountModel> account = new Dictionary<string, AccountModel>();
         public static Dictionary<string, InstanceModel> allInstance = new Dictionary<string, InstanceModel>();
         public static startupParmsModel startupParms = new startupParmsModel();

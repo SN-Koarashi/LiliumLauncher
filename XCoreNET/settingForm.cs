@@ -28,6 +28,7 @@ namespace XCoreNET
                 chkLauncherMain.Checked = pm.launcher;
                 chkNoWebView.Checked = pm.noWevView;
                 chkUpdates.Checked = (bool)(pm.checkForUpdates != null ? pm.checkForUpdates : true);
+                chkSaveLog.Checked = pm.isSaveLogFile;
                 temp_login_method = pm.loginMethod;
 
                 if (pm.loginMethod != null)
@@ -104,6 +105,7 @@ namespace XCoreNET
                 pm.checkForUpdates = chkUpdates.Checked;
                 pm.launcher = chkLauncherMain.Checked;
                 pm.noWevView = chkNoWebView.Checked;
+                pm.isSaveLogFile = chkSaveLog.Checked;
                 pm.loginMethod = temp_login_method;
                 pm.mainURL = (textBox1.Text != String.Empty) ? textBox1.Text : "https://www.snkms.com/chat/webchat2/";
                 pm.launcherURL = (textBox2.Text != String.Empty) ? textBox2.Text : "https://www.snkms.com/minecraftNews.html";
@@ -112,6 +114,7 @@ namespace XCoreNET
                 gb.mainHomepage = new Uri(pm.mainURL);
                 gb.launcherHomepage = new Uri(pm.launcherURL);
                 gb.loginMethod = temp_login_method;
+                gb.isSaveLogFile = chkSaveLog.Checked;
 
                 Directory.CreateDirectory("settings");
                 File.WriteAllText($"settings{Path.DirectorySeparatorChar}programs_settings.json", JsonConvert.SerializeObject(pm));
@@ -164,6 +167,7 @@ namespace XCoreNET
             chkLauncherMain.Text = gb.lang.CHK_SETTING_MINECRAFT_TO_MAIN;
             chkNoWebView.Text = gb.lang.CHK_DISABLED_WEBVIEW2;
             chkUpdates.Text = gb.lang.CHK_CHECKING_UPDATES_WHEN_START_UP;
+            chkSaveLog.Text = gb.lang.CHK_SAVE_LOG;
             radLauncherDef.Text = gb.lang.RAD_METHOD_DEFAULT;
             radLauncherWebView.Text = gb.lang.RAD_METHOD_WEBVIEW2;
             radLauncherBrowser.Text = gb.lang.RAD_METHOD_BROWSER;
@@ -174,11 +178,11 @@ namespace XCoreNET
         {
             setTranslate();
 
-            btnApply.Enabled = false;
-            btnOK.Enabled = false;
-
             textBox1.Text = gb.mainHomepage.ToString();
             textBox2.Text = gb.launcherHomepage.ToString();
+
+            btnApply.Enabled = false;
+            btnOK.Enabled = false;
 
             onStarted = true;
         }
@@ -244,6 +248,12 @@ namespace XCoreNET
                 btnApply.Enabled = true;
                 btnOK.Enabled = true;
             }
+        }
+
+        private void chkSaveLog_CheckedChanged(object sender, EventArgs e)
+        {
+            btnApply.Enabled = true;
+            btnOK.Enabled = true;
         }
     }
 }

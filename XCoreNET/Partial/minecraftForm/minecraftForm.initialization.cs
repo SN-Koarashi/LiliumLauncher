@@ -13,6 +13,8 @@ namespace XCoreNET
 {
     public partial class minecraftForm
     {
+        private StreamWriter logger = null;
+        // 顯示在主畫面及偵錯與輸出
         private void output(string type, string sOutput)
         {
             if (this.IsDisposed) return;
@@ -22,15 +24,26 @@ namespace XCoreNET
 
             outputDebug(type, sOutput);
         }
+
+        // 顯示在偵錯與輸出
         private void outputDebug(string type, string output)
         {
             if (this.IsDisposed) return;
 
             DateTime dateTime = System.DateTime.Now;
 
-            string time = $"{dateTime.Hour.ToString("00")}:{dateTime.Minute.ToString("00")}:{dateTime.Second.ToString("00")}.{dateTime.Millisecond.ToString("000")} ";
+            string time = $"{dateTime.Year.ToString("00")}/{dateTime.Month.ToString("00")}/{dateTime.Day.ToString("00")} {dateTime.Hour.ToString("00")}:{dateTime.Minute.ToString("00")}:{dateTime.Second.ToString("00")}.{dateTime.Millisecond.ToString("000")} ";
 
-            textBox.AppendText($"{time} [{type}] {output}" + Environment.NewLine);
+            string result = $"{time} [{type}] {output}" + Environment.NewLine;
+
+            if (gb.isSaveLogFile)
+            {
+                logger.Write(result);
+            }
+            else
+            {
+                textBox.AppendText(result);
+            }
 
             Console.WriteLine(output);
         }
@@ -108,6 +121,14 @@ namespace XCoreNET
             {
                 Directory.CreateDirectory(DATA_FOLDER);
                 Directory.CreateDirectory(gb.PathJoin(DATA_FOLDER, ".x-instance"));
+                Directory.CreateDirectory(gb.PathJoin(DATA_FOLDER, "launcher-logs"));
+
+                if (gb.isSaveLogFile)
+                {
+                    string file_path = gb.PathJoin(gb.mainFolder, "launcher-logs", $"process-{gb.startUnixTime}.log");
+                    logger = File.AppendText(file_path);
+                    logger.AutoFlush = true;
+                }
             }
             catch (Exception ex)
             {
