@@ -742,7 +742,7 @@ namespace XCoreNET
 
         private async void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (tabControl1.SelectedIndex == 3)
+            if (tabControl1.SelectedTab.Name.Equals("updatePage"))
             {
                 if (textBoxUpdateNote.Lines.Length > 0) return;
 

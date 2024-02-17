@@ -118,6 +118,7 @@
             this.tabControl1.SelectedIndex = 0;
             this.tabControl1.Size = new System.Drawing.Size(464, 321);
             this.tabControl1.TabIndex = 0;
+            this.tabControl1.Tag = "";
             this.tabControl1.SelectedIndexChanged += new System.EventHandler(this.tabControl1_SelectedIndexChanged);
             // 
             // mainPage
@@ -655,6 +656,7 @@
             this.textBoxUpdateNote.Dock = System.Windows.Forms.DockStyle.Fill;
             this.textBoxUpdateNote.Location = new System.Drawing.Point(3, 3);
             this.textBoxUpdateNote.Name = "textBoxUpdateNote";
+            this.textBoxUpdateNote.ReadOnly = true;
             this.textBoxUpdateNote.Size = new System.Drawing.Size(450, 285);
             this.textBoxUpdateNote.TabIndex = 0;
             this.textBoxUpdateNote.Text = "";
