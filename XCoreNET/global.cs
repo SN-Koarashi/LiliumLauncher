@@ -22,7 +22,7 @@ namespace Global
         private static DateTime JanFirst1970 = new DateTime(1970, 1, 1);
         public readonly static string azureClientID = "c5a69008-2ee1-403f-aa2a-3d324e0213d7";
         public readonly static string appUID = Guid.NewGuid().ToString();
-        public readonly static long startUnixTime = ((DateTimeOffset) DateTime.UtcNow).ToUnixTimeSeconds();
+        public readonly static long startUnixTime = ((DateTimeOffset)DateTime.UtcNow).ToUnixTimeSeconds();
         public static bool isCheckUpdate = true;
         public static bool httpUsing = false;
         public static bool verOptRelease = true;
@@ -58,6 +58,7 @@ namespace Global
         public static List<string> versionNameList = new List<string>();
         public static List<string> versionNameInstalledList = new List<string>();
         public static translateModel lang = new translateModel();
+        public static TabPage hideTabPage = null;
 
         public static void setTranslate()
         {
@@ -390,27 +391,28 @@ namespace Global
 
         public static string getBrowserLoginHTML()
         {
-            string html = 
-                "<html>"+
-                    "<head>"+
-                        "<title>OAuth Window</title>"+
-                        "<meta charset=\"utf-8\" />"+
-                        "<style>div{position: fixed;top: 40%;transform: translateY(-50%);left: 0px;right: 0px;}h1{margin: 0px;}</style>"+
-                        "<script>window.history.pushState(null, document.title, \" /? type = session_closed\");"+
-                        "setTimeout(()=>{location.replace(\"about: blank\");},1500);"+
-                        "</script>"+
-                    "</head>"+
-                    "<body>"+
-                        "<div align=\"center\">"+
-                            $"<h1>{lang.HTML_OAUTH_COMPLETE}</h1>"+
-                        "</div>"+
-                    "</body>"+
+            string html =
+                "<html>" +
+                    "<head>" +
+                        "<title>OAuth Window</title>" +
+                        "<meta charset=\"utf-8\" />" +
+                        "<style>div{position: fixed;top: 40%;transform: translateY(-50%);left: 0px;right: 0px;}h1{margin: 0px;}</style>" +
+                        "<script>window.history.pushState(null, document.title, \" /? type = session_closed\");" +
+                        "setTimeout(()=>{location.replace(\"about: blank\");},1500);" +
+                        "</script>" +
+                    "</head>" +
+                    "<body>" +
+                        "<div align=\"center\">" +
+                            $"<h1>{lang.HTML_OAUTH_COMPLETE}</h1>" +
+                        "</div>" +
+                    "</body>" +
                 "</html>";
 
             return html;
         }
 
-        public static string getDateTimeWithAD() {
+        public static string getDateTimeWithAD()
+        {
             DateTime utcDateTime = DateTime.UtcNow;
             TimeZoneInfo localTimeZone = TimeZoneInfo.Local;
             DateTime localDateTime = TimeZoneInfo.ConvertTimeFromUtc(utcDateTime, localTimeZone);

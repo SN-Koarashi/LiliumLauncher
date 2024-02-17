@@ -4,7 +4,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using XCoreNET.Properties;
 using XCoreNET.Tasks;
@@ -119,16 +118,12 @@ namespace XCoreNET
             DATA_FOLDER = gb.mainFolder;
             try
             {
+                gb.hideTabPage = tabControl1.TabPages[2];
+
                 Directory.CreateDirectory(DATA_FOLDER);
                 Directory.CreateDirectory(gb.PathJoin(DATA_FOLDER, ".x-instance"));
-                Directory.CreateDirectory(gb.PathJoin(DATA_FOLDER, "launcher-logs"));
 
-                if (gb.isSaveLogFile)
-                {
-                    string file_path = gb.PathJoin(gb.mainFolder, "launcher-logs", $"process-{gb.startUnixTime}.log");
-                    logger = File.AppendText(file_path);
-                    logger.AutoFlush = true;
-                }
+                initLoggerHandle();
             }
             catch (Exception ex)
             {
@@ -137,6 +132,26 @@ namespace XCoreNET
             }
 
             onGetAllInstance();
+        }
+
+        private void initLoggerHandle()
+        {
+            if (gb.isSaveLogFile)
+            {
+                Directory.CreateDirectory(gb.PathJoin(DATA_FOLDER, "launcher-logs"));
+                tabControl1.TabPages.Remove(gb.hideTabPage);
+
+                if (logger == null)
+                {
+                    string file_path = gb.PathJoin(gb.mainFolder, "launcher-logs", $"process-{gb.startUnixTime}.log");
+                    logger = File.AppendText(file_path);
+                    logger.AutoFlush = true;
+                }
+            }
+            else if (!gb.isSaveLogFile && !tabControl1.TabPages.Contains(gb.hideTabPage))
+            {
+                tabControl1.TabPages.Insert(2, gb.hideTabPage);
+            }
         }
 
         private void createGameDefFolder()

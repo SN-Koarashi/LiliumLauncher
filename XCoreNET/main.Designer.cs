@@ -43,6 +43,7 @@
             this.instagramToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.discordToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.googleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.bahamutMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.loadingPageMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.serviceMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.dataMenu = new System.Windows.Forms.ToolStripMenuItem();
@@ -51,9 +52,7 @@
             this.minecraftLaunchMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.loginTrd = new System.Windows.Forms.ToolStripMenuItem();
             this.googleLoginMenu = new System.Windows.Forms.ToolStripMenuItem();
-            this.minecraftMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.webView = new Microsoft.Web.WebView2.WinForms.WebView2();
-            this.bahamutMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.webView)).BeginInit();
             this.SuspendLayout();
@@ -86,28 +85,28 @@
             // nonDisplay
             // 
             this.nonDisplay.Name = "nonDisplay";
-            this.nonDisplay.Size = new System.Drawing.Size(134, 22);
+            this.nonDisplay.Size = new System.Drawing.Size(180, 22);
             this.nonDisplay.Text = "沒有畫面？";
             this.nonDisplay.Click += new System.EventHandler(this.nonDisplay_Click);
             // 
             // checkUpdate
             // 
             this.checkUpdate.Name = "checkUpdate";
-            this.checkUpdate.Size = new System.Drawing.Size(134, 22);
+            this.checkUpdate.Size = new System.Drawing.Size(180, 22);
             this.checkUpdate.Text = "檢查更新";
             this.checkUpdate.Click += new System.EventHandler(this.checkUpdate_Click);
             // 
             // systemSettingsMenu
             // 
             this.systemSettingsMenu.Name = "systemSettingsMenu";
-            this.systemSettingsMenu.Size = new System.Drawing.Size(134, 22);
+            this.systemSettingsMenu.Size = new System.Drawing.Size(180, 22);
             this.systemSettingsMenu.Text = "系統設定";
             this.systemSettingsMenu.Click += new System.EventHandler(this.systemSettingsMenu_Click);
             // 
             // aboutMenu
             // 
             this.aboutMenu.Name = "aboutMenu";
-            this.aboutMenu.Size = new System.Drawing.Size(134, 22);
+            this.aboutMenu.Size = new System.Drawing.Size(180, 22);
             this.aboutMenu.Text = "關於軟體";
             this.aboutMenu.Click += new System.EventHandler(this.aboutMenu_Click);
             // 
@@ -175,6 +174,13 @@
             this.googleToolStripMenuItem.Text = "Google";
             this.googleToolStripMenuItem.Click += new System.EventHandler(this.googleToolStripMenuItem_Click);
             // 
+            // bahamutMenu
+            // 
+            this.bahamutMenu.Name = "bahamutMenu";
+            this.bahamutMenu.Size = new System.Drawing.Size(180, 22);
+            this.bahamutMenu.Text = "巴哈姆特";
+            this.bahamutMenu.Click += new System.EventHandler(this.bahamutMenu_Click);
+            // 
             // loadingPageMenu
             // 
             this.loadingPageMenu.Name = "loadingPageMenu";
@@ -196,36 +202,35 @@
             // dataMenu
             // 
             this.dataMenu.Name = "dataMenu";
-            this.dataMenu.Size = new System.Drawing.Size(167, 22);
+            this.dataMenu.Size = new System.Drawing.Size(180, 22);
             this.dataMenu.Text = "公共資料庫";
             this.dataMenu.Click += new System.EventHandler(this.dataMenu_Click);
             // 
             // forumMenu
             // 
             this.forumMenu.Name = "forumMenu";
-            this.forumMenu.Size = new System.Drawing.Size(167, 22);
+            this.forumMenu.Size = new System.Drawing.Size(180, 22);
             this.forumMenu.Text = "討論板";
             this.forumMenu.Click += new System.EventHandler(this.forumMenu_Click_1);
             // 
             // accMenu
             // 
             this.accMenu.Name = "accMenu";
-            this.accMenu.Size = new System.Drawing.Size(167, 22);
+            this.accMenu.Size = new System.Drawing.Size(180, 22);
             this.accMenu.Text = "會員中心";
             this.accMenu.Click += new System.EventHandler(this.accMenu_Click);
             // 
             // minecraftLaunchMenu
             // 
             this.minecraftLaunchMenu.Name = "minecraftLaunchMenu";
-            this.minecraftLaunchMenu.Size = new System.Drawing.Size(167, 22);
+            this.minecraftLaunchMenu.Size = new System.Drawing.Size(180, 22);
             this.minecraftLaunchMenu.Text = "Minecraft 啟動器";
             this.minecraftLaunchMenu.Click += new System.EventHandler(this.minecraftMenu_Click);
             // 
             // loginTrd
             // 
             this.loginTrd.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.googleLoginMenu,
-            this.minecraftMenu});
+            this.googleLoginMenu});
             this.loginTrd.Name = "loginTrd";
             this.loginTrd.Size = new System.Drawing.Size(103, 20);
             this.loginTrd.Text = "登入第三方帳戶";
@@ -233,16 +238,9 @@
             // googleLoginMenu
             // 
             this.googleLoginMenu.Name = "googleLoginMenu";
-            this.googleLoginMenu.Size = new System.Drawing.Size(128, 22);
+            this.googleLoginMenu.Size = new System.Drawing.Size(180, 22);
             this.googleLoginMenu.Text = "Google";
             this.googleLoginMenu.Click += new System.EventHandler(this.googleLoginMenu_Click);
-            // 
-            // minecraftMenu
-            // 
-            this.minecraftMenu.Name = "minecraftMenu";
-            this.minecraftMenu.Size = new System.Drawing.Size(128, 22);
-            this.minecraftMenu.Text = "Minecraft";
-            this.minecraftMenu.Click += new System.EventHandler(this.minecraftMenu_Click_1);
             // 
             // webView
             // 
@@ -256,13 +254,6 @@
             this.webView.Source = new System.Uri("https://www.snkms.com/chat/webchat2/", System.UriKind.Absolute);
             this.webView.TabIndex = 2;
             this.webView.ZoomFactor = 1D;
-            // 
-            // bahamutMenu
-            // 
-            this.bahamutMenu.Name = "bahamutMenu";
-            this.bahamutMenu.Size = new System.Drawing.Size(180, 22);
-            this.bahamutMenu.Text = "巴哈姆特";
-            this.bahamutMenu.Click += new System.EventHandler(this.bahamutMenu_Click);
             // 
             // main
             // 
@@ -310,7 +301,6 @@
         private System.Windows.Forms.ToolStripMenuItem checkUpdate;
         private System.Windows.Forms.ToolStripMenuItem aboutMenu;
         private System.Windows.Forms.ToolStripMenuItem minecraftLaunchMenu;
-        private System.Windows.Forms.ToolStripMenuItem minecraftMenu;
         private System.Windows.Forms.ToolStripMenuItem systemSettingsMenu;
         private System.Windows.Forms.ToolStripMenuItem loadingPageMenu;
         private System.Windows.Forms.ToolStripMenuItem bahamutMenu;

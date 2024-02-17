@@ -119,7 +119,8 @@ namespace XCoreNET
             }
             catch (Exception e)
             {
-                if (e is JsonSerializationException || e is JsonReaderException) {
+                if (e is JsonSerializationException || e is JsonReaderException)
+                {
                     MessageBox.Show("An error occurred while reading the application configuration file. The application will restart and reset the configuration file.", gb.lang.DIALOG_ERROR, MessageBoxButtons.OK, MessageBoxIcon.Error);
 
                     string path = Path.GetFullPath(AppDomain.CurrentDomain.BaseDirectory + "/settings/programs_settings.json");
@@ -127,7 +128,8 @@ namespace XCoreNET
 
                     Application.Restart();
                 }
-                else {
+                else
+                {
                     var result = MessageBox.Show(e.GetType().Name + Environment.NewLine + e.Message + Environment.NewLine + Environment.NewLine + "Do you want to restart the application?", gb.lang.DIALOG_ERROR, MessageBoxButtons.OKCancel, MessageBoxIcon.Error);
                     if (result == DialogResult.OK)
                     {

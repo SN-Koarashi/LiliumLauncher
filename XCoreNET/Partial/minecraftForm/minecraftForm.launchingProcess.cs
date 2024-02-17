@@ -15,7 +15,6 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using XCoreNET.Properties;
 using static XCoreNET.ClassModel.launcherModel;
 using static XCoreNET.Tasks.launcherTask;
 
@@ -275,7 +274,7 @@ namespace XCoreNET
 
                         timerConcurrent.Enabled = true;
                         onThreadDownloader(clientURL, dir_jar, $"{version}.jar", $"{version}.jar");
-                        
+
                         while (concurrentTotalCompleted != 1)
                         {
                             await Task.Delay(500);
@@ -1204,7 +1203,7 @@ namespace XCoreNET
 
             if (gb.usingMaxMemoryUsage && gb.maxMemoryUsage > 0)
             {
-                if(gb.currentInstance.jvmParms == null || gb.currentInstance.jvmParms != null && gb.currentInstance.jvmParms.ToLower().Contains("-xmx"))
+                if (gb.currentInstance.jvmParms == null || gb.currentInstance.jvmParms != null && gb.currentInstance.jvmParms.ToLower().Contains("-xmx"))
                 {
                     jvm.Add($"-Xmx{gb.maxMemoryUsage}m");
                 }

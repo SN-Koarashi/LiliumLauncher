@@ -379,6 +379,7 @@ namespace XCoreNET
         {
             settingForm sf = new settingForm();
             sf.ShowDialog();
+            initLoggerHandle();
         }
 
         private void btnChkUpdate_Click(object sender, EventArgs e)
@@ -416,7 +417,7 @@ namespace XCoreNET
                                 Tasks.loginChallengeTask.BrowserClosed(profilePath);
                                 this.Invoke(new Action(() =>
                                 {
-                                    if(!progressBar.Style.Equals(ProgressBarStyle.Marquee))
+                                    if (!progressBar.Style.Equals(ProgressBarStyle.Marquee))
                                         settingAllControl(true);
                                 }));
                             };

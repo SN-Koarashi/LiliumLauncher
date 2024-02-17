@@ -64,7 +64,7 @@ namespace XCoreNET
 
             this.BeginInvoke((MethodInvoker)delegate
             {
-                 concurrentNowSize[UID].size = int.Parse(e.BytesReceived.ToString());
+                concurrentNowSize[UID].size = int.Parse(e.BytesReceived.ToString());
             });
         }
         private void client_DownloadFileCompleted(object sender, AsyncCompletedEventArgs e, string UID, string path, string url, string filename)

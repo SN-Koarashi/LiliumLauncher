@@ -44,7 +44,6 @@ namespace XCoreNET
 
             if (isForced)
             {
-                minecraftMenu.Visible = false;
                 minecraftLaunchMenu.Visible = false;
                 systemSettingsMenu.Visible = false;
             }
