@@ -1,7 +1,7 @@
-[![Releases Download Counter](https://img.shields.io/github/downloads/SN-Koarashi/XCoreNET/total.png?style=for-the-badge&color=0969da&label=Downloads)](https://github.com/SN-Koarashi/XCoreNET/releases/latest)
-[![Releases version](https://img.shields.io/github/v/release/SN-Koarashi/XCoreNET.png?style=for-the-badge&color=0969da&label=releases)](https://github.com/SN-Koarashi/XCoreNET/releases/latest)
+[![Releases Download Counter](https://img.shields.io/github/downloads/SN-Koarashi/LiliumLauncher/total.png?style=for-the-badge&color=0969da&label=Downloads)](https://github.com/SN-Koarashi/LiliumLauncher/releases/latest)
+[![Releases version](https://img.shields.io/github/v/release/SN-Koarashi/LiliumLauncher.png?style=for-the-badge&color=0969da&label=releases)](https://github.com/SN-Koarashi/LiliumLauncher/releases/latest)
 
-# XCoreNET - 輕量化的解決方案 | Lightweight solution
+# Lilium Launcher - 輕量化的解決方案 | Lightweight solution
 Minecraft third-party launcher, also comes with a web chat room.
 
 Minecraft 第三方啟動器，同時附帶網路即時聊天室。
@@ -18,18 +18,18 @@ Minecraft 第三方啟動器，同時附帶網路即時聊天室。
 [更新過程預覽](https://youtu.be/Qi6jolpD43w) | [Updater Preview](https://youtu.be/Qi6jolpD43w)
 
 ## 安裝 | Installation
-- Download `XCoreNET-SFXInstaller.exe` and double-click to install, this is the NSIS installer
-  - 下載 `XCoreNET-SFXInstaller.exe` 後雙擊即可安裝，此為 NSIS 安裝程式
-- If the update file is installed by the application itself, it will be installed in silent mode after downloading, and the installation path will be selected according to the execution location of the self-updater (`XCoreNET-Updater`)
-  - 若由應用程式本身安裝更新檔案，將會在下載後使用安靜模式安裝，並且依照自我更新程式(`XCoreNET-Updater`)之執行位置來選擇安裝路徑
+- Download `LiliumLauncher-SFXInstaller.exe` and double-click to install, this is the NSIS installer
+  - 下載 `LiliumLauncher-SFXInstaller.exe` 後雙擊即可安裝，此為 NSIS 安裝程式
+- If the update file is installed by the application itself, it will be installed in silent mode after downloading, and the installation path will be selected according to the execution location of the self-updater (`LiliumLauncher-Updater`)
+  - 若由應用程式本身安裝更新檔案，將會在下載後使用安靜模式安裝，並且依照自我更新程式(`LiliumLauncher-Updater`)之執行位置來選擇安裝路徑
 
 ## 編譯 | Compile
 - Because the project itself uses the Costura.Fody NuGet package, there may be `A numeric comparison was attempted on "$(MsBuildMajorVersion)" that evaluates to "" instead of a number, in condition "($(MsBuildMajorVersion) < 16)".` errors during compilation/debugging, as long as you uninstall and reinstall Costura.Fody in the NuGet package management, it can be resolved
   - 因為專案本身有使用 Costura.Fody NuGet套件包，因此可能會在編譯/偵錯過程出現 `MSB4086: 嘗試對條件 "($(MsBuildMajorVersion) < 16)" 中評估為 "" (而非數字) 的 "$(MsBuildMajorVersion)" 進行數字比較。` 的錯誤，只要在 NuGet 套件管理中解除並重新安裝 Costura.Fody 即可解決
 
 ## 附註 | Note
-- XCoreNET focuses on the lightweight of the original launcher. If you want to use a beautiful, multi-functional, and convenient launcher, you can refer to [MultiMC](https://multimc.org/) or [Prism Launcher](https://prismlauncher.org/).
-  - XCoreNET 主要以原版啟動器的輕量化為主，如果想使用兼具美觀、多功能、方便性的啟動器，可以參考 [MultiMC](https://multimc.org/) 或 [Prism Launcher](https://prismlauncher.org/)。
+- LiliumLauncher focuses on the lightweight of the original launcher. If you want to use a beautiful, multi-functional, and convenient launcher, you can refer to [MultiMC](https://multimc.org/) or [Prism Launcher](https://prismlauncher.org/).
+  - LiliumLauncher 主要以原版啟動器的輕量化為主，如果想使用兼具美觀、多功能、方便性的啟動器，可以參考 [MultiMC](https://multimc.org/) 或 [Prism Launcher](https://prismlauncher.org/)。
 
 ## 參考 | Reference
 - [[UPDATE] Google Auth Flows and WebView2](https://github.com/MicrosoftEdge/WebView2Feedback/issues/1647)
