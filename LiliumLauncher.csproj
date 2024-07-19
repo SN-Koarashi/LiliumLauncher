@@ -58,8 +58,9 @@
     <AllowedReferenceRelatedFileExtensions>.pdb</AllowedReferenceRelatedFileExtensions>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>lilium-logo.ico</ApplicationIcon>
+    <ApplicationIcon>lilium-logo-app.ico</ApplicationIcon>
   </PropertyGroup>
+  <PropertyGroup />
   <PropertyGroup />
   <PropertyGroup />
   <ItemGroup>
@@ -407,6 +408,7 @@
     <None Include="license\WindowsAPICodePack.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <Content Include="lilium-logo-app.ico" />
     <Content Include="lilium-logo.ico" />
     <Content Include="Windows Logo.png" />
   </ItemGroup>
