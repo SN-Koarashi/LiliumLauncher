@@ -2,14 +2,12 @@
 [![Releases version](https://img.shields.io/github/v/release/SN-Koarashi/LiliumLauncher.png?style=for-the-badge&color=0969da&label=releases)](https://github.com/SN-Koarashi/LiliumLauncher/releases/latest)
 
 # Lilium Launcher - 輕量化的解決方案 | Lightweight solution
-Minecraft third-party launcher, also comes with a web chat room.
+Simple third-party Minecraft launcher that can install mods and download resources quickly.
 
-Minecraft 第三方啟動器，同時附帶網路即時聊天室。
+簡單的可安裝模組及高速下載資源的第三方 Minecraft 啟動器。
 
 - With self-renewal function
   - 具有自我更新功能
-- The web chat room adopts the WebSocket protocol, and because it is loaded remotely, the function update of the chat room does not need to update the application itself
-  - 網路聊天室採用 WebSocket 協定，且由於是遠端載入，因此聊天室的功能更新並不需要更新應用程式本身
 - Minecraft launcher function (Forge, Fabric, OptiFine, LiteLoader can be installed), the maximum support is the latest snapshot version, and the minimum support is version 1.0
   - Minecraft 啟動器功能(可安裝 Forge、Fabric、OptiFine、LiteLoader)，最高支援到最新快照版本，最低支援到1.0版本
 - Multiple language (Now supporting English, Traditional Chinese and Simplified Chinese)
