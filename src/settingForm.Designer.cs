@@ -31,6 +31,7 @@
             this.btnApply = new System.Windows.Forms.Button();
             this.btnOK = new System.Windows.Forms.Button();
             this.groupBoxStaarupParms = new System.Windows.Forms.GroupBox();
+            this.chkSaveLog = new System.Windows.Forms.CheckBox();
             this.chkUpdates = new System.Windows.Forms.CheckBox();
             this.chkLauncherMain = new System.Windows.Forms.CheckBox();
             this.chkNoWebView = new System.Windows.Forms.CheckBox();
@@ -47,7 +48,6 @@
             this.panel1 = new System.Windows.Forms.Panel();
             this.label3 = new System.Windows.Forms.Label();
             this.comboBox1 = new System.Windows.Forms.ComboBox();
-            this.chkSaveLog = new System.Windows.Forms.CheckBox();
             this.groupBoxStaarupParms.SuspendLayout();
             this.groupBoxWebview2Default.SuspendLayout();
             this.groupBoxLauncherMethod.SuspendLayout();
@@ -57,6 +57,11 @@
             // 
             // btnApply
             // 
+            this.btnApply.FlatAppearance.BorderColor = System.Drawing.Color.White;
+            this.btnApply.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Black;
+            this.btnApply.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Black;
+            this.btnApply.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnApply.Font = new System.Drawing.Font("新細明體", 9F);
             this.btnApply.Location = new System.Drawing.Point(399, 221);
             this.btnApply.Name = "btnApply";
             this.btnApply.Size = new System.Drawing.Size(87, 28);
@@ -64,9 +69,15 @@
             this.btnApply.Text = "套用";
             this.btnApply.UseVisualStyleBackColor = true;
             this.btnApply.Click += new System.EventHandler(this.btnApply_Click);
+            this.btnApply.Paint += new System.Windows.Forms.PaintEventHandler(this.btnApply_Paint);
             // 
             // btnOK
             // 
+            this.btnOK.FlatAppearance.BorderColor = System.Drawing.Color.White;
+            this.btnOK.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Black;
+            this.btnOK.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Black;
+            this.btnOK.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnOK.Font = new System.Drawing.Font("新細明體", 9F);
             this.btnOK.Location = new System.Drawing.Point(307, 221);
             this.btnOK.Name = "btnOK";
             this.btnOK.Size = new System.Drawing.Size(86, 28);
@@ -74,6 +85,7 @@
             this.btnOK.Text = "確定";
             this.btnOK.UseVisualStyleBackColor = true;
             this.btnOK.Click += new System.EventHandler(this.btnOK_Click);
+            this.btnOK.Paint += new System.Windows.Forms.PaintEventHandler(this.btnOK_Paint);
             // 
             // groupBoxStaarupParms
             // 
@@ -81,12 +93,24 @@
             this.groupBoxStaarupParms.Controls.Add(this.chkUpdates);
             this.groupBoxStaarupParms.Controls.Add(this.chkLauncherMain);
             this.groupBoxStaarupParms.Controls.Add(this.chkNoWebView);
+            this.groupBoxStaarupParms.ForeColor = System.Drawing.SystemColors.ControlLightLight;
             this.groupBoxStaarupParms.Location = new System.Drawing.Point(10, 9);
             this.groupBoxStaarupParms.Name = "groupBoxStaarupParms";
             this.groupBoxStaarupParms.Size = new System.Drawing.Size(261, 109);
             this.groupBoxStaarupParms.TabIndex = 2;
             this.groupBoxStaarupParms.TabStop = false;
             this.groupBoxStaarupParms.Text = "啟動參數";
+            // 
+            // chkSaveLog
+            // 
+            this.chkSaveLog.AutoSize = true;
+            this.chkSaveLog.Location = new System.Drawing.Point(9, 84);
+            this.chkSaveLog.Name = "chkSaveLog";
+            this.chkSaveLog.Size = new System.Drawing.Size(132, 16);
+            this.chkSaveLog.TabIndex = 3;
+            this.chkSaveLog.Text = "儲存啟動器執行日誌";
+            this.chkSaveLog.UseVisualStyleBackColor = true;
+            this.chkSaveLog.CheckedChanged += new System.EventHandler(this.chkSaveLog_CheckedChanged);
             // 
             // chkUpdates
             // 
@@ -131,6 +155,7 @@
             this.groupBoxWebview2Default.Controls.Add(this.label1);
             this.groupBoxWebview2Default.Controls.Add(this.textBox2);
             this.groupBoxWebview2Default.Controls.Add(this.textBox1);
+            this.groupBoxWebview2Default.ForeColor = System.Drawing.SystemColors.ControlLightLight;
             this.groupBoxWebview2Default.Location = new System.Drawing.Point(10, 124);
             this.groupBoxWebview2Default.Name = "groupBoxWebview2Default";
             this.groupBoxWebview2Default.Size = new System.Drawing.Size(261, 125);
@@ -158,6 +183,8 @@
             // 
             // textBox2
             // 
+            this.textBox2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.textBox2.ForeColor = System.Drawing.SystemColors.ControlLightLight;
             this.textBox2.Location = new System.Drawing.Point(9, 91);
             this.textBox2.Name = "textBox2";
             this.textBox2.Size = new System.Drawing.Size(246, 22);
@@ -167,6 +194,8 @@
             // 
             // textBox1
             // 
+            this.textBox1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.textBox1.ForeColor = System.Drawing.SystemColors.ControlLightLight;
             this.textBox1.Location = new System.Drawing.Point(9, 38);
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(246, 22);
@@ -179,6 +208,7 @@
             this.groupBoxLauncherMethod.Controls.Add(this.radLauncherBrowser);
             this.groupBoxLauncherMethod.Controls.Add(this.radLauncherWebView);
             this.groupBoxLauncherMethod.Controls.Add(this.radLauncherDef);
+            this.groupBoxLauncherMethod.ForeColor = System.Drawing.SystemColors.ControlLightLight;
             this.groupBoxLauncherMethod.Location = new System.Drawing.Point(277, 100);
             this.groupBoxLauncherMethod.Name = "groupBoxLauncherMethod";
             this.groupBoxLauncherMethod.Size = new System.Drawing.Size(209, 103);
@@ -227,6 +257,7 @@
             // 
             this.groupBoxLauncherLang.Controls.Add(this.panel1);
             this.groupBoxLauncherLang.Controls.Add(this.comboBox1);
+            this.groupBoxLauncherLang.ForeColor = System.Drawing.SystemColors.ControlLightLight;
             this.groupBoxLauncherLang.Location = new System.Drawing.Point(277, 9);
             this.groupBoxLauncherLang.Name = "groupBoxLauncherLang";
             this.groupBoxLauncherLang.Size = new System.Drawing.Size(209, 85);
@@ -254,7 +285,9 @@
             // 
             // comboBox1
             // 
+            this.comboBox1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.comboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBox1.ForeColor = System.Drawing.SystemColors.ControlLightLight;
             this.comboBox1.FormattingEnabled = true;
             this.comboBox1.ItemHeight = 12;
             this.comboBox1.Location = new System.Drawing.Point(6, 57);
@@ -263,20 +296,10 @@
             this.comboBox1.TabIndex = 0;
             this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
             // 
-            // chkSaveLog
-            // 
-            this.chkSaveLog.AutoSize = true;
-            this.chkSaveLog.Location = new System.Drawing.Point(9, 84);
-            this.chkSaveLog.Name = "chkSaveLog";
-            this.chkSaveLog.Size = new System.Drawing.Size(132, 16);
-            this.chkSaveLog.TabIndex = 3;
-            this.chkSaveLog.Text = "儲存啟動器執行日誌";
-            this.chkSaveLog.UseVisualStyleBackColor = true;
-            this.chkSaveLog.CheckedChanged += new System.EventHandler(this.chkSaveLog_CheckedChanged);
-            // 
             // settingForm
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
+            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.ClientSize = new System.Drawing.Size(498, 261);
             this.Controls.Add(this.groupBoxLauncherLang);
             this.Controls.Add(this.groupBoxLauncherMethod);
@@ -285,6 +308,7 @@
             this.Controls.Add(this.btnOK);
             this.Controls.Add(this.btnApply);
             this.Font = new System.Drawing.Font("新細明體", 9F);
+            this.ForeColor = System.Drawing.SystemColors.ControlLightLight;
             this.MaximizeBox = false;
             this.MaximumSize = new System.Drawing.Size(514, 300);
             this.MinimizeBox = false;

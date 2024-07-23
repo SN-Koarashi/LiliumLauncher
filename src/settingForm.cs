@@ -255,5 +255,15 @@ namespace LiliumLauncher
             btnApply.Enabled = true;
             btnOK.Enabled = true;
         }
+
+        private void btnOK_Paint(object sender, PaintEventArgs e)
+        {
+            gb.ButtonDisabledPaint(sender, e, gb.lang.BTN_OK);
+        }
+
+        private void btnApply_Paint(object sender, PaintEventArgs e)
+        {
+            gb.ButtonDisabledPaint(sender, e, gb.lang.BTN_APPLY);
+        }
     }
 }

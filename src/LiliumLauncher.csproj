@@ -117,6 +117,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="System.Core" />
+    <Reference Include="System.Design" />
     <Reference Include="System.Diagnostics.DiagnosticSource, Version=4.0.1.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>packages\System.Diagnostics.DiagnosticSource.4.3.0\lib\net46\System.Diagnostics.DiagnosticSource.dll</HintPath>
     </Reference>
@@ -245,6 +246,10 @@
     <Compile Include="ClassModel\globalModel.cs" />
     <Compile Include="ClassModel\launcherModel.cs" />
     <Compile Include="ClassModel\locateModel.cs" />
+    <Compile Include="CustomComponent\FlatTabControl\FlatTabControl.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="CustomComponent\FlatTabControl\Win32.cs" />
     <Compile Include="Partial\minecraftForm\minecraftForm.authification.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -323,6 +328,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Tasks\launcherTask.cs" />
     <Compile Include="Tasks\loginChallengeTask.cs" />
+    <EmbeddedResource Include="CustomComponent\FlatTabControl\FlatTabControl.resx">
+      <DependentUpon>FlatTabControl.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="minecraftVersionSelector.resx">
       <DependentUpon>minecraftVersionSelector.cs</DependentUpon>
     </EmbeddedResource>
@@ -412,7 +420,9 @@
     <Content Include="lilium-logo.ico" />
     <Content Include="Windows Logo.png" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Resources\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="packages\Microsoft.Web.WebView2.1.0.1245.22\build\Microsoft.Web.WebView2.targets" Condition="Exists('packages\Microsoft.Web.WebView2.1.0.1245.22\build\Microsoft.Web.WebView2.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

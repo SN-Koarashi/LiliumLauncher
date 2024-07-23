@@ -30,7 +30,13 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(minecraftForm));
-            this.tabControl1 = new System.Windows.Forms.TabControl();
+            this.toolTip = new System.Windows.Forms.ToolTip(this.components);
+            this.btnVerifyFile = new System.Windows.Forms.Button();
+            this.btnOpenFolder = new System.Windows.Forms.Button();
+            this.btnVerRecache = new System.Windows.Forms.Button();
+            this.buttonVerReload = new System.Windows.Forms.Button();
+            this.timerConcurrent = new System.Windows.Forms.Timer(this.components);
+            this.tabControl1 = new LiliumLauncher.CustomComponent.FlatTabControl.FlatTabControl();
             this.mainPage = new System.Windows.Forms.TabPage();
             this.panelBody = new System.Windows.Forms.Panel();
             this.webView = new Microsoft.Web.WebView2.WinForms.WebView2();
@@ -48,8 +54,6 @@
             this.panelMainSettings = new System.Windows.Forms.Panel();
             this.groupBoxDataFolder = new System.Windows.Forms.GroupBox();
             this.panelSettingsLeft = new System.Windows.Forms.Panel();
-            this.btnVerifyFile = new System.Windows.Forms.Button();
-            this.btnOpenFolder = new System.Windows.Forms.Button();
             this.btnChangeFolder = new System.Windows.Forms.Button();
             this.textBoxAD = new System.Windows.Forms.TextBox();
             this.groupBoxInstance = new System.Windows.Forms.GroupBox();
@@ -73,14 +77,10 @@
             this.btnLogout = new System.Windows.Forms.Button();
             this.btnSwitchAcc = new System.Windows.Forms.Button();
             this.groupBoxVersionReload = new System.Windows.Forms.GroupBox();
-            this.btnVerRecache = new System.Windows.Forms.Button();
-            this.buttonVerReload = new System.Windows.Forms.Button();
             this.debugPage = new System.Windows.Forms.TabPage();
             this.textBox = new System.Windows.Forms.TextBox();
             this.updatePage = new System.Windows.Forms.TabPage();
             this.textBoxUpdateNote = new System.Windows.Forms.RichTextBox();
-            this.toolTip = new System.Windows.Forms.ToolTip(this.components);
-            this.timerConcurrent = new System.Windows.Forms.Timer(this.components);
             this.tabControl1.SuspendLayout();
             this.mainPage.SuspendLayout();
             this.panelBody.SuspendLayout();
@@ -104,6 +104,74 @@
             this.updatePage.SuspendLayout();
             this.SuspendLayout();
             // 
+            // btnVerifyFile
+            // 
+            this.btnVerifyFile.FlatAppearance.BorderColor = System.Drawing.Color.White;
+            this.btnVerifyFile.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Black;
+            this.btnVerifyFile.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Black;
+            this.btnVerifyFile.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnVerifyFile.Location = new System.Drawing.Point(103, 3);
+            this.btnVerifyFile.Name = "btnVerifyFile";
+            this.btnVerifyFile.Size = new System.Drawing.Size(133, 30);
+            this.btnVerifyFile.TabIndex = 4;
+            this.btnVerifyFile.Text = "檢查資料完整性";
+            this.toolTip.SetToolTip(this.btnVerifyFile, "驗證所有資料的雜湊值，並且不啟動遊戲");
+            this.btnVerifyFile.UseVisualStyleBackColor = true;
+            this.btnVerifyFile.Click += new System.EventHandler(this.btnVerifyFile_Click);
+            this.btnVerifyFile.Paint += new System.Windows.Forms.PaintEventHandler(this.btnVerifyFile_Paint);
+            // 
+            // btnOpenFolder
+            // 
+            this.btnOpenFolder.FlatAppearance.BorderColor = System.Drawing.Color.White;
+            this.btnOpenFolder.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Black;
+            this.btnOpenFolder.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Black;
+            this.btnOpenFolder.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnOpenFolder.Location = new System.Drawing.Point(3, 3);
+            this.btnOpenFolder.Name = "btnOpenFolder";
+            this.btnOpenFolder.Size = new System.Drawing.Size(96, 30);
+            this.btnOpenFolder.TabIndex = 3;
+            this.btnOpenFolder.Text = "開啟資料夾";
+            this.toolTip.SetToolTip(this.btnOpenFolder, "開啟目前主程式所在的資料夾");
+            this.btnOpenFolder.UseVisualStyleBackColor = true;
+            this.btnOpenFolder.Click += new System.EventHandler(this.btnOpenFolder_Click);
+            this.btnOpenFolder.Paint += new System.Windows.Forms.PaintEventHandler(this.btnOpenFolder_Paint);
+            // 
+            // btnVerRecache
+            // 
+            this.btnVerRecache.FlatAppearance.BorderColor = System.Drawing.Color.White;
+            this.btnVerRecache.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Black;
+            this.btnVerRecache.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Black;
+            this.btnVerRecache.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnVerRecache.Location = new System.Drawing.Point(7, 56);
+            this.btnVerRecache.Name = "btnVerRecache";
+            this.btnVerRecache.Size = new System.Drawing.Size(147, 28);
+            this.btnVerRecache.TabIndex = 1;
+            this.btnVerRecache.Text = "重新快取";
+            this.toolTip.SetToolTip(this.btnVerRecache, "向 Mojang 重新快取版本列表及重新載入啟動實例列表");
+            this.btnVerRecache.UseVisualStyleBackColor = true;
+            this.btnVerRecache.Click += new System.EventHandler(this.btnVerRecache_Click);
+            this.btnVerRecache.Paint += new System.Windows.Forms.PaintEventHandler(this.btnVerRecache_Paint);
+            // 
+            // buttonVerReload
+            // 
+            this.buttonVerReload.FlatAppearance.BorderColor = System.Drawing.Color.White;
+            this.buttonVerReload.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Black;
+            this.buttonVerReload.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Black;
+            this.buttonVerReload.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.buttonVerReload.Location = new System.Drawing.Point(7, 21);
+            this.buttonVerReload.Name = "buttonVerReload";
+            this.buttonVerReload.Size = new System.Drawing.Size(147, 28);
+            this.buttonVerReload.TabIndex = 0;
+            this.buttonVerReload.Text = "重新整理";
+            this.toolTip.SetToolTip(this.buttonVerReload, "重新載入版本列表及啟動實例列表");
+            this.buttonVerReload.UseVisualStyleBackColor = true;
+            this.buttonVerReload.Click += new System.EventHandler(this.buttonVerReload_Click);
+            this.buttonVerReload.Paint += new System.Windows.Forms.PaintEventHandler(this.buttonVerReload_Paint);
+            // 
+            // timerConcurrent
+            // 
+            this.timerConcurrent.Tick += new System.EventHandler(this.timerConcurrent_Tick);
+            // 
             // tabControl1
             // 
             this.tabControl1.Controls.Add(this.mainPage);
@@ -113,7 +181,7 @@
             this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControl1.Font = new System.Drawing.Font("微軟正黑體", 10F);
             this.tabControl1.Location = new System.Drawing.Point(0, 0);
-            this.tabControl1.Multiline = true;
+            this.tabControl1.myBackColor = System.Drawing.SystemColors.ControlText;
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
             this.tabControl1.Size = new System.Drawing.Size(464, 321);
@@ -123,7 +191,7 @@
             // 
             // mainPage
             // 
-            this.mainPage.BackColor = System.Drawing.SystemColors.Control;
+            this.mainPage.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.mainPage.Controls.Add(this.panelBody);
             this.mainPage.Controls.Add(this.panelFooter);
             this.mainPage.Controls.Add(this.panelHeader);
@@ -149,6 +217,7 @@
             this.webView.CreationProperties = null;
             this.webView.DefaultBackgroundColor = System.Drawing.SystemColors.Control;
             this.webView.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.webView.ForeColor = System.Drawing.SystemColors.ControlLightLight;
             this.webView.Location = new System.Drawing.Point(0, 0);
             this.webView.Name = "webView";
             this.webView.Size = new System.Drawing.Size(450, 185);
@@ -158,11 +227,12 @@
             // 
             // panelFooter
             // 
-            this.panelFooter.BackColor = System.Drawing.SystemColors.Control;
+            this.panelFooter.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.panelFooter.Controls.Add(this.textStatus);
             this.panelFooter.Controls.Add(this.btnLaunch);
             this.panelFooter.Controls.Add(this.progressBar);
             this.panelFooter.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.panelFooter.ForeColor = System.Drawing.SystemColors.ControlLightLight;
             this.panelFooter.Location = new System.Drawing.Point(3, 229);
             this.panelFooter.Name = "panelFooter";
             this.panelFooter.Size = new System.Drawing.Size(450, 59);
@@ -171,26 +241,35 @@
             // textStatus
             // 
             this.textStatus.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.textStatus.BackColor = System.Drawing.SystemColors.Control;
+            this.textStatus.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.textStatus.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.textStatus.Font = new System.Drawing.Font("Verdana", 10F);
+            this.textStatus.ForeColor = System.Drawing.SystemColors.ControlLightLight;
             this.textStatus.Location = new System.Drawing.Point(5, 12);
             this.textStatus.Name = "textStatus";
             this.textStatus.ReadOnly = true;
             this.textStatus.Size = new System.Drawing.Size(340, 17);
             this.textStatus.TabIndex = 5;
+            this.textStatus.MouseMove += new System.Windows.Forms.MouseEventHandler(this.textStatus_MouseMove);
             // 
             // btnLaunch
             // 
             this.btnLaunch.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnLaunch.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.btnLaunch.Enabled = false;
-            this.btnLaunch.Location = new System.Drawing.Point(351, 5);
+            this.btnLaunch.FlatAppearance.BorderColor = System.Drawing.Color.White;
+            this.btnLaunch.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Black;
+            this.btnLaunch.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Black;
+            this.btnLaunch.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnLaunch.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+            this.btnLaunch.Location = new System.Drawing.Point(350, 5);
             this.btnLaunch.Name = "btnLaunch";
             this.btnLaunch.Size = new System.Drawing.Size(96, 31);
             this.btnLaunch.TabIndex = 4;
             this.btnLaunch.Text = "啟動遊戲";
             this.btnLaunch.UseVisualStyleBackColor = true;
             this.btnLaunch.Click += new System.EventHandler(this.btnLaunch_Click);
+            this.btnLaunch.Paint += new System.Windows.Forms.PaintEventHandler(this.btnLaunch_Paint);
             // 
             // progressBar
             // 
@@ -204,7 +283,7 @@
             // 
             // panelHeader
             // 
-            this.panelHeader.BackColor = System.Drawing.SystemColors.Control;
+            this.panelHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.panelHeader.Controls.Add(this.panelVersion);
             this.panelHeader.Controls.Add(this.textUser);
             this.panelHeader.Controls.Add(this.avatar);
@@ -219,7 +298,7 @@
             this.panelVersion.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.panelVersion.Controls.Add(this.btnVersionSelector);
             this.panelVersion.Controls.Add(this.textVersionSelected);
-            this.panelVersion.Location = new System.Drawing.Point(265, 0);
+            this.panelVersion.Location = new System.Drawing.Point(264, 0);
             this.panelVersion.Name = "panelVersion";
             this.panelVersion.Size = new System.Drawing.Size(185, 38);
             this.panelVersion.TabIndex = 1;
@@ -227,6 +306,10 @@
             // btnVersionSelector
             // 
             this.btnVersionSelector.Enabled = false;
+            this.btnVersionSelector.FlatAppearance.BorderColor = System.Drawing.Color.White;
+            this.btnVersionSelector.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Black;
+            this.btnVersionSelector.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Black;
+            this.btnVersionSelector.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnVersionSelector.Font = new System.Drawing.Font("Verdana", 9F);
             this.btnVersionSelector.Location = new System.Drawing.Point(160, 7);
             this.btnVersionSelector.Name = "btnVersionSelector";
@@ -235,10 +318,13 @@
             this.btnVersionSelector.Text = "+";
             this.btnVersionSelector.UseVisualStyleBackColor = true;
             this.btnVersionSelector.Click += new System.EventHandler(this.btnVersionSelector_Click);
+            this.btnVersionSelector.Paint += new System.Windows.Forms.PaintEventHandler(this.btnVersionSelector_Paint);
             // 
             // textVersionSelected
             // 
             this.textVersionSelected.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.textVersionSelected.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.textVersionSelected.ForeColor = System.Drawing.SystemColors.HighlightText;
             this.textVersionSelected.Location = new System.Drawing.Point(3, 7);
             this.textVersionSelected.MinimumSize = new System.Drawing.Size(4, 25);
             this.textVersionSelected.Name = "textVersionSelected";
@@ -249,9 +335,10 @@
             // 
             // textUser
             // 
-            this.textUser.BackColor = System.Drawing.SystemColors.Control;
+            this.textUser.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.textUser.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.textUser.Font = new System.Drawing.Font("Verdana", 12F);
+            this.textUser.ForeColor = System.Drawing.SystemColors.ControlLightLight;
             this.textUser.Location = new System.Drawing.Point(41, 10);
             this.textUser.Name = "textUser";
             this.textUser.ReadOnly = true;
@@ -273,7 +360,7 @@
             // 
             // settingPage
             // 
-            this.settingPage.BackColor = System.Drawing.SystemColors.Control;
+            this.settingPage.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.settingPage.Controls.Add(this.panelMainSettings);
             this.settingPage.Location = new System.Drawing.Point(4, 26);
             this.settingPage.Name = "settingPage";
@@ -283,7 +370,6 @@
             // 
             // panelMainSettings
             // 
-            this.panelMainSettings.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.panelMainSettings.Controls.Add(this.groupBoxDataFolder);
             this.panelMainSettings.Controls.Add(this.groupBoxInstance);
             this.panelMainSettings.Controls.Add(this.groupBoxInterval);
@@ -291,14 +377,16 @@
             this.panelMainSettings.Controls.Add(this.groupBoxMainProg);
             this.panelMainSettings.Controls.Add(this.groupBoxAccount);
             this.panelMainSettings.Controls.Add(this.groupBoxVersionReload);
-            this.panelMainSettings.Location = new System.Drawing.Point(3, 7);
+            this.panelMainSettings.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panelMainSettings.Location = new System.Drawing.Point(0, 0);
             this.panelMainSettings.Name = "panelMainSettings";
-            this.panelMainSettings.Size = new System.Drawing.Size(450, 284);
+            this.panelMainSettings.Size = new System.Drawing.Size(456, 291);
             this.panelMainSettings.TabIndex = 12;
             // 
             // groupBoxDataFolder
             // 
             this.groupBoxDataFolder.Controls.Add(this.panelSettingsLeft);
+            this.groupBoxDataFolder.ForeColor = System.Drawing.SystemColors.ControlLightLight;
             this.groupBoxDataFolder.Location = new System.Drawing.Point(3, 3);
             this.groupBoxDataFolder.Name = "groupBoxDataFolder";
             this.groupBoxDataFolder.Size = new System.Drawing.Size(274, 88);
@@ -318,30 +406,12 @@
             this.panelSettingsLeft.Size = new System.Drawing.Size(268, 64);
             this.panelSettingsLeft.TabIndex = 0;
             // 
-            // btnVerifyFile
-            // 
-            this.btnVerifyFile.Location = new System.Drawing.Point(103, 3);
-            this.btnVerifyFile.Name = "btnVerifyFile";
-            this.btnVerifyFile.Size = new System.Drawing.Size(133, 30);
-            this.btnVerifyFile.TabIndex = 4;
-            this.btnVerifyFile.Text = "檢查資料完整性";
-            this.toolTip.SetToolTip(this.btnVerifyFile, "驗證所有資料的雜湊值，並且不啟動遊戲");
-            this.btnVerifyFile.UseVisualStyleBackColor = true;
-            this.btnVerifyFile.Click += new System.EventHandler(this.btnVerifyFile_Click);
-            // 
-            // btnOpenFolder
-            // 
-            this.btnOpenFolder.Location = new System.Drawing.Point(3, 3);
-            this.btnOpenFolder.Name = "btnOpenFolder";
-            this.btnOpenFolder.Size = new System.Drawing.Size(96, 30);
-            this.btnOpenFolder.TabIndex = 3;
-            this.btnOpenFolder.Text = "開啟資料夾";
-            this.toolTip.SetToolTip(this.btnOpenFolder, "開啟目前主程式所在的資料夾");
-            this.btnOpenFolder.UseVisualStyleBackColor = true;
-            this.btnOpenFolder.Click += new System.EventHandler(this.btnOpenFolder_Click);
-            // 
             // btnChangeFolder
             // 
+            this.btnChangeFolder.FlatAppearance.BorderColor = System.Drawing.Color.White;
+            this.btnChangeFolder.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Black;
+            this.btnChangeFolder.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Black;
+            this.btnChangeFolder.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnChangeFolder.Font = new System.Drawing.Font("Verdana", 9F);
             this.btnChangeFolder.Location = new System.Drawing.Point(239, 38);
             this.btnChangeFolder.Name = "btnChangeFolder";
@@ -350,11 +420,13 @@
             this.btnChangeFolder.Text = "…";
             this.btnChangeFolder.UseVisualStyleBackColor = true;
             this.btnChangeFolder.Click += new System.EventHandler(this.btnChangeFolder_Click);
+            this.btnChangeFolder.Paint += new System.Windows.Forms.PaintEventHandler(this.btnChangeFolder_Paint);
             // 
             // textBoxAD
             // 
-            this.textBoxAD.BackColor = System.Drawing.SystemColors.Control;
+            this.textBoxAD.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.textBoxAD.Font = new System.Drawing.Font("微軟正黑體", 9F);
+            this.textBoxAD.ForeColor = System.Drawing.SystemColors.ControlLightLight;
             this.textBoxAD.Location = new System.Drawing.Point(3, 38);
             this.textBoxAD.MinimumSize = new System.Drawing.Size(4, 25);
             this.textBoxAD.Name = "textBoxAD";
@@ -369,6 +441,7 @@
             this.groupBoxInstance.Controls.Add(this.btnInstanceDel);
             this.groupBoxInstance.Controls.Add(this.btnInstanceAdd);
             this.groupBoxInstance.Controls.Add(this.instanceList);
+            this.groupBoxInstance.ForeColor = System.Drawing.SystemColors.ControlLightLight;
             this.groupBoxInstance.Location = new System.Drawing.Point(283, 3);
             this.groupBoxInstance.Name = "groupBoxInstance";
             this.groupBoxInstance.Size = new System.Drawing.Size(160, 88);
@@ -378,6 +451,10 @@
             // 
             // btnInstanceEdit
             // 
+            this.btnInstanceEdit.FlatAppearance.BorderColor = System.Drawing.Color.White;
+            this.btnInstanceEdit.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Black;
+            this.btnInstanceEdit.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Black;
+            this.btnInstanceEdit.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnInstanceEdit.Location = new System.Drawing.Point(58, 25);
             this.btnInstanceEdit.Name = "btnInstanceEdit";
             this.btnInstanceEdit.Size = new System.Drawing.Size(46, 27);
@@ -385,9 +462,12 @@
             this.btnInstanceEdit.Text = "編輯";
             this.btnInstanceEdit.UseVisualStyleBackColor = true;
             this.btnInstanceEdit.Click += new System.EventHandler(this.btnInstanceEdit_Click);
+            this.btnInstanceEdit.Paint += new System.Windows.Forms.PaintEventHandler(this.btnInstanceEdit_Paint);
             // 
             // textBoxInstance
             // 
+            this.textBoxInstance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.textBoxInstance.ForeColor = System.Drawing.SystemColors.ControlLightLight;
             this.textBoxInstance.Location = new System.Drawing.Point(6, 57);
             this.textBoxInstance.MinimumSize = new System.Drawing.Size(4, 25);
             this.textBoxInstance.Name = "textBoxInstance";
@@ -398,6 +478,10 @@
             // 
             // btnInstanceDel
             // 
+            this.btnInstanceDel.FlatAppearance.BorderColor = System.Drawing.Color.White;
+            this.btnInstanceDel.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Black;
+            this.btnInstanceDel.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Black;
+            this.btnInstanceDel.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnInstanceDel.Location = new System.Drawing.Point(109, 26);
             this.btnInstanceDel.Name = "btnInstanceDel";
             this.btnInstanceDel.Size = new System.Drawing.Size(46, 27);
@@ -405,9 +489,14 @@
             this.btnInstanceDel.Text = "刪除";
             this.btnInstanceDel.UseVisualStyleBackColor = true;
             this.btnInstanceDel.Click += new System.EventHandler(this.btnInstanceDel_Click);
+            this.btnInstanceDel.Paint += new System.Windows.Forms.PaintEventHandler(this.btnInstanceDel_Paint);
             // 
             // btnInstanceAdd
             // 
+            this.btnInstanceAdd.FlatAppearance.BorderColor = System.Drawing.Color.White;
+            this.btnInstanceAdd.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Black;
+            this.btnInstanceAdd.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Black;
+            this.btnInstanceAdd.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnInstanceAdd.Location = new System.Drawing.Point(6, 25);
             this.btnInstanceAdd.Name = "btnInstanceAdd";
             this.btnInstanceAdd.Size = new System.Drawing.Size(46, 27);
@@ -415,11 +504,14 @@
             this.btnInstanceAdd.Text = "新增";
             this.btnInstanceAdd.UseVisualStyleBackColor = true;
             this.btnInstanceAdd.Click += new System.EventHandler(this.btnInstanceAdd_Click);
+            this.btnInstanceAdd.Paint += new System.Windows.Forms.PaintEventHandler(this.btnInstanceAdd_Paint);
             // 
             // instanceList
             // 
+            this.instanceList.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.instanceList.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.instanceList.Font = new System.Drawing.Font("Arial", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.instanceList.ForeColor = System.Drawing.SystemColors.ControlLightLight;
             this.instanceList.FormattingEnabled = true;
             this.instanceList.Items.AddRange(new object[] {
             "無"});
@@ -433,6 +525,7 @@
             // 
             this.groupBoxInterval.Controls.Add(this.radConcurrent);
             this.groupBoxInterval.Controls.Add(this.radSingle);
+            this.groupBoxInterval.ForeColor = System.Drawing.SystemColors.ControlLightLight;
             this.groupBoxInterval.Location = new System.Drawing.Point(3, 226);
             this.groupBoxInterval.Name = "groupBoxInterval";
             this.groupBoxInterval.Size = new System.Drawing.Size(151, 53);
@@ -450,8 +543,9 @@
             this.radConcurrent.TabIndex = 1;
             this.radConcurrent.TabStop = true;
             this.radConcurrent.Text = "並行";
-            this.radConcurrent.UseVisualStyleBackColor = true;
+            this.radConcurrent.UseVisualStyleBackColor = false;
             this.radConcurrent.Click += new System.EventHandler(this.radConcurrent_Click);
+            this.radConcurrent.Paint += new System.Windows.Forms.PaintEventHandler(this.radConcurrent_Paint);
             // 
             // radSingle
             // 
@@ -461,14 +555,16 @@
             this.radSingle.Size = new System.Drawing.Size(54, 22);
             this.radSingle.TabIndex = 0;
             this.radSingle.Text = "逐次";
-            this.radSingle.UseVisualStyleBackColor = true;
+            this.radSingle.UseVisualStyleBackColor = false;
             this.radSingle.Click += new System.EventHandler(this.radSingle_Click);
+            this.radSingle.Paint += new System.Windows.Forms.PaintEventHandler(this.radSingle_Paint);
             // 
             // groupBoxMemory
             // 
             this.groupBoxMemory.Controls.Add(this.checkBoxMaxMem);
             this.groupBoxMemory.Controls.Add(this.trackBarMiB);
             this.groupBoxMemory.Controls.Add(this.textBoxMiB);
+            this.groupBoxMemory.ForeColor = System.Drawing.SystemColors.ControlLightLight;
             this.groupBoxMemory.Location = new System.Drawing.Point(160, 196);
             this.groupBoxMemory.Name = "groupBoxMemory";
             this.groupBoxMemory.Size = new System.Drawing.Size(283, 83);
@@ -486,6 +582,7 @@
             this.checkBoxMaxMem.Text = "開啟";
             this.checkBoxMaxMem.UseVisualStyleBackColor = true;
             this.checkBoxMaxMem.CheckedChanged += new System.EventHandler(this.checkBoxMaxMem_CheckedChanged);
+            this.checkBoxMaxMem.Paint += new System.Windows.Forms.PaintEventHandler(this.checkBoxMaxMem_Paint);
             // 
             // trackBarMiB
             // 
@@ -500,7 +597,9 @@
             // 
             // textBoxMiB
             // 
+            this.textBoxMiB.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.textBoxMiB.Enabled = false;
+            this.textBoxMiB.ForeColor = System.Drawing.SystemColors.ControlLightLight;
             this.textBoxMiB.Location = new System.Drawing.Point(217, 47);
             this.textBoxMiB.MaxLength = 6;
             this.textBoxMiB.Name = "textBoxMiB";
@@ -513,6 +612,7 @@
             // 
             this.groupBoxMainProg.Controls.Add(this.btnChkUpdate);
             this.groupBoxMainProg.Controls.Add(this.btnMainSetting);
+            this.groupBoxMainProg.ForeColor = System.Drawing.SystemColors.ControlLightLight;
             this.groupBoxMainProg.Location = new System.Drawing.Point(160, 97);
             this.groupBoxMainProg.Name = "groupBoxMainProg";
             this.groupBoxMainProg.Size = new System.Drawing.Size(117, 93);
@@ -522,6 +622,10 @@
             // 
             // btnChkUpdate
             // 
+            this.btnChkUpdate.FlatAppearance.BorderColor = System.Drawing.Color.White;
+            this.btnChkUpdate.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Black;
+            this.btnChkUpdate.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Black;
+            this.btnChkUpdate.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnChkUpdate.Location = new System.Drawing.Point(7, 22);
             this.btnChkUpdate.Name = "btnChkUpdate";
             this.btnChkUpdate.Size = new System.Drawing.Size(103, 28);
@@ -529,9 +633,14 @@
             this.btnChkUpdate.Text = "檢查更新";
             this.btnChkUpdate.UseVisualStyleBackColor = true;
             this.btnChkUpdate.Click += new System.EventHandler(this.btnChkUpdate_Click);
+            this.btnChkUpdate.Paint += new System.Windows.Forms.PaintEventHandler(this.btnChkUpdate_Paint);
             // 
             // btnMainSetting
             // 
+            this.btnMainSetting.FlatAppearance.BorderColor = System.Drawing.Color.White;
+            this.btnMainSetting.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Black;
+            this.btnMainSetting.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Black;
+            this.btnMainSetting.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnMainSetting.Location = new System.Drawing.Point(7, 57);
             this.btnMainSetting.Name = "btnMainSetting";
             this.btnMainSetting.Size = new System.Drawing.Size(103, 28);
@@ -539,12 +648,14 @@
             this.btnMainSetting.Text = "系統設定";
             this.btnMainSetting.UseVisualStyleBackColor = true;
             this.btnMainSetting.Click += new System.EventHandler(this.btnMainSetting_Click);
+            this.btnMainSetting.Paint += new System.Windows.Forms.PaintEventHandler(this.btnMainSetting_Paint);
             // 
             // groupBoxAccount
             // 
             this.groupBoxAccount.Controls.Add(this.btnMultiAcc);
             this.groupBoxAccount.Controls.Add(this.btnLogout);
             this.groupBoxAccount.Controls.Add(this.btnSwitchAcc);
+            this.groupBoxAccount.ForeColor = System.Drawing.SystemColors.ControlLightLight;
             this.groupBoxAccount.Location = new System.Drawing.Point(3, 97);
             this.groupBoxAccount.Name = "groupBoxAccount";
             this.groupBoxAccount.Size = new System.Drawing.Size(151, 125);
@@ -554,6 +665,10 @@
             // 
             // btnMultiAcc
             // 
+            this.btnMultiAcc.FlatAppearance.BorderColor = System.Drawing.Color.White;
+            this.btnMultiAcc.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Black;
+            this.btnMultiAcc.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Black;
+            this.btnMultiAcc.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnMultiAcc.Location = new System.Drawing.Point(6, 57);
             this.btnMultiAcc.Name = "btnMultiAcc";
             this.btnMultiAcc.Size = new System.Drawing.Size(139, 28);
@@ -561,9 +676,14 @@
             this.btnMultiAcc.Text = "多帳號管理";
             this.btnMultiAcc.UseVisualStyleBackColor = true;
             this.btnMultiAcc.Click += new System.EventHandler(this.btnMultiAcc_Click);
+            this.btnMultiAcc.Paint += new System.Windows.Forms.PaintEventHandler(this.btnMultiAcc_Paint);
             // 
             // btnLogout
             // 
+            this.btnLogout.FlatAppearance.BorderColor = System.Drawing.Color.White;
+            this.btnLogout.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Black;
+            this.btnLogout.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Black;
+            this.btnLogout.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnLogout.Location = new System.Drawing.Point(6, 91);
             this.btnLogout.Name = "btnLogout";
             this.btnLogout.Size = new System.Drawing.Size(139, 28);
@@ -571,9 +691,14 @@
             this.btnLogout.Text = "登出此帳號";
             this.btnLogout.UseVisualStyleBackColor = true;
             this.btnLogout.Click += new System.EventHandler(this.btnLogout_Click);
+            this.btnLogout.Paint += new System.Windows.Forms.PaintEventHandler(this.btnLogout_Paint);
             // 
             // btnSwitchAcc
             // 
+            this.btnSwitchAcc.FlatAppearance.BorderColor = System.Drawing.Color.White;
+            this.btnSwitchAcc.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Black;
+            this.btnSwitchAcc.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Black;
+            this.btnSwitchAcc.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnSwitchAcc.Location = new System.Drawing.Point(6, 22);
             this.btnSwitchAcc.Name = "btnSwitchAcc";
             this.btnSwitchAcc.Size = new System.Drawing.Size(139, 28);
@@ -581,11 +706,13 @@
             this.btnSwitchAcc.Text = "新增帳號";
             this.btnSwitchAcc.UseVisualStyleBackColor = true;
             this.btnSwitchAcc.Click += new System.EventHandler(this.btnSwitchAcc_Click);
+            this.btnSwitchAcc.Paint += new System.Windows.Forms.PaintEventHandler(this.btnSwitchAcc_Paint);
             // 
             // groupBoxVersionReload
             // 
             this.groupBoxVersionReload.Controls.Add(this.btnVerRecache);
             this.groupBoxVersionReload.Controls.Add(this.buttonVerReload);
+            this.groupBoxVersionReload.ForeColor = System.Drawing.SystemColors.ControlLightLight;
             this.groupBoxVersionReload.Location = new System.Drawing.Point(283, 97);
             this.groupBoxVersionReload.Name = "groupBoxVersionReload";
             this.groupBoxVersionReload.Size = new System.Drawing.Size(160, 93);
@@ -593,30 +720,9 @@
             this.groupBoxVersionReload.TabStop = false;
             this.groupBoxVersionReload.Text = "版本與實例列表";
             // 
-            // btnVerRecache
-            // 
-            this.btnVerRecache.Location = new System.Drawing.Point(7, 56);
-            this.btnVerRecache.Name = "btnVerRecache";
-            this.btnVerRecache.Size = new System.Drawing.Size(147, 28);
-            this.btnVerRecache.TabIndex = 1;
-            this.btnVerRecache.Text = "重新快取";
-            this.toolTip.SetToolTip(this.btnVerRecache, "向 Mojang 重新快取版本列表及重新載入啟動實例列表");
-            this.btnVerRecache.UseVisualStyleBackColor = true;
-            this.btnVerRecache.Click += new System.EventHandler(this.btnVerRecache_Click);
-            // 
-            // buttonVerReload
-            // 
-            this.buttonVerReload.Location = new System.Drawing.Point(7, 21);
-            this.buttonVerReload.Name = "buttonVerReload";
-            this.buttonVerReload.Size = new System.Drawing.Size(147, 28);
-            this.buttonVerReload.TabIndex = 0;
-            this.buttonVerReload.Text = "重新整理";
-            this.toolTip.SetToolTip(this.buttonVerReload, "重新載入版本列表及啟動實例列表");
-            this.buttonVerReload.UseVisualStyleBackColor = true;
-            this.buttonVerReload.Click += new System.EventHandler(this.buttonVerReload_Click);
-            // 
             // debugPage
             // 
+            this.debugPage.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.debugPage.Controls.Add(this.textBox);
             this.debugPage.Location = new System.Drawing.Point(4, 26);
             this.debugPage.Name = "debugPage";
@@ -624,12 +730,13 @@
             this.debugPage.Size = new System.Drawing.Size(456, 291);
             this.debugPage.TabIndex = 1;
             this.debugPage.Text = "偵錯與輸出";
-            this.debugPage.UseVisualStyleBackColor = true;
             // 
             // textBox
             // 
+            this.textBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.textBox.Dock = System.Windows.Forms.DockStyle.Fill;
             this.textBox.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBox.ForeColor = System.Drawing.SystemColors.ControlLightLight;
             this.textBox.Location = new System.Drawing.Point(3, 3);
             this.textBox.MaxLength = 2147483647;
             this.textBox.Multiline = true;
@@ -641,6 +748,7 @@
             // 
             // updatePage
             // 
+            this.updatePage.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.updatePage.Controls.Add(this.textBoxUpdateNote);
             this.updatePage.Location = new System.Drawing.Point(4, 26);
             this.updatePage.Name = "updatePage";
@@ -648,12 +756,12 @@
             this.updatePage.Size = new System.Drawing.Size(456, 291);
             this.updatePage.TabIndex = 3;
             this.updatePage.Text = "更新日誌";
-            this.updatePage.UseVisualStyleBackColor = true;
             // 
             // textBoxUpdateNote
             // 
-            this.textBoxUpdateNote.BackColor = System.Drawing.SystemColors.Control;
+            this.textBoxUpdateNote.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.textBoxUpdateNote.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.textBoxUpdateNote.ForeColor = System.Drawing.SystemColors.ControlLightLight;
             this.textBoxUpdateNote.Location = new System.Drawing.Point(3, 3);
             this.textBoxUpdateNote.Name = "textBoxUpdateNote";
             this.textBoxUpdateNote.ReadOnly = true;
@@ -661,18 +769,15 @@
             this.textBoxUpdateNote.TabIndex = 0;
             this.textBoxUpdateNote.Text = "";
             // 
-            // timerConcurrent
-            // 
-            this.timerConcurrent.Tick += new System.EventHandler(this.timerConcurrent_Tick);
-            // 
             // minecraftForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.SystemColors.Control;
+            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.ClientSize = new System.Drawing.Size(464, 321);
             this.Controls.Add(this.tabControl1);
             this.Font = new System.Drawing.Font("新細明體", 9F);
+            this.ForeColor = System.Drawing.SystemColors.ControlLightLight;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.MaximumSize = new System.Drawing.Size(1280, 720);
@@ -717,9 +822,6 @@
         }
 
         #endregion
-
-        private System.Windows.Forms.TabControl tabControl1;
-        private System.Windows.Forms.TabPage mainPage;
         private System.Windows.Forms.TabPage debugPage;
         private System.Windows.Forms.TextBox textBox;
         private System.Windows.Forms.ProgressBar progressBar;
@@ -769,5 +871,7 @@
         private System.Windows.Forms.Button btnVersionSelector;
         private System.Windows.Forms.RadioButton radConcurrent;
         private System.Windows.Forms.RadioButton radSingle;
+        private System.Windows.Forms.TabPage mainPage;
+        private CustomComponent.FlatTabControl.FlatTabControl tabControl1;
     }
 }

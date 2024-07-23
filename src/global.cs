@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
@@ -11,6 +12,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Windows.Forms.VisualStyles;
 using static LiliumLauncher.ClassModel.globalModel;
 using static LiliumLauncher.ClassModel.launcherModel;
 using static LiliumLauncher.ClassModel.locateModel;
@@ -59,6 +61,58 @@ namespace Global
         public static List<string> versionNameInstalledList = new List<string>();
         public static translateModel lang = new translateModel();
         public static TabPage hideTabPage = null;
+
+        public static void ButtonDisabledPaint(object sender, PaintEventArgs e, string buttonText)
+        {
+            Button btn = (Button)sender;
+            var solidBrush = new SolidBrush(btn.Enabled ? System.Drawing.SystemColors.ControlLightLight : System.Drawing.SystemColors.ControlDark);
+            var stringFormat = new StringFormat
+            {
+                Alignment = StringAlignment.Center,
+                LineAlignment = StringAlignment.Center
+            };
+
+            btn.Text = String.Empty;
+
+            int offset = btn.Font.Height <= 15 && btn.Font.FontFamily.Name.ToLower() != "verdana" ? 2 : 0;
+            //Console.WriteLine($"{btn.Font.FontFamily.Name} : {btn.Font.Height} / {offset}");
+
+            Rectangle rectangle = e.ClipRectangle;
+            rectangle.Location = new Point(rectangle.Location.X, rectangle.Location.Y + offset);
+
+
+            e.Graphics.DrawString(buttonText, btn.Font, solidBrush, rectangle, stringFormat);
+            solidBrush.Dispose();
+            stringFormat.Dispose();
+        }
+
+        public static void CheckBoxDisabledPaint(Control control, object sender, PaintEventArgs e, string text)
+        {
+            if (!((CheckBox)sender).Enabled)
+            {
+                int x = control.ClientRectangle.X + CheckBoxRenderer.GetGlyphSize(
+                    e.Graphics, CheckBoxState.UncheckedNormal).Width + 1;
+                int y = control.ClientRectangle.Y + 1;
+
+                TextRenderer.DrawText(e.Graphics, text,
+                    ((CheckBox)sender).Font, new Point(x, y), System.Drawing.SystemColors.ControlDark,
+                    TextFormatFlags.LeftAndRightPadding);
+            }
+        }
+
+        public static void RadioBoxDisabledPaint(Control control, object sender, PaintEventArgs e, string text)
+        {
+            if (!((RadioButton)sender).Enabled)
+            {
+                int x = control.ClientRectangle.X + RadioButtonRenderer.GetGlyphSize(
+                    e.Graphics, RadioButtonState.UncheckedNormal).Width + 1;
+                int y = control.ClientRectangle.Y + 1;
+
+                TextRenderer.DrawText(e.Graphics, text,
+                    ((RadioButton)sender).Font, new Point(x, y), System.Drawing.SystemColors.ControlDark,
+                    TextFormatFlags.LeftAndRightPadding);
+            }
+        }
 
         public static void setTranslate()
         {

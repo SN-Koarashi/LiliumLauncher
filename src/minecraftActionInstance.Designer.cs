@@ -54,6 +54,7 @@
             this.groupBox1.Controls.Add(this.btnVersionSelector);
             this.groupBox1.Controls.Add(this.textBoxNowVersion);
             this.groupBox1.Controls.Add(this.chkOpenSpecific);
+            this.groupBox1.ForeColor = System.Drawing.SystemColors.ControlLightLight;
             this.groupBox1.Location = new System.Drawing.Point(12, 97);
             this.groupBox1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.groupBox1.Name = "groupBox1";
@@ -66,6 +67,10 @@
             // btnVersionSelector
             // 
             this.btnVersionSelector.Enabled = false;
+            this.btnVersionSelector.FlatAppearance.BorderColor = System.Drawing.Color.White;
+            this.btnVersionSelector.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Black;
+            this.btnVersionSelector.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Black;
+            this.btnVersionSelector.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnVersionSelector.Font = new System.Drawing.Font("Verdana", 9F);
             this.btnVersionSelector.Location = new System.Drawing.Point(197, 21);
             this.btnVersionSelector.Name = "btnVersionSelector";
@@ -77,7 +82,9 @@
             // 
             // textBoxNowVersion
             // 
+            this.textBoxNowVersion.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.textBoxNowVersion.Enabled = false;
+            this.textBoxNowVersion.ForeColor = System.Drawing.SystemColors.ControlLightLight;
             this.textBoxNowVersion.Location = new System.Drawing.Point(64, 22);
             this.textBoxNowVersion.MinimumSize = new System.Drawing.Size(0, 23);
             this.textBoxNowVersion.Name = "textBoxNowVersion";
@@ -100,6 +107,8 @@
             // 
             // textInstanceName
             // 
+            this.textInstanceName.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.textInstanceName.ForeColor = System.Drawing.SystemColors.ControlLightLight;
             this.textInstanceName.Location = new System.Drawing.Point(7, 44);
             this.textInstanceName.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.textInstanceName.MinimumSize = new System.Drawing.Size(0, 23);
@@ -111,6 +120,7 @@
             // 
             this.groupBox2.Controls.Add(this.label1);
             this.groupBox2.Controls.Add(this.textInstanceName);
+            this.groupBox2.ForeColor = System.Drawing.SystemColors.ControlLightLight;
             this.groupBox2.Location = new System.Drawing.Point(12, 13);
             this.groupBox2.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.groupBox2.Name = "groupBox2";
@@ -131,6 +141,10 @@
             // 
             // btnIntro
             // 
+            this.btnIntro.FlatAppearance.BorderColor = System.Drawing.Color.White;
+            this.btnIntro.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Black;
+            this.btnIntro.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Black;
+            this.btnIntro.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnIntro.Location = new System.Drawing.Point(37, 307);
             this.btnIntro.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.btnIntro.Name = "btnIntro";
@@ -142,6 +156,10 @@
             // 
             // btnOK
             // 
+            this.btnOK.FlatAppearance.BorderColor = System.Drawing.Color.White;
+            this.btnOK.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Black;
+            this.btnOK.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Black;
+            this.btnOK.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnOK.Location = new System.Drawing.Point(140, 307);
             this.btnOK.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.btnOK.Name = "btnOK";
@@ -156,6 +174,7 @@
             this.groupBox3.Controls.Add(this.btnJava);
             this.groupBox3.Controls.Add(this.textJava);
             this.groupBox3.Controls.Add(this.label2);
+            this.groupBox3.ForeColor = System.Drawing.SystemColors.ControlLightLight;
             this.groupBox3.Location = new System.Drawing.Point(12, 163);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Size = new System.Drawing.Size(225, 76);
@@ -165,6 +184,10 @@
             // 
             // btnJava
             // 
+            this.btnJava.FlatAppearance.BorderColor = System.Drawing.Color.White;
+            this.btnJava.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Black;
+            this.btnJava.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Black;
+            this.btnJava.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnJava.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnJava.Location = new System.Drawing.Point(194, 44);
             this.btnJava.Name = "btnJava";
@@ -176,6 +199,8 @@
             // 
             // textJava
             // 
+            this.textJava.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.textJava.ForeColor = System.Drawing.SystemColors.ControlLightLight;
             this.textJava.Location = new System.Drawing.Point(10, 44);
             this.textJava.MinimumSize = new System.Drawing.Size(0, 23);
             this.textJava.Name = "textJava";
@@ -195,6 +220,7 @@
             // groupBox4
             // 
             this.groupBox4.Controls.Add(this.textJVM);
+            this.groupBox4.ForeColor = System.Drawing.SystemColors.ControlLightLight;
             this.groupBox4.Location = new System.Drawing.Point(12, 245);
             this.groupBox4.Name = "groupBox4";
             this.groupBox4.Size = new System.Drawing.Size(225, 55);
@@ -204,6 +230,8 @@
             // 
             // textJVM
             // 
+            this.textJVM.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.textJVM.ForeColor = System.Drawing.SystemColors.ControlLightLight;
             this.textJVM.Location = new System.Drawing.Point(10, 22);
             this.textJVM.MinimumSize = new System.Drawing.Size(0, 23);
             this.textJVM.Name = "textJVM";
@@ -213,6 +241,7 @@
             // minecraftActionInstance
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
+            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.ClientSize = new System.Drawing.Size(251, 349);
             this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.groupBox3);
@@ -221,6 +250,7 @@
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.Font = new System.Drawing.Font("微軟正黑體", 9F);
+            this.ForeColor = System.Drawing.SystemColors.ControlLightLight;
             this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.MaximizeBox = false;
             this.MaximumSize = new System.Drawing.Size(267, 388);

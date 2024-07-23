@@ -44,6 +44,10 @@
             // 
             this.tableLayoutPanel1.SetColumnSpan(this.btnLogin, 2);
             this.btnLogin.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btnLogin.FlatAppearance.BorderColor = System.Drawing.Color.White;
+            this.btnLogin.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Black;
+            this.btnLogin.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Black;
+            this.btnLogin.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnLogin.Font = new System.Drawing.Font("微軟正黑體", 10F);
             this.btnLogin.Location = new System.Drawing.Point(137, 3);
             this.btnLogin.Name = "btnLogin";
@@ -52,10 +56,15 @@
             this.btnLogin.Text = "使用 Microsoft 帳戶登入";
             this.btnLogin.UseVisualStyleBackColor = true;
             this.btnLogin.Click += new System.EventHandler(this.btnLogin_ClickAsync);
+            this.btnLogin.Paint += new System.Windows.Forms.PaintEventHandler(this.btnLogin_Paint);
             // 
             // btnSetting
             // 
             this.tableLayoutPanel1.SetColumnSpan(this.btnSetting, 2);
+            this.btnSetting.FlatAppearance.BorderColor = System.Drawing.Color.White;
+            this.btnSetting.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Black;
+            this.btnSetting.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Black;
+            this.btnSetting.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnSetting.Font = new System.Drawing.Font("微軟正黑體", 10F);
             this.btnSetting.Location = new System.Drawing.Point(137, 45);
             this.btnSetting.Name = "btnSetting";
@@ -64,11 +73,16 @@
             this.btnSetting.Text = "系統設定";
             this.btnSetting.UseVisualStyleBackColor = true;
             this.btnSetting.Click += new System.EventHandler(this.btnSetting_Click);
+            this.btnSetting.Paint += new System.Windows.Forms.PaintEventHandler(this.btnSetting_Paint);
             // 
             // btnUpdate
             // 
             this.btnUpdate.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.tableLayoutPanel1.SetColumnSpan(this.btnUpdate, 2);
+            this.btnUpdate.FlatAppearance.BorderColor = System.Drawing.Color.White;
+            this.btnUpdate.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Black;
+            this.btnUpdate.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Black;
+            this.btnUpdate.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnUpdate.Font = new System.Drawing.Font("微軟正黑體", 10F);
             this.btnUpdate.Location = new System.Drawing.Point(137, 85);
             this.btnUpdate.Name = "btnUpdate";
@@ -77,6 +91,7 @@
             this.btnUpdate.Text = "檢查更新";
             this.btnUpdate.UseVisualStyleBackColor = true;
             this.btnUpdate.Click += new System.EventHandler(this.btnUpdate_Click);
+            this.btnUpdate.Paint += new System.Windows.Forms.PaintEventHandler(this.btnUpdate_Paint);
             // 
             // tableLayoutPanel1
             // 
@@ -144,9 +159,11 @@
             // minecraftMainForm
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
+            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.ClientSize = new System.Drawing.Size(464, 321);
             this.Controls.Add(this.tableLayoutPanel2);
             this.Controls.Add(this.tableLayoutPanel1);
+            this.ForeColor = System.Drawing.SystemColors.ControlLightLight;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.MaximumSize = new System.Drawing.Size(480, 360);

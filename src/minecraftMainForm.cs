@@ -124,5 +124,20 @@ namespace LiliumLauncher
         {
             gb.checkForUpdate(false);
         }
+
+        private void btnLogin_Paint(object sender, PaintEventArgs e)
+        {
+            gb.ButtonDisabledPaint(sender, e, gb.lang.BTN_LOGIN_MICROSOFT);
+        }
+
+        private void btnSetting_Paint(object sender, PaintEventArgs e)
+        {
+            gb.ButtonDisabledPaint(sender, e, gb.lang.BTN_SETTINGS);
+        }
+
+        private void btnUpdate_Paint(object sender, PaintEventArgs e)
+        {
+            gb.ButtonDisabledPaint(sender, e, gb.lang.BTN_CHECK_UPDATE);
+        }
     }
 }

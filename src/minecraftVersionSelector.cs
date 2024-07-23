@@ -112,6 +112,16 @@ namespace LiliumLauncher
 
             setDataView(statusFilter);
 
+            dataGridView1.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(64,64,64);
+            dataGridView1.ColumnHeadersDefaultCellStyle.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+            dataGridView1.ColumnHeadersDefaultCellStyle.SelectionBackColor = System.Drawing.Color.Black;
+            dataGridView1.ColumnHeadersDefaultCellStyle.SelectionForeColor = System.Drawing.SystemColors.ControlLightLight;
+
+            dataGridView1.RowHeadersDefaultCellStyle.BackColor = Color.FromArgb(64, 64, 64);
+            dataGridView1.RowHeadersDefaultCellStyle.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+            dataGridView1.RowHeadersDefaultCellStyle.SelectionForeColor = System.Drawing.SystemColors.ControlLightLight;
+            dataGridView1.RowHeadersDefaultCellStyle.SelectionBackColor = System.Drawing.Color.Black;
+
             dataGridView1.Columns[0].Width = 110;
             dataGridView1.Columns[1].Width = 65;
             dataGridView1.Columns[2].Width = 125;

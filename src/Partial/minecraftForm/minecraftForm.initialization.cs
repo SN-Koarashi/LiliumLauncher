@@ -7,6 +7,8 @@ using System.Reflection;
 using System.Windows.Forms;
 using LiliumLauncher.Properties;
 using LiliumLauncher.Tasks;
+using System.Drawing;
+using System.Linq;
 
 namespace LiliumLauncher
 {
@@ -284,6 +286,20 @@ namespace LiliumLauncher
             controls.Add(parent);
 
             return controls;
+        }
+
+        private void DisableChildren(Control control, bool isEnabled)
+        {
+            foreach (Control child in control.Controls)
+            {
+                if (child.GetType() != typeof(Label) && child.GetType() != typeof(GroupBox)) {
+                    if (child.HasChildren)
+                    {
+                        DisableChildren(child, isEnabled);
+                    }
+                    child.Enabled = isEnabled;
+                }
+            }
         }
     }
 }

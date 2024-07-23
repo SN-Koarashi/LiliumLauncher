@@ -13,6 +13,8 @@ using System.Windows.Forms;
 using LiliumLauncher.Tasks;
 using static LiliumLauncher.ClassModel.globalModel;
 using static LiliumLauncher.ClassModel.launcherModel;
+using System.Drawing;
+using System.Windows.Forms.VisualStyles;
 
 namespace LiliumLauncher
 {
@@ -292,15 +294,25 @@ namespace LiliumLauncher
             btnChangeFolder.Enabled = isEnabled;
             btnLaunch.Enabled = isEnabled;
             textBoxAD.Enabled = isEnabled;
-            textStatus.Enabled = isEnabled;
+            //textStatus.Enabled = isEnabled;
+            textStatus.Tag = isEnabled;
             textVersionSelected.Enabled = isEnabled;
-            groupBoxDataFolder.Enabled = isEnabled;
-            groupBoxMainProg.Enabled = isEnabled;
-            groupBoxAccount.Enabled = isEnabled;
-            groupBoxInterval.Enabled = isEnabled;
-            groupBoxVersionReload.Enabled = isEnabled;
-            groupBoxMemory.Enabled = isEnabled;
-            groupBoxInstance.Enabled = isEnabled;
+
+            DisableChildren(groupBoxDataFolder, isEnabled);
+            DisableChildren(groupBoxMainProg, isEnabled);
+            DisableChildren(groupBoxAccount, isEnabled);
+            DisableChildren(groupBoxInterval, isEnabled);
+            DisableChildren(groupBoxVersionReload, isEnabled);
+            DisableChildren(groupBoxMemory, isEnabled);
+            DisableChildren(groupBoxInstance, isEnabled);
+            // groupBoxDataFolder.Enabled = isEnabled;
+            // groupBoxMainProg.Enabled = isEnabled;
+            // groupBoxAccount.Enabled = isEnabled;
+            // groupBoxInterval.Enabled = isEnabled;
+            // groupBoxVersionReload.Enabled = isEnabled;
+            // groupBoxMemory.Enabled = isEnabled;
+            // groupBoxInstance.Enabled = isEnabled;
+
             panelVersion.Enabled = isEnabled;
 
             if (isEnabled)
@@ -828,6 +840,108 @@ namespace LiliumLauncher
         {
             gb.isConcurrent = radConcurrent.Checked;
             gb.savingSession(false);
+        }
+        private void textStatus_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (textStatus == null || textStatus.Tag == null) return;
+
+            if (textStatus.Tag.ToString().ToUpper().Equals("FALSE"))
+            {
+                this.ActiveControl = null;
+            }
+        }
+
+        private void btnLaunch_Paint(object sender, PaintEventArgs e)
+        {
+            gb.ButtonDisabledPaint(sender, e, gb.lang.BTN_LAUNCH);
+        }
+
+        private void btnVersionSelector_Paint(object sender, PaintEventArgs e)
+        {
+            gb.ButtonDisabledPaint(sender, e, "+");
+        }
+
+        private void btnOpenFolder_Paint(object sender, PaintEventArgs e)
+        {
+            gb.ButtonDisabledPaint(sender, e, gb.lang.BTN_OPEN_FOLDER);
+        }
+
+        private void btnVerifyFile_Paint(object sender, PaintEventArgs e)
+        {
+            gb.ButtonDisabledPaint(sender, e, gb.lang.BTN_OPEN_VERIFY);
+        }
+
+        private void btnInstanceAdd_Paint(object sender, PaintEventArgs e)
+        {
+            gb.ButtonDisabledPaint(sender, e, gb.lang.BTN_ADD_INSTANCE);
+        }
+
+        private void btnInstanceEdit_Paint(object sender, PaintEventArgs e)
+        {
+            gb.ButtonDisabledPaint(sender, e, gb.lang.BTN_EDIT_INSTANCE);
+        }
+
+        private void btnInstanceDel_Paint(object sender, PaintEventArgs e)
+        {
+            gb.ButtonDisabledPaint(sender, e, gb.lang.BTN_REMOVE_INSTANCE);
+        }
+
+        private void btnChangeFolder_Paint(object sender, PaintEventArgs e)
+        {
+            gb.ButtonDisabledPaint(sender, e, "…");
+        }
+
+        private void btnSwitchAcc_Paint(object sender, PaintEventArgs e)
+        {
+            gb.ButtonDisabledPaint(sender, e, gb.lang.BTN_SWITCH_ACCOUNT);
+        }
+
+        private void btnMultiAcc_Paint(object sender, PaintEventArgs e)
+        {
+            gb.ButtonDisabledPaint(sender, e, gb.lang.BTN_MULTI_ACCOUNT);
+        }
+
+        private void btnLogout_Paint(object sender, PaintEventArgs e)
+        {
+            gb.ButtonDisabledPaint(sender, e, gb.lang.BTN_LOGOUT_ACCOUNT);
+        }
+
+        private void btnChkUpdate_Paint(object sender, PaintEventArgs e)
+        {
+            gb.ButtonDisabledPaint(sender, e, gb.lang.BTN_CHECK_UPDATE);
+        }
+
+        private void btnMainSetting_Paint(object sender, PaintEventArgs e)
+        {
+            gb.ButtonDisabledPaint(sender, e, gb.lang.BTN_SETTINGS);
+        }
+
+        private void buttonVerReload_Paint(object sender, PaintEventArgs e)
+        {
+            gb.ButtonDisabledPaint(sender, e, gb.lang.BTN_VER_INS_RELOAD);
+        }
+
+        private void btnVerRecache_Paint(object sender, PaintEventArgs e)
+        {
+            gb.ButtonDisabledPaint(sender, e, gb.lang.BTN_VER_INS_RECACHE);
+        }
+
+        private void checkBoxMaxMem_Paint(object sender, PaintEventArgs e)
+        {
+            base.OnPaint(e);
+            gb.CheckBoxDisabledPaint(this, sender, e, gb.lang.CHK_OPEN);
+        }
+
+        private void radConcurrent_Paint(object sender, PaintEventArgs e)
+        {
+            base.OnPaint(e);
+            gb.RadioBoxDisabledPaint(this, sender, e, gb.lang.RAD_CONCURRENCY);
+        }
+
+        private void radSingle_Paint(object sender, PaintEventArgs e)
+        {
+            base.OnPaint(e);
+            gb.RadioBoxDisabledPaint(this, sender, e, gb.lang.RAD_SINGLE);
         }
     }
 }

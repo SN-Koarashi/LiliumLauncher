@@ -45,8 +45,10 @@
             // minecraftMultuAccount
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
+            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.ClientSize = new System.Drawing.Size(314, 261);
             this.Controls.Add(this.panel);
+            this.ForeColor = System.Drawing.SystemColors.ControlLightLight;
             this.MaximizeBox = false;
             this.MaximumSize = new System.Drawing.Size(330, 1080);
             this.MinimizeBox = false;
