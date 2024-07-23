@@ -6,7 +6,7 @@
         /// Required designer variable.
         /// </summary>
         private System.ComponentModel.IContainer components = null;
-
+        
         /// <summary>
         /// Clean up any resources being used.
         /// </summary>
@@ -31,10 +31,6 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(minecraftForm));
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
-            this.btnVerifyFile = new System.Windows.Forms.Button();
-            this.btnOpenFolder = new System.Windows.Forms.Button();
-            this.btnVerRecache = new System.Windows.Forms.Button();
-            this.buttonVerReload = new System.Windows.Forms.Button();
             this.timerConcurrent = new System.Windows.Forms.Timer(this.components);
             this.tabControl1 = new LiliumLauncher.CustomComponent.FlatTabControl.FlatTabControl();
             this.mainPage = new System.Windows.Forms.TabPage();
@@ -54,6 +50,8 @@
             this.panelMainSettings = new System.Windows.Forms.Panel();
             this.groupBoxDataFolder = new System.Windows.Forms.GroupBox();
             this.panelSettingsLeft = new System.Windows.Forms.Panel();
+            this.btnVerifyFile = new System.Windows.Forms.Button();
+            this.btnOpenFolder = new System.Windows.Forms.Button();
             this.btnChangeFolder = new System.Windows.Forms.Button();
             this.textBoxAD = new System.Windows.Forms.TextBox();
             this.groupBoxInstance = new System.Windows.Forms.GroupBox();
@@ -77,6 +75,8 @@
             this.btnLogout = new System.Windows.Forms.Button();
             this.btnSwitchAcc = new System.Windows.Forms.Button();
             this.groupBoxVersionReload = new System.Windows.Forms.GroupBox();
+            this.btnVerRecache = new System.Windows.Forms.Button();
+            this.buttonVerReload = new System.Windows.Forms.Button();
             this.debugPage = new System.Windows.Forms.TabPage();
             this.textBox = new System.Windows.Forms.TextBox();
             this.updatePage = new System.Windows.Forms.TabPage();
@@ -103,70 +103,6 @@
             this.debugPage.SuspendLayout();
             this.updatePage.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // btnVerifyFile
-            // 
-            this.btnVerifyFile.FlatAppearance.BorderColor = System.Drawing.Color.White;
-            this.btnVerifyFile.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Black;
-            this.btnVerifyFile.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Black;
-            this.btnVerifyFile.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnVerifyFile.Location = new System.Drawing.Point(103, 3);
-            this.btnVerifyFile.Name = "btnVerifyFile";
-            this.btnVerifyFile.Size = new System.Drawing.Size(133, 30);
-            this.btnVerifyFile.TabIndex = 4;
-            this.btnVerifyFile.Text = "檢查資料完整性";
-            this.toolTip.SetToolTip(this.btnVerifyFile, "驗證所有資料的雜湊值，並且不啟動遊戲");
-            this.btnVerifyFile.UseVisualStyleBackColor = true;
-            this.btnVerifyFile.Click += new System.EventHandler(this.btnVerifyFile_Click);
-            this.btnVerifyFile.Paint += new System.Windows.Forms.PaintEventHandler(this.btnVerifyFile_Paint);
-            // 
-            // btnOpenFolder
-            // 
-            this.btnOpenFolder.FlatAppearance.BorderColor = System.Drawing.Color.White;
-            this.btnOpenFolder.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Black;
-            this.btnOpenFolder.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Black;
-            this.btnOpenFolder.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnOpenFolder.Location = new System.Drawing.Point(3, 3);
-            this.btnOpenFolder.Name = "btnOpenFolder";
-            this.btnOpenFolder.Size = new System.Drawing.Size(96, 30);
-            this.btnOpenFolder.TabIndex = 3;
-            this.btnOpenFolder.Text = "開啟資料夾";
-            this.toolTip.SetToolTip(this.btnOpenFolder, "開啟目前主程式所在的資料夾");
-            this.btnOpenFolder.UseVisualStyleBackColor = true;
-            this.btnOpenFolder.Click += new System.EventHandler(this.btnOpenFolder_Click);
-            this.btnOpenFolder.Paint += new System.Windows.Forms.PaintEventHandler(this.btnOpenFolder_Paint);
-            // 
-            // btnVerRecache
-            // 
-            this.btnVerRecache.FlatAppearance.BorderColor = System.Drawing.Color.White;
-            this.btnVerRecache.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Black;
-            this.btnVerRecache.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Black;
-            this.btnVerRecache.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnVerRecache.Location = new System.Drawing.Point(7, 56);
-            this.btnVerRecache.Name = "btnVerRecache";
-            this.btnVerRecache.Size = new System.Drawing.Size(147, 28);
-            this.btnVerRecache.TabIndex = 1;
-            this.btnVerRecache.Text = "重新快取";
-            this.toolTip.SetToolTip(this.btnVerRecache, "向 Mojang 重新快取版本列表及重新載入啟動實例列表");
-            this.btnVerRecache.UseVisualStyleBackColor = true;
-            this.btnVerRecache.Click += new System.EventHandler(this.btnVerRecache_Click);
-            this.btnVerRecache.Paint += new System.Windows.Forms.PaintEventHandler(this.btnVerRecache_Paint);
-            // 
-            // buttonVerReload
-            // 
-            this.buttonVerReload.FlatAppearance.BorderColor = System.Drawing.Color.White;
-            this.buttonVerReload.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Black;
-            this.buttonVerReload.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Black;
-            this.buttonVerReload.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.buttonVerReload.Location = new System.Drawing.Point(7, 21);
-            this.buttonVerReload.Name = "buttonVerReload";
-            this.buttonVerReload.Size = new System.Drawing.Size(147, 28);
-            this.buttonVerReload.TabIndex = 0;
-            this.buttonVerReload.Text = "重新整理";
-            this.toolTip.SetToolTip(this.buttonVerReload, "重新載入版本列表及啟動實例列表");
-            this.buttonVerReload.UseVisualStyleBackColor = true;
-            this.buttonVerReload.Click += new System.EventHandler(this.buttonVerReload_Click);
-            this.buttonVerReload.Paint += new System.Windows.Forms.PaintEventHandler(this.buttonVerReload_Paint);
             // 
             // timerConcurrent
             // 
@@ -380,14 +316,14 @@
             this.panelMainSettings.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelMainSettings.Location = new System.Drawing.Point(0, 0);
             this.panelMainSettings.Name = "panelMainSettings";
-            this.panelMainSettings.Size = new System.Drawing.Size(456, 291);
+            this.panelMainSettings.Size = new System.Drawing.Size(192, 70);
             this.panelMainSettings.TabIndex = 12;
             // 
             // groupBoxDataFolder
             // 
             this.groupBoxDataFolder.Controls.Add(this.panelSettingsLeft);
             this.groupBoxDataFolder.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.groupBoxDataFolder.Location = new System.Drawing.Point(3, 3);
+            this.groupBoxDataFolder.Location = new System.Drawing.Point(3, 6);
             this.groupBoxDataFolder.Name = "groupBoxDataFolder";
             this.groupBoxDataFolder.Size = new System.Drawing.Size(274, 88);
             this.groupBoxDataFolder.TabIndex = 0;
@@ -405,6 +341,38 @@
             this.panelSettingsLeft.Name = "panelSettingsLeft";
             this.panelSettingsLeft.Size = new System.Drawing.Size(268, 64);
             this.panelSettingsLeft.TabIndex = 0;
+            // 
+            // btnVerifyFile
+            // 
+            this.btnVerifyFile.FlatAppearance.BorderColor = System.Drawing.Color.White;
+            this.btnVerifyFile.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Black;
+            this.btnVerifyFile.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Black;
+            this.btnVerifyFile.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnVerifyFile.Location = new System.Drawing.Point(103, 3);
+            this.btnVerifyFile.Name = "btnVerifyFile";
+            this.btnVerifyFile.Size = new System.Drawing.Size(133, 30);
+            this.btnVerifyFile.TabIndex = 4;
+            this.btnVerifyFile.Text = "檢查資料完整性";
+            this.toolTip.SetToolTip(this.btnVerifyFile, "驗證所有資料的雜湊值，並且不啟動遊戲");
+            this.btnVerifyFile.UseVisualStyleBackColor = true;
+            this.btnVerifyFile.Click += new System.EventHandler(this.btnVerifyFile_Click);
+            this.btnVerifyFile.Paint += new System.Windows.Forms.PaintEventHandler(this.btnVerifyFile_Paint);
+            // 
+            // btnOpenFolder
+            // 
+            this.btnOpenFolder.FlatAppearance.BorderColor = System.Drawing.Color.White;
+            this.btnOpenFolder.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Black;
+            this.btnOpenFolder.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Black;
+            this.btnOpenFolder.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnOpenFolder.Location = new System.Drawing.Point(3, 3);
+            this.btnOpenFolder.Name = "btnOpenFolder";
+            this.btnOpenFolder.Size = new System.Drawing.Size(96, 30);
+            this.btnOpenFolder.TabIndex = 3;
+            this.btnOpenFolder.Text = "開啟資料夾";
+            this.toolTip.SetToolTip(this.btnOpenFolder, "開啟目前主程式所在的資料夾");
+            this.btnOpenFolder.UseVisualStyleBackColor = true;
+            this.btnOpenFolder.Click += new System.EventHandler(this.btnOpenFolder_Click);
+            this.btnOpenFolder.Paint += new System.Windows.Forms.PaintEventHandler(this.btnOpenFolder_Paint);
             // 
             // btnChangeFolder
             // 
@@ -442,7 +410,7 @@
             this.groupBoxInstance.Controls.Add(this.btnInstanceAdd);
             this.groupBoxInstance.Controls.Add(this.instanceList);
             this.groupBoxInstance.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.groupBoxInstance.Location = new System.Drawing.Point(283, 3);
+            this.groupBoxInstance.Location = new System.Drawing.Point(283, 6);
             this.groupBoxInstance.Name = "groupBoxInstance";
             this.groupBoxInstance.Size = new System.Drawing.Size(160, 88);
             this.groupBoxInstance.TabIndex = 1;
@@ -526,7 +494,7 @@
             this.groupBoxInterval.Controls.Add(this.radConcurrent);
             this.groupBoxInterval.Controls.Add(this.radSingle);
             this.groupBoxInterval.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.groupBoxInterval.Location = new System.Drawing.Point(3, 226);
+            this.groupBoxInterval.Location = new System.Drawing.Point(3, 229);
             this.groupBoxInterval.Name = "groupBoxInterval";
             this.groupBoxInterval.Size = new System.Drawing.Size(151, 53);
             this.groupBoxInterval.TabIndex = 3;
@@ -565,7 +533,7 @@
             this.groupBoxMemory.Controls.Add(this.trackBarMiB);
             this.groupBoxMemory.Controls.Add(this.textBoxMiB);
             this.groupBoxMemory.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.groupBoxMemory.Location = new System.Drawing.Point(160, 196);
+            this.groupBoxMemory.Location = new System.Drawing.Point(160, 199);
             this.groupBoxMemory.Name = "groupBoxMemory";
             this.groupBoxMemory.Size = new System.Drawing.Size(283, 83);
             this.groupBoxMemory.TabIndex = 11;
@@ -613,7 +581,7 @@
             this.groupBoxMainProg.Controls.Add(this.btnChkUpdate);
             this.groupBoxMainProg.Controls.Add(this.btnMainSetting);
             this.groupBoxMainProg.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.groupBoxMainProg.Location = new System.Drawing.Point(160, 97);
+            this.groupBoxMainProg.Location = new System.Drawing.Point(160, 100);
             this.groupBoxMainProg.Name = "groupBoxMainProg";
             this.groupBoxMainProg.Size = new System.Drawing.Size(117, 93);
             this.groupBoxMainProg.TabIndex = 6;
@@ -656,7 +624,7 @@
             this.groupBoxAccount.Controls.Add(this.btnLogout);
             this.groupBoxAccount.Controls.Add(this.btnSwitchAcc);
             this.groupBoxAccount.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.groupBoxAccount.Location = new System.Drawing.Point(3, 97);
+            this.groupBoxAccount.Location = new System.Drawing.Point(3, 100);
             this.groupBoxAccount.Name = "groupBoxAccount";
             this.groupBoxAccount.Size = new System.Drawing.Size(151, 125);
             this.groupBoxAccount.TabIndex = 7;
@@ -713,12 +681,44 @@
             this.groupBoxVersionReload.Controls.Add(this.btnVerRecache);
             this.groupBoxVersionReload.Controls.Add(this.buttonVerReload);
             this.groupBoxVersionReload.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.groupBoxVersionReload.Location = new System.Drawing.Point(283, 97);
+            this.groupBoxVersionReload.Location = new System.Drawing.Point(283, 100);
             this.groupBoxVersionReload.Name = "groupBoxVersionReload";
             this.groupBoxVersionReload.Size = new System.Drawing.Size(160, 93);
             this.groupBoxVersionReload.TabIndex = 9;
             this.groupBoxVersionReload.TabStop = false;
             this.groupBoxVersionReload.Text = "版本與實例列表";
+            // 
+            // btnVerRecache
+            // 
+            this.btnVerRecache.FlatAppearance.BorderColor = System.Drawing.Color.White;
+            this.btnVerRecache.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Black;
+            this.btnVerRecache.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Black;
+            this.btnVerRecache.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnVerRecache.Location = new System.Drawing.Point(7, 56);
+            this.btnVerRecache.Name = "btnVerRecache";
+            this.btnVerRecache.Size = new System.Drawing.Size(147, 28);
+            this.btnVerRecache.TabIndex = 1;
+            this.btnVerRecache.Text = "重新快取";
+            this.toolTip.SetToolTip(this.btnVerRecache, "向 Mojang 重新快取版本列表及重新載入啟動實例列表");
+            this.btnVerRecache.UseVisualStyleBackColor = true;
+            this.btnVerRecache.Click += new System.EventHandler(this.btnVerRecache_Click);
+            this.btnVerRecache.Paint += new System.Windows.Forms.PaintEventHandler(this.btnVerRecache_Paint);
+            // 
+            // buttonVerReload
+            // 
+            this.buttonVerReload.FlatAppearance.BorderColor = System.Drawing.Color.White;
+            this.buttonVerReload.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Black;
+            this.buttonVerReload.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Black;
+            this.buttonVerReload.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.buttonVerReload.Location = new System.Drawing.Point(7, 21);
+            this.buttonVerReload.Name = "buttonVerReload";
+            this.buttonVerReload.Size = new System.Drawing.Size(147, 28);
+            this.buttonVerReload.TabIndex = 0;
+            this.buttonVerReload.Text = "重新整理";
+            this.toolTip.SetToolTip(this.buttonVerReload, "重新載入版本列表及啟動實例列表");
+            this.buttonVerReload.UseVisualStyleBackColor = true;
+            this.buttonVerReload.Click += new System.EventHandler(this.buttonVerReload_Click);
+            this.buttonVerReload.Paint += new System.Windows.Forms.PaintEventHandler(this.buttonVerReload_Paint);
             // 
             // debugPage
             // 
@@ -743,7 +743,7 @@
             this.textBox.Name = "textBox";
             this.textBox.ReadOnly = true;
             this.textBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.textBox.Size = new System.Drawing.Size(450, 285);
+            this.textBox.Size = new System.Drawing.Size(186, 64);
             this.textBox.TabIndex = 0;
             // 
             // updatePage
@@ -765,7 +765,7 @@
             this.textBoxUpdateNote.Location = new System.Drawing.Point(3, 3);
             this.textBoxUpdateNote.Name = "textBoxUpdateNote";
             this.textBoxUpdateNote.ReadOnly = true;
-            this.textBoxUpdateNote.Size = new System.Drawing.Size(450, 285);
+            this.textBoxUpdateNote.Size = new System.Drawing.Size(186, 64);
             this.textBoxUpdateNote.TabIndex = 0;
             this.textBoxUpdateNote.Text = "";
             // 
@@ -818,6 +818,7 @@
             this.debugPage.PerformLayout();
             this.updatePage.ResumeLayout(false);
             this.ResumeLayout(false);
+
         }
 
         #endregion
