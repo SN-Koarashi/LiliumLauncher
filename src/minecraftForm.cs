@@ -1,4 +1,5 @@
 ﻿using Global;
+using LiliumLauncher.Tasks;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
@@ -10,11 +11,8 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using LiliumLauncher.Tasks;
 using static LiliumLauncher.ClassModel.globalModel;
 using static LiliumLauncher.ClassModel.launcherModel;
-using System.Drawing;
-using System.Windows.Forms.VisualStyles;
 
 namespace LiliumLauncher
 {
@@ -305,6 +303,13 @@ namespace LiliumLauncher
             DisableChildren(groupBoxVersionReload, isEnabled);
             DisableChildren(groupBoxMemory, isEnabled);
             DisableChildren(groupBoxInstance, isEnabled);
+
+            if (instanceList.SelectedIndex <= 0)
+            {
+                btnInstanceEdit.Enabled = false;
+                btnInstanceDel.Enabled = false;
+            }
+
             // groupBoxDataFolder.Enabled = isEnabled;
             // groupBoxMainProg.Enabled = isEnabled;
             // groupBoxAccount.Enabled = isEnabled;

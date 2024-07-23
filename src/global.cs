@@ -74,7 +74,7 @@ namespace Global
 
             btn.Text = String.Empty;
 
-            int offset = btn.Font.Height <= 15 && btn.Font.FontFamily.Name.ToLower() != "verdana" ? 2 : 0;
+            int offset = btn.Font.Height <= 15 && !btn.Font.FontFamily.Name.ToLower().Equals("verdana") && !btn.Font.FontFamily.Name.ToLower().Equals("arial") ? 2 : 0;
             //Console.WriteLine($"{btn.Font.FontFamily.Name} : {btn.Font.Height} / {offset}");
 
             Rectangle rectangle = e.ClipRectangle;

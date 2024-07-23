@@ -245,7 +245,7 @@
             this.textStatus.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.textStatus.Font = new System.Drawing.Font("Verdana", 10F);
             this.textStatus.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.textStatus.Location = new System.Drawing.Point(5, 12);
+            this.textStatus.Location = new System.Drawing.Point(5, 17);
             this.textStatus.Name = "textStatus";
             this.textStatus.ReadOnly = true;
             this.textStatus.Size = new System.Drawing.Size(340, 17);
@@ -262,7 +262,7 @@
             this.btnLaunch.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Black;
             this.btnLaunch.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnLaunch.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.btnLaunch.Location = new System.Drawing.Point(350, 5);
+            this.btnLaunch.Location = new System.Drawing.Point(350, 10);
             this.btnLaunch.Name = "btnLaunch";
             this.btnLaunch.Size = new System.Drawing.Size(96, 31);
             this.btnLaunch.TabIndex = 4;
@@ -274,11 +274,11 @@
             // progressBar
             // 
             this.progressBar.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.progressBar.Location = new System.Drawing.Point(0, 40);
+            this.progressBar.Location = new System.Drawing.Point(0, 47);
             this.progressBar.Margin = new System.Windows.Forms.Padding(15);
             this.progressBar.MarqueeAnimationSpeed = 5;
             this.progressBar.Name = "progressBar";
-            this.progressBar.Size = new System.Drawing.Size(450, 19);
+            this.progressBar.Size = new System.Drawing.Size(450, 12);
             this.progressBar.TabIndex = 2;
             // 
             // panelHeader
@@ -780,7 +780,7 @@
             this.ForeColor = System.Drawing.SystemColors.ControlLightLight;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
-            this.MaximumSize = new System.Drawing.Size(1280, 720);
+            this.MaximumSize = new System.Drawing.Size(480, 360);
             this.MinimumSize = new System.Drawing.Size(480, 360);
             this.Name = "minecraftForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
@@ -818,10 +818,10 @@
             this.debugPage.PerformLayout();
             this.updatePage.ResumeLayout(false);
             this.ResumeLayout(false);
-
         }
 
         #endregion
+
         private System.Windows.Forms.TabPage debugPage;
         private System.Windows.Forms.TextBox textBox;
         private System.Windows.Forms.ProgressBar progressBar;

@@ -1,14 +1,12 @@
 ﻿using Global;
+using LiliumLauncher.Properties;
+using LiliumLauncher.Tasks;
 using Microsoft.VisualBasic.Devices;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using System.Windows.Forms;
-using LiliumLauncher.Properties;
-using LiliumLauncher.Tasks;
-using System.Drawing;
-using System.Linq;
 
 namespace LiliumLauncher
 {
@@ -292,7 +290,8 @@ namespace LiliumLauncher
         {
             foreach (Control child in control.Controls)
             {
-                if (child.GetType() != typeof(Label) && child.GetType() != typeof(GroupBox)) {
+                if (child.GetType() != typeof(Label) && child.GetType() != typeof(GroupBox))
+                {
                     if (child.HasChildren)
                     {
                         DisableChildren(child, isEnabled);

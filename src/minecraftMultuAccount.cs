@@ -42,7 +42,7 @@ namespace LiliumLauncher
                 username.Width = 130;
                 username.BorderStyle = BorderStyle.None;
                 username.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-                username.BackColor = Color.FromArgb(64,64,64);
+                username.BackColor = Color.FromArgb(64, 64, 64);
                 toolTip.SetToolTip(username, item.Key);
 
                 Button btnSwitch = new Button();

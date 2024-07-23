@@ -1,9 +1,9 @@
 ﻿using Global;
+using LiliumLauncher.Tasks;
 using Microsoft.WindowsAPICodePack.Taskbar;
 using Newtonsoft.Json;
 using System;
 using System.Windows.Forms;
-using LiliumLauncher.Tasks;
 using static LiliumLauncher.ClassModel.globalModel;
 
 namespace LiliumLauncher
