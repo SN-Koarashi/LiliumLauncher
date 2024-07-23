@@ -16,6 +16,7 @@ namespace LiliumLauncher.CustomComponent.FlatTabControl
 {
 	/// <summary>
 	/// Summary description for FlatTabControl.
+	/// https://www.codeproject.com/Articles/12185/A-NET-Flat-TabControl-CustomDraw
 	/// </summary>
 	[ToolboxBitmap(typeof(System.Windows.Forms.TabControl))] //,
 		//Designer(typeof(Designers.FlatTabControlDesigner))]
