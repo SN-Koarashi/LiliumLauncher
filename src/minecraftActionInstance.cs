@@ -239,5 +239,10 @@ namespace LiliumLauncher
 
             form.Dispose();
         }
+
+        private void btnVersionSelector_Paint(object sender, PaintEventArgs e)
+        {
+            gb.ButtonDisabledPaint(sender, e, "+");
+        }
     }
 }

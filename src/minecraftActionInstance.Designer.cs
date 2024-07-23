@@ -79,6 +79,7 @@
             this.btnVersionSelector.Text = "+";
             this.btnVersionSelector.UseVisualStyleBackColor = true;
             this.btnVersionSelector.Click += new System.EventHandler(this.btnVersionSelector_Click);
+            this.btnVersionSelector.Paint += new System.Windows.Forms.PaintEventHandler(this.btnVersionSelector_Paint);
             // 
             // textBoxNowVersion
             // 
