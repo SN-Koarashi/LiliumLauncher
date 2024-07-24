@@ -245,6 +245,7 @@ namespace LiliumLauncher
             isClosed = true;
 
             if (directStart) webView.Dispose();
+            if (logger != null) logger.Dispose();
         }
 
         private void minecraftForm_Resize(object sender, EventArgs e)
@@ -898,7 +899,7 @@ namespace LiliumLauncher
 
         private void btnSwitchAcc_Paint(object sender, PaintEventArgs e)
         {
-            gb.ButtonDisabledPaint(sender, e, gb.lang.BTN_SWITCH_ACCOUNT);
+            gb.ButtonDisabledPaint(sender, e, gb.lang.BTN_ADD_ACCOUNT);
         }
 
         private void btnMultiAcc_Paint(object sender, PaintEventArgs e)

@@ -48,7 +48,6 @@ namespace LiliumLauncher
                         this.DialogResult = result;
                     }
 
-
                     ma.Dispose();
                 };
             }

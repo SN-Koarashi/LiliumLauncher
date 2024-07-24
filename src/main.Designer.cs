@@ -202,28 +202,28 @@
             // dataMenu
             // 
             this.dataMenu.Name = "dataMenu";
-            this.dataMenu.Size = new System.Drawing.Size(167, 22);
+            this.dataMenu.Size = new System.Drawing.Size(180, 22);
             this.dataMenu.Text = "公共資料庫";
             this.dataMenu.Click += new System.EventHandler(this.dataMenu_Click);
             // 
             // forumMenu
             // 
             this.forumMenu.Name = "forumMenu";
-            this.forumMenu.Size = new System.Drawing.Size(167, 22);
+            this.forumMenu.Size = new System.Drawing.Size(180, 22);
             this.forumMenu.Text = "討論板";
             this.forumMenu.Click += new System.EventHandler(this.forumMenu_Click_1);
             // 
             // accMenu
             // 
             this.accMenu.Name = "accMenu";
-            this.accMenu.Size = new System.Drawing.Size(167, 22);
+            this.accMenu.Size = new System.Drawing.Size(180, 22);
             this.accMenu.Text = "會員中心";
             this.accMenu.Click += new System.EventHandler(this.accMenu_Click);
             // 
             // minecraftLaunchMenu
             // 
             this.minecraftLaunchMenu.Name = "minecraftLaunchMenu";
-            this.minecraftLaunchMenu.Size = new System.Drawing.Size(167, 22);
+            this.minecraftLaunchMenu.Size = new System.Drawing.Size(180, 22);
             this.minecraftLaunchMenu.Text = "Minecraft 啟動器";
             this.minecraftLaunchMenu.Click += new System.EventHandler(this.minecraftMenu_Click);
             // 
@@ -245,9 +245,11 @@
             // webView
             // 
             this.webView.AllowExternalDrop = true;
+            this.webView.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.webView.CreationProperties = null;
-            this.webView.DefaultBackgroundColor = System.Drawing.Color.White;
+            this.webView.DefaultBackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.webView.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.webView.ForeColor = System.Drawing.SystemColors.ControlLightLight;
             this.webView.Location = new System.Drawing.Point(0, 24);
             this.webView.Name = "webView";
             this.webView.Size = new System.Drawing.Size(1008, 705);
@@ -259,9 +261,11 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.ClientSize = new System.Drawing.Size(1008, 729);
             this.Controls.Add(this.webView);
             this.Controls.Add(this.menuStrip1);
+            this.ForeColor = System.Drawing.SystemColors.ControlText;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip1;
             this.MinimumSize = new System.Drawing.Size(720, 580);

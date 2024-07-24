@@ -210,7 +210,14 @@ namespace LiliumLauncher
 
         private void googleToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            webView.Source = new Uri("https://www.google.com/");
+            if (webView.IsDisposed)
+            {
+                MessageBox.Show("使用 -noWebview 參數啟動時不會載入主 WebView 框架", "警告", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+            else
+            {
+                webView.Source = new Uri("https://www.google.com/");
+            }
         }
 
         private void nonDisplay_Click(object sender, EventArgs e)
@@ -242,7 +249,13 @@ namespace LiliumLauncher
             {
 
                 if (mf == null || mf.IsDisposed)
+                {
                     mf = new minecraftForm();
+                    mf.FormClosed += (senderx, ex) =>
+                    {
+                        
+                    };
+                }
 
                 mf.Show();
                 mf.Activate();
@@ -286,25 +299,39 @@ namespace LiliumLauncher
 
         private void loadingPageMenu_Click(object sender, EventArgs e)
         {
-            var result = Microsoft.VisualBasic.Interaction.InputBox("輸入網址...", "載入網頁到主框架");
-            if (result.Length > 0)
+            if (webView.IsDisposed)
             {
-                try
+                MessageBox.Show("使用 -noWebview 參數啟動時不會載入主 WebView 框架", "警告", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+            else
+            {
+                var result = Microsoft.VisualBasic.Interaction.InputBox("輸入網址...", "載入網頁到主框架");
+                if (result.Length > 0)
                 {
-                    Uri url = new Uri(result);
-                    webView.Source = url;
-                }
-                catch (UriFormatException ufe)
-                {
-                    Console.WriteLine(ufe.Message);
-                    MessageBox.Show(ufe.Message, "錯誤", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    try
+                    {
+                        Uri url = new Uri(result);
+                        webView.Source = url;
+                    }
+                    catch (UriFormatException ufe)
+                    {
+                        Console.WriteLine(ufe.Message);
+                        MessageBox.Show(ufe.Message, "錯誤", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
                 }
             }
         }
 
         private void bahamutMenu_Click(object sender, EventArgs e)
         {
-            webView.Source = new Uri("https://www.gamer.com.tw/");
+            if (webView.IsDisposed)
+            {
+                MessageBox.Show("使用 -noWebview 參數啟動時不會載入主 WebView 框架", "警告", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+            else
+            {
+                webView.Source = new Uri("https://www.gamer.com.tw/");
+            }
         }
     }
 }
