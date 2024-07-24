@@ -91,6 +91,10 @@ namespace LiliumLauncher
 
                         this.DialogResult = DialogResult.Abort;
                     };
+                    btnSwitch.Paint += (senderx, ex) =>
+                    {
+                        gb.ButtonDisabledPaint(senderx, ex, gb.lang.BTN_RELOAD);
+                    };
 
                     toolTip.SetToolTip(btnSwitch, gb.lang.TOOLTIP_REFRESH_ACCESS_TOKEN);
                 }
@@ -106,6 +110,11 @@ namespace LiliumLauncher
 
                         this.DialogResult = DialogResult.OK;
                     };
+                    btnSwitch.Paint += (senderx, ex) =>
+                    {
+                        gb.ButtonDisabledPaint(senderx, ex, gb.lang.BTN_SWITCH);
+                    };
+
                     btnDel.Click += (senderx, ex) =>
                     {
                         var reuslt = MessageBox.Show(gb.lang.DIALOG_DELETE_ACCOUNT_CONFIRM, gb.lang.DIALOG_ERROR, MessageBoxButtons.YesNo, MessageBoxIcon.Question);
@@ -121,10 +130,6 @@ namespace LiliumLauncher
                     toolTip.SetToolTip(btnDel, gb.lang.TOOLTIP_DELETE_ACCOUNT);
                 }
 
-                btnSwitch.Paint += (senderx, ex) =>
-                {
-                    gb.ButtonDisabledPaint(senderx, ex, gb.lang.BTN_SWITCH);
-                };
                 btnDel.Paint += (senderx, ex) =>
                 {
                     gb.ButtonDisabledPaint(senderx, ex, gb.lang.BTN_DELETE);
