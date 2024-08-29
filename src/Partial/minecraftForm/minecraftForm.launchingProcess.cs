@@ -904,8 +904,18 @@ namespace LiliumLauncher
 
                 if (!checkFile)
                 {
-                    if (File.Exists(INSTALLED_PATH)) continue;
-                    if (customVer != null) continue;
+                    if (
+                        r.Key.StartsWith("minecraft/lang/") && r.Key.EndsWith(".json") ||
+                        r.Key.Contains("pack.mcmeta")
+                        )
+                    {
+                        // PASSED
+                    }
+                    else
+                    {
+                        if (File.Exists(INSTALLED_PATH)) continue;
+                        if (customVer != null) continue;
+                    }
                 }
 
                 index++;
