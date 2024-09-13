@@ -73,7 +73,23 @@ namespace LiliumLauncher
                 }
             }
 
-            this.Text = this.Text + " v" + Assembly.GetExecutingAssembly().GetName().Version.ToString();
+            setLauncherTitle();
+        }
+
+        private void setLauncherTitle()
+        {
+            gb.launcherTitle.projectName = "Lilium Launcher";
+            gb.launcherTitle.minecraftName = gb.startupParms.username;
+            gb.launcherTitle.version = "v" + Assembly.GetExecutingAssembly().GetName().Version.ToString();
+
+            string formatMinecraftName = String.Empty;
+
+            if(gb.launcherTitle.minecraftName != null && gb.launcherTitle.minecraftName.Length > 0)
+            {
+                formatMinecraftName = $" • {gb.launcherTitle.minecraftName}";
+            }
+
+            this.Text = $"{gb.launcherTitle.projectName} {gb.launcherTitle.version}{formatMinecraftName}";
         }
 
         private void initializeMain(string[] args)

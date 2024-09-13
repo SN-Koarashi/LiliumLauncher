@@ -67,5 +67,12 @@ namespace LiliumLauncher.ClassModel
             public string jvmParms { get; set; }
             public string javaPath { get; set; }
         }
+
+        public class LauncherTitleModel
+        {
+            public string projectName { get; set; }
+            public string minecraftName { get; set; }
+            public string version { get; set; }
+        }
     }
 }

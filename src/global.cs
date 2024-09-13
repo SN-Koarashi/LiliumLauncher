@@ -56,6 +56,7 @@ namespace Global
         public static Dictionary<string, InstanceModel> allInstance = new Dictionary<string, InstanceModel>();
         public static startupParmsModel startupParms = new startupParmsModel();
         public static InstanceModel currentInstance = new InstanceModel();
+        public static LauncherTitleModel launcherTitle = new LauncherTitleModel();
         public static List<VersionListModel> versionListModels = new List<VersionListModel>();
         public static List<string> versionNameList = new List<string>();
         public static List<string> versionNameInstalledList = new List<string>();

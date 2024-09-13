@@ -263,6 +263,7 @@ namespace LiliumLauncher
             TaskbarManager.Instance.SetProgressState(TaskbarProgressBarState.NoProgress, Handle);
 
             updateTrayAvatar();
+            setLauncherTitle();
 
             if (!gb.firstStart)
                 gb.checkForUpdate(false);
