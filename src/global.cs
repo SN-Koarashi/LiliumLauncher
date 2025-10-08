@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using LiliumLauncher;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -222,9 +223,7 @@ namespace Global
                 try
                 {
                     var jsonData = JsonConvert.SerializeObject(content);
-                    byte[] Key = Encoding.ASCII.GetBytes(SHA256(getWMIC("csproduct get UUID")).Substring(0, 32));
-                    byte[] IV = Encoding.ASCII.GetBytes(SHA256(getWMIC("baseboard get serialnumber")).Substring(32, 16));
-                    byte[] encrypted = EncryptToAES(jsonData, Key, IV);
+                    byte[] encrypted = DpapiHelper.EncryptStringToBytes(jsonData,DataProtectionScope.CurrentUser,DpapiHelper.GetMachineGuid());
 
                     File.WriteAllBytes($"settings{Path.DirectorySeparatorChar}launcher_settings.bin", encrypted);
                     Console.WriteLine("儲存工作階段資料: Done");
@@ -248,9 +247,7 @@ namespace Global
                 try
                 {
                     byte[] byteData = File.ReadAllBytes(path);
-                    byte[] Key = Encoding.ASCII.GetBytes(SHA256(getWMIC("csproduct get UUID")).Substring(0, 32));
-                    byte[] IV = Encoding.ASCII.GetBytes(SHA256(getWMIC("baseboard get serialnumber")).Substring(32, 16));
-                    string decrypted = DecryptFromAES(byteData, Key, IV);
+                    string decrypted = DpapiHelper.DecryptBytesToString(byteData,DataProtectionScope.CurrentUser,DpapiHelper.GetMachineGuid());
 
                     var result = JsonConvert.DeserializeObject<SessionModel>(decrypted);
 
