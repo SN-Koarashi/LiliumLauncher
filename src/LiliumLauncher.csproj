@@ -310,6 +310,12 @@
     <Compile Include="loginMicrosoftForm.Designer.cs">
       <DependentUpon>loginMicrosoftForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="loginWaitingForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="loginWaitingForm.Designer.cs">
+      <DependentUpon>loginWaitingForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="main.cs">
       <SubType>Form</SubType>
     </Compile>

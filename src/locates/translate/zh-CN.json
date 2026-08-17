@@ -199,6 +199,7 @@
   "DIALOG_NO_WEBVIEW2": "找不到 WebView2 核心框架，因此无法通过 Microsoft OAuth 登入您的账户",
   "DIALOG_BROWSER_CONFIRM": "是否以浏览器进行登录验证？",
   "DIALOG_LOGIN_FAILED": "登录失败: ",
+  "LAB_WAITING_BROWSER_LOGIN": "正在等待浏览器完成登录，请于浏览器中完成后回到此处。\n若要中止登录，请按「取消」。",
   "DIALOG_TRAY_MAIN": "Minecraft Launcher\n轻量化的解决方案",
   "TRAY_CLOSE_GAME": "关闭游戏",
   "TRAY_CLOSE_LAUNCHER": "关闭程式",
