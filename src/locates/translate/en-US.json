@@ -203,5 +203,6 @@
   "TRAY_CLOSE_GAME": "Close Game",
   "TRAY_CLOSE_LAUNCHER": "Close Launcher",
   "HTML_OAUTH_COMPLETE": "The session has ended. Please close this window and return to the application.",
-  "CHK_SAVE_LOG": "Saving Launcher Runtime Log"
+  "CHK_SAVE_LOG": "Saving Launcher Runtime Log",
+  "CHK_BROWSER_PRIVATE_MODE": "Launch the Native Browser in Privacy Mode"
 }

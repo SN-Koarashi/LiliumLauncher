@@ -87,9 +87,10 @@ namespace LiliumLauncher.Tasks
         }
         public static ProcessStartInfo BrowserStartInfo(BrowserInfoModel bim, string profile)
         {
+            string inPrivateString = $"--inprivate --private --incognito --new-window {profile}";
             ProcessStartInfo startInfo = new ProcessStartInfo();
             startInfo.FileName = bim.path;
-            startInfo.Arguments = $"--inprivate --private --incognito --new-window {profile} {gb.getMicrosoftOAuthURL()}";
+            startInfo.Arguments = $"{(gb.isBrowserPrivateMode ? inPrivateString : "--new-window")} {gb.getMicrosoftOAuthURL()}";
             startInfo.UseShellExecute = false;
             startInfo.CreateNoWindow = true;
 
@@ -104,7 +105,12 @@ namespace LiliumLauncher.Tasks
                 client.DownloadString("http://localhost:5026/?type=cancel&error=BrowserClosed");
             }
             Task.Delay(500).Wait();
-            Directory.Delete(Path.GetFullPath(path + "/Default/Network"), true);
+
+            string deletePath = Path.GetFullPath(path + "/Default/Network");
+            if (Directory.Exists(deletePath))
+            {
+                Directory.Delete(deletePath, true);
+            }
         }
         public static BrowserInfoModel DeterminePath()
         {

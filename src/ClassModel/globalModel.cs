@@ -60,6 +60,8 @@ namespace LiliumLauncher.ClassModel
             public string mainURL { get; set; }
             public string launcherURL { get; set; }
             public string langCode { get; set; }
+            public bool isBrowserPrivateMode { get; set; }
+
         }
         public class InstanceModel
         {

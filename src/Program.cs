@@ -37,6 +37,7 @@ namespace LiliumLauncher
                     gb.isCheckUpdate = (bool)(pm.checkForUpdates != null ? pm.checkForUpdates : true);
                     gb.langCode = (pm.langCode != null) ? pm.langCode : ci.Name;
                     gb.isSaveLogFile = pm.isSaveLogFile;
+                    gb.isBrowserPrivateMode = pm.isBrowserPrivateMode;
                 }
                 else
                 {
@@ -49,6 +50,7 @@ namespace LiliumLauncher
                     pm.checkForUpdates = true;
                     pm.langCode = ci.Name;
                     pm.isSaveLogFile = false;
+                    pm.isBrowserPrivateMode = true;
                     gb.langCode = ci.Name;
 
                     var data = JsonConvert.SerializeObject(pm);

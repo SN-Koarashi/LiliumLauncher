@@ -211,6 +211,7 @@ namespace LiliumLauncher.ClassModel
             public string TRAY_CLOSE_GAME { get; set; }
             public string TRAY_CLOSE_LAUNCHER { get; set; }
             public string HTML_OAUTH_COMPLETE { get; set; }
+            public string CHK_BROWSER_PRIVATE_MODE { get; set; }
         }
         public class manifestListModel
         {
