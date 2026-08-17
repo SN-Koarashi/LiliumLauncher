@@ -30,6 +30,7 @@ namespace LiliumLauncher
                 chkUpdates.Checked = (bool)(pm.checkForUpdates != null ? pm.checkForUpdates : true);
                 chkSaveLog.Checked = pm.isSaveLogFile;
                 temp_login_method = pm.loginMethod;
+                isBrowserPrivateMode.Checked = pm.isBrowserPrivateMode;
 
                 if (pm.loginMethod != null)
                 {
@@ -110,11 +111,13 @@ namespace LiliumLauncher
                 pm.mainURL = (textBox1.Text != String.Empty) ? textBox1.Text : "https://www.snkms.com/chat/webchat2/";
                 pm.launcherURL = (textBox2.Text != String.Empty) ? textBox2.Text : "https://www.snkms.com/minecraftNews.html";
                 pm.langCode = langText;
+                pm.isBrowserPrivateMode = isBrowserPrivateMode.Checked;
 
                 gb.mainHomepage = new Uri(pm.mainURL);
                 gb.launcherHomepage = new Uri(pm.launcherURL);
                 gb.loginMethod = temp_login_method;
                 gb.isSaveLogFile = chkSaveLog.Checked;
+                gb.isBrowserPrivateMode = isBrowserPrivateMode.Checked;
 
                 Directory.CreateDirectory("settings");
                 File.WriteAllText($"settings{Path.DirectorySeparatorChar}programs_settings.json", JsonConvert.SerializeObject(pm));
@@ -173,6 +176,7 @@ namespace LiliumLauncher
             radLauncherBrowser.Text = gb.lang.RAD_METHOD_BROWSER;
             btnApply.Text = gb.lang.BTN_APPLY;
             btnOK.Text = gb.lang.BTN_OK;
+            isBrowserPrivateMode.Text = gb.lang.CHK_BROWSER_PRIVATE_MODE;
         }
         private void settingForm_Load(object sender, EventArgs e)
         {
@@ -264,6 +268,12 @@ namespace LiliumLauncher
         private void btnApply_Paint(object sender, PaintEventArgs e)
         {
             gb.ButtonDisabledPaint(sender, e, gb.lang.BTN_APPLY);
+        }
+
+        private void isBrowserPrivateMode_CheckedChanged(object sender, EventArgs e)
+        {
+            btnApply.Enabled = true;
+            btnOK.Enabled = true;
         }
     }
 }

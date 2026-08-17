@@ -48,6 +48,7 @@
             this.panel1 = new System.Windows.Forms.Panel();
             this.label3 = new System.Windows.Forms.Label();
             this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.isBrowserPrivateMode = new System.Windows.Forms.CheckBox();
             this.groupBoxStaarupParms.SuspendLayout();
             this.groupBoxWebview2Default.SuspendLayout();
             this.groupBoxLauncherMethod.SuspendLayout();
@@ -205,13 +206,14 @@
             // 
             // groupBoxLauncherMethod
             // 
+            this.groupBoxLauncherMethod.Controls.Add(this.isBrowserPrivateMode);
             this.groupBoxLauncherMethod.Controls.Add(this.radLauncherBrowser);
             this.groupBoxLauncherMethod.Controls.Add(this.radLauncherWebView);
             this.groupBoxLauncherMethod.Controls.Add(this.radLauncherDef);
             this.groupBoxLauncherMethod.ForeColor = System.Drawing.SystemColors.ControlLightLight;
             this.groupBoxLauncherMethod.Location = new System.Drawing.Point(277, 100);
             this.groupBoxLauncherMethod.Name = "groupBoxLauncherMethod";
-            this.groupBoxLauncherMethod.Size = new System.Drawing.Size(209, 103);
+            this.groupBoxLauncherMethod.Size = new System.Drawing.Size(209, 115);
             this.groupBoxLauncherMethod.TabIndex = 4;
             this.groupBoxLauncherMethod.TabStop = false;
             this.groupBoxLauncherMethod.Text = "啟動器登入方式";
@@ -219,7 +221,7 @@
             // radLauncherBrowser
             // 
             this.radLauncherBrowser.AutoSize = true;
-            this.radLauncherBrowser.Location = new System.Drawing.Point(10, 74);
+            this.radLauncherBrowser.Location = new System.Drawing.Point(10, 62);
             this.radLauncherBrowser.Name = "radLauncherBrowser";
             this.radLauncherBrowser.Size = new System.Drawing.Size(143, 16);
             this.radLauncherBrowser.TabIndex = 5;
@@ -231,7 +233,7 @@
             // radLauncherWebView
             // 
             this.radLauncherWebView.AutoSize = true;
-            this.radLauncherWebView.Location = new System.Drawing.Point(10, 48);
+            this.radLauncherWebView.Location = new System.Drawing.Point(10, 41);
             this.radLauncherWebView.Name = "radLauncherWebView";
             this.radLauncherWebView.Size = new System.Drawing.Size(165, 16);
             this.radLauncherWebView.TabIndex = 1;
@@ -277,6 +279,7 @@
             // 
             this.label3.Dock = System.Windows.Forms.DockStyle.Fill;
             this.label3.Location = new System.Drawing.Point(0, 0);
+            this.label3.Margin = new System.Windows.Forms.Padding(0);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(190, 32);
             this.label3.TabIndex = 1;
@@ -290,11 +293,24 @@
             this.comboBox1.ForeColor = System.Drawing.SystemColors.ControlLightLight;
             this.comboBox1.FormattingEnabled = true;
             this.comboBox1.ItemHeight = 12;
-            this.comboBox1.Location = new System.Drawing.Point(6, 57);
+            this.comboBox1.Location = new System.Drawing.Point(6, 52);
             this.comboBox1.Name = "comboBox1";
             this.comboBox1.Size = new System.Drawing.Size(193, 20);
             this.comboBox1.TabIndex = 0;
             this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
+            // 
+            // isBrowserPrivateMode
+            // 
+            this.isBrowserPrivateMode.AutoSize = true;
+            this.isBrowserPrivateMode.Checked = true;
+            this.isBrowserPrivateMode.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.isBrowserPrivateMode.Location = new System.Drawing.Point(11, 84);
+            this.isBrowserPrivateMode.Name = "isBrowserPrivateMode";
+            this.isBrowserPrivateMode.Size = new System.Drawing.Size(168, 16);
+            this.isBrowserPrivateMode.TabIndex = 6;
+            this.isBrowserPrivateMode.Text = "原生瀏覽器以隱私模式啟動";
+            this.isBrowserPrivateMode.UseVisualStyleBackColor = true;
+            this.isBrowserPrivateMode.CheckedChanged += new System.EventHandler(this.isBrowserPrivateMode_CheckedChanged);
             // 
             // settingForm
             // 
@@ -354,5 +370,6 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.CheckBox chkSaveLog;
+        private System.Windows.Forms.CheckBox isBrowserPrivateMode;
     }
 }

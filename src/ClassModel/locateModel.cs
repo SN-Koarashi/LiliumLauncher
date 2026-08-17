@@ -165,6 +165,7 @@ namespace LiliumLauncher.ClassModel
             public string DIALOG_KILL_CHILD_PROCESS_CONFIRM { get; set; }
             public string LOGGER_GAME_CLOSED { get; set; }
             public string LOGGER_GAME_FORCING_CLOSED { get; set; }
+            public string LOGGER_CLEAN_NATIVES_FAILED { get; set; }
             public string DIALOG_CLOSING_LAUNCHER_CONFIRM { get; set; }
             public string DIALOG_JVM_ERROR { get; set; }
             public string LOGGER_VERIFYING_AZURE { get; set; }
@@ -206,10 +207,12 @@ namespace LiliumLauncher.ClassModel
             public string DIALOG_NO_WEBVIEW2 { get; set; }
             public string DIALOG_BROWSER_CONFIRM { get; set; }
             public string DIALOG_LOGIN_FAILED { get; set; }
+            public string LAB_WAITING_BROWSER_LOGIN { get; set; }
             public string DIALOG_TRAY_MAIN { get; set; }
             public string TRAY_CLOSE_GAME { get; set; }
             public string TRAY_CLOSE_LAUNCHER { get; set; }
             public string HTML_OAUTH_COMPLETE { get; set; }
+            public string CHK_BROWSER_PRIVATE_MODE { get; set; }
         }
         public class manifestListModel
         {

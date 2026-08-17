@@ -56,6 +56,7 @@ namespace LiliumLauncher
         private async void btnLogin_ClickAsync(object sender, EventArgs e)
         {
             Process proc = null;
+            loginWaitingForm lwf = null;
             tableLayoutPanel1.Enabled = false;
             loginMicrosoftForm lmf = new loginMicrosoftForm();
             var resultDialog = lmf.ShowDialog();
@@ -79,10 +80,11 @@ namespace LiliumLauncher
                             proc.EnableRaisingEvents = true;
                             proc.Start();
 
-                            proc.Exited += (bSender, ve) =>
-                            {
-                                Tasks.loginChallengeTask.BrowserClosed(profilePath);
-                            };
+                            Tasks.loginChallengeTask.WatchBrowserClosed(proc, profilePath, null);
+
+                            // 非隱私模式無法自動判斷瀏覽器關閉，改以視窗提供取消操作
+                            if (!Tasks.loginChallengeTask.CanDetectBrowserClosed())
+                                lwf = new loginWaitingForm(profilePath);
                         }
                         catch (Exception exx)
                         {
@@ -98,13 +100,25 @@ namespace LiliumLauncher
                 }
 
                 Tasks.loginChallengeTask challenge = new Tasks.loginChallengeTask();
-                var result = await challenge.start();
+                var challengeTask = challenge.start();
+
+                // 等待登入期間顯示取消視窗，登入結束(或取消)後自動關閉
+                if (lwf != null)
+                {
+                    var waitingForm = lwf;
+                    challengeTask.ContinueWith(t => waitingForm.CompleteLogin(),
+                        System.Threading.Tasks.TaskScheduler.FromCurrentSynchronizationContext());
+                    waitingForm.ShowDialog(this);
+                }
+
+                var result = await challengeTask;
                 gb.firstStart = false;
 
                 this.DialogResult = result;
             }
 
             lmf.Dispose();
+            lwf?.Dispose();
             tableLayoutPanel1.Enabled = true;
         }
 

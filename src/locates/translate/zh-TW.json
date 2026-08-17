@@ -157,6 +157,7 @@
   "DIALOG_KILL_CHILD_PROCESS_CONFIRM": "將遊戲立即強制結束，確定要繼續？",
   "LOGGER_GAME_CLOSED": "關閉遊戲",
   "LOGGER_GAME_FORCING_CLOSED": "偵測到程式未完全關閉，已強制結束處理程序",
+  "LOGGER_CLEAN_NATIVES_FAILED": "無法清除本次啟動的暫存函數庫，將於下次啟動時重試",
   "DIALOG_CLOSING_LAUNCHER_CONFIRM": "關閉啟動器會導致遊戲結束時不會自動清除暫存檔案，您確定要關閉嗎？",
   "DIALOG_JVM_ERROR": "JVM 啟動過程發生錯誤",
   "LOGGER_VERIFYING_AZURE": "正在取得 Azure 驗證",
@@ -198,9 +199,11 @@
   "DIALOG_NO_WEBVIEW2": "找不到 WebView2 核心框架，因此無法透過 Microsoft OAuth 登入您的帳戶",
   "DIALOG_BROWSER_CONFIRM": "是否以瀏覽器進行登入驗證？",
   "DIALOG_LOGIN_FAILED": "登入失敗: ",
+  "LAB_WAITING_BROWSER_LOGIN": "正在等待瀏覽器完成登入，請於瀏覽器中完成後回到此處。\n若要中止登入，請按「取消」。",
   "DIALOG_TRAY_MAIN": "Minecraft Launcher\n您輕量化的解決方案",
   "TRAY_CLOSE_GAME": "關閉遊戲",
   "TRAY_CLOSE_LAUNCHER": "關閉程式",
   "HTML_OAUTH_COMPLETE": "工作階段已結束，請關閉此視窗並回到應用程式。",
-  "CHK_SAVE_LOG": "儲存啟動器執行日誌"
+  "CHK_SAVE_LOG": "儲存啟動器執行日誌",
+  "CHK_BROWSER_PRIVATE_MODE": "原生瀏覽器以隱私模式啟動"
 }

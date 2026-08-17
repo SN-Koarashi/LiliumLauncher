@@ -87,14 +87,55 @@ namespace LiliumLauncher.Tasks
         }
         public static ProcessStartInfo BrowserStartInfo(BrowserInfoModel bim, string profile)
         {
+            string inPrivateString = $"--inprivate --private --incognito --new-window {profile}";
             ProcessStartInfo startInfo = new ProcessStartInfo();
             startInfo.FileName = bim.path;
-            startInfo.Arguments = $"--inprivate --private --incognito --new-window {profile} {gb.getMicrosoftOAuthURL()}";
+            startInfo.Arguments = $"{(gb.isBrowserPrivateMode ? inPrivateString : "--new-window")} {gb.getMicrosoftOAuthURL()}";
             startInfo.UseShellExecute = false;
             startInfo.CreateNoWindow = true;
 
             return startInfo;
         }
+        // 隱私模式使用獨立設定檔，啟動的處理程序即為瀏覽器本身，
+        // 因此可用處理程序結束判定使用者已關閉瀏覽器。
+        //
+        // 非隱私模式下瀏覽器若已在執行，新處理程序只會把網址交給既有實體後立即結束，
+        // 無法作為關閉依據；而改看「該瀏覽器是否還有處理程序」也不可行 ——
+        // 使用者其他分頁仍開著時永遠不會歸零。故此模式不自動偵測，
+        // 由呼叫端提供取消介面讓使用者主動中止。
+        public static bool CanDetectBrowserClosed()
+        {
+            return gb.isBrowserPrivateMode;
+        }
+
+        public static void WatchBrowserClosed(Process proc, string profilePath, Action onClosed)
+        {
+            if (!CanDetectBrowserClosed()) return;
+
+            proc.Exited += (sender, e) =>
+            {
+                BrowserClosed(profilePath);
+                onClosed?.Invoke();
+            };
+        }
+
+        // 使用者主動取消等待登入。
+        // BrowserClosed 內含同步等待，需在背景執行以免凍結介面。
+        public static void CancelLogin(string profilePath)
+        {
+            Task.Run(() =>
+            {
+                try
+                {
+                    BrowserClosed(profilePath);
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.Message);
+                }
+            });
+        }
+
         public static void BrowserClosed(string path)
         {
             Console.WriteLine("瀏覽器已關閉");
@@ -104,7 +145,12 @@ namespace LiliumLauncher.Tasks
                 client.DownloadString("http://localhost:5026/?type=cancel&error=BrowserClosed");
             }
             Task.Delay(500).Wait();
-            Directory.Delete(Path.GetFullPath(path + "/Default/Network"), true);
+
+            string deletePath = Path.GetFullPath(path + "/Default/Network");
+            if (Directory.Exists(deletePath))
+            {
+                Directory.Delete(deletePath, true);
+            }
         }
         public static BrowserInfoModel DeterminePath()
         {

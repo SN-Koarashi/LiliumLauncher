@@ -63,6 +63,7 @@ namespace Global
         public static List<string> versionNameInstalledList = new List<string>();
         public static translateModel lang = new translateModel();
         public static TabPage hideTabPage = null;
+        public static bool isBrowserPrivateMode = true;
 
         public static void ButtonDisabledPaint(object sender, PaintEventArgs e, string buttonText)
         {
