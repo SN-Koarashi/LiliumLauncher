@@ -1323,6 +1323,7 @@ namespace LiliumLauncher
 
                 bool readyToExited = false;
                 bool hadGameWindow = false;
+                bool killedByLauncher = false;
                 progressBar.Value = progressBar.Maximum;
 
                 EventHandler handler = null;
@@ -1331,6 +1332,7 @@ namespace LiliumLauncher
                     var result = MessageBox.Show(gb.lang.DIALOG_KILL_CHILD_PROCESS_CONFIRM, gb.lang.DIALOG_WARNING, MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
                     if (result == DialogResult.Yes)
                     {
+                        killedByLauncher = true;
                         proc.Kill();
                         trayIcon.ContextMenuStrip.Items[trayIcon.ContextMenuStrip.Items.Count - 2].Enabled = false;
                         trayIcon.ContextMenuStrip.Items[trayIcon.ContextMenuStrip.Items.Count - 2].Click -= handler;
@@ -1371,11 +1373,32 @@ namespace LiliumLauncher
                 };
 
 
+                // 取得JVM例外狀況訊息，並在處理程序異常結束後跳出視窗提醒。
+                // stderr 不等於錯誤(JVM 警告、Log4j 輸出皆走此串流)，
+                // 因此僅保留最後數行，並於結束時再依離開代碼與內容判斷是否提示。
+                var JVMErr = new Queue<string>();
+                proc.ErrorDataReceived += (sender, e) =>
+                {
+                    if (e.Data == null) return;
+
+                    var data = e.Data.Trim();
+                    if (data.Length == 0) return;
+
+                    lock (JVMErr)
+                    {
+                        JVMErr.Enqueue(data);
+                        while (JVMErr.Count > JVM_ERROR_KEEP_LINES)
+                            JVMErr.Dequeue();
+                    }
+                };
+
+                // 需在 BeginOutputReadLine/BeginErrorReadLine 之前掛載，否則最前面的輸出會遺失
+                proc.OutputDataReceived += OutputDataReceivedHandler;
+                proc.ErrorDataReceived += ErrorDataReceivedHandler;
+
                 proc.Start();
                 proc.BeginOutputReadLine();
                 proc.BeginErrorReadLine();
-                proc.OutputDataReceived += OutputDataReceivedHandler;
-                proc.ErrorDataReceived += ErrorDataReceivedHandler;
 
                 trayIcon.ContextMenuStrip.Items[trayIcon.ContextMenuStrip.Items.Count - 2].Enabled = true;
                 trayIcon.ContextMenuStrip.Items[trayIcon.ContextMenuStrip.Items.Count - 2].Click += handler;
@@ -1434,23 +1457,41 @@ namespace LiliumLauncher
                 };
 
 
-                // 取得JVM啟動例外狀況訊息，並在處理程序結束後跳出視窗提醒
-                string JVMErr = "";
-                proc.ErrorDataReceived += (sender, e) =>
-                {
-                    if (e.Data != null && gb.startupParms.loggerIndex != null)
-                    {
-                        var data = e.Data.Trim();
-                        JVMErr += data + Environment.NewLine;
-                    };
-                };
-
+                // 依離開代碼與 stderr 內容判斷是否提示使用者
                 proc.Exited += (sender, e) =>
                 {
-                    if (JVMErr.Length > 0)
+                    // 正常結束，或由啟動器主動強制結束(關閉卡住、使用者要求)時不提示
+                    if (readyToExited || killedByLauncher) return;
+
+                    int exitCode;
+                    try
                     {
-                        MessageBox.Show(JVMErr, gb.lang.DIALOG_JVM_ERROR, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        exitCode = proc.ExitCode;
                     }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine(ex.Message);
+                        return;
+                    }
+
+                    if (exitCode == 0) return;
+
+                    string[] lines;
+                    lock (JVMErr)
+                    {
+                        lines = JVMErr.ToArray();
+                    }
+
+                    // 濾除 JVM 警告等非錯誤訊息，若無實質內容則不提示
+                    var meaningful = lines
+                        .Where(l => !l.StartsWith("WARNING:", StringComparison.OrdinalIgnoreCase))
+                        .Where(l => !l.StartsWith("Picked up ", StringComparison.OrdinalIgnoreCase))
+                        .ToArray();
+
+                    if (meaningful.Length == 0) return;
+
+                    var message = string.Join(Environment.NewLine, meaningful);
+                    MessageBox.Show(message, gb.lang.DIALOG_JVM_ERROR, MessageBoxButtons.OK, MessageBoxIcon.Error);
                 };
             }
             catch (Exception e)
@@ -1489,6 +1530,9 @@ namespace LiliumLauncher
                 Console.WriteLine(e.Message);
             }
         }
+
+        // 結束時提示用的 stderr 保留行數，避免累積整場遊戲的輸出
+        private const int JVM_ERROR_KEEP_LINES = 50;
 
         // 偵測遊戲視窗關閉後的輪詢間隔
         private const int SHUTDOWN_POLL_INTERVAL_MS = 1000;
