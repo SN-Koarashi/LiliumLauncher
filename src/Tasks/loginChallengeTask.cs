@@ -96,6 +96,62 @@ namespace LiliumLauncher.Tasks
 
             return startInfo;
         }
+        // 非隱私模式下若瀏覽器已在執行，新處理程序會將網址交給既有實體後立即結束，
+        // 此時不能以處理程序結束作為「使用者關閉瀏覽器」的依據，
+        // 改為監看該瀏覽器是否仍有任何處理程序存在。
+        public static void WatchBrowserClosed(Process proc, BrowserInfoModel bim, string profilePath, Action onClosed)
+        {
+            if (gb.isBrowserPrivateMode)
+            {
+                // 隱私模式使用獨立設定檔，處理程序即為瀏覽器本身
+                proc.Exited += (sender, e) =>
+                {
+                    BrowserClosed(profilePath);
+                    onClosed?.Invoke();
+                };
+                return;
+            }
+
+            var browserName = Path.GetFileNameWithoutExtension(bim.path);
+
+            Task.Run(async () =>
+            {
+                // 瀏覽器啟動與 HTTP 伺服器啟動皆需要時間，
+                // 兩者就緒前不可判定為已關閉，否則會在啟動當下誤判
+                var browserSeen = false;
+                for (var i = 0; i < BROWSER_STARTUP_GRACE_TICKS; i++)
+                {
+                    await Task.Delay(BROWSER_POLL_INTERVAL_MS);
+
+                    if (Process.GetProcessesByName(browserName).Length > 0)
+                        browserSeen = true;
+
+                    if (browserSeen && gb.httpUsing)
+                        break;
+                }
+
+                // 未曾偵測到瀏覽器處理程序時不進行監看，避免誤判為關閉
+                if (!browserSeen) return;
+
+                while (gb.httpUsing)
+                {
+                    await Task.Delay(BROWSER_POLL_INTERVAL_MS);
+
+                    if (Process.GetProcessesByName(browserName).Length == 0)
+                    {
+                        BrowserClosed(profilePath);
+                        onClosed?.Invoke();
+                        return;
+                    }
+                }
+            });
+        }
+
+        // 監看非隱私模式瀏覽器的輪詢間隔
+        private const int BROWSER_POLL_INTERVAL_MS = 1000;
+        // 等待瀏覽器啟動的最長時間(次數)，逾時仍未偵測到處理程序則放棄監看
+        private const int BROWSER_STARTUP_GRACE_TICKS = 10;
+
         public static void BrowserClosed(string path)
         {
             Console.WriteLine("瀏覽器已關閉");

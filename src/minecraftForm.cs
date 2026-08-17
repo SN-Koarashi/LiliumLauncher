@@ -430,15 +430,18 @@ namespace LiliumLauncher
                             proc.EnableRaisingEvents = true;
                             proc.Start();
 
-                            proc.Exited += (bSender, ve) =>
+                            Tasks.loginChallengeTask.WatchBrowserClosed(proc, bim, profilePath, () =>
                             {
-                                Tasks.loginChallengeTask.BrowserClosed(profilePath);
+                                if (this.IsDisposed) return;
+
                                 this.Invoke(new Action(() =>
                                 {
+                                    if (this.IsDisposed) return;
+
                                     if (!progressBar.Style.Equals(ProgressBarStyle.Marquee))
                                         settingAllControl(true);
                                 }));
-                            };
+                            });
                         }
                         catch (Exception exx)
                         {

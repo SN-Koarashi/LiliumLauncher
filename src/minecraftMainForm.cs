@@ -79,10 +79,7 @@ namespace LiliumLauncher
                             proc.EnableRaisingEvents = true;
                             proc.Start();
 
-                            proc.Exited += (bSender, ve) =>
-                            {
-                                Tasks.loginChallengeTask.BrowserClosed(profilePath);
-                            };
+                            Tasks.loginChallengeTask.WatchBrowserClosed(proc, bim, profilePath, null);
                         }
                         catch (Exception exx)
                         {
