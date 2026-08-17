@@ -157,6 +157,7 @@
   "DIALOG_KILL_CHILD_PROCESS_CONFIRM": "將遊戲立即強制結束，確定要繼續？",
   "LOGGER_GAME_CLOSED": "關閉遊戲",
   "LOGGER_GAME_FORCING_CLOSED": "偵測到程式未完全關閉，已強制結束處理程序",
+  "LOGGER_CLEAN_NATIVES_FAILED": "無法清除本次啟動的暫存函數庫，將於下次啟動時重試",
   "DIALOG_CLOSING_LAUNCHER_CONFIRM": "關閉啟動器會導致遊戲結束時不會自動清除暫存檔案，您確定要關閉嗎？",
   "DIALOG_JVM_ERROR": "JVM 啟動過程發生錯誤",
   "LOGGER_VERIFYING_AZURE": "正在取得 Azure 驗證",

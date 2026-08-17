@@ -1031,6 +1031,10 @@ namespace LiliumLauncher
             gb.startupParms.startupUID = Guid.NewGuid().ToString();
             output("INFO", gb.lang.LOGGER_UNZIPPING_NECESSARY_FILE);
             var dir = gb.PathJoin(DATA_FOLDER, "bin", gb.startupParms.startupUID);
+
+            // 清除先前因處理程序被強制結束、函數庫仍被鎖定而殘留的暫存目錄
+            cleanStaleNativesDirectories();
+
             Directory.CreateDirectory(dir);
 
             var nativesPath = new List<string>();
@@ -1318,6 +1322,7 @@ namespace LiliumLauncher
                 GC.Collect();
 
                 bool readyToExited = false;
+                bool hadGameWindow = false;
                 progressBar.Value = progressBar.Maximum;
 
                 EventHandler handler = null;
@@ -1342,7 +1347,18 @@ namespace LiliumLauncher
 
                         progressBar.Style = ProgressBarStyle.Blocks;
                         output("INFO", gb.lang.LOGGER_GAME_CLOSED);
-                        Directory.Delete(gb.PathJoin(DATA_FOLDER, "bin", gb.startupParms.startupUID), true);
+
+                        // 強制結束時 natives 函數庫可能仍被鎖定而刪除失敗，
+                        // 但不應影響後續的介面狀態還原
+                        try
+                        {
+                            Directory.Delete(gb.PathJoin(DATA_FOLDER, "bin", gb.startupParms.startupUID), true);
+                        }
+                        catch (Exception ex)
+                        {
+                            outputDebug("WARN", $"{gb.lang.LOGGER_CLEAN_NATIVES_FAILED} ({ex.Message})");
+                        }
+
                         settingAllControl(true);
 
                         restoreWindowInFront();
@@ -1366,30 +1382,34 @@ namespace LiliumLauncher
 
                 settingAllControl(false, true);
 
-                // 舊版本(pre-1.6)會在遊戲關閉時依附於啟動器之下，導致無法完全關閉，此時需要強制結束處理程序
-                proc.OutputDataReceived += (sender, args) =>
+                // 遊戲關閉時可能因非 daemon 執行緒殘留而無法結束處理程序(例如模組的背景執行緒)，
+                // 此時 JVM 會一直等待這些執行緒收工，需由啟動器強制結束。
+                // 舊版本(pre-1.6)則是會依附於啟動器之下導致無法完全關閉，同樣適用此處理。
+                // 以「遊戲主視窗曾出現後又消失」作為關閉意圖的判斷依據，不依賴特定版本的輸出訊息。
+                Task.Run(async () =>
                 {
-                    if (args.Data == null) return;
-
-                    var data = args.Data.Trim();
-                    if (data.Equals("Stopping!"))
-                        readyToExited = true;
-
-                    if (data.Equals("SoundSystem shutting down...") && readyToExited)
+                    while (true)
                     {
-                        Task.Delay(2000).ContinueWith(t =>
+                        await Task.Delay(SHUTDOWN_POLL_INTERVAL_MS);
+
+                        if (proc.HasExited || readyToExited) return;
+
+                        proc.Refresh();
+                        var hasWindow = proc.MainWindowHandle != IntPtr.Zero;
+
+                        if (hasWindow)
                         {
-                            if (!proc.HasExited)
-                            {
-                                this.Invoke(new Action(() =>
-                                {
-                                    outputDebug("WARN", gb.lang.LOGGER_GAME_FORCING_CLOSED);
-                                }));
-                                proc.Kill();
-                            }
-                        });
+                            hadGameWindow = true;
+                        }
+                        else if (hadGameWindow)
+                        {
+                            // 視窗已關閉但處理程序仍在，開始寬限計時
+                            readyToExited = true;
+                            watchForStuckShutdown(proc);
+                            return;
+                        }
                     }
-                };
+                });
 
                 // 當要關閉啟動器時且遊戲仍在執行時的提醒
                 this.FormClosing += (sender, e) =>
@@ -1439,6 +1459,69 @@ namespace LiliumLauncher
             }
         }
 
+
+        // 清除先前殘留的 natives 暫存目錄，仍被鎖定者則留待下次啟動再試
+        private void cleanStaleNativesDirectories()
+        {
+            try
+            {
+                var binRoot = gb.PathJoin(DATA_FOLDER, "bin");
+                if (!Directory.Exists(binRoot)) return;
+
+                foreach (var stale in Directory.GetDirectories(binRoot))
+                {
+                    // 略過本次啟動使用的目錄
+                    if (Path.GetFileName(stale).Equals(gb.startupParms.startupUID, StringComparison.OrdinalIgnoreCase))
+                        continue;
+
+                    try
+                    {
+                        Directory.Delete(stale, true);
+                    }
+                    catch
+                    {
+                        // 仍被其他執行中的遊戲鎖定，留待下次啟動再試
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+        }
+
+        // 偵測遊戲視窗關閉後的輪詢間隔
+        private const int SHUTDOWN_POLL_INTERVAL_MS = 1000;
+        // 遊戲視窗關閉後，允許 JVM 自行結束的寬限時間；逾時則強制結束處理程序
+        private const int SHUTDOWN_GRACE_PERIOD_MS = 10000;
+
+        // 遊戲視窗已關閉，等待處理程序自行結束，逾時則強制結束
+        private void watchForStuckShutdown(Process proc)
+        {
+            Task.Delay(SHUTDOWN_GRACE_PERIOD_MS).ContinueWith(t =>
+            {
+                try
+                {
+                    if (proc.HasExited) return;
+
+                    if (!this.IsDisposed)
+                    {
+                        this.Invoke(new Action(() =>
+                        {
+                            if (!this.IsDisposed)
+                                outputDebug("WARN", gb.lang.LOGGER_GAME_FORCING_CLOSED);
+                        }));
+                    }
+
+                    proc.Kill();
+                }
+                catch (Exception e)
+                {
+                    // 處理程序可能在檢查與 Kill 之間自行結束，此時忽略即可
+                    Console.WriteLine(e.Message);
+                }
+            });
+        }
 
         private void ErrorDataReceivedHandler(object sender, DataReceivedEventArgs args)
         {

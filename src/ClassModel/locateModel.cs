@@ -165,6 +165,7 @@ namespace LiliumLauncher.ClassModel
             public string DIALOG_KILL_CHILD_PROCESS_CONFIRM { get; set; }
             public string LOGGER_GAME_CLOSED { get; set; }
             public string LOGGER_GAME_FORCING_CLOSED { get; set; }
+            public string LOGGER_CLEAN_NATIVES_FAILED { get; set; }
             public string DIALOG_CLOSING_LAUNCHER_CONFIRM { get; set; }
             public string DIALOG_JVM_ERROR { get; set; }
             public string LOGGER_VERIFYING_AZURE { get; set; }

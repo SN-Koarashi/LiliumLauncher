@@ -157,6 +157,7 @@
   "DIALOG_KILL_CHILD_PROCESS_CONFIRM": "The game will be forced to end immediately, are you sure you want to continue?",
   "LOGGER_GAME_CLOSED": "Game closed",
   "LOGGER_GAME_FORCING_CLOSED": "It was detected that the game was not completely closed, and the process has been forcibly terminated.",
+  "LOGGER_CLEAN_NATIVES_FAILED": "Could not clean up the temporary native libraries for this session; it will be retried on the next launch.",
   "DIALOG_CLOSING_LAUNCHER_CONFIRM": "Closing the launcher will not automatically clear the temporary files when the game ends. Are you sure you want to close it?",
   "DIALOG_JVM_ERROR": "An error occurred during JVM startup",
   "LOGGER_VERIFYING_AZURE": "Verifying information from Azure",

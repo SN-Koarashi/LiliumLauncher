@@ -157,6 +157,7 @@
   "DIALOG_KILL_CHILD_PROCESS_CONFIRM": "将游戏立即终止，确定继续？",
   "LOGGER_GAME_CLOSED": "关闭游戏",
   "LOGGER_GAME_FORCING_CLOSED": "检测到程序未强制关闭，已强制结束处理程序",
+  "LOGGER_CLEAN_NATIVES_FAILED": "无法清除本次启动的暂存函数库，将于下次启动时重试",
   "DIALOG_CLOSING_LAUNCHER_CONFIRM": "关闭启动器会导致游戏结束时不会自动清除缓存档案，确定要关闭？",
   "DIALOG_JVM_ERROR": "JVM 启动过程发生错误",
   "LOGGER_VERIFYING_AZURE": "正在取得 Azure 验证",
