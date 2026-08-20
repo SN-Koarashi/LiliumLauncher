@@ -47,8 +47,8 @@ namespace Global
         public static string lastVersionID = "";
         public static string langCode = "";
         public static int runInterval = 0;
-        public static Uri mainHomepage = new Uri("https://www.snkms.com/chat/webchat2/");
-        public static Uri launcherHomepage = new Uri("https://www.snkms.com/minecraftNews.html");
+        public static Uri mainHomepage = new Uri("https://chat.snks.cc/");
+        public static Uri launcherHomepage = new Uri("https://static.snks.cc/minecraft/news");
         public static int maxMemoryUsage = 0;
         public static bool usingMaxMemoryUsage = false;
         public static bool isConcurrent = true;

@@ -221,9 +221,10 @@
             this.webView.Location = new System.Drawing.Point(0, 0);
             this.webView.Name = "webView";
             this.webView.Size = new System.Drawing.Size(450, 190);
-            this.webView.Source = new System.Uri("https://www.snkms.com/minecraftNews.html", System.UriKind.Absolute);
+            this.webView.Source = new System.Uri("https://static.snks.cc/minecraft/news", System.UriKind.Absolute);
             this.webView.TabIndex = 0;
             this.webView.ZoomFactor = 1D;
+            this.webView.Click += new System.EventHandler(this.webView_Click);
             // 
             // panelFooter
             // 

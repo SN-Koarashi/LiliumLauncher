@@ -470,7 +470,7 @@ namespace LiliumLauncher
                 if (lwf != null)
                 {
                     var waitingForm = lwf;
-                    challengeTask.ContinueWith(t => waitingForm.CompleteLogin(),
+                    await challengeTask.ContinueWith(t => waitingForm.CompleteLogin(),
                         TaskScheduler.FromCurrentSynchronizationContext());
                     waitingForm.ShowDialog(this);
                 }
@@ -968,6 +968,11 @@ namespace LiliumLauncher
         {
             base.OnPaint(e);
             gb.RadioBoxDisabledPaint(this, sender, e, gb.lang.RAD_SINGLE);
+        }
+
+        private void webView_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

@@ -106,7 +106,7 @@ namespace LiliumLauncher
                 if (lwf != null)
                 {
                     var waitingForm = lwf;
-                    challengeTask.ContinueWith(t => waitingForm.CompleteLogin(),
+                    await challengeTask.ContinueWith(t => waitingForm.CompleteLogin(),
                         System.Threading.Tasks.TaskScheduler.FromCurrentSynchronizationContext());
                     waitingForm.ShowDialog(this);
                 }
