@@ -10,6 +10,7 @@ namespace LiliumLauncher
     {
         private readonly string profilePath;
         private bool isCancelled = false;
+        private bool isCompleted = false;
 
         public loginWaitingForm(string profilePath)
         {
@@ -27,13 +28,34 @@ namespace LiliumLauncher
         {
             if (this.IsDisposed) return;
 
-            this.Invoke(new Action(() =>
-            {
-                if (this.IsDisposed) return;
+            isCompleted = true;
 
+            // 視窗尚未顯示即完成登入(例如憑證已快取)，
+            // 此時無視窗控制代碼不可 Invoke；
+            // 先設定 DialogResult，Shown 事件會在顯示後立即關閉
+            if (!this.IsHandleCreated)
+            {
                 this.DialogResult = DialogResult.OK;
-                this.Close();
-            }));
+                return;
+            }
+
+            // 使用 BeginInvoke 避免延續工作與介面執行緒互相等待
+            this.BeginInvoke(new Action(() => closeAsCompleted()));
+        }
+
+        private void closeAsCompleted()
+        {
+            if (this.IsDisposed) return;
+
+            this.DialogResult = DialogResult.OK;
+            this.Close();
+        }
+
+        // 登入在視窗顯示前(或顯示途中)即完成時，顯示後立即關閉
+        private void loginWaitingForm_Shown(object sender, EventArgs e)
+        {
+            if (isCompleted)
+                closeAsCompleted();
         }
 
         private void btnCancel_Click(object sender, EventArgs e)

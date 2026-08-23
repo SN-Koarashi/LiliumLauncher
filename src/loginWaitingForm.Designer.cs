@@ -72,6 +72,7 @@ namespace LiliumLauncher
             this.Name = "loginWaitingForm";
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
+            this.Shown += new System.EventHandler(this.loginWaitingForm_Shown);
             this.ResumeLayout(false);
         }
 

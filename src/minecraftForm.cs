@@ -466,12 +466,15 @@ namespace LiliumLauncher
                 Tasks.loginChallengeTask challenge = new Tasks.loginChallengeTask(true);
                 var challengeTask = challenge.start();
 
-                // 等待登入期間顯示取消視窗，登入結束(或取消)後自動關閉
+                // 等待登入期間顯示取消視窗，登入結束(或取消)後自動關閉。
+                // 此處不可 await —— 需先顯示視窗，登入完成時再由延續工作關閉它
                 if (lwf != null)
                 {
                     var waitingForm = lwf;
-                    await challengeTask.ContinueWith(t => waitingForm.CompleteLogin(),
+
+                    challengeTask.ContinueWith(t => waitingForm.CompleteLogin(),
                         TaskScheduler.FromCurrentSynchronizationContext());
+
                     waitingForm.ShowDialog(this);
                 }
 
