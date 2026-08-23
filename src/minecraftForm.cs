@@ -472,8 +472,10 @@ namespace LiliumLauncher
                 {
                     var waitingForm = lwf;
 
+#pragma warning disable CS4014 // 因為未等待此呼叫，所以在完成呼叫之前會繼續執行目前方法
                     challengeTask.ContinueWith(t => waitingForm.CompleteLogin(),
                         TaskScheduler.FromCurrentSynchronizationContext());
+#pragma warning restore CS4014 // 因為未等待此呼叫，所以在完成呼叫之前會繼續執行目前方法
 
                     waitingForm.ShowDialog(this);
                 }

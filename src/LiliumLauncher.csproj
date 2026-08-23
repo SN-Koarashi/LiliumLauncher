@@ -342,6 +342,9 @@
     <EmbeddedResource Include="CustomComponent\FlatTabControl\FlatTabControl.resx">
       <DependentUpon>FlatTabControl.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="loginWaitingForm.resx">
+      <DependentUpon>loginWaitingForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="minecraftVersionSelector.resx">
       <DependentUpon>minecraftVersionSelector.cs</DependentUpon>
     </EmbeddedResource>

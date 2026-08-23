@@ -41,6 +41,7 @@
             this.textBox2 = new System.Windows.Forms.TextBox();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.groupBoxLauncherMethod = new System.Windows.Forms.GroupBox();
+            this.isBrowserPrivateMode = new System.Windows.Forms.CheckBox();
             this.radLauncherBrowser = new System.Windows.Forms.RadioButton();
             this.radLauncherWebView = new System.Windows.Forms.RadioButton();
             this.radLauncherDef = new System.Windows.Forms.RadioButton();
@@ -48,7 +49,6 @@
             this.panel1 = new System.Windows.Forms.Panel();
             this.label3 = new System.Windows.Forms.Label();
             this.comboBox1 = new System.Windows.Forms.ComboBox();
-            this.isBrowserPrivateMode = new System.Windows.Forms.CheckBox();
             this.groupBoxStaarupParms.SuspendLayout();
             this.groupBoxWebview2Default.SuspendLayout();
             this.groupBoxLauncherMethod.SuspendLayout();
@@ -63,7 +63,7 @@
             this.btnApply.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Black;
             this.btnApply.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnApply.Font = new System.Drawing.Font("新細明體", 9F);
-            this.btnApply.Location = new System.Drawing.Point(399, 221);
+            this.btnApply.Location = new System.Drawing.Point(469, 221);
             this.btnApply.Name = "btnApply";
             this.btnApply.Size = new System.Drawing.Size(87, 28);
             this.btnApply.TabIndex = 0;
@@ -79,7 +79,7 @@
             this.btnOK.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Black;
             this.btnOK.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnOK.Font = new System.Drawing.Font("新細明體", 9F);
-            this.btnOK.Location = new System.Drawing.Point(307, 221);
+            this.btnOK.Location = new System.Drawing.Point(377, 221);
             this.btnOK.Name = "btnOK";
             this.btnOK.Size = new System.Drawing.Size(86, 28);
             this.btnOK.TabIndex = 1;
@@ -213,10 +213,23 @@
             this.groupBoxLauncherMethod.ForeColor = System.Drawing.SystemColors.ControlLightLight;
             this.groupBoxLauncherMethod.Location = new System.Drawing.Point(277, 100);
             this.groupBoxLauncherMethod.Name = "groupBoxLauncherMethod";
-            this.groupBoxLauncherMethod.Size = new System.Drawing.Size(209, 115);
+            this.groupBoxLauncherMethod.Size = new System.Drawing.Size(279, 115);
             this.groupBoxLauncherMethod.TabIndex = 4;
             this.groupBoxLauncherMethod.TabStop = false;
             this.groupBoxLauncherMethod.Text = "啟動器登入方式";
+            // 
+            // isBrowserPrivateMode
+            // 
+            this.isBrowserPrivateMode.AutoSize = true;
+            this.isBrowserPrivateMode.Checked = true;
+            this.isBrowserPrivateMode.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.isBrowserPrivateMode.Location = new System.Drawing.Point(11, 84);
+            this.isBrowserPrivateMode.Name = "isBrowserPrivateMode";
+            this.isBrowserPrivateMode.Size = new System.Drawing.Size(168, 16);
+            this.isBrowserPrivateMode.TabIndex = 6;
+            this.isBrowserPrivateMode.Text = "原生瀏覽器以隱私模式啟動";
+            this.isBrowserPrivateMode.UseVisualStyleBackColor = true;
+            this.isBrowserPrivateMode.CheckedChanged += new System.EventHandler(this.isBrowserPrivateMode_CheckedChanged);
             // 
             // radLauncherBrowser
             // 
@@ -262,7 +275,7 @@
             this.groupBoxLauncherLang.ForeColor = System.Drawing.SystemColors.ControlLightLight;
             this.groupBoxLauncherLang.Location = new System.Drawing.Point(277, 9);
             this.groupBoxLauncherLang.Name = "groupBoxLauncherLang";
-            this.groupBoxLauncherLang.Size = new System.Drawing.Size(209, 85);
+            this.groupBoxLauncherLang.Size = new System.Drawing.Size(279, 85);
             this.groupBoxLauncherLang.TabIndex = 5;
             this.groupBoxLauncherLang.TabStop = false;
             this.groupBoxLauncherLang.Text = "啟動器顯示語言";
@@ -293,30 +306,17 @@
             this.comboBox1.ForeColor = System.Drawing.SystemColors.ControlLightLight;
             this.comboBox1.FormattingEnabled = true;
             this.comboBox1.ItemHeight = 12;
-            this.comboBox1.Location = new System.Drawing.Point(6, 52);
+            this.comboBox1.Location = new System.Drawing.Point(11, 54);
             this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(193, 20);
+            this.comboBox1.Size = new System.Drawing.Size(262, 20);
             this.comboBox1.TabIndex = 0;
             this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
-            // 
-            // isBrowserPrivateMode
-            // 
-            this.isBrowserPrivateMode.AutoSize = true;
-            this.isBrowserPrivateMode.Checked = true;
-            this.isBrowserPrivateMode.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.isBrowserPrivateMode.Location = new System.Drawing.Point(11, 84);
-            this.isBrowserPrivateMode.Name = "isBrowserPrivateMode";
-            this.isBrowserPrivateMode.Size = new System.Drawing.Size(168, 16);
-            this.isBrowserPrivateMode.TabIndex = 6;
-            this.isBrowserPrivateMode.Text = "原生瀏覽器以隱私模式啟動";
-            this.isBrowserPrivateMode.UseVisualStyleBackColor = true;
-            this.isBrowserPrivateMode.CheckedChanged += new System.EventHandler(this.isBrowserPrivateMode_CheckedChanged);
             // 
             // settingForm
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.ClientSize = new System.Drawing.Size(498, 261);
+            this.ClientSize = new System.Drawing.Size(568, 261);
             this.Controls.Add(this.groupBoxLauncherLang);
             this.Controls.Add(this.groupBoxLauncherMethod);
             this.Controls.Add(this.groupBoxWebview2Default);
@@ -326,9 +326,9 @@
             this.Font = new System.Drawing.Font("新細明體", 9F);
             this.ForeColor = System.Drawing.SystemColors.ControlLightLight;
             this.MaximizeBox = false;
-            this.MaximumSize = new System.Drawing.Size(514, 300);
+            this.MaximumSize = new System.Drawing.Size(584, 300);
             this.MinimizeBox = false;
-            this.MinimumSize = new System.Drawing.Size(514, 300);
+            this.MinimumSize = new System.Drawing.Size(584, 300);
             this.Name = "settingForm";
             this.ShowIcon = false;
             this.ShowInTaskbar = false;

@@ -32,36 +32,43 @@ namespace LiliumLauncher
             this.btnCancel = new System.Windows.Forms.Button();
             this.progressWaiting = new System.Windows.Forms.ProgressBar();
             this.SuspendLayout();
-            //
+            // 
             // labelWaiting
-            //
+            // 
+            this.labelWaiting.ForeColor = System.Drawing.SystemColors.ControlLightLight;
             this.labelWaiting.Location = new System.Drawing.Point(12, 15);
             this.labelWaiting.Name = "labelWaiting";
             this.labelWaiting.Size = new System.Drawing.Size(360, 40);
             this.labelWaiting.TabIndex = 0;
-            //
+            // 
+            // btnCancel
+            // 
+            this.btnCancel.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+            this.btnCancel.Location = new System.Drawing.Point(283, 86);
+            this.btnCancel.FlatAppearance.BorderColor = System.Drawing.Color.White;
+            this.btnCancel.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Black;
+            this.btnCancel.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Black;
+            this.btnCancel.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnCancel.Name = "btnCancel";
+            this.btnCancel.Size = new System.Drawing.Size(89, 27);
+            this.btnCancel.TabIndex = 2;
+            this.btnCancel.UseVisualStyleBackColor = true;
+            this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
+            // 
             // progressWaiting
-            //
+            // 
             this.progressWaiting.Location = new System.Drawing.Point(15, 62);
             this.progressWaiting.MarqueeAnimationSpeed = 30;
             this.progressWaiting.Name = "progressWaiting";
             this.progressWaiting.Size = new System.Drawing.Size(357, 12);
             this.progressWaiting.Style = System.Windows.Forms.ProgressBarStyle.Marquee;
             this.progressWaiting.TabIndex = 1;
-            //
-            // btnCancel
-            //
-            this.btnCancel.Location = new System.Drawing.Point(283, 86);
-            this.btnCancel.Name = "btnCancel";
-            this.btnCancel.Size = new System.Drawing.Size(89, 27);
-            this.btnCancel.TabIndex = 2;
-            this.btnCancel.UseVisualStyleBackColor = true;
-            this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
-            //
+            // 
             // loginWaitingForm
-            //
+            // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.ClientSize = new System.Drawing.Size(384, 125);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.progressWaiting);
@@ -74,6 +81,7 @@ namespace LiliumLauncher
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Shown += new System.EventHandler(this.loginWaitingForm_Shown);
             this.ResumeLayout(false);
+
         }
 
         #endregion
